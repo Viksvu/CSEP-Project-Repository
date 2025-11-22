@@ -1,5 +1,10 @@
 # Meeting Minutes - 21/11
 
+Attendance:
+Absent: None
+Joined in person: Kedar, Tushit, Boyan
+Joined remotely: Marc, Matas, Yanick
+
 - Git Assignment Repair due on Monday 24/11. Reminder to complete it for the 2 people who failed it.
 1. Discussing and deciding on the order for chair and minute takers for the upcoming meetings.
    - 28/11 - Boyan - Chair. Tushit - Minute Taker
