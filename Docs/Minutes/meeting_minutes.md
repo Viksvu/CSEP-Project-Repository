@@ -9,8 +9,8 @@ Joined remotely: Marc, Matas, Yanick
 1. Discussing and deciding on the order for chair and minute takers for the upcoming meetings.
    - 28/11 - Boyan - Chair. Tushit - Minute Taker
    - 05/12 - Matas - Chair, Boyan - Minute Taker
-   - 19/12 - Jannik - Chair, Matas - Minute Taker
-   - 09/01 - Marc - Chair, Jannik - Minute Taker
+   - 19/12 - Yanick - Chair, Matas - Minute Taker
+   - 09/01 - Marc - Chair, Yanick - Minute Taker
    - 16/01 - Kedar - Chair, Marc - Minute Taker
    - 23/01 - Tushit - Chair, Kedar - Minute Taker
 2. Backlog - has everyone read the product backlog.
@@ -26,7 +26,7 @@ Joined remotely: Marc, Matas, Yanick
    - Kedar - Basic Front-End UI (100 lines ONLY java) UI should be Dynamic
    - Boyan - Back End: Prepare the Recipes class (The Business Logic).
    - Marc - Prepare the Ingredients Class (The Business Logic).
-   - Jannik - The API calls (Basic setup for the Server Side).
+   - Yanick - The API calls (Basic setup for the Server Side).
    - Matas - Business Logic for the Shopping List Class.
    - Tushit - Database related setup.
 7. Code of Conduct (COC)- introduce the code of conduct
