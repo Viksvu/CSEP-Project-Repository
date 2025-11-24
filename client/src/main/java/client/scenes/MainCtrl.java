@@ -24,14 +24,15 @@ public class MainCtrl {
 
     private Stage primaryStage;
 
-    private QuoteOverviewCtrl overviewCtrl;
     private Scene overview;
+    private RecipeOverviewCtrl overviewCtrl;
 
-    private AddQuoteCtrl addCtrl;
+    private AddRecipeCtrl addCtrl;
     private Scene add;
 
-    public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
-            Pair<AddQuoteCtrl, Parent> add) {
+    public void initialize(Stage primaryStage, Pair<RecipeOverviewCtrl, Parent> overview
+                           , Pair<AddRecipeCtrl, Parent> add
+                           ) {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -44,14 +45,14 @@ public class MainCtrl {
     }
 
     public void showOverview() {
-        primaryStage.setTitle("Quotes: Overview");
+        primaryStage.setTitle("Recipes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();
     }
 
     public void showAdd() {
-        primaryStage.setTitle("Quotes: Adding Quote");
+        primaryStage.setTitle("Recipes: Adding Recipe");
         primaryStage.setScene(add);
-        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
+//        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
     }
 }

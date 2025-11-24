@@ -27,6 +27,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -54,6 +55,7 @@ public class QuoteOverviewCtrl implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         colFirstName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.firstName));
         colLastName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.lastName));
         colQuote.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().quote));
@@ -62,6 +64,7 @@ public class QuoteOverviewCtrl implements Initializable {
     public void addQuote() {
         mainCtrl.showAdd();
     }
+
 
     public void refresh() {
         var quotes = server.getQuotes();
