@@ -1,6 +1,5 @@
 package client.scenes;
 
-import client.Main;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,8 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class RecipeOverviewCtrl implements Initializable {
@@ -38,6 +37,7 @@ public class RecipeOverviewCtrl implements Initializable {
 
     //IMPORTANT: Change String to Recipe
     private ObservableList<String> recipeObservableList;
+
     @Inject
     public RecipeOverviewCtrl(MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
