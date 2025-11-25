@@ -25,6 +25,7 @@ public class IngredientController {
 
     /**
      * Add an ingredient
+     * For creating a new ingredient ID, initialize Ingredient with id = -1
      * @param ingredient ingredient to add
      * @return ok if added, bad request if something went wrong
      */
