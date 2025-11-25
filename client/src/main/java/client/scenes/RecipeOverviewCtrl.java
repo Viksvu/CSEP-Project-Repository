@@ -36,18 +36,19 @@ public class RecipeOverviewCtrl implements Initializable {
 
 
     //IMPORTANT: Change String to Recipe
-    private ObservableList<String> recipeObservableList;
+    // ObservableList<String> recipeObservableList;
 
     @Inject
     public RecipeOverviewCtrl(MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
-        this.recipeObservableList = FXCollections.observableArrayList();
+        //this.recipeObservableList = FXCollections.observableArrayList();
         //splitPaneRefreshButton = new SplitPane();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        recipeObservableList.add("Test String 1"); // Adding anything to the recipeObservableList will also add to the ListView of Recipes
+        ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
+        //recipeObservableList.add("Test String 1"); // Adding anything to the recipeObservableList will also add to the ListView of Recipes
         recipeListView.setItems(recipeObservableList);
     }
 
@@ -55,6 +56,9 @@ public class RecipeOverviewCtrl implements Initializable {
     public void refresh() {
         splitPaneRefreshButton.setDividerPosition(0, 0.10090361445783134);
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
+        ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
+        recipeListView.setItems(recipeObservableList);
+
     }
 
     public void addRecipe() {
@@ -65,15 +69,14 @@ public class RecipeOverviewCtrl implements Initializable {
         mainCtrl.showRemove();
     }
 
-    public void addRecipeToList(String recipeName) {
-        recipeObservableList.add(recipeName);
-    }
+//    public void addRecipeToList(String recipeName) {
+//        ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
+//        recipeObservableList.add(recipeName);
+//    }
 
     public void removeRecipeFromList(String recipeName) {
+        ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
         recipeObservableList.remove(recipeName);
     }
 
-    public ObservableList<String> getRecipeObservableList() {
-        return recipeObservableList;
-    }
 }

@@ -21,11 +21,16 @@ public class RemoveRecipeCtrl implements Initializable {
     }
 
     public void confirmRemoveRecipe(){
+        mainCtrl.removeRecipeFromList(choiceBox.getValue());
         mainCtrl.showOverview();
     }
 
     public void cancel() {
         mainCtrl.showOverview();
+    }
+
+    public void setup() {
+        choiceBox.setItems(mainCtrl.getRecipes());
     }
 
 
@@ -34,7 +39,7 @@ public class RemoveRecipeCtrl implements Initializable {
         try {
             choiceBox.setItems(mainCtrl.getRecipes());
         } catch (NullPointerException e) {
-            return;
+            mainCtrl.showOverview();
         }
     }
 }
