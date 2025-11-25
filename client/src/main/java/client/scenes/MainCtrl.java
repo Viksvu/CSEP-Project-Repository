@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -30,8 +31,13 @@ public class MainCtrl {
     private AddRecipeCtrl addCtrl;
     private Scene add;
 
-    public void initialize(Stage primaryStage, Pair<RecipeOverviewCtrl, Parent> overview
+    private RemoveRecipeCtrl removeCtrl;
+    private Scene remove;
+
+    public void initialize(Stage primaryStage
+            , Pair<RecipeOverviewCtrl, Parent> overview
             , Pair<AddRecipeCtrl, Parent> add
+            , Pair<RemoveRecipeCtrl, Parent> remove
     ) {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
@@ -39,6 +45,9 @@ public class MainCtrl {
 
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());
+
+        this.removeCtrl = remove.getKey();
+        this.remove = new Scene(remove.getValue());
 
         showOverview();
         primaryStage.show();
@@ -56,8 +65,17 @@ public class MainCtrl {
 //        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
     }
 
+    public void showRemove() {
+        primaryStage.setTitle("Recipes: Removing Recipe");
+        primaryStage.setScene(remove);
+    }
+
     // NEEDS TO BE REPLACED
     public void addRecipeToList(String recipeName) {
         overviewCtrl.addRecipeToList(recipeName);
+    }
+
+    public ObservableList<String> getRecipes() {
+        return overviewCtrl.getRecipeObservableList();
     }
 }

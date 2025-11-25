@@ -47,8 +47,9 @@ public class Main extends Application {
 
 		var overview = FXML.load(RecipeOverviewCtrl.class, "client", "scenes", "RecipeOverview.fxml");
 		var add = FXML.load(AddRecipeCtrl.class, "client", "scenes", "AddRecipe.fxml");
+        var remove = FXML.load(RemoveRecipeCtrl.class, "client", "scenes", "RemoveRecipe.fxml");
 
 		var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-		mainCtrl.initialize(primaryStage, overview, add);
+		mainCtrl.initialize(primaryStage, overview, add, remove);
 	}
 }

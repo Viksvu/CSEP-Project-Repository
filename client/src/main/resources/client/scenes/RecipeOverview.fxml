@@ -13,7 +13,7 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
                         <Button layoutX="525.0" layoutY="8.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
-                  <Label layoutX="29.0" layoutY="10.0" text="FoodPal" />
+                        <Label layoutX="29.0" layoutY="10.0" text="FoodPal" />
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
@@ -22,13 +22,13 @@
                             <items>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                     <children>
-                                        <ListView fx:id="recipeListView" layoutY="48.0" prefHeight="353.6" prefWidth="175.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                              <AnchorPane layoutY="281.0" prefHeight="75.0" prefWidth="175.0">
-                                 <children>
-                                              <Button layoutX="43.0" layoutY="22.0" mnemonicParsing="false" onAction="#addRecipe" prefHeight="30.0" prefWidth="27.0" text="+" />
-                                              <Button layoutX="118.0" layoutY="22.0" mnemonicParsing="false" onAction="#removeRecipe" prefHeight="30.0" prefWidth="27.0" text="-" />
-                                 </children>
-                              </AnchorPane>
+                                        <ListView fx:id="recipeListView" editable="true" layoutY="48.0" prefHeight="353.6" prefWidth="175.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                        <AnchorPane layoutY="281.0" prefHeight="75.0" prefWidth="175.0">
+                                            <children>
+                                                <Button layoutX="43.0" layoutY="22.0" mnemonicParsing="false" onAction="#addRecipe" prefHeight="30.0" prefWidth="27.0" style="-fx-background-color: lightgreen;" text="+" />
+                                                <Button layoutX="118.0" layoutY="22.0" mnemonicParsing="false" onAction="#removeRecipe" prefHeight="30.0" prefWidth="27.0" style="-fx-background-color: lightpink;" text="-" />
+                                            </children>
+                                        </AnchorPane>
                                     </children>
                                 </AnchorPane>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">

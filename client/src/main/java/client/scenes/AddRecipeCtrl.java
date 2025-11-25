@@ -26,6 +26,7 @@ public class AddRecipeCtrl implements Initializable {
     }
 
     public void cancel(){
+        nameField.clear();
         mainCtrl.showOverview();
     }
 
