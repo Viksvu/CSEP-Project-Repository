@@ -35,9 +35,19 @@ public class MainCtrl {
     private RemoveRecipeCtrl removeCtrl;
     private Scene remove;
 
-    // This observable list stores the names of all the recipes. <String> might want to be replaced by <Recipe> in
+    // This observable list stores the names of all the recipes.
+    // <String> might want to be replaced by <Recipe> in
     // the future while also then looking at all its usages.
     private ObservableList<String> recipeObservableList;
+
+    /**
+     * Initializes the application. Necessary when running
+     * for the first time. Initializes the ObservableList.
+     * @param primaryStage The main stage of the application
+     * @param overview The Overview-Scene control
+     * @param add The Add-Scene control
+     * @param remove The remove scene control
+     */
     public void initialize(Stage primaryStage
             , Pair<RecipeOverviewCtrl, Parent> overview
             , Pair<AddRecipeCtrl, Parent> add
@@ -87,14 +97,29 @@ public class MainCtrl {
     }
 
     // EVERYTHING BELOW NEEDS TO BE REPLACED WITH SERVER-LOGIC
+
+    /**
+     * NEEDS TO BE MODIFIED WITH SERVER-LOGIC.
+     * Adds recipe to the ObservableList
+     * @param recipeName to add
+     */
     public void addRecipeToList(String recipeName) {
         recipeObservableList.add(recipeName);
     }
 
+    /**
+     * Gets the ObservableList
+     * @return the list of recipes stored
+     */
     public ObservableList<String> getRecipes() {
         return recipeObservableList;
     }
 
+    /**
+     * NEEDS TO BE MODIFIED WITH SERVER-LOGIC.
+     * Removes recipe from ObservableList
+     * @param recipeName - to remove
+     */
     public void removeRecipeFromList(String recipeName) {
         recipeObservableList.remove(recipeName);
     }

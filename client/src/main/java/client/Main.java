@@ -31,23 +31,40 @@ public class Main extends Application {
 	private static final Injector INJECTOR = createInjector(new MyModule());
 	private static final MyFXML FXML = new MyFXML(INJECTOR);
 
-	public static void main(String[] args) throws URISyntaxException, IOException {
+    /**
+     * Main method: Starting point of the program
+     * @param args arguments to pass on when starting the program
+     * @throws URISyntaxException not really relevant but present because
+     * Initializable is implemented
+     * @throws IOException in case of exceptions while outputting on screen
+     * or while reading relevant fxml files
+     */
+	public static void main(String[] args)
+            throws URISyntaxException, IOException {
 		launch();
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-//      The below code will be required once connection with the server is prepared.
+//      The below code will be required
+//      once connection with the server is prepared.
 //		var serverUtils = INJECTOR.getInstance(ServerUtils.class);
 //		if (!serverUtils.isServerAvailable()) {
-//			var msg = "Server needs to be started before the client, but it does not seem to be available. Shutting down.";
+//			var msg = "Server needs to be started before the client"
+//		+",but it does not seem to be available. Shutting down.";
 //			System.err.println(msg);
 //			return;
 //		}
 
-		var overview = FXML.load(RecipeOverviewCtrl.class, "client", "scenes", "RecipeOverview.fxml");
-		var add = FXML.load(AddRecipeCtrl.class, "client", "scenes", "AddRecipe.fxml");
-        var remove = FXML.load(RemoveRecipeCtrl.class, "client", "scenes", "RemoveRecipe.fxml");
+		var overview = FXML.load
+                (RecipeOverviewCtrl.class,
+                        "client", "scenes", "RecipeOverview.fxml");
+		var add = FXML.load
+                (AddRecipeCtrl.class,
+                        "client", "scenes", "AddRecipe.fxml");
+        var remove = FXML.load
+                (RemoveRecipeCtrl.class,
+                        "client", "scenes", "RemoveRecipe.fxml");
 
 		var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 		mainCtrl.initialize(primaryStage, overview, add, remove);

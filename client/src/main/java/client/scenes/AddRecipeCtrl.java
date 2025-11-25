@@ -15,6 +15,12 @@ public class AddRecipeCtrl implements Initializable {
     @FXML
     private TextField nameField;
 
+
+    /**
+     * Constructor
+     * @param mainCtrl the controllers of all the panes store
+     *                 the main controller as an object
+     */
     @Inject
     public AddRecipeCtrl(MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
@@ -25,11 +31,19 @@ public class AddRecipeCtrl implements Initializable {
         //In case we have initialisation steps in the future
     }
 
+    /**
+     * Clicking cancel should clear whatever the user entered in
+     * the text field and then show the overview
+     */
     public void cancel(){
         nameField.clear();
         mainCtrl.showOverview();
     }
 
+    /**
+     * Clicking add should add the entered recipe to the list
+     * and the overview should is then shown
+     */
     public void add(){
         mainCtrl.addRecipeToList(nameField.getText());
         mainCtrl.showOverview();
