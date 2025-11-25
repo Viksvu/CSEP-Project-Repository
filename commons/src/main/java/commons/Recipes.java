@@ -1,14 +1,31 @@
 package commons;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Recipes {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+
+    private long id;
+    @ManyToMany
     private List<IngredientInRecipe> ingredients; // to change after ingredients class is implemented
+
     private List<PreparationStep> preparationSteps;
     private String name;
+    public Recipes() {
+        this.name="";
+        this.ingredients=new ArrayList<>();
+        this.preparationSteps=new ArrayList<>();
+    }
     public Recipes(String name) {
         this.name = name;
+        this.ingredients=new ArrayList<>();
+        this.preparationSteps=new ArrayList<>();
     }
     public void addIngredient(IngredientInRecipe ingredient){
         ingredients.add(ingredient);

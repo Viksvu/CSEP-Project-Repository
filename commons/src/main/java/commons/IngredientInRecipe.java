@@ -1,15 +1,21 @@
 package commons;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
 public class IngredientInRecipe {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long id;
+    @ManyToOne
     private TempIngredient tempIngredient;
     private int quantity;
     private Unit unit;
-    public IngredientInRecipe(final TempIngredient tempIngredient, final int quantity, final Unit unit) {
-        this.tempIngredient = tempIngredient;
-        this.quantity = quantity;
-        this.unit = unit;
+    @ManyToOne
+    private Recipes recipes;
+    public IngredientInRecipe() {
     }
     public int getQuantity() {
         return quantity;
