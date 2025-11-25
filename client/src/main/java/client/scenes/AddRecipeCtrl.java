@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 public class AddRecipeCtrl implements Initializable {
 
     private final MainCtrl mainCtrl;
+
     @FXML
     private TextField nameField;
 
@@ -29,6 +30,7 @@ public class AddRecipeCtrl implements Initializable {
     }
 
     public void add(){
+        mainCtrl.addRecipeToList(nameField.getText());
         mainCtrl.showOverview();
     }
 }

@@ -64,4 +64,8 @@ public class RecipeOverviewCtrl implements Initializable {
     public void removeRecipe() {
         return;
     }
+
+    public void addRecipeToList(String recipeName) {
+        recipeObservableList.add(recipeName);
+    }
 }

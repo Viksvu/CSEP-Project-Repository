@@ -31,8 +31,8 @@ public class MainCtrl {
     private Scene add;
 
     public void initialize(Stage primaryStage, Pair<RecipeOverviewCtrl, Parent> overview
-                           , Pair<AddRecipeCtrl, Parent> add
-                           ) {
+            , Pair<AddRecipeCtrl, Parent> add
+    ) {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -54,5 +54,10 @@ public class MainCtrl {
         primaryStage.setTitle("Recipes: Adding Recipe");
         primaryStage.setScene(add);
 //        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
+    }
+
+    // NEEDS TO BE REPLACED
+    public void addRecipeToList(String recipeName) {
+        overviewCtrl.addRecipeToList(recipeName);
     }
 }
