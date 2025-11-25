@@ -22,7 +22,7 @@ public class RemoveRecipeCtrl implements Initializable {
 
     public void confirmRemoveRecipe(){
         mainCtrl.removeRecipeFromList(choiceBox.getValue());
-        choiceBox.getItems().clear();
+        //choiceBox.getItems().clear();
         mainCtrl.showOverview();
     }
 
