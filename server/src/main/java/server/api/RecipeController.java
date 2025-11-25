@@ -25,6 +25,7 @@ public class RecipeController {
 
     /**
      * Add a recipe
+     * For creating a new recipe ID, initialize Recipe with id = -1
      * @param recipe recipe to add
      * @return ok if added, bad request if something went wrong
      */
@@ -62,6 +63,24 @@ public class RecipeController {
 
         this.recipes.removeIf(r -> r.getId() == recipe.getId());
         return ResponseEntity.ok(recipe);
+    }
+
+    /**
+     * Rename a recipe
+     * @param id id of recipe to rename
+     * @param name new name for the recipe
+     * @return newly set name
+     */
+    @PostMapping("/rename")
+    public ResponseEntity<String> rename(@RequestParam int id, @RequestBody String name) {
+        if (!recipeExists(id) || !isValidName(name))
+            return ResponseEntity.badRequest().build();
+
+        this.recipes.stream()
+                .filter(r -> r.getId() == id)
+                .forEach(r -> r.setName(name));
+
+        return ResponseEntity.ok(name);
     }
 
     /**
