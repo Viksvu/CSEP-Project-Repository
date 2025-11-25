@@ -52,6 +52,9 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
     //IMPORTANT: Must be updated once ServerUtils are prepared. Currently, it only places all the split panes at the desired locations
+    /**
+     * Refreshes the split panes and the content in the ListViews.
+     */
     public void refresh() {
         splitPaneRefreshButton.setDividerPosition(0, 0.10090361445783134);
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
@@ -60,22 +63,19 @@ public class RecipeOverviewCtrl implements Initializable {
 
     }
 
+    /**
+     * Shows the scene of "add recipe"
+     */
     public void addRecipe() {
         mainCtrl.showAdd();
     }
 
+    /**
+     * Shows the scene of remove recipe
+     */
     public void removeRecipe() {
         mainCtrl.showRemove();
     }
 
-//    public void addRecipeToList(String recipeName) {
-//        ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
-//        recipeObservableList.add(recipeName);
-//    }
-
-    public void removeRecipeFromList(String recipeName) {
-        ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
-        recipeObservableList.remove(recipeName);
-    }
 
 }

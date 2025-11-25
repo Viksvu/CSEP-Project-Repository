@@ -35,6 +35,8 @@ public class MainCtrl {
     private RemoveRecipeCtrl removeCtrl;
     private Scene remove;
 
+    // This observable list stores the names of all the recipes. <String> might want to be replaced by <Recipe> in
+    // the future while also then looking at all its usages.
     private ObservableList<String> recipeObservableList;
     public void initialize(Stage primaryStage
             , Pair<RecipeOverviewCtrl, Parent> overview
@@ -57,18 +59,27 @@ public class MainCtrl {
         primaryStage.show();
     }
 
+    /**
+     * Sets the recipe-overview scene as the primary scene
+     */
     public void showOverview() {
         primaryStage.setTitle("Recipes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();
     }
 
+    /**
+     * Sets the add-recipe scene as the primary scene
+     */
     public void showAdd() {
         primaryStage.setTitle("Recipes: Adding Recipe");
         primaryStage.setScene(add);
 //        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
     }
 
+    /**
+     * Sets the remove-recipe scene as the primary scene
+     */
     public void showRemove() {
         removeCtrl.setup();
         primaryStage.setTitle("Recipes: Removing Recipe");
