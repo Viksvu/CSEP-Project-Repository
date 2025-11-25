@@ -38,10 +38,10 @@ public class RecipeController {
             return ResponseEntity.badRequest().build();
 
         int id = recipe.getId();
-        if (id == -1)
+        if (id == -1) {
             id = getNewID();
-        if (recipeExists(id))
-            return ResponseEntity.badRequest().build();
+            recipe = new Recipe(id, name);
+        }
 
         this.recipes.add(recipe);
         return ResponseEntity.ok(recipe);
