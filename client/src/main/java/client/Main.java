@@ -37,7 +37,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
+//      The below code will be required once connection with the server is prepared.
 //		var serverUtils = INJECTOR.getInstance(ServerUtils.class);
 //		if (!serverUtils.isServerAvailable()) {
 //			var msg = "Server needs to be started before the client, but it does not seem to be available. Shutting down.";
