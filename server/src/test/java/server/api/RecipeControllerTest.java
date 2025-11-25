@@ -127,6 +127,34 @@ public class RecipeControllerTest {
         assertEquals(BAD_REQUEST, response.getStatusCode());
     }
 
+    @Test
+    public void checkRename() {
+        rc.add(r1);
+        ResponseEntity<String> response = rc.rename(0, "Hello World");
+        assertEquals(OK, response.getStatusCode());
+        assertEquals("Hello World", response.getBody());
+    }
+
+    @Test
+    public void checkRenameNull() {
+        rc.add(r1);
+        ResponseEntity<String> response = rc.rename(0, null);
+        assertEquals(BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void checkRenameEmpty() {
+        rc.add(r1);
+        ResponseEntity<String> response = rc.rename(0, "");
+        assertEquals(BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void checkRenameNonExistingRecipe() {
+        ResponseEntity<String> response = rc.rename(0, "Hello World");
+        assertEquals(BAD_REQUEST, response.getStatusCode());
+    }
+
     /**
      * Get the private method isValidName for testing
      * @param name input for isValidName method of RecipeController
