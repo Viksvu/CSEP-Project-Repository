@@ -1,7 +1,6 @@
 package commons;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class IngredientsTest {
@@ -65,5 +64,52 @@ public class IngredientsTest {
 
         assertEquals(h1, h2);
     }
-}
 
+    @Test
+    void noArgsConstructorShouldCreateObject() {
+        Ingredients i = new Ingredients();
+        assertNotNull(i);
+    }
+
+    @Test
+    void quantityCanBeZeroOrNegative() {
+        Ingredients zero = new Ingredients("water", 0.0, "Water", "ml");
+        Ingredients negative = new Ingredients("salt", -5.0, "Salt", "gram");
+
+        assertEquals(0.0, zero.getQuantity(), 0.00001);
+        assertEquals(-5.0, negative.getQuantity(), 0.00001);
+    }
+
+    @Test
+    void nameAndIngredientCanBeEmptyString() {
+        Ingredients i = new Ingredients("", 1.0, "", "unit");
+
+        assertEquals("", i.getName());
+        assertEquals("", i.getIngredient());
+    }
+
+    @Test
+    void unitCanBeNull() {
+        Ingredients i = new Ingredients("milk", 1.0, "Milk", null);
+        assertNull(i.getUnit());
+    }
+
+    @Test
+    void equalsShouldReturnFalseForDifferentIds() {
+        Ingredients i1 = new Ingredients("sugar", 1.0, "Sugar", "gram");
+        Ingredients i2 = new Ingredients("sugar", 1.0, "Sugar", "gram");
+
+        i1.setName("sugar1"); // slight change to differentiate
+        assertNotEquals(i1, i2);
+    }
+
+    @Test
+    void hashCodeShouldChangeIfFieldChanges() {
+        Ingredients i = new Ingredients("oil", 1.0, "Olive Oil", "ml");
+        int originalHash = i.hashCode();
+        i.setUnit("liter");
+        int newHash = i.hashCode();
+
+        assertNotEquals(originalHash, newHash);
+    }
+}
