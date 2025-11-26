@@ -12,24 +12,63 @@ public class Recipes {
     @GeneratedValue(strategy= GenerationType.AUTO)
 
     private long id;
-    @ManyToMany
-    private List<IngredientInRecipe> ingredients; // to change after ingredients class is implemented
-
+    @OneToMany(mappedBy = "recipes", cascade = CascadeType.ALL, orphanRemoval = true)
+    // to change after ingredients class is implemented
+    private List<IngredientInRecipe> ingredients;
+    @ElementCollection
     private List<PreparationStep> preparationSteps;
     private String name;
+
+    /**
+     * Class recipes for the recipes
+     *
+     */
     public Recipes() {
         this.name="";
         this.ingredients=new ArrayList<>();
         this.preparationSteps=new ArrayList<>();
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Constructor for recipes (For testing)
+     *
+     * @param name - the name of the recipe
+     */
     public Recipes(String name) {
         this.name = name;
         this.ingredients=new ArrayList<>();
         this.preparationSteps=new ArrayList<>();
     }
+
+    public Recipes(long id, List<IngredientInRecipe> ingredients, List<PreparationStep> preparationSteps, String name) {
+        this.id = id;
+        this.ingredients = ingredients;
+        this.preparationSteps = preparationSteps;
+        this.name = name;
+    }
+
+    /**
+     * adds an ingredient into recipes
+     * @param ingredient - the ingredient
+     */
     public void addIngredient(IngredientInRecipe ingredient){
         ingredients.add(ingredient);
     }
+    public void removeIngredient(IngredientInRecipe ingredient){
+        ingredients.remove(ingredient);
+    }
+    /**
+     * Adds preparationStep into the recipe
+     * @param preparationStep the preparation step
+     */
     public void addPreparationStep(PreparationStep preparationStep){
         preparationSteps.add(preparationStep);
     }
@@ -61,7 +100,9 @@ public class Recipes {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Recipes recipes = (Recipes) o;
-        return Objects.equals(ingredients, recipes.ingredients) && Objects.equals(preparationSteps, recipes.preparationSteps) && Objects.equals(name, recipes.name);
+        return Objects.equals(ingredients, recipes.ingredients)
+                && Objects.equals(preparationSteps, recipes.preparationSteps) &&
+                Objects.equals(name, recipes.name);
     }
 
     @Override

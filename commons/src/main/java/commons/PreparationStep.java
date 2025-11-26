@@ -1,12 +1,20 @@
 package commons;
 
+import jakarta.persistence.Embeddable;
+
 import java.util.Objects;
 
+@Embeddable
 public class PreparationStep {
     private String description;
     public PreparationStep(String description) {
         this.description = description;
     }
+
+    public PreparationStep() {
+
+    }
+
     public String getDescription() {
         return description;
     }
