@@ -26,6 +26,6 @@
 
 - Summarize action points : Who , what , when ? (3 min)
 - Feedback round : What went well and what can be improved next time ? (2 min )
-- Planned meeting duration != actual duration ? Where / why did you misestimate ? (1 min )
+- Planned meeting duration != actual duration ? Where / why did we misestimate ? (1 min )
 - Question round : Does anyone have anything to add before the meeting closes ? (1 min )
 - Closure (1 min )
