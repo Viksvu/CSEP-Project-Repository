@@ -49,7 +49,8 @@ public class ShoppingList {
     /**
      * Adds all the ingredients in a recipe
      * to the overview(buffer list).
-     *
+     * NEED TO MAKE A COPY CONSTRUCTOR IN INGREDIENTS!!!
+     * CHANGE IMPLEMENTATION TO HARD COPY
      * @param recipe the recipe.
      */
     public void addRecipeIngredientsToOverview(Recipes recipe) {
@@ -65,7 +66,7 @@ public class ShoppingList {
      * @param tempIngredient the ingredient to add.
      */
     public void
-    addIngredientDirectlyFromOverview(TempIngredient tempIngredient) {
+    addIngredientDirectlyToOverview(TempIngredient tempIngredient) {
         bufferList.add(tempIngredient);
     }
 
@@ -172,5 +173,18 @@ public class ShoppingList {
         return result;
     }
 
-
+    /**
+     * For tests, a getter.
+     * @return the shopping list.
+     */
+    public List<TempIngredient> getShoppingList() {
+        return shoppingList;
+    }
+    /**
+     * For tests, a getter.
+     * @return the buffer list.
+     */
+    public List<TempIngredient> getBufferList() {
+        return bufferList;
+    }
 }
