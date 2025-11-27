@@ -1,14 +1,13 @@
 package commons;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class TempIngredient {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     String name;
 
     public String getName() {
@@ -17,5 +16,9 @@ public class TempIngredient {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getId() {
+        return id;
     }
 }

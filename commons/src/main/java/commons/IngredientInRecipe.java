@@ -5,15 +5,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class IngredientInRecipe extends TempIngredient{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "temp_ingredient_id")
-    private TempIngredient tempIngredient;
+public class IngredientInRecipe extends TempIngredient {
 
     private int quantity;
 
@@ -24,7 +16,8 @@ public class IngredientInRecipe extends TempIngredient{
     @JoinColumn(name = "recipe_id")
     private Recipes recipes;
 
-    public IngredientInRecipe() {}
+    public IngredientInRecipe() {
+    }
 
     public Recipes getRecipes() {
         return recipes;
@@ -50,25 +43,16 @@ public class IngredientInRecipe extends TempIngredient{
         this.unit = unit;
     }
 
-    public TempIngredient getTempIngredient() {
-        return tempIngredient;
-    }
-
-    public void setTempIngredient(final TempIngredient tempIngredient) {
-        this.tempIngredient = tempIngredient;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         IngredientInRecipe that = (IngredientInRecipe) o;
-        return id == that.id && quantity == that.quantity && Objects.equals(tempIngredient, that.tempIngredient)
-                && unit == that.unit && Objects.equals(recipes, that.recipes);
+        return quantity == that.quantity && unit == that.unit && Objects.equals(recipes, that.recipes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tempIngredient, quantity, unit);
+        return Objects.hash(quantity, unit, recipes);
     }
 }
 
