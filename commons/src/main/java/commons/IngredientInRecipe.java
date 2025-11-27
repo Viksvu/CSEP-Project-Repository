@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class IngredientInRecipe {
+public class IngredientInRecipe extends TempIngredient{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,7 +38,7 @@ public class IngredientInRecipe {
         return quantity;
     }
 
-    public void setQuantity(final int quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
@@ -62,9 +62,8 @@ public class IngredientInRecipe {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         IngredientInRecipe that = (IngredientInRecipe) o;
-        return quantity == that.quantity
-                && Objects.equals(tempIngredient, that.tempIngredient)
-                && unit == that.unit;
+        return id == that.id && quantity == that.quantity && Objects.equals(tempIngredient, that.tempIngredient)
+                && unit == that.unit && Objects.equals(recipes, that.recipes);
     }
 
     @Override
