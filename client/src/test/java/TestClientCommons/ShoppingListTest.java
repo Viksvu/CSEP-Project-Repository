@@ -5,7 +5,6 @@ import client.commonsClient.Recipes;
 import client.commonsClient.IngredientInRecipe;
 import client.commonsClient.Unit;
 import client.commonsClient.ShoppingList;
-import client.commonsClient.PreparationStep;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
