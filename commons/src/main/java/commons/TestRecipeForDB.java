@@ -23,9 +23,20 @@ public class TestRecipeForDB {
     @ElementCollection
     private List<String> ingredients;
 
+    /**
+     * temp
+     */
     public TestRecipeForDB() {
         // for object mapper
     }
+
+    /**
+     * temp
+     *
+     * @param name        temp
+     * @param description temp
+     * @param cookingTime temp.
+     */
     public TestRecipeForDB(String name, String description, int cookingTime) {
         this.name = name;
         this.description = description;
@@ -61,10 +72,20 @@ public class TestRecipeForDB {
         return ingredients;
     }
 
+    /**
+     * temp
+     *
+     * @param ingredients temp.
+     */
     public void addIngredients(String ingredients) {
         this.ingredients.add(ingredients);
     }
 
+    /**
+     * temp
+     *
+     * @param ingredients temp.
+     */
     public void addAllIngredients(ArrayList<String> ingredients) {
         this.ingredients.addAll(ingredients);
     }

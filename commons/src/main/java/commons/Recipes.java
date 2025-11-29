@@ -9,10 +9,11 @@ import java.util.Objects;
 @Entity
 public class Recipes {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 
     private long id;
-    @OneToMany(mappedBy = "recipes", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "recipes", cascade = CascadeType.ALL,
+            orphanRemoval = true)
     // to change after ingredients class is implemented
     private List<IngredientInRecipe> ingredients;
     @ElementCollection
@@ -24,9 +25,9 @@ public class Recipes {
      *
      */
     public Recipes() {
-        this.name="";
-        this.ingredients=new ArrayList<>();
-        this.preparationSteps=new ArrayList<>();
+        this.name = "";
+        this.ingredients = new ArrayList<>();
+        this.preparationSteps = new ArrayList<>();
     }
 
     public long getId() {
@@ -44,11 +45,20 @@ public class Recipes {
      */
     public Recipes(String name) {
         this.name = name;
-        this.ingredients=new ArrayList<>();
-        this.preparationSteps=new ArrayList<>();
+        this.ingredients = new ArrayList<>();
+        this.preparationSteps = new ArrayList<>();
     }
 
-    public Recipes(long id, List<IngredientInRecipe> ingredients, List<PreparationStep> preparationSteps, String name) {
+    /**
+     * A constructor of recipe for in use code.
+     *
+     * @param id               the ID of a recipe.
+     * @param ingredients      the ingredients in a recipe.
+     * @param preparationSteps the preparation steps in a recipe.
+     * @param name             the name of the recipe.
+     */
+    public Recipes(long id, List<IngredientInRecipe> ingredients,
+                   List<PreparationStep> preparationSteps, String name) {
         this.id = id;
         this.ingredients = ingredients;
         this.preparationSteps = preparationSteps;
@@ -57,19 +67,28 @@ public class Recipes {
 
     /**
      * adds an ingredient into recipes
+     *
      * @param ingredient - the ingredient
      */
-    public void addIngredient(IngredientInRecipe ingredient){
+    public void addIngredient(IngredientInRecipe ingredient) {
         ingredients.add(ingredient);
     }
-    public void removeIngredient(IngredientInRecipe ingredient){
+
+    /**
+     * removes ingredient from recipes
+     *
+     * @param ingredient - the ingredient
+     */
+    public void removeIngredient(IngredientInRecipe ingredient) {
         ingredients.remove(ingredient);
     }
+
     /**
      * Adds preparationStep into the recipe
+     *
      * @param preparationStep the preparation step
      */
-    public void addPreparationStep(PreparationStep preparationStep){
+    public void addPreparationStep(PreparationStep preparationStep) {
         preparationSteps.add(preparationStep);
     }
 
@@ -80,6 +99,7 @@ public class Recipes {
     public List<PreparationStep> getPreparationSteps() {
         return preparationSteps;
     }
+
     public String getName() {
         return name;
     }

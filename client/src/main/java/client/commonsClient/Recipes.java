@@ -16,12 +16,10 @@ public class Recipes {
      *
      */
     public Recipes() {
-        this.name="";
-        this.ingredients=new ArrayList<>();
-        this.preparationSteps=new ArrayList<>();
+        this.name = "";
+        this.ingredients = new ArrayList<>();
+        this.preparationSteps = new ArrayList<>();
     }
-
-
 
     /**
      * Constructor for recipes (For testing)
@@ -30,11 +28,19 @@ public class Recipes {
      */
     public Recipes(String name) {
         this.name = name;
-        this.ingredients=new ArrayList<>();
-        this.preparationSteps=new ArrayList<>();
+        this.ingredients = new ArrayList<>();
+        this.preparationSteps = new ArrayList<>();
     }
 
-    public Recipes(List<IngredientInRecipe> ingredients, List<PreparationStep> preparationSteps, String name) {
+    /**
+     * A constructor of recipe for in use code.
+     *
+     * @param ingredients      the ingredients in a recipe.
+     * @param preparationSteps the preparation steps in a recipe.
+     * @param name             the name of the recipe.
+     */
+    public Recipes(List<IngredientInRecipe> ingredients,
+                   List<PreparationStep> preparationSteps, String name) {
         this.ingredients = ingredients;
         this.preparationSteps = preparationSteps;
         this.name = name;
@@ -42,19 +48,28 @@ public class Recipes {
 
     /**
      * adds an ingredient into recipes
+     *
      * @param ingredient - the ingredient
      */
-    public void addIngredient(IngredientInRecipe ingredient){
+    public void addIngredient(IngredientInRecipe ingredient) {
         ingredients.add(ingredient);
     }
-    public void removeIngredient(IngredientInRecipe ingredient){
+
+    /**
+     * Removes ingredient from a recipe.
+     *
+     * @param ingredient the ingredient to remove.
+     */
+    public void removeIngredient(IngredientInRecipe ingredient) {
         ingredients.remove(ingredient);
     }
+
     /**
      * Adds preparationStep into the recipe
+     *
      * @param preparationStep the preparation step
      */
-    public void addPreparationStep(PreparationStep preparationStep){
+    public void addPreparationStep(PreparationStep preparationStep) {
         preparationSteps.add(preparationStep);
     }
 
@@ -65,6 +80,7 @@ public class Recipes {
     public List<PreparationStep> getPreparationSteps() {
         return preparationSteps;
     }
+
     public String getName() {
         return name;
     }
