@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+
 package server.api;
 
 import java.util.ArrayList;
@@ -222,4 +222,4 @@ public class TestQuoteRepository implements QuoteRepository {
         // TODO Auto-generated method stub
         return null;
     }
-}
+}*/
