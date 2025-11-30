@@ -25,6 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import commons.Recipes;
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -47,18 +48,18 @@ public class ServerUtils {
 		}
 	}
 
-	public List<Quote> getQuotes() {
+	public List<Recipes> getRecipes() {
 		return ClientBuilder.newClient(new ClientConfig()) //
-				.target(SERVER).path("api/quotes") //
+				.target(SERVER).path("api/recipe") //
 				.request(APPLICATION_JSON) //
-				.get(new GenericType<List<Quote>>() {});
+				.get(new GenericType<List<Recipes>>() {});
 	}
 
-	public Quote addQuote(Quote quote) {
+	public Recipes addRecipe(Recipes recipe) {
 		return ClientBuilder.newClient(new ClientConfig()) //
-				.target(SERVER).path("api/quotes") //
+				.target(SERVER).path("api/recipe") //
 				.request(APPLICATION_JSON) //
-				.post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
+				.post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
 	}
 
 	public boolean isServerAvailable() {

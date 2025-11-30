@@ -1,6 +1,9 @@
 package client.scenes;
 
+import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Recipes;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,7 +16,7 @@ import java.util.ResourceBundle;
 public class RecipeOverviewCtrl implements Initializable {
 
     private final MainCtrl mainCtrl;
-
+    private final ServerUtils server;
 
     @FXML
     private SplitPane splitPaneRefreshButton;
@@ -38,16 +41,18 @@ public class RecipeOverviewCtrl implements Initializable {
     // ObservableList<String> recipeObservableList;
 
     @Inject
-    public RecipeOverviewCtrl(MainCtrl mainCtrl) {
+    public RecipeOverviewCtrl(MainCtrl mainCtrl, ServerUtils server) {
         this.mainCtrl = mainCtrl;
         //this.recipeObservableList = FXCollections.observableArrayList();
         //splitPaneRefreshButton = new SplitPane();
+        this.server = server;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
-        //recipeObservableList.add("Test String 1"); // Adding anything to the recipeObservableList will also add to the ListView of Recipes
+        ObservableList<Recipes> recipeList = FXCollections.observableArrayList(server.getRecipes());
+        recipeObservableList.add("Test String 1"); // Adding anything to the recipeObservableList will also add to the ListView of Recipes
         recipeListView.setItems(recipeObservableList);
     }
 
@@ -59,6 +64,7 @@ public class RecipeOverviewCtrl implements Initializable {
         splitPaneRefreshButton.setDividerPosition(0, 0.10090361445783134);
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
         ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
+        //ObservableList<String> recipeList = FXCollections.observableArrayList(server.getRecipes());
         recipeListView.setItems(recipeObservableList);
 
     }
