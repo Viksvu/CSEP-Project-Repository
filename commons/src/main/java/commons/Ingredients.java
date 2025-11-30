@@ -19,12 +19,22 @@ public class Ingredients {
     private String ingredient;
     private String unit;
 
-    // No-args constructor for JPA
+    /**
+     * No-args constructor for JPA
+     */
     protected Ingredients() {
     }
 
-    // Constructor for use in code
-    public Ingredients(String name, double quantity, String ingredient, String unit) {
+    /**
+     * Constructor for in use code.
+     *
+     * @param name the name of the ingredient.
+     * @param quantity the quantity of the ingredient.
+     * @param ingredient the ingredient itself.
+     * @param unit the unit of measurement for the ingredient.
+     */
+    public Ingredients(String name, double quantity,
+                       String ingredient, String unit) {
         this.name = name;
         this.quantity = quantity;
         this.ingredient = ingredient;
@@ -71,7 +81,11 @@ public class Ingredients {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Ingredients that = (Ingredients) o;
-        return Double.compare(quantity, that.quantity) == 0 && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(ingredient, that.ingredient) && Objects.equals(unit, that.unit);
+        return Double.compare(quantity, that.quantity) == 0 &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(ingredient, that.ingredient) &&
+                Objects.equals(unit, that.unit);
     }
 
     @Override

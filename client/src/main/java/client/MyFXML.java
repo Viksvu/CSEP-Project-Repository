@@ -32,25 +32,32 @@ import javafx.util.Pair;
 public class MyFXML {
 
     private Injector injector;
-
     /**
-     * Constructor
-     * @param injector used
+     * Constructs a new MyFXML instance using the provided injector.
+     *
+     * @param injector the dependency
+     *                 injection container used to create controller instances
      */
     public MyFXML(Injector injector) {
         this.injector = injector;
     }
 
     /**
-     * Provides a pair after "loading it"
-     * @param c class used
-     * @param parts path
-     * @return a pair
-     * @param <T> depends on class type
+     * Loads an FXML file,
+     * initializes its controller through dependency injection,
+     * and returns both the controller and the root UI node.
+     *
+     * @param <T>   the type of the controller
+     * @param c     the controller class
+     * @param parts the path segments forming the FXML resource location
+     * @return a Pair containing the controller and the UI root element
      */
     public <T> Pair<T, Parent> load(Class<T> c, String... parts) {
         try {
-            var loader = new FXMLLoader(getLocation(parts), null, null, new MyFactory(), StandardCharsets.UTF_8);
+            var loader =
+                    new FXMLLoader(getLocation(parts),
+                            null, null, new MyFactory(),
+                            StandardCharsets.UTF_8);
             Parent parent = loader.load();
             T ctrl = loader.getController();
             return new Pair<>(ctrl, parent);
@@ -59,13 +66,31 @@ public class MyFXML {
         }
     }
 
+    /**
+     * Resolves a resource location
+     * for an FXML file using provided path segments.
+     *
+     * @param parts the path segments that form the relative FXML file path
+     * @return the URL to the requested resource
+     */
     private URL getLocation(String... parts) {
         var path = Path.of("", parts).toString();
         return MyFXML.class.getClassLoader().getResource(path);
     }
 
-    private class MyFactory implements BuilderFactory, Callback<Class<?>, Object> {
+    /**
+     * Factory used by FXMLLoader to build controllers and other objects
+     * using dependency injection.
+     */
+    private class MyFactory implements BuilderFactory,
+            Callback<Class<?>, Object> {
 
+        /**
+         * Returns a Builder that constructs objects through the injector.
+         *
+         * @param type the class type to build
+         * @return a Builder for the given type
+         */
         @Override
         @SuppressWarnings("rawtypes")
         public Builder<?> getBuilder(Class<?> type) {
@@ -77,6 +102,13 @@ public class MyFXML {
             };
         }
 
+        /**
+         * Supplies instances
+         * requested by FXMLLoader using dependency injection.
+         *
+         * @param type the class type requested
+         * @return an instance of the requested type
+         */
         @Override
         public Object call(Class<?> type) {
             return injector.getInstance(type);
