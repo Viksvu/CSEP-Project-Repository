@@ -1,6 +1,9 @@
 package client.scenes;
 
+import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Recipes;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
@@ -10,9 +13,10 @@ import java.util.ResourceBundle;
 
 public class RemoveRecipeCtrl implements Initializable {
     private final MainCtrl mainCtrl;
+    private final ServerUtils server;
 
     @FXML
-    private ChoiceBox<String> choiceBox;
+    private ChoiceBox<Recipes> choiceBox;
 
     /**
      * A constructor for remove
@@ -21,17 +25,18 @@ public class RemoveRecipeCtrl implements Initializable {
      * @param mainCtrl the main controller.
      */
     @Inject
-    public RemoveRecipeCtrl(MainCtrl mainCtrl) {
+    public RemoveRecipeCtrl(MainCtrl mainCtrl, ServerUtils server) {
         this.mainCtrl = mainCtrl;
-
+        this.server = server;
     }
 
     /**
      * Removes recipe from list.
      */
     public void confirmRemoveRecipe() {
-        mainCtrl.removeRecipeFromList(choiceBox.getValue());
+        //mainCtrl.removeRecipeFromList(choiceBox.getValue());
         //choiceBox.getItems().clear();
+        server.removeRecipe(choiceBox.getValue());
         mainCtrl.showOverview();
     }
 
@@ -46,14 +51,16 @@ public class RemoveRecipeCtrl implements Initializable {
      * Populates the choice box
      */
     public void setup() {
-        choiceBox.setItems(mainCtrl.getRecipes());
+        var serverRecipes = server.getRecipes();
+        var data = FXCollections.observableArrayList(serverRecipes);
+        choiceBox.setItems(data);
     }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            choiceBox.setItems(mainCtrl.getRecipes());
+            setup();
         } catch (NullPointerException e) {
             mainCtrl.showOverview();
         }

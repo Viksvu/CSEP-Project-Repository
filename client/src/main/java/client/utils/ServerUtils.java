@@ -39,7 +39,7 @@ public class ServerUtils {
      */
     public List<Recipes> getRecipes() {
 		return ClientBuilder.newClient(new ClientConfig()) //
-				.target(SERVER).path("api/recipe") //
+				.target(SERVER).path("api/recipe/list") //
 				.request(APPLICATION_JSON) //
 				.get(new GenericType<List<Recipes>>() {});
 	}/**
@@ -48,10 +48,22 @@ public class ServerUtils {
      */
 	public Recipes addRecipe(Recipes recipe) {
 		return ClientBuilder.newClient(new ClientConfig()) //
-				.target(SERVER).path("api/recipe") //
+				.target(SERVER).path("api/recipe/add") //
 				.request(APPLICATION_JSON) //
 				.post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
 	}
+
+    /**
+     * temp
+     * @param recipe
+     * @return
+     */
+    public Recipes removeRecipe(Recipes recipe) {
+       return ClientBuilder.newClient(new ClientConfig())
+               .target(SERVER).path("api/recipe/delete")
+               .request(APPLICATION_JSON)
+               .post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
+    }
 
 	/**
      * temp

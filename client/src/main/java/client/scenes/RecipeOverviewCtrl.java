@@ -26,7 +26,7 @@ public class RecipeOverviewCtrl implements Initializable {
 
     //IMPORTANT: Change String type to Recipe.
     @FXML
-    private ListView<String> recipeListView;
+    private ListView<Recipes> recipeListView;
 
     //IMPORTANT: Potential change String type to Ingredient.
     @FXML
@@ -37,6 +37,7 @@ public class RecipeOverviewCtrl implements Initializable {
     @FXML
     private ListView<String> preparationsListView;
 
+    ObservableList<Recipes> data;
 
     //IMPORTANT: Change String to Recipe
     // ObservableList<String> recipeObservableList;
@@ -56,12 +57,12 @@ public class RecipeOverviewCtrl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
-        ObservableList<Recipes> recipeList = FXCollections.observableArrayList(server.getRecipes());
-        recipeObservableList.add("Test String 1");
+        //ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
+        //ObservableList<Recipes> recipeList = FXCollections.observableArrayList(server.getRecipes());
+        //recipeObservableList.add("Test String 1");
         // Adding anything to the recipeObservableList
         // will also add to the ListView of Recipes
-        recipeListView.setItems(recipeObservableList);
+        //recipeListView.setItems(recipeObservableList);
     }
 
     //IMPORTANT: Must be updated once ServerUtils are prepared.
@@ -73,10 +74,11 @@ public class RecipeOverviewCtrl implements Initializable {
     public void refresh() {
         splitPaneRefreshButton.setDividerPosition(0, 0.10090361445783134);
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
-        ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
+        var serverRecipes = server.getRecipes();
+        data = FXCollections.observableArrayList(serverRecipes);
         //ObservableList<String> recipeList
             // = FXCollections.observableArrayList(server.getRecipes());
-        recipeListView.setItems(recipeObservableList);
+        recipeListView.setItems(data);
 
     }
 

@@ -62,7 +62,6 @@ public class AddRecipeCtrl implements Initializable {
             alert.showAndWait();
             return;
         }
-        mainCtrl.addRecipeToList(recipeName);
         mainCtrl.showOverview();
     }
 }
