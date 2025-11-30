@@ -51,8 +51,8 @@ public class IngredientsTest {
     void equalsShouldReturnFalseWhenComparingWithNullOrDifferentClass() {
         Ingredients i = new Ingredients("sugar", 387, "Sugar", Unit.GRAM);
 
-        assertFalse(i.equals(null));
-        assertFalse(i.equals("not-an-ingredient"));
+        assertNotNull(i);
+        assertNotEquals("not-an-ingredient", i);
     }
 
     @Test

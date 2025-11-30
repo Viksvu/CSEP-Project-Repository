@@ -24,7 +24,14 @@ public class Ingredients {
     protected Ingredients() {
     }
 
-    // Constructor for use in code
+    /**
+     *
+     * this is the constructor
+     * @param name
+     * @param kcalPer100g
+     * @param ingredient
+     * @param unit
+     */
     public Ingredients(String name, int kcalPer100g, String ingredient, Unit unit) {
         this.name = name;
         this.kcalPer100g = kcalPer100g;
@@ -73,7 +80,11 @@ public class Ingredients {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Ingredients that = (Ingredients) o;
-        return kcalPer100g == that.kcalPer100g && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(ingredient, that.ingredient) && unit == that.unit;
+        return kcalPer100g == that.kcalPer100g &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(ingredient, that.ingredient) &&
+                unit == that.unit;
     }
 
     @Override

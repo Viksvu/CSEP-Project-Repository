@@ -2,6 +2,13 @@ package commons;
 
 public class KCAL {
 
+    /**
+     *
+     * calculates kcal for each ingredient in recipe
+     *
+     * @param ingredient
+     * @return
+     */
     public int calculator(IngredientInRecipe ingredient) {
         int kcalPer100g = ingredient.getTempIngredient().getKcalPer100g();
         int quantity = ingredient.getQuantity();
@@ -13,6 +20,13 @@ public class KCAL {
 
     }
 
+    /**
+     *
+     * calculates total kcal in recipe
+     *
+     * @param recipe
+     * @return
+     */
     public int calculateTotal(Recipes recipe) {
         return  recipe.getIngredients()
                 .stream()
@@ -20,6 +34,14 @@ public class KCAL {
                 .sum();
     }
 
+    /**
+     *
+     * sets the units to grams
+     *
+     * @param amount
+     * @param unit
+     * @return
+     */
     private double convertToGrams(double amount, Unit unit) {
         return switch (unit){
             case GRAM -> amount;
