@@ -26,6 +26,7 @@ public class IngredientInRecipe {
 
     public IngredientInRecipe() {}
 
+
     public Recipes getRecipes() {
         return recipes;
     }

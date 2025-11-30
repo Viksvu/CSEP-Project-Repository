@@ -1,9 +1,6 @@
 package commons;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -15,18 +12,20 @@ public class Ingredients {
     private Long id;
 
     private String name;
-    private double quantity;
+    private int kcalPer100g;
     private String ingredient;
-    private String unit;
+
+    @Enumerated(EnumType.STRING)
+    private Unit unit;
 
     // No-args constructor for JPA
     protected Ingredients() {
     }
 
     // Constructor for use in code
-    public Ingredients(String name, double quantity, String ingredient, String unit) {
+    public Ingredients(String name, int kcalPer100g, String ingredient, Unit unit) {
         this.name = name;
-        this.quantity = quantity;
+        this.kcalPer100g = kcalPer100g;
         this.ingredient = ingredient;
         this.unit = unit;
     }
@@ -43,12 +42,20 @@ public class Ingredients {
         this.name = name;
     }
 
-    public double getQuantity() {
-        return quantity;
+    public int getKcalPer100g() {
+        return kcalPer100g;
     }
 
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
+    public void setKcalPer100g(int kcalPer100g) {
+        this.kcalPer100g = kcalPer100g;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 
     public String getIngredient() {
@@ -59,23 +66,16 @@ public class Ingredients {
         this.ingredient = ingredient;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Ingredients that = (Ingredients) o;
-        return Double.compare(quantity, that.quantity) == 0 && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(ingredient, that.ingredient) && Objects.equals(unit, that.unit);
+        return kcalPer100g == that.kcalPer100g && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(ingredient, that.ingredient) && unit == that.unit;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, quantity, ingredient, unit);
+        return Objects.hash(id, name, kcalPer100g, ingredient, unit);
     }
 }
