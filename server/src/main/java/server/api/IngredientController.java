@@ -16,6 +16,7 @@ public class IngredientController {
 
     /**
      * Get a list of all known ingredients
+     *
      * @return list of all ingredients
      */
     @GetMapping("/list")
@@ -26,6 +27,7 @@ public class IngredientController {
     /**
      * Add an ingredient
      * For creating a new ingredient ID, initialize Ingredient with id = -1
+     *
      * @param ingredient ingredient to add
      * @return ok if added, bad request if something went wrong
      */
@@ -50,11 +52,13 @@ public class IngredientController {
 
     /**
      * Delete an ingredient
+     *
      * @param ingredient ingredient to delete
      * @return ok if deleted, bad request if something went wrong
      */
     @PostMapping("/delete")
-    public ResponseEntity<Ingredient> remove(@RequestBody Ingredient ingredient) {
+    public ResponseEntity<Ingredient> remove
+    (@RequestBody Ingredient ingredient) {
         if (ingredient == null)
             return ResponseEntity.badRequest().build();
 
@@ -67,6 +71,7 @@ public class IngredientController {
 
     /**
      * Get a new unused id for a new ingredient
+     *
      * @return new unused ingredient id
      */
     private int getNewID() {
@@ -85,6 +90,7 @@ public class IngredientController {
 
     /**
      * Check if an ingredient name is valid
+     *
      * @param name ingredients name
      * @return true if valid
      */
@@ -94,12 +100,13 @@ public class IngredientController {
 
     /**
      * Check if an ingredient already exists
+     *
      * @param id id of the ingredient
      * @return true if already existing
      */
     private boolean ingredientExists(int id) {
         return this.ingredients.stream()
-            .anyMatch(r -> r.getId() == id);
+                .anyMatch(r -> r.getId() == id);
     }
 
     static class IngredientComparator implements Comparator<Ingredient> {

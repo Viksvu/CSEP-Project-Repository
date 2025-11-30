@@ -37,6 +37,10 @@ public class ServerUtils {
 
     private static final String SERVER = "http://localhost:8080/";
 
+    /**
+     * temp
+     * @return
+     */
     public void getQuotesTheHardWay() throws IOException, URISyntaxException {
         var url = new URI("http://localhost:8080/api/quotes").toURL();
         var is = url.openConnection().getInputStream();
@@ -46,14 +50,20 @@ public class ServerUtils {
             System.out.println(line);
         }
     }
-
+    /**
+     * temp
+     * @return
+     */
     public List<Quote> getQuotes() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/quotes") //
                 .request(APPLICATION_JSON) //
                 .get(new GenericType<List<Quote>>() {});
     }
-
+    /**
+     * temp
+     * @return
+     */
     public Quote addQuote(Quote quote) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/quotes") //
@@ -61,6 +71,10 @@ public class ServerUtils {
                 .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
     }
 
+    /**
+     * temp
+     * @return
+     */
     public boolean isServerAvailable() {
         try {
             ClientBuilder.newClient(new ClientConfig()) //

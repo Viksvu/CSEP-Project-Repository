@@ -7,10 +7,19 @@ import java.util.Objects;
 @Embeddable
 public class PreparationStep {
     private String description;
+
+    /**
+     * A constructor for preparation step
+     *
+     * @param description of the preparation step.
+     */
     public PreparationStep(String description) {
         this.description = description;
     }
 
+    /**
+     * No-arg constructor for JPA.
+     */
     public PreparationStep() {
 
     }
@@ -18,6 +27,7 @@ public class PreparationStep {
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }

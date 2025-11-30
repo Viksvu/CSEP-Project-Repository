@@ -18,7 +18,9 @@ public class Ingredients {
     @Enumerated(EnumType.STRING)
     private Unit unit;
 
-    // No-args constructor for JPA
+    /**
+     * No-args constructor for JPA
+     */
     protected Ingredients() {
     }
 
