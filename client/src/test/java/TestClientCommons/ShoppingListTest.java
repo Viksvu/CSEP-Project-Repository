@@ -1,5 +1,10 @@
-package commons;
+package TestClientCommons;
 
+import client.commonsClient.Ingredients;
+import client.commonsClient.Recipes;
+import client.commonsClient.IngredientInRecipe;
+import client.commonsClient.Unit;
+import client.commonsClient.ShoppingList;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +23,7 @@ class ShoppingListTest {
     @Test
     void addIngredientDirectly() {
         ShoppingList sl = new ShoppingList();
-        TempIngredient t = new TempIngredient();
+        Ingredients t = new Ingredients();
         sl.addIngredientDirectly(t);
         assertEquals(1, sl.getShoppingList().size());
     }
@@ -26,7 +31,7 @@ class ShoppingListTest {
     @Test
     void removeIngredientDirectly() {
         ShoppingList sl = new ShoppingList();
-        TempIngredient t = new TempIngredient();
+        Ingredients t = new Ingredients();
         sl.addIngredientDirectly(t);
         assertEquals(1, sl.getShoppingList().size());
         sl.removeIngredientDirectly(t);
@@ -48,7 +53,7 @@ class ShoppingListTest {
     @Test
     void addIngredientDirectlyToOverview() {
         ShoppingList sl = new ShoppingList();
-        TempIngredient t = new TempIngredient();
+        Ingredients t = new Ingredients();
         sl.addIngredientDirectlyToOverview(t);
         assertEquals(1, sl.getBufferList().size());
     }
@@ -56,7 +61,7 @@ class ShoppingListTest {
     @Test
     void removeIngredientDirectlyFromOverview() {
         ShoppingList sl = new ShoppingList();
-        TempIngredient t = new TempIngredient();
+        Ingredients t = new Ingredients();
         sl.addIngredientDirectlyToOverview(t);
         assertEquals(1, sl.getBufferList().size());
         sl.removeIngredientDirectlyFromOverview(t);

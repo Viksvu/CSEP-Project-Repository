@@ -1,4 +1,4 @@
-package commons;
+package client.commonsClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +10,11 @@ import java.io.IOException;
 
 public class ShoppingList {
     /// The list containing the full shopping list ingredients.
-    private final List<TempIngredient> shoppingList;
+    private final List<Ingredients> shoppingList;
 
     /// A buffer list that holds
     /// the ingredients in the overview (to be added) shopping list.
-    private final List<TempIngredient> bufferList;
+    private final List<Ingredients> bufferList;
 
     /**
      * A zero-argument constructor
@@ -32,7 +32,7 @@ public class ShoppingList {
      *
      * @param tempIngredient the ingredient to add.
      */
-    public void addIngredientDirectly(TempIngredient tempIngredient) {
+    public void addIngredientDirectly(Ingredients tempIngredient) {
         shoppingList.add(tempIngredient);
     }
 
@@ -42,19 +42,18 @@ public class ShoppingList {
      *
      * @param tempIngredient the ingredient to remove.
      */
-    public void removeIngredientDirectly(TempIngredient tempIngredient) {
+    public void removeIngredientDirectly(Ingredients tempIngredient) {
         shoppingList.remove(tempIngredient);
     }
 
     /**
      * Adds all the ingredients in a recipe
      * to the overview(buffer list).
-     * NEED TO MAKE A COPY CONSTRUCTOR IN INGREDIENTS!!!
-     * CHANGE IMPLEMENTATION TO HARD COPY
+     *
      * @param recipe the recipe.
      */
     public void addRecipeIngredientsToOverview(Recipes recipe) {
-        List<TempIngredient> ingredientsTemp =
+        List<Ingredients> ingredientsTemp =
                 new ArrayList<>(recipe.getIngredients());
         bufferList.addAll(ingredientsTemp);
     }
@@ -66,8 +65,16 @@ public class ShoppingList {
      * @param tempIngredient the ingredient to add.
      */
     public void
-    addIngredientDirectlyToOverview(TempIngredient tempIngredient) {
+    addIngredientDirectlyToOverview(Ingredients tempIngredient) {
         bufferList.add(tempIngredient);
+    }
+
+    public List<Ingredients> getShoppingList() {
+        return shoppingList;
+    }
+
+    public List<Ingredients> getBufferList() {
+        return bufferList;
     }
 
     /**
@@ -77,7 +84,7 @@ public class ShoppingList {
      * @param tempIngredient the ingredient to remove.
      */
     public void
-    removeIngredientDirectlyFromOverview(TempIngredient tempIngredient) {
+    removeIngredientDirectlyFromOverview(Ingredients tempIngredient) {
         bufferList.remove(tempIngredient);
     }
 
@@ -110,16 +117,16 @@ public class ShoppingList {
     public String printableShoppingList() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (TempIngredient ingredient : shoppingList) {
+        for (Ingredients ingredient : shoppingList) {
             if (ingredient instanceof IngredientInRecipe iir) {
                 stringBuilder.append(iir.getQuantity())
                         .append(iir.getUnit().toString())
                         .append(" ")
-                        .append(iir.name)
+                        .append(iir.getName())
                         .append(" ")
                         .append(iir.getRecipes().getName());
             } else {
-                stringBuilder.append(ingredient.name);
+                stringBuilder.append(ingredient.getName());
             }
             stringBuilder.append("\n");
         }
@@ -133,7 +140,7 @@ public class ShoppingList {
      */
     public String printableOverviewList() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (TempIngredient ingredient : shoppingList) {
+        for (Ingredients ingredient : shoppingList) {
             /// stringBuilder.append(((IngredientInRecipe)
             ///ingredient).toString)
 
@@ -173,18 +180,5 @@ public class ShoppingList {
         return result;
     }
 
-    /**
-     * For tests, a getter.
-     * @return the shopping list.
-     */
-    public List<TempIngredient> getShoppingList() {
-        return shoppingList;
-    }
-    /**
-     * For tests, a getter.
-     * @return the buffer list.
-     */
-    public List<TempIngredient> getBufferList() {
-        return bufferList;
-    }
+
 }

@@ -5,7 +5,15 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class IngredientInRecipe extends TempIngredient {
+public class IngredientInRecipe {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "temp_ingredient_id")
+    private Ingredients tempIngredient;
 
     private int quantity;
 
@@ -16,8 +24,7 @@ public class IngredientInRecipe extends TempIngredient {
     @JoinColumn(name = "recipe_id")
     private Recipes recipes;
 
-    public IngredientInRecipe() {
-    }
+    public IngredientInRecipe() {}
 
     public Recipes getRecipes() {
         return recipes;
@@ -31,7 +38,7 @@ public class IngredientInRecipe extends TempIngredient {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(final int quantity) {
         this.quantity = quantity;
     }
 
@@ -43,16 +50,25 @@ public class IngredientInRecipe extends TempIngredient {
         this.unit = unit;
     }
 
+    public Ingredients getTempIngredient() {
+        return tempIngredient;
+    }
+
+    public void setTempIngredient(final Ingredients tempIngredient) {
+        this.tempIngredient = tempIngredient;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         IngredientInRecipe that = (IngredientInRecipe) o;
-        return quantity == that.quantity && unit == that.unit && Objects.equals(recipes, that.recipes);
+        return quantity == that.quantity
+                && Objects.equals(tempIngredient, that.tempIngredient)
+                && unit == that.unit;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(quantity, unit, recipes);
+        return Objects.hash(tempIngredient, quantity, unit);
     }
 }
-
