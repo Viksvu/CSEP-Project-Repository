@@ -11,8 +11,6 @@ public class IngredientInRecipe extends Ingredients {
     private Unit unit;
     private Recipes recipes;
 
-    public IngredientInRecipe() {
-    }
 
     public Recipes getRecipes() {
         return recipes;
@@ -42,7 +40,8 @@ public class IngredientInRecipe extends Ingredients {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         IngredientInRecipe that = (IngredientInRecipe) o;
-        return quantity == that.quantity && unit == that.unit && Objects.equals(recipes, that.recipes);
+        return quantity == that.quantity &&
+                unit == that.unit && Objects.equals(recipes, that.recipes);
     }
 
     @Override

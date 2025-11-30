@@ -16,6 +16,7 @@ public class RecipeController {
 
     /**
      * Get a list of all known recipes
+     *
      * @return list of all recipes
      */
     @GetMapping("/list")
@@ -26,6 +27,7 @@ public class RecipeController {
     /**
      * Add a recipe
      * For creating a new recipe ID, initialize Recipe with id = -1
+     *
      * @param recipe recipe to add
      * @return ok if added, bad request if something went wrong
      */
@@ -50,6 +52,7 @@ public class RecipeController {
 
     /**
      * Delete a recipe
+     *
      * @param recipe recipe to delete
      * @return ok if deleted, bad request if something went wrong
      */
@@ -67,12 +70,14 @@ public class RecipeController {
 
     /**
      * Rename a recipe
-     * @param id id of recipe to rename
+     *
+     * @param id   id of recipe to rename
      * @param name new name for the recipe
      * @return newly set name
      */
     @PostMapping("/rename")
-    public ResponseEntity<String> rename(@RequestParam int id, @RequestBody String name) {
+    public ResponseEntity<String> rename
+    (@RequestParam int id, @RequestBody String name) {
         if (!recipeExists(id) || !isValidName(name))
             return ResponseEntity.badRequest().build();
 
@@ -85,6 +90,7 @@ public class RecipeController {
 
     /**
      * Get a new unused id for a new recipe
+     *
      * @return new unused recipe id
      */
     private int getNewID() {
@@ -103,6 +109,7 @@ public class RecipeController {
 
     /**
      * Check if a recipe name is valid
+     *
      * @param name recipes name
      * @return true if valid
      */
@@ -112,12 +119,13 @@ public class RecipeController {
 
     /**
      * Check if a recipe already exists
+     *
      * @param id id of the recipe
      * @return true if already existing
      */
     private boolean recipeExists(int id) {
         return this.recipes.stream()
-            .anyMatch(r -> r.getId() == id);
+                .anyMatch(r -> r.getId() == id);
     }
 
     static class RecipeComparator implements Comparator<Recipe> {

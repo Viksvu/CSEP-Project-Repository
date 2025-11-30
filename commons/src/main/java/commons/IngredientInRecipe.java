@@ -24,8 +24,6 @@ public class IngredientInRecipe {
     @JoinColumn(name = "recipe_id")
     private Recipes recipes;
 
-    public IngredientInRecipe() {}
-
     public Recipes getRecipes() {
         return recipes;
     }
