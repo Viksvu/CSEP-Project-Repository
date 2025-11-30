@@ -32,7 +32,8 @@ public class RecipeOverviewCtrl implements Initializable {
     @FXML
     private ListView<String> ingredientListView;
 
-    //IMPORTANT: Type change likely not needed in future but usage will have to be modified
+    //IMPORTANT: Type change likely
+    // not needed in future but usage will have to be modified
     @FXML
     private ListView<String> preparationsListView;
 
@@ -40,6 +41,11 @@ public class RecipeOverviewCtrl implements Initializable {
     //IMPORTANT: Change String to Recipe
     // ObservableList<String> recipeObservableList;
 
+    /**
+     * Recipe overview controller constructor.
+     *
+     * @param mainCtrl main controller.
+     */
     @Inject
     public RecipeOverviewCtrl(MainCtrl mainCtrl, ServerUtils server) {
         this.mainCtrl = mainCtrl;
@@ -56,14 +62,16 @@ public class RecipeOverviewCtrl implements Initializable {
         recipeListView.setItems(recipeObservableList);
     }
 
-    //IMPORTANT: Must be updated once ServerUtils are prepared. Currently, it only places all the split panes at the desired locations
+    //IMPORTANT: Must be updated once ServerUtils are prepared.
+    // Currently, it only places all the split panes at the desired locations
+
     /**
      * Refreshes the split panes and the content in the ListViews.
      */
     public void refresh() {
         splitPaneRefreshButton.setDividerPosition(0, 0.10090361445783134);
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
-        ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
+        ObservableList<String> recipeObservableList = mainCtrl.getRecipes()
         //ObservableList<String> recipeList = FXCollections.observableArrayList(server.getRecipes());
         recipeListView.setItems(recipeObservableList);
 

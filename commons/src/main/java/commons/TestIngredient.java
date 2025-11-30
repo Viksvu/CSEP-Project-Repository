@@ -14,12 +14,22 @@ public class TestIngredient {
 
     private String name;
 
+    /**
+     * No arg constructor for mapping.
+     */
     public TestIngredient() {
         // for object mapper
     }
+
+    /**
+     * constructor for testingredient.
+     *
+     * @param name the name.
+     */
     public TestIngredient(String name) {
         this.name = name;
     }
+
     public Long getId() {
         return id;
     }

@@ -38,7 +38,10 @@ public class ServerUtils {
 
 	private static final String SERVER = "http://localhost:8080/";
 
-	public void getQuotesTheHardWay() throws IOException, URISyntaxException {
+	/**
+     * temp
+     * @return
+     */public void getQuotesTheHardWay() throws IOException, URISyntaxException {
 		var url = new URI("http://localhost:8080/api/quotes").toURL();
 		var is = url.openConnection().getInputStream();
 		var br = new BufferedReader(new InputStreamReader(is));
@@ -47,14 +50,19 @@ public class ServerUtils {
 			System.out.println(line);
 		}
 	}
-
-	public List<Recipes> getRecipes() {
+/**
+	* temp
+     * @return
+     */
+    public List<Recipes> getRecipes() {
 		return ClientBuilder.newClient(new ClientConfig()) //
 				.target(SERVER).path("api/recipe") //
 				.request(APPLICATION_JSON) //
 				.get(new GenericType<List<Recipes>>() {});
-	}
-
+	}/**
+     * temp
+     * @return
+     */
 	public Recipes addRecipe(Recipes recipe) {
 		return ClientBuilder.newClient(new ClientConfig()) //
 				.target(SERVER).path("api/recipe") //
@@ -62,7 +70,10 @@ public class ServerUtils {
 				.post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
 	}
 
-	public boolean isServerAvailable() {
+	/**
+     * temp
+     * @return
+     */public boolean isServerAvailable() {
 		try {
 			ClientBuilder.newClient(new ClientConfig()) //
 					.target(SERVER) //
