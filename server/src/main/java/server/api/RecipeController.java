@@ -1,8 +1,8 @@
 package server.api;
 
+import commons.Recipes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.temp.Recipe;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/api/recipe")
 public class RecipeController {
     // TODO: recipes should be replaced with appropriate JpaRepository Class
-    public List<Recipe> recipes = new ArrayList<>();
+    public List<Recipes> recipes = new ArrayList<>();
 
     /**
      * Get a list of all known recipes
@@ -20,7 +20,7 @@ public class RecipeController {
      * @return list of all recipes
      */
     @GetMapping("/list")
-    public List<Recipe> getAll() {
+    public List<Recipes> getAll() {
         return this.recipes;
     }
 
@@ -32,7 +32,7 @@ public class RecipeController {
      * @return ok if added, bad request if something went wrong
      */
     @PostMapping("/add")
-    public ResponseEntity<Recipe> add(@RequestBody Recipe recipe) {
+    public ResponseEntity<Recipes> add(@RequestBody Recipes recipe) {
         if (recipe == null)
             return ResponseEntity.badRequest().build();
 
@@ -40,10 +40,10 @@ public class RecipeController {
         if (!isValidName(name))
             return ResponseEntity.badRequest().build();
 
-        int id = recipe.getId();
+        long id = recipe.getId();
         if (id == -1) {
             id = getNewID();
-            recipe = new Recipe(id, name);
+            recipe = new Recipes(id, new ArrayList<>(), new ArrayList<>(), name);
         }
 
         this.recipes.add(recipe);
@@ -57,7 +57,7 @@ public class RecipeController {
      * @return ok if deleted, bad request if something went wrong
      */
     @PostMapping("/delete")
-    public ResponseEntity<Recipe> remove(@RequestBody Recipe recipe) {
+    public ResponseEntity<Recipes> remove(@RequestBody Recipes recipe) {
         if (recipe == null)
             return ResponseEntity.badRequest().build();
 
@@ -93,13 +93,13 @@ public class RecipeController {
      *
      * @return new unused recipe id
      */
-    private int getNewID() {
-        List<Recipe> recipes = this.getAll();
+    private long getNewID() {
+        List<Recipes> recipes = this.getAll();
         recipes.sort(new RecipeComparator());
 
         if (recipes.isEmpty()) return 0;
 
-        int id = recipes.getLast().getId();
+        long id = recipes.getLast().getId();
         while (recipeExists(id)) {
             id++;
         }
@@ -123,15 +123,15 @@ public class RecipeController {
      * @param id id of the recipe
      * @return true if already existing
      */
-    private boolean recipeExists(int id) {
+    private boolean recipeExists(long id) {
         return this.recipes.stream()
                 .anyMatch(r -> r.getId() == id);
     }
 
-    static class RecipeComparator implements Comparator<Recipe> {
+    static class RecipeComparator implements Comparator<Recipes> {
         @Override
-        public int compare(Recipe o1, Recipe o2) {
-            return Integer.compare(o1.getId(), o2.getId());
+        public int compare(Recipes o1, Recipes o2) {
+            return Long.compare(o1.getId(), o2.getId());
         }
     }
 }

@@ -1,12 +1,13 @@
 package server.api;
 
+import commons.Recipes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
-import server.temp.Recipe;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,19 +17,19 @@ import static org.springframework.http.HttpStatus.OK;
 public class RecipeControllerTest {
 
     private RecipeController rc;
-    private Recipe r1;
-    private Recipe r2;
+    private Recipes r1;
+    private Recipes r2;
 
     @BeforeEach
     public void setup() {
         rc = new RecipeController();
-        r1 = new Recipe(0, "Spaghetti");
-        r2 = new Recipe(1, "Pasta");
+        r1 = new Recipes(0, new ArrayList<>(), new ArrayList<>(), "Spaghetti");
+        r2 = new Recipes(1, new ArrayList<>(), new ArrayList<>(), "Pasta");
     }
 
     @Test
     public void addNullRecipe() {
-        ResponseEntity<Recipe> actual = rc.add(null);
+        ResponseEntity<Recipes> actual = rc.add(null);
         assertEquals(BAD_REQUEST, actual.getStatusCode());
     }
 
@@ -41,7 +42,7 @@ public class RecipeControllerTest {
 
     @Test
     public void checkAddRecipeNameNull() {
-        ResponseEntity<Recipe> response = rc.add(new Recipe(-1, null));
+        ResponseEntity<Recipes> response = rc.add(new Recipes(-1, null, null, null));
         assertEquals(BAD_REQUEST, response.getStatusCode());
     }
 
@@ -69,10 +70,10 @@ public class RecipeControllerTest {
 
     @Test
     public void checkAutoNewID() {
-        Recipe newRecipe = new Recipe(-1, "Wraps");
+        Recipes newRecipe = new Recipes(-1, new ArrayList<>(), new ArrayList<>(), "Wraps");
 
-        ResponseEntity<Recipe> response = rc.add(newRecipe);
-        Recipe recipe = response.getBody();
+        ResponseEntity<Recipes> response = rc.add(newRecipe);
+        Recipes recipe = response.getBody();
 
         assertEquals(OK, response.getStatusCode());
         assertNotNull(recipe);
@@ -85,10 +86,10 @@ public class RecipeControllerTest {
         rc.add(r2);
         rc.add(r1);
 
-        Recipe newRecipe = new Recipe(-1, "Wraps");
+        Recipes newRecipe = new Recipes(-1, new ArrayList<>(), new ArrayList<>(), "Wraps");
 
-        ResponseEntity<Recipe> response = rc.add(newRecipe);
-        Recipe recipe = response.getBody();
+        ResponseEntity<Recipes> response = rc.add(newRecipe);
+        Recipes recipe = response.getBody();
 
         assertEquals(OK, response.getStatusCode());
         assertNotNull(recipe);
@@ -100,7 +101,7 @@ public class RecipeControllerTest {
     public void checkRemove() {
         rc.add(r1);
 
-        ResponseEntity<Recipe> response = rc.remove(r1);
+        ResponseEntity<Recipes> response = rc.remove(r1);
         assertEquals(OK, response.getStatusCode());
     }
 
@@ -109,7 +110,7 @@ public class RecipeControllerTest {
         rc.add(r1);
         rc.add(r2);
 
-        ResponseEntity<Recipe> response = rc.remove(r1);
+        ResponseEntity<Recipes> response = rc.remove(r1);
         assertEquals(OK, response.getStatusCode());
 
         assertTrue(recipeExists(r2.getId()));
@@ -117,13 +118,13 @@ public class RecipeControllerTest {
 
     @Test
     public void checkRemoveNull() {
-        ResponseEntity<Recipe> response = rc.remove(null);
+        ResponseEntity<Recipes> response = rc.remove(null);
         assertEquals(BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     public void checkRemoveNonExisting() {
-        ResponseEntity<Recipe> response = rc.remove(r1);
+        ResponseEntity<Recipes> response = rc.remove(r1);
         assertEquals(BAD_REQUEST, response.getStatusCode());
     }
 
@@ -171,8 +172,8 @@ public class RecipeControllerTest {
      * @param recipeID input for recipeExists method of RecipeController
      * @return true, if recipe with id exists
      */
-    private boolean recipeExists(int recipeID) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = rc.getClass().getDeclaredMethod("recipeExists", int.class);
+    private boolean recipeExists(long recipeID) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method m = rc.getClass().getDeclaredMethod("recipeExists", long.class);
         m.setAccessible(true);
         return (boolean) m.invoke(rc, recipeID);
     }
