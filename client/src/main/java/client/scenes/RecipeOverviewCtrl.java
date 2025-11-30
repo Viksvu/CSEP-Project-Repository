@@ -58,7 +58,9 @@ public class RecipeOverviewCtrl implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
         ObservableList<Recipes> recipeList = FXCollections.observableArrayList(server.getRecipes());
-        recipeObservableList.add("Test String 1"); // Adding anything to the recipeObservableList will also add to the ListView of Recipes
+        recipeObservableList.add("Test String 1");
+        // Adding anything to the recipeObservableList
+        // will also add to the ListView of Recipes
         recipeListView.setItems(recipeObservableList);
     }
 
@@ -71,8 +73,9 @@ public class RecipeOverviewCtrl implements Initializable {
     public void refresh() {
         splitPaneRefreshButton.setDividerPosition(0, 0.10090361445783134);
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
-        ObservableList<String> recipeObservableList = mainCtrl.getRecipes()
-        //ObservableList<String> recipeList = FXCollections.observableArrayList(server.getRecipes());
+        ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
+        //ObservableList<String> recipeList
+            // = FXCollections.observableArrayList(server.getRecipes());
         recipeListView.setItems(recipeObservableList);
 
     }

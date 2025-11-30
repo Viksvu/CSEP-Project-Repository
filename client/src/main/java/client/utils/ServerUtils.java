@@ -17,18 +17,12 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ConnectException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import commons.Recipes;
 import org.glassfish.jersey.client.ClientConfig;
 
-import commons.Quote;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -38,19 +32,8 @@ public class ServerUtils {
 
 	private static final String SERVER = "http://localhost:8080/";
 
-	/**
-     * temp
-     * @return
-     */public void getQuotesTheHardWay() throws IOException, URISyntaxException {
-		var url = new URI("http://localhost:8080/api/quotes").toURL();
-		var is = url.openConnection().getInputStream();
-		var br = new BufferedReader(new InputStreamReader(is));
-		String line;
-		while ((line = br.readLine()) != null) {
-			System.out.println(line);
-		}
-	}
-/**
+
+    /**
 	* temp
      * @return
      */
@@ -73,7 +56,8 @@ public class ServerUtils {
 	/**
      * temp
      * @return
-     */public boolean isServerAvailable() {
+     */
+    public boolean isServerAvailable() {
 		try {
 			ClientBuilder.newClient(new ClientConfig()) //
 					.target(SERVER) //
