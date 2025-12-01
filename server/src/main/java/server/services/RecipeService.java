@@ -1,6 +1,6 @@
 package server.services;
 
-import commons.Recipes;
+import commons.TestRecipeForDB;
 import server.database.RecipeRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class RecipeService {
      * @param recipe The recipe to be added.
      * @return The saved recipe. Returns the saved recipe with generated ID.
      */
-    public Recipes addRecipe(Recipes recipe) {
+    public TestRecipeForDB addRecipe(TestRecipeForDB recipe) {
         return recipeRepository.save(recipe);
     }
 
@@ -36,7 +36,7 @@ public class RecipeService {
      * Retrieves all recipes from the database.
      * @return An iterable collection of all recipes.
      */
-    public Iterable<Recipes> getAllRecipes() {
+    public Iterable<TestRecipeForDB> getAllRecipes() {
         return recipeRepository.findAll();
     }
 
@@ -46,7 +46,7 @@ public class RecipeService {
      * @return The recipe with the specified ID.
      * @throws RuntimeException if the recipe is not found.
      */
-    public Recipes getRecipeById(Long recipeId) {
+    public TestRecipeForDB getRecipeById(Long recipeId) {
         return recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RuntimeException("Recipe not found"));
     }
