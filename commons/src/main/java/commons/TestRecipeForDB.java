@@ -9,6 +9,7 @@ import jakarta.persistence.ElementCollection;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 @Entity
 public class TestRecipeForDB {
 
