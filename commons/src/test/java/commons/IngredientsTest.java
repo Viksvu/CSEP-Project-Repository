@@ -7,33 +7,33 @@ public class IngredientsTest {
 
     @Test
     void constructorShouldSetAllFields() {
-        Ingredients i = new Ingredients("salt", 2.0, "Salt", "gram");
+        Ingredients i = new Ingredients("salt", 0, "Salt", Unit.GRAM);
 
         assertEquals("salt", i.getName());
-        assertEquals(2.0, i.getQuantity(), 0.00001);
+        assertEquals(0, i.getKcalPer100g());
         assertEquals("Salt", i.getIngredient());
-        assertEquals("gram", i.getUnit());
+        assertEquals(Unit.GRAM, i.getUnit());
     }
 
     @Test
     void settersShouldUpdateFields() {
-        Ingredients i = new Ingredients("pepper", 1.0, "Pepper", "tbsp");
+        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
 
         i.setName("pepper-new");
-        i.setQuantity(3.0);
+        i.setKcalPer100g(200);
         i.setIngredient("Black Pepper");
-        i.setUnit("cup");
+        i.setUnit(Unit.CUP);
 
         assertEquals("pepper-new", i.getName());
-        assertEquals(3.0, i.getQuantity(), 0.00001);
+        assertEquals(200, i.getKcalPer100g());
         assertEquals("Black Pepper", i.getIngredient());
-        assertEquals("cup", i.getUnit());
+        assertEquals(Unit.CUP, i.getUnit());
     }
 
     @Test
     void equalsShouldReturnTrueForSameValues() {
-        Ingredients i1 = new Ingredients("milk", 1.0, "Milk", "liter");
-        Ingredients i2 = new Ingredients("milk", 1.0, "Milk", "liter");
+        Ingredients i1 = new Ingredients("milk", 60, "Milk", Unit.LITER);
+        Ingredients i2 = new Ingredients("milk", 60, "Milk", Unit.LITER);
 
         assertEquals(i1, i2);
         assertEquals(i1.hashCode(), i2.hashCode());
@@ -41,23 +41,23 @@ public class IngredientsTest {
 
     @Test
     void equalsShouldReturnFalseForDifferentValues() {
-        Ingredients i1 = new Ingredients("water", 1.0, "Water", "ml");
-        Ingredients i2 = new Ingredients("water", 2.0, "Water", "ml");
+        Ingredients i1 = new Ingredients("water", 1, "Water", Unit.MILLILITER);
+        Ingredients i2 = new Ingredients("oil", 900, "Oil", Unit.MILLILITER);
 
         assertNotEquals(i1, i2);
     }
 
     @Test
     void equalsShouldReturnFalseWhenComparingWithNullOrDifferentClass() {
-        Ingredients i = new Ingredients("sugar", 1.0, "Sugar", "gram");
+        Ingredients i = new Ingredients("sugar", 387, "Sugar", Unit.GRAM);
 
-        assertFalse(i.equals(null));
-        assertFalse(i.equals("not-an-ingredient"));
+        assertNotNull(i);
+        assertNotEquals("not-an-ingredient", i);
     }
 
     @Test
     void hashCodeShouldBeConsistent() {
-        Ingredients i = new Ingredients("oil", 1.0, "Olive Oil", "ml");
+        Ingredients i = new Ingredients("oil", 884, "Olive Oil", Unit.GRAM);
 
         int h1 = i.hashCode();
         int h2 = i.hashCode();
@@ -73,16 +73,16 @@ public class IngredientsTest {
 
     @Test
     void quantityCanBeZeroOrNegative() {
-        Ingredients zero = new Ingredients("water", 0.0, "Water", "ml");
-        Ingredients negative = new Ingredients("salt", -5.0, "Salt", "gram");
+        Ingredients zero = new Ingredients("water", 0, "Water", Unit.MILLILITER);
+        Ingredients negative = new Ingredients("salt", -5, "Salt", Unit.GRAM);
 
-        assertEquals(0.0, zero.getQuantity(), 0.00001);
-        assertEquals(-5.0, negative.getQuantity(), 0.00001);
+        assertEquals(0, zero.getKcalPer100g());
+        assertEquals(-5, negative.getKcalPer100g());
     }
 
     @Test
     void nameAndIngredientCanBeEmptyString() {
-        Ingredients i = new Ingredients("", 1.0, "", "unit");
+        Ingredients i = new Ingredients("", 0, "", Unit.NULL);
 
         assertEquals("", i.getName());
         assertEquals("", i.getIngredient());
@@ -90,24 +90,24 @@ public class IngredientsTest {
 
     @Test
     void unitCanBeNull() {
-        Ingredients i = new Ingredients("milk", 1.0, "Milk", null);
+        Ingredients i = new Ingredients("milk", 50, "Milk", null);
         assertNull(i.getUnit());
     }
 
     @Test
     void equalsShouldReturnFalseForDifferentIds() {
-        Ingredients i1 = new Ingredients("sugar", 1.0, "Sugar", "gram");
-        Ingredients i2 = new Ingredients("sugar", 1.0, "Sugar", "gram");
+        Ingredients i1 = new Ingredients("sugar", 300, "Sugar", Unit.GRAM);
+        Ingredients i2 = new Ingredients("sugar", 300, "Sugar", Unit.GRAM);
 
-        i1.setName("sugar1"); // slight change to differentiate
+        i1.setName("sugar1");
         assertNotEquals(i1, i2);
     }
 
     @Test
     void hashCodeShouldChangeIfFieldChanges() {
-        Ingredients i = new Ingredients("oil", 1.0, "Olive Oil", "ml");
+        Ingredients i = new Ingredients("oil", 884, "Olive Oil", Unit.MILLILITER);
         int originalHash = i.hashCode();
-        i.setUnit("liter");
+        i.setUnit(Unit.LITER);
         int newHash = i.hashCode();
 
         assertNotEquals(originalHash, newHash);
