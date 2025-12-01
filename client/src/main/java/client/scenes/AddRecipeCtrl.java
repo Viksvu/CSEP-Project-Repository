@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class AddRecipeCtrl implements Initializable {
@@ -48,13 +49,16 @@ public class AddRecipeCtrl implements Initializable {
     }
 
     /**
+     * IMPORTANT: REPLACE THE CURRENT WAY TO CREATE A RECIPE
+     * WITH JUST new Recipe(recipeName); once connection with
+     * database has been established
      * Clicking add should add the entered recipe to the list
      * and the overview should is then shown
      */
     public void add(){
         String recipeName = nameField.getText();
         try{
-            server.addRecipe(new Recipes(recipeName));
+            server.addRecipe(new Recipes(-1, new ArrayList<>(), new ArrayList<>(), recipeName));
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);

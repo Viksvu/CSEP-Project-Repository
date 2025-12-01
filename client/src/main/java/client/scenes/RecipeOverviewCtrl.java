@@ -58,7 +58,8 @@ public class RecipeOverviewCtrl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
-        //ObservableList<Recipes> recipeList = FXCollections.observableArrayList(server.getRecipes());
+        //ObservableList<Recipes> recipeList =
+        // FXCollections.observableArrayList(server.getRecipes());
         //recipeObservableList.add("Test String 1");
         // Adding anything to the recipeObservableList
         // will also add to the ListView of Recipes
