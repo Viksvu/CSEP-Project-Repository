@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import commons.Recipes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
@@ -35,6 +36,9 @@ public class MainCtrl {
     private RemoveRecipeCtrl removeCtrl;
     private Scene remove;
 
+    private AddIngredientCtrl addIngredientCtrl;
+    private Scene addIngredient;
+
     // This observable list stores the names of all the recipes.
     // <String> might want to be replaced by <Recipe> in
     // the future while also then looking at all its usages.
@@ -47,11 +51,13 @@ public class MainCtrl {
      * @param overview The Overview-Scene control
      * @param add The Add-Scene control
      * @param remove The remove scene control
+     * @param addIngredient The add ingredient scene control
      */
     public void initialize(Stage primaryStage
             , Pair<RecipeOverviewCtrl, Parent> overview
             , Pair<AddRecipeCtrl, Parent> add
             , Pair<RemoveRecipeCtrl, Parent> remove
+            , Pair<AddIngredientCtrl, Parent> addIngredient
     ) {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
@@ -62,6 +68,9 @@ public class MainCtrl {
 
         this.removeCtrl = remove.getKey();
         this.remove = new Scene(remove.getValue());
+
+        this.addIngredientCtrl = addIngredient.getKey();
+        this.addIngredient = new Scene(addIngredient.getValue());
         // MIGHT NEED TO BE MODIFIED AFTER CONNECTION TO SERVER
         this.recipeObservableList = FXCollections.observableArrayList();
 
@@ -94,6 +103,16 @@ public class MainCtrl {
         removeCtrl.setup();
         primaryStage.setTitle("Recipes: Removing Recipe");
         primaryStage.setScene(remove);
+    }
+
+    /**
+     * Sets the add ingredient scene as the primary scene
+     * @param recipe to which the ingredient is being added
+     */
+    public void showAddIngredient(Recipes recipe) {
+        primaryStage.setTitle("Adding Ingredient to: "+recipe.toString());
+        primaryStage.setScene(addIngredient);
+        addIngredientCtrl.provideRecipe(recipe);
     }
 
     // EVERYTHING BELOW NEEDS TO BE REPLACED WITH SERVER-LOGIC

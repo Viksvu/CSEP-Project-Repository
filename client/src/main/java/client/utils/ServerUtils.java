@@ -20,6 +20,8 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.net.ConnectException;
 import java.util.List;
 
+import commons.IngredientInRecipe;
+import commons.Ingredients;
 import commons.Recipes;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -63,6 +65,54 @@ public class ServerUtils {
                .target(SERVER).path("api/recipe/delete")
                .request(APPLICATION_JSON)
                .post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
+    }
+
+    public List<Ingredients> getIngredientsFromDatabase() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/ingredient/list")
+                .request(APPLICATION_JSON)
+                .get(new GenericType<List<Ingredients>>(){});
+    }
+    /**
+     * Adds an ingredient to the ingredients database
+     * if it does not already exist
+     * @param ingredient to be added
+     * @return
+     */
+    public Ingredients addIngredientToDatabase(Ingredients ingredient) {
+        if (!getIngredientsFromDatabase().contains(ingredient)){
+            return ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/ingredient/add")
+                    .request(APPLICATION_JSON) //
+                    .post(Entity.entity(ingredient, APPLICATION_JSON),
+                            Ingredients.class);
+        }
+        else return ingredient;
+    }
+
+    /**
+     * Adds an ingredient to the recipe
+     * @param recipe to add the ingredient to
+     * @return a list with all ingredients in a recipe
+     */
+    public List<IngredientInRecipe> getIngredientsInRecipes(Recipes recipe) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/recipeingredient/get?id="+recipe.getId())
+                .request(APPLICATION_JSON)
+                .get(new GenericType<List<IngredientInRecipe>>(){});
+    }
+
+    /**
+     * Adds an ingredient as to a recipe
+     * @param ingredient
+     * @return
+     */
+    public IngredientInRecipe addIngredientToRecipe(Ingredients ingredient, Recipes recipe) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/recipeingredient/add?id="+recipe.getId())
+                .request(APPLICATION_JSON) //
+                .post(Entity.entity(ingredient, APPLICATION_JSON),
+                        IngredientInRecipe.class);
     }
 
 	/**

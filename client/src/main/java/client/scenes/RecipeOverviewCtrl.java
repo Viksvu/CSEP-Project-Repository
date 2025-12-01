@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.IngredientInRecipe;
 import commons.Recipes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,7 +32,7 @@ public class RecipeOverviewCtrl implements Initializable {
 
     //IMPORTANT: Potential change String type to Ingredient.
     @FXML
-    private ListView<String> ingredientListView;
+    private ListView<IngredientInRecipe> ingredientListView;
 
     //IMPORTANT: Type change likely
     // not needed in future but usage will have to be modified
@@ -39,7 +40,7 @@ public class RecipeOverviewCtrl implements Initializable {
     private ListView<String> preparationsListView;
 
     ObservableList<Recipes> data;
-    ObservableList<String> ingredientsData;
+    ObservableList<IngredientInRecipe> ingredientsData;
     ObservableList<String> preparationsData;
 
     //IMPORTANT: Change String to Recipe
@@ -87,7 +88,7 @@ public class RecipeOverviewCtrl implements Initializable {
             // = FXCollections.observableArrayList(server.getRecipes());
         recipeListView.setItems(data);
         ingredientListView.setItems(ingredientsData);
-        ingredientsData.clear();
+
     }
 
     /**
@@ -105,21 +106,34 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
     /**
+     * Adds ab ingredient to the recipe
+     */
+    public void addIngredient() {
+        Recipes selectedRecipe =
+                recipeListView
+                        .getSelectionModel()
+                        .getSelectedItem();
+        mainCtrl.showAddIngredient(selectedRecipe);
+    }
+
+    /**
      * Handles recipes being clicked showing corresponding ingredients and
      * preparations steps
 //     * @param actionEvent
      */
 
     public void recipeClicked(MouseEvent actionEvent) {
-        ingredientsData.clear();
+
         Recipes selectedRecipe =
                 recipeListView
                 .getSelectionModel()
                 .getSelectedItem();
-        ingredientsData.add("You are looking at some ingredients of "
+        if (!ingredientsData.contains(selectedRecipe.getName())) {
+            //ingredientsData.add("You are looking at some ingredients of "
 //                +actionEvent.getPickResult().toString());
 //                +actionEvent.getTarget().toString());
-                +recipeListView.getSelectionModel().getSelectedItem().toString());
+                    //+ recipeListView.getSelectionModel().getSelectedItem().toString());
+        }
 
         updateIngredients(selectedRecipe);
         updatePreparations(selectedRecipe);
@@ -131,7 +145,8 @@ public class RecipeOverviewCtrl implements Initializable {
      *                passed on as a parameter
      */
     public void updateIngredients(Recipes recipes) {
-        return;
+        var ingredients = recipes.getIngredients();
+        ingredientsData = FXCollections.observableArrayList(ingredients);
     }
 
     /**
