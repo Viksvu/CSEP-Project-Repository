@@ -66,6 +66,7 @@ public class RecipeControllerTest {
         assertFalse(recipeExists(r1.getId()));
         rc.add(r1);
         assertTrue(recipeExists(r1.getId()));
+        rc.remove(r1);
     }
 
     @Test
@@ -79,6 +80,8 @@ public class RecipeControllerTest {
         assertNotNull(recipe);
 
         assertNotEquals(newRecipe.getId(), recipe.getId());
+
+        rc.remove(newRecipe);
     }
 
     @Test
@@ -95,6 +98,9 @@ public class RecipeControllerTest {
         assertNotNull(recipe);
 
         assertNotEquals(newRecipe.getId(), recipe.getId());
+
+        rc.remove(r1);
+        rc.remove(r2);
     }
 
     @Test
@@ -114,6 +120,8 @@ public class RecipeControllerTest {
         assertEquals(OK, response.getStatusCode());
 
         assertTrue(recipeExists(r2.getId()));
+
+        rc.remove(r2);
     }
 
     @Test
@@ -126,6 +134,8 @@ public class RecipeControllerTest {
 
         assertTrue(recipeExists(r2.getId()));
         assertFalse(recipeExists(r1.getId()));
+
+        rc.remove(r2);
     }
 
     @Test
@@ -146,6 +156,7 @@ public class RecipeControllerTest {
         ResponseEntity<String> response = rc.rename(0, "Hello World");
         assertEquals(OK, response.getStatusCode());
         assertEquals("Hello World", response.getBody());
+        rc.remove(r1);
     }
 
     @Test
@@ -153,6 +164,7 @@ public class RecipeControllerTest {
         rc.add(r1);
         ResponseEntity<String> response = rc.rename(0, null);
         assertEquals(BAD_REQUEST, response.getStatusCode());
+        rc.remove(r1);
     }
 
     @Test
@@ -160,6 +172,7 @@ public class RecipeControllerTest {
         rc.add(r1);
         ResponseEntity<String> response = rc.rename(0, "");
         assertEquals(BAD_REQUEST, response.getStatusCode());
+        rc.remove(r1);
     }
 
     @Test

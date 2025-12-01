@@ -3,6 +3,7 @@ package server.api;
 import commons.Recipes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.services.TempRecipeService;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/recipe")
 public class RecipeController {
     // TODO: recipes should be replaced with appropriate JpaRepository Class
-    public List<Recipes> recipes = new ArrayList<>();
+    public TempRecipeService recipes = TempRecipeService.get();
 
     /**
      * Get a list of all known recipes
@@ -21,7 +22,7 @@ public class RecipeController {
      */
     @GetMapping("/list")
     public List<Recipes> getAll() {
-        return this.recipes;
+        return recipes.getAllRecipes();
     }
 
     /**
@@ -43,11 +44,13 @@ public class RecipeController {
         long id = recipe.getId();
         if (id == -1) {
             id = getNewID();
-            recipe = new Recipes(id, new ArrayList<>(), new ArrayList<>(), name);
+            recipe = new Recipes(id,
+                    new ArrayList<>(),
+                    new ArrayList<>(),
+                    name);
         }
 
-        this.recipes.add(recipe);
-        return ResponseEntity.ok(recipe);
+        return ResponseEntity.ok(this.recipes.addRecipe(recipe));
     }
 
     /**
@@ -64,7 +67,7 @@ public class RecipeController {
         if (!recipeExists(recipe.getId()))
             return ResponseEntity.badRequest().build();
 
-        this.recipes.removeIf(r -> r.getId() == recipe.getId());
+        this.recipes.deleteRecipe(recipe.getId());
         return ResponseEntity.ok(recipe);
     }
 
@@ -81,7 +84,7 @@ public class RecipeController {
         if (!recipeExists(id) || !isValidName(name))
             return ResponseEntity.badRequest().build();
 
-        this.recipes.stream()
+        this.recipes.getAllRecipes().stream()
                 .filter(r -> r.getId() == id)
                 .forEach(r -> r.setName(name));
 
@@ -124,8 +127,7 @@ public class RecipeController {
      * @return true if already existing
      */
     private boolean recipeExists(long id) {
-        return this.recipes.stream()
-                .anyMatch(r -> r.getId() == id);
+        return this.recipes.getRecipeById(id) != null;
     }
 
     static class RecipeComparator implements Comparator<Recipes> {
