@@ -6,6 +6,7 @@ package server.temp;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class Recipe {
     private List<Ingredient> ingredients = new ArrayList<>();
     private String name;
