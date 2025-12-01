@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,6 +39,8 @@ public class RecipeOverviewCtrl implements Initializable {
     private ListView<String> preparationsListView;
 
     ObservableList<Recipes> data;
+    ObservableList<String> ingredientsData;
+    ObservableList<String> preparationsData;
 
     //IMPORTANT: Change String to Recipe
     // ObservableList<String> recipeObservableList;
@@ -53,6 +56,7 @@ public class RecipeOverviewCtrl implements Initializable {
         //this.recipeObservableList = FXCollections.observableArrayList();
         //splitPaneRefreshButton = new SplitPane();
         this.server = server;
+        this.ingredientsData = FXCollections.observableArrayList();
     }
 
     @Override
@@ -64,10 +68,11 @@ public class RecipeOverviewCtrl implements Initializable {
         // Adding anything to the recipeObservableList
         // will also add to the ListView of Recipes
         //recipeListView.setItems(recipeObservableList);
+        //recipeListView.setEditable(true);
+
     }
 
-    //IMPORTANT: Must be updated once ServerUtils are prepared.
-    // Currently, it only places all the split panes at the desired locations
+
 
     /**
      * Refreshes the split panes and the content in the ListViews.
@@ -77,10 +82,12 @@ public class RecipeOverviewCtrl implements Initializable {
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
         var serverRecipes = server.getRecipes();
         data = FXCollections.observableArrayList(serverRecipes);
+
         //ObservableList<String> recipeList
             // = FXCollections.observableArrayList(server.getRecipes());
         recipeListView.setItems(data);
-
+        ingredientListView.setItems(ingredientsData);
+        ingredientsData.clear();
     }
 
     /**
@@ -97,5 +104,43 @@ public class RecipeOverviewCtrl implements Initializable {
         mainCtrl.showRemove();
     }
 
+    /**
+     * Handles recipes being clicked showing corresponding ingredients and
+     * preparations steps
+//     * @param actionEvent
+     */
+
+    public void recipeClicked(MouseEvent actionEvent) {
+        ingredientsData.clear();
+        Recipes selectedRecipe =
+                recipeListView
+                .getSelectionModel()
+                .getSelectedItem();
+        ingredientsData.add("You are looking at some ingredients of "
+//                +actionEvent.getPickResult().toString());
+//                +actionEvent.getTarget().toString());
+                +recipeListView.getSelectionModel().getSelectedItem().toString());
+
+        updateIngredients(selectedRecipe);
+        updatePreparations(selectedRecipe);
+    }
+
+    /**
+     * Updates the ingredients section
+     * @param recipes the selected recipe will be
+     *                passed on as a parameter
+     */
+    public void updateIngredients(Recipes recipes) {
+        return;
+    }
+
+    /**
+     * Updates the preparation steps section
+     * @param recipes the selected recipe will e
+     *                passed on as a parameter
+     */
+    public void updatePreparations(Recipes recipes) {
+        return;
+    }
 
 }
