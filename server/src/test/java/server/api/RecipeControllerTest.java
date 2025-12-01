@@ -117,6 +117,18 @@ public class RecipeControllerTest {
     }
 
     @Test
+    public void checkRemoveWithMultipleEntries2() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        rc.add(r1);
+        rc.add(r2);
+
+        ResponseEntity<Recipes> response = rc.remove(r1);
+        assertEquals(OK, response.getStatusCode());
+
+        assertTrue(recipeExists(r2.getId()));
+        assertFalse(recipeExists(r1.getId()));
+    }
+
+    @Test
     public void checkRemoveNull() {
         ResponseEntity<Recipes> response = rc.remove(null);
         assertEquals(BAD_REQUEST, response.getStatusCode());
