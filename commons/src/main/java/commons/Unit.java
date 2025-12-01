@@ -31,6 +31,24 @@ public enum Unit {
             return "pinch/s";
         }
     },
+    CUP{
+        @Override
+        public String toString() {
+            return "cup/s";
+        }
+    },
+    MILLILITER{
+        @Override
+        public String toString() {
+            return "milliliter/s";
+        }
+    },
+    TEASPOON{
+        @Override
+        public String toString() {
+            return "teaspoon/s";
+        }
+    },
     PIECE{
         @Override
         public String toString() {

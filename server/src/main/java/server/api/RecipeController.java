@@ -107,7 +107,7 @@ public class RecipeController {
             id++;
         }
 
-        return recipes.getLast().getId() + 1;
+        return id;
     }
 
     /**
