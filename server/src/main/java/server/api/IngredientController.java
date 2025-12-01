@@ -85,7 +85,7 @@ public class IngredientController {
             id++;
         }
 
-        return ingredients.getLast().getId() + 1;
+        return id;
     }
 
     /**

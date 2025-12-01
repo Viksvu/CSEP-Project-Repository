@@ -24,6 +24,12 @@ public class IngredientInRecipe {
     @JoinColumn(name = "recipe_id")
     private Recipes recipes;
 
+    /**
+     * No-args constructor for JPA
+     */
+    public IngredientInRecipe() {}
+
+
     public Recipes getRecipes() {
         return recipes;
     }
