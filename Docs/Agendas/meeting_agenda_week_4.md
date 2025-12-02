@@ -8,11 +8,11 @@
 | Attendees : | Kedar Joshi, Tushit Jain, Marc De Wilt, Yanick Rietveld |
 
 - Opening by chair. (1 min)
-- Check-in: How is everyone doing? (1 min)
+- Check-in-How is everyone doing? (1 min)
 - Approval of the agenda-Does anyone have any additions? (1 min)
-- Approval of last minutes- Did everyone read last week’s minutes? Does anyone disagree or might want to add on? (1 min)
+- Approval of last minutes-Did everyone read last week’s minutes? Does anyone disagree or might want to add on? (1 min)
 - Announcements by the TA. (2 min)
-- Demonstrate current product to TA and gather feedback .(2 min)
+- Demonstrate current product to TA and gather feedback. (2 min)
 
 - Talking Points :
     1. Has everyone completed their assignments? Are there any issues from this week's milestone that have not been completed? What can be improved? (3 min)
@@ -29,4 +29,4 @@
 - Feedback round: Quickly discuss what went well and what could be improved for following weeks workflow/meeting planning. (2 min)
 - Open floor/final questions: Give attendees one last chance to bring up anything not covered. (1 min)
 - Confirm next meeting: State the date and time for the next meeting and the chair/minute taker of the meeting on 19-12-2025. (1 min)
-- Closure (1 min)
+- Closure. (1 min)
