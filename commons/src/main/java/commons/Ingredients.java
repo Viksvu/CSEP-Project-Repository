@@ -39,6 +39,16 @@ public class Ingredients {
         this.unit = unit;
     }
 
+    /**
+     * this is a constructor
+     * @param name the name
+     * @param ingredient the ingredient
+     */
+    public Ingredients(String name, String ingredient) {
+        this.name = name;
+        this.ingredient = ingredient;
+    }
+
     public Long getId() {
         return id;
     }
