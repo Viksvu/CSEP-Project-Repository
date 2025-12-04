@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,6 +15,8 @@ public class RecipeOverviewCtrl implements Initializable {
 
     private final MainCtrl mainCtrl;
 
+    @FXML
+    public TextField searchField;
 
     @FXML
     private SplitPane splitPaneRefreshButton;
@@ -85,6 +88,15 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void removeRecipe() {
         mainCtrl.showRemove();
+    }
+
+    /**
+     * The button search has been clicked
+     */
+    public void searchInit(){
+        String text=searchField.getText();
+        mainCtrl.applySearchFilter(text);
+        mainCtrl.applySorting(text);
     }
 
 
