@@ -3,6 +3,7 @@ package server.api;
 import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.Recipes;
+import commons.Unit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ class IngredientInRecipeControllerTest {
 
         ic = new IngredientInRecipeController();
 
-        i = new Ingredients("Tomato", 1, "Tomato", "Piece");
+        i = new Ingredients("Tomato", 1, "Tomato", Unit.PIECE);
 
         iR = new IngredientInRecipe();
         iR.setRecipes(r1);
