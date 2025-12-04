@@ -123,7 +123,8 @@ public class ServerUtils {
      * @param recipe
      * @return
      */
-    public IngredientInRecipe removeIngredientFromRecipe(IngredientInRecipe ingredient, Recipes recipe) {
+    public IngredientInRecipe removeIngredientFromRecipe(IngredientInRecipe ingredient,
+                                                         Recipes recipe) {
         long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).queryParam("id", recipeId)
