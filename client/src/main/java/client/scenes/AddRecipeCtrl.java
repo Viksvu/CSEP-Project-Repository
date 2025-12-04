@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 
 import java.net.URL;
@@ -25,6 +26,7 @@ public class AddRecipeCtrl implements Initializable {
 
     /**
      * Constructor
+     *
      * @param mainCtrl the controllers of all the panes store
      *                 the main controller as an object
      */
@@ -43,7 +45,7 @@ public class AddRecipeCtrl implements Initializable {
      * Clicking cancel should clear whatever the user entered in
      * the text field and then show the overview
      */
-    public void cancel(){
+    public void cancel() {
         nameField.clear();
         mainCtrl.showOverview();
     }
@@ -55,9 +57,9 @@ public class AddRecipeCtrl implements Initializable {
      * Clicking add should add the entered recipe to the list
      * and the overview should is then shown
      */
-    public void add(){
+    public void add() {
         String recipeName = nameField.getText();
-        try{
+        try {
             server.addRecipe(new Recipes(-1, new ArrayList<>(), new ArrayList<>(), recipeName));
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
@@ -67,5 +69,23 @@ public class AddRecipeCtrl implements Initializable {
             return;
         }
         mainCtrl.showOverview();
+    }
+
+    /**
+     * In case enter key is pressed assume that user wants to add
+     * In case escape key is pressed assume that use wants to cancel
+     * @param e the pressed key
+     */
+    public void keyPressed(KeyEvent e) {
+        switch (e.getCode()) {
+            case ENTER:
+                add();
+                break;
+            case ESCAPE:
+                cancel();
+                break;
+            default:
+                break;
+        }
     }
 }

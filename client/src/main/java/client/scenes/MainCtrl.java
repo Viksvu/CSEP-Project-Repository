@@ -85,6 +85,7 @@ public class MainCtrl {
         primaryStage.setTitle("Recipes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();
+
     }
 
     /**
@@ -93,7 +94,7 @@ public class MainCtrl {
     public void showAdd() {
         primaryStage.setTitle("Recipes: Adding Recipe");
         primaryStage.setScene(add);
-//        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
+        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
     }
 
     /**
@@ -103,6 +104,7 @@ public class MainCtrl {
         removeCtrl.setup();
         primaryStage.setTitle("Recipes: Removing Recipe");
         primaryStage.setScene(remove);
+        remove.setOnKeyPressed(e -> removeCtrl.keyPressed(e));
     }
 
     /**
@@ -115,13 +117,15 @@ public class MainCtrl {
         addIngredientCtrl.provideRecipe(recipe);
     }
 
-    // EVERYTHING BELOW NEEDS TO BE REPLACED WITH SERVER-LOGIC
+    // EVERYTHING BELOW HAS BEEN REPLACED WITH SERVER-LOGIC
+    // IT IS ONLY THERE IN CASE EVER NEEDED FOR DEBUGGING
 
     /**
      * NEEDS TO BE MODIFIED WITH SERVER-LOGIC.
      * Adds recipe to the ObservableList
      * @param recipeName to add
      */
+    @Deprecated
     public void addRecipeToList(String recipeName) {
         recipeObservableList.add(recipeName);
     }
@@ -130,6 +134,7 @@ public class MainCtrl {
      * Gets the ObservableList
      * @return the list of recipes stored
      */
+    @Deprecated
     public ObservableList<String> getRecipes() {
         return recipeObservableList;
     }
@@ -139,6 +144,7 @@ public class MainCtrl {
      * Removes recipe from ObservableList
      * @param recipeName - to remove
      */
+    @Deprecated
     public void removeRecipeFromList(String recipeName) {
         recipeObservableList.remove(recipeName);
     }

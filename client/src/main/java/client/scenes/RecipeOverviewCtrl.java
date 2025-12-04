@@ -1,5 +1,7 @@
 package client.scenes;
 
+import client.EditButton;
+import client.EditButtonOptions;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.IngredientInRecipe;
@@ -8,43 +10,51 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class RecipeOverviewCtrl implements Initializable {
 
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
-
+    ObservableList<Recipes> data;
+    ObservableList<IngredientInRecipe> ingredientsData;
+    ObservableList<String> preparationsData;
+    // Button someButton;
+    ArrayList<Button> ingredientButtons;
     @FXML
     private SplitPane splitPaneRefreshButton;
-
     @FXML
     private SplitPane splitNameDetails;
-
     //IMPORTANT: Change String type to Recipe.
     @FXML
     private ListView<Recipes> recipeListView;
-
     //IMPORTANT: Potential change String type to Ingredient.
     @FXML
     private ListView<IngredientInRecipe> ingredientListView;
-
     //IMPORTANT: Type change likely
     // not needed in future but usage will have to be modified
     @FXML
     private ListView<String> preparationsListView;
+    @FXML
+    private AnchorPane ingredientsPane;
 
-    ObservableList<Recipes> data;
-    ObservableList<IngredientInRecipe> ingredientsData;
-    ObservableList<String> preparationsData;
-
+    @FXML
+    private Button addIngredientButton;
     //IMPORTANT: Change String to Recipe
     // ObservableList<String> recipeObservableList;
+    @FXML
+    private GridPane ingredientsGrid;
+
+    private Recipes lastSelectedRecipe;
 
     /**
      * Recipe overview controller constructor.
@@ -58,6 +68,7 @@ public class RecipeOverviewCtrl implements Initializable {
         //splitPaneRefreshButton = new SplitPane();
         this.server = server;
         this.ingredientsData = FXCollections.observableArrayList();
+        ingredientButtons = new ArrayList<>();
     }
 
     @Override
@@ -73,8 +84,6 @@ public class RecipeOverviewCtrl implements Initializable {
 
     }
 
-
-
     /**
      * Refreshes the split panes and the content in the ListViews.
      */
@@ -83,12 +92,57 @@ public class RecipeOverviewCtrl implements Initializable {
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
         var serverRecipes = server.getRecipes();
         data = FXCollections.observableArrayList(serverRecipes);
+        if (getSelectedRecipe()!=null){
+            lastSelectedRecipe = getSelectedRecipe();
+        }
 
         //ObservableList<String> recipeList
-            // = FXCollections.observableArrayList(server.getRecipes());
+        // = FXCollections.observableArrayList(server.getRecipes());
+
+        try {
+            if (lastSelectedRecipe == null) {
+                updateIngredients(getSelectedRecipe());
+                updatePreparations(getSelectedRecipe());
+            }
+            else {
+                updateIngredients(lastSelectedRecipe);
+                updatePreparations(lastSelectedRecipe);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         recipeListView.setItems(data);
         ingredientListView.setItems(ingredientsData);
+        addEditButtonToIngredient();
 
+    }
+
+    /**
+     * Adds an edit button next to the name of the ingredient
+     */
+    public void addEditButtonToIngredient() {
+        ingredientsPane.getChildren().clear();
+        ingredientsPane.getChildren().addAll(ingredientListView);
+        ingredientsPane.getChildren().add(addIngredientButton);
+        if (!ingredientsData.isEmpty()) {
+            int numIngredients = ingredientsData.size();
+            for (int i = 0; i < numIngredients; i++) {
+                EditButton editButton =
+                        new EditButton(
+                                ingredientsData.get(i),
+                                "delete",
+                                i,
+                                ingredientListView,
+                                server,
+                                lastSelectedRecipe,
+                                this,
+                                EditButtonOptions.REMOVE_INGREDIENT
+                        );
+                // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
+
+                ingredientsPane.getChildren().add(editButton);
+            }
+        }
     }
 
     /**
@@ -117,40 +171,45 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
     /**
+     * Checks which Recipe from the ListView has been
+     * selected.
+     *
+     * @return a recipe object
+     */
+    public Recipes getSelectedRecipe() {
+        Recipes ret = recipeListView
+                .getSelectionModel()
+                .getSelectedItem();
+        if (ret!=null) {
+            this.lastSelectedRecipe = ret;
+        }
+        return ret;
+    }
+
+    /**
      * Handles recipes being clicked showing corresponding ingredients and
      * preparations steps
-//     * @param actionEvent
+     * //     * @param actionEvent
      */
 
     public void recipeClicked(MouseEvent actionEvent) {
-
-        Recipes selectedRecipe =
-                recipeListView
-                .getSelectionModel()
-                .getSelectedItem();
-        if (!ingredientsData.contains(selectedRecipe.getName())) {
-            //ingredientsData.add("You are looking at some ingredients of "
-//                +actionEvent.getPickResult().toString());
-//                +actionEvent.getTarget().toString());
-                    //+ recipeListView.getSelectionModel().getSelectedItem().toString());
-        }
-
-        updateIngredients(selectedRecipe);
-        updatePreparations(selectedRecipe);
+        refresh();
     }
 
     /**
      * Updates the ingredients section
+     *
      * @param recipes the selected recipe will be
      *                passed on as a parameter
      */
     public void updateIngredients(Recipes recipes) {
-        var ingredients = recipes.getIngredients();
+        var ingredients = server.getIngredientsInRecipes(recipes);
         ingredientsData = FXCollections.observableArrayList(ingredients);
     }
 
     /**
      * Updates the preparation steps section
+     *
      * @param recipes the selected recipe will e
      *                passed on as a parameter
      */

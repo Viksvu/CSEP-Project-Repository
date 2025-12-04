@@ -97,7 +97,7 @@ public class ServerUtils {
      */
     public List<IngredientInRecipe> getIngredientsInRecipes(Recipes recipe) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/recipeingredient/get?id="+recipe.getId())
+                .target(SERVER).queryParam("id", recipe.getId()).path("api/recipeingredient/get")
                 .request(APPLICATION_JSON)
                 .get(new GenericType<List<IngredientInRecipe>>(){});
     }
@@ -107,10 +107,28 @@ public class ServerUtils {
      * @param ingredient
      * @return
      */
-    public IngredientInRecipe addIngredientToRecipe(Ingredients ingredient, Recipes recipe) {
+    public IngredientInRecipe addIngredientToRecipe(IngredientInRecipe ingredient, Recipes recipe) {
+        long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/recipeingredient/add?id="+recipe.getId())
-                .request(APPLICATION_JSON) //
+                .target(SERVER).queryParam("id", recipeId)
+                .path("api/recipeingredient/add")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(ingredient, APPLICATION_JSON),
+                        IngredientInRecipe.class);
+    }
+
+    /**
+     * Deletes an ingredient from a recipe
+     * @param ingredient
+     * @param recipe
+     * @return
+     */
+    public IngredientInRecipe removeIngredientFromRecipe(IngredientInRecipe ingredient, Recipes recipe) {
+        long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).queryParam("id", recipeId)
+                .path("api/recipeingredient/delete")
+                .request(APPLICATION_JSON)
                 .post(Entity.entity(ingredient, APPLICATION_JSON),
                         IngredientInRecipe.class);
     }

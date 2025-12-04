@@ -77,15 +77,20 @@ public class AddIngredientCtrl implements Initializable {
     public void add() {
         String name = nameField.getText();
         String quantity = null;
-        double quantityDouble;
+        int quantityInt;
         try {
             quantity = quantityField.getText();
-            quantityDouble = Double.parseDouble(quantity);
+            quantityInt = Integer.parseInt(quantity);
             Unit unit = unitBox.getSelectionModel().getSelectedItem();
             Ingredients ingredient = new Ingredients(name, 0,
                                                     name, unit);
             server.addIngredientToDatabase(ingredient);
-            server.addIngredientToRecipe(ingredient, recipe);
+            IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
+            ingredientInRecipe.setTempIngredient(ingredient);
+            ingredientInRecipe.setRecipes(recipe);
+            ingredientInRecipe.setUnit(unit);
+            ingredientInRecipe.setQuantity(quantityInt);
+            server.addIngredientToRecipe(ingredientInRecipe, recipe);
             mainCtrl.showOverview();
         } catch (Exception e) {
             //errorLabel.setText("Quantity must be a valid number");

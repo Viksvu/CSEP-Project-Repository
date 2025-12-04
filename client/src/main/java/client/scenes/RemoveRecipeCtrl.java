@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -63,6 +64,21 @@ public class RemoveRecipeCtrl implements Initializable {
             setup();
         } catch (NullPointerException e) {
             mainCtrl.showOverview();
+        }
+    }
+
+    /**
+     * Pressing enter key should remove recipe
+     * Pressing escape key should cancel
+     * @param e
+     */
+    public void keyPressed(KeyEvent e) {
+        switch (e.getCode()){
+            case ENTER:
+                confirmRemoveRecipe();
+                break;
+            case ESCAPE:
+                cancel();
         }
     }
 }
