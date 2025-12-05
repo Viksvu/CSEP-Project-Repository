@@ -16,6 +16,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,6 +31,11 @@ public class RecipeOverviewCtrl implements Initializable {
     ObservableList<String> preparationsData;
     // Button someButton;
     ArrayList<Button> ingredientButtons;
+
+    @FXML
+    public TextField searchField;
+
+
     @FXML
     private SplitPane splitPaneRefreshButton;
     @FXML
@@ -189,7 +195,7 @@ public class RecipeOverviewCtrl implements Initializable {
     /**
      * Handles recipes being clicked showing corresponding ingredients and
      * preparations steps
-     * //     * @param actionEvent
+     *  @param actionEvent the event.
      */
 
     public void recipeClicked(MouseEvent actionEvent) {
@@ -216,5 +222,15 @@ public class RecipeOverviewCtrl implements Initializable {
     public void updatePreparations(Recipes recipes) {
         return;
     }
+    /**
+     *
+     * The button search has been clicked
+     */
+    public void searchInit(){
+        String text=searchField.getText();
+        mainCtrl.applySearchFilter(text);
+        mainCtrl.applySorting(text);
+    }
+    
 
 }
