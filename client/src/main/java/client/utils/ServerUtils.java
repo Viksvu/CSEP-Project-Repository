@@ -17,17 +17,14 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ConnectException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
+import commons.IngredientInRecipe;
+import commons.Ingredients;
+import commons.Recipes;
 import org.glassfish.jersey.client.ClientConfig;
 
-import commons.Quote;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -35,57 +32,123 @@ import jakarta.ws.rs.core.GenericType;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+	private static final String SERVER = "http://localhost:8080/";
+
 
     /**
+	* temp
+     * @return
+     */
+    public List<Recipes> getRecipes() {
+		return ClientBuilder.newClient(new ClientConfig()) //
+				.target(SERVER).path("api/recipe/list") //
+				.request(APPLICATION_JSON) //
+				.get(new GenericType<List<Recipes>>() {});
+	}/**
      * temp
      * @return
      */
-    public void getQuotesTheHardWay() throws IOException, URISyntaxException {
-        var url = new URI("http://localhost:8080/api/quotes").toURL();
-        var is = url.openConnection().getInputStream();
-        var br = new BufferedReader(new InputStreamReader(is));
-        String line;
-        while ((line = br.readLine()) != null) {
-            System.out.println(line);
+	public Recipes addRecipe(Recipes recipe) {
+		return ClientBuilder.newClient(new ClientConfig()) //
+				.target(SERVER).path("api/recipe/add") //
+				.request(APPLICATION_JSON) //
+				.post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
+	}
+
+    /**
+     * temp
+     * @param recipe
+     * @return
+     */
+    public Recipes removeRecipe(Recipes recipe) {
+       return ClientBuilder.newClient(new ClientConfig())
+               .target(SERVER).path("api/recipe/delete")
+               .request(APPLICATION_JSON)
+               .post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
+    }
+
+    public List<Ingredients> getIngredientsFromDatabase() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/ingredient/list")
+                .request(APPLICATION_JSON)
+                .get(new GenericType<List<Ingredients>>(){});
+    }
+    /**
+     * Adds an ingredient to the ingredients database
+     * if it does not already exist
+     * @param ingredient to be added
+     * @return
+     */
+    public Ingredients addIngredientToDatabase(Ingredients ingredient) {
+        if (!getIngredientsFromDatabase().contains(ingredient)){
+            return ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/ingredient/add")
+                    .request(APPLICATION_JSON) //
+                    .post(Entity.entity(ingredient, APPLICATION_JSON),
+                            Ingredients.class);
         }
-    }
-    /**
-     * temp
-     * @return
-     */
-    public List<Quote> getQuotes() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
-                .request(APPLICATION_JSON) //
-                .get(new GenericType<List<Quote>>() {});
-    }
-    /**
-     * temp
-     * @return
-     */
-    public Quote addQuote(Quote quote) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
-                .request(APPLICATION_JSON) //
-                .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
+        else return ingredient;
     }
 
     /**
+     * Adds an ingredient to the recipe
+     * @param recipe to add the ingredient to
+     * @return a list with all ingredients in a recipe
+     */
+    public List<IngredientInRecipe> getIngredientsInRecipes(Recipes recipe) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).queryParam("id", recipe.getId()).path("api/recipeingredient/get")
+                .request(APPLICATION_JSON)
+                .get(new GenericType<List<IngredientInRecipe>>(){});
+    }
+
+    /**
+     * Adds an ingredient as to a recipe
+     * @param ingredient
+     * @return
+     */
+    public IngredientInRecipe addIngredientToRecipe(IngredientInRecipe ingredient, Recipes recipe) {
+        long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).queryParam("id", recipeId)
+                .path("api/recipeingredient/add")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(ingredient, APPLICATION_JSON),
+                        IngredientInRecipe.class);
+    }
+
+    /**
+     * Deletes an ingredient from a recipe
+     * @param ingredient
+     * @param recipe
+     * @return
+     */
+    public IngredientInRecipe removeIngredientFromRecipe(IngredientInRecipe ingredient,
+                                                         Recipes recipe) {
+        long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).queryParam("id", recipeId)
+                .path("api/recipeingredient/delete")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(ingredient, APPLICATION_JSON),
+                        IngredientInRecipe.class);
+    }
+
+	/**
      * temp
      * @return
      */
     public boolean isServerAvailable() {
-        try {
-            ClientBuilder.newClient(new ClientConfig()) //
-                    .target(SERVER) //
-                    .request(APPLICATION_JSON) //
-                    .get();
-        } catch (ProcessingException e) {
-            if (e.getCause() instanceof ConnectException) {
-                return false;
-            }
-        }
-        return true;
-    }
+		try {
+			ClientBuilder.newClient(new ClientConfig()) //
+					.target(SERVER) //
+					.request(APPLICATION_JSON) //
+					.get();
+		} catch (ProcessingException e) {
+			if (e.getCause() instanceof ConnectException) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

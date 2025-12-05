@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import commons.Recipes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -46,6 +47,9 @@ public class MainCtrl {
     private RemoveRecipeCtrl removeCtrl;
     private Scene remove;
 
+    private AddIngredientCtrl addIngredientCtrl;
+    private Scene addIngredient;
+
     // This observable list stores the names of all the recipes.
     // <String> might want to be replaced by <Recipe> in
     // the future while also then looking at all its usages.
@@ -64,11 +68,13 @@ public class MainCtrl {
      * @param overview The Overview-Scene control
      * @param add The Add-Scene control
      * @param remove The remove scene control
+     * @param addIngredient The add ingredient scene control
      */
     public void initialize(Stage primaryStage
             , Pair<RecipeOverviewCtrl, Parent> overview
             , Pair<AddRecipeCtrl, Parent> add
             , Pair<RemoveRecipeCtrl, Parent> remove
+            , Pair<AddIngredientCtrl, Parent> addIngredient
     ) {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
@@ -83,6 +89,9 @@ public class MainCtrl {
 
         this.removeCtrl = remove.getKey();
         this.remove = new Scene(remove.getValue());
+
+        this.addIngredientCtrl = addIngredient.getKey();
+        this.addIngredient = new Scene(addIngredient.getValue());
         // MIGHT NEED TO BE MODIFIED AFTER CONNECTION TO SERVER
         this.recipeObservableList = FXCollections.observableArrayList();
 
@@ -106,6 +115,7 @@ public class MainCtrl {
         primaryStage.setTitle("Recipes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();
+
     }
 
     /**
@@ -114,7 +124,7 @@ public class MainCtrl {
     public void showAdd() {
         primaryStage.setTitle("Recipes: Adding Recipe");
         primaryStage.setScene(add);
-//        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
+        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
     }
 
     /**
@@ -124,15 +134,28 @@ public class MainCtrl {
         removeCtrl.setup();
         primaryStage.setTitle("Recipes: Removing Recipe");
         primaryStage.setScene(remove);
+        remove.setOnKeyPressed(e -> removeCtrl.keyPressed(e));
     }
 
-    // EVERYTHING BELOW NEEDS TO BE REPLACED WITH SERVER-LOGIC
+    /**
+     * Sets the add ingredient scene as the primary scene
+     * @param recipe to which the ingredient is being added
+     */
+    public void showAddIngredient(Recipes recipe) {
+        primaryStage.setTitle("Adding Ingredient to: "+recipe.toString());
+        primaryStage.setScene(addIngredient);
+        addIngredientCtrl.provideRecipe(recipe);
+    }
+
+    // EVERYTHING BELOW HAS BEEN REPLACED WITH SERVER-LOGIC
+    // IT IS ONLY THERE IN CASE EVER NEEDED FOR DEBUGGING
 
     /**
      * NEEDS TO BE MODIFIED WITH SERVER-LOGIC.
      * Adds recipe to the ObservableList
      * @param recipeName to add
      */
+    @Deprecated
     public void addRecipeToList(String recipeName) {
         recipeObservableList.add(recipeName);
     }
@@ -141,6 +164,7 @@ public class MainCtrl {
      * Gets the ObservableList
      * @return the list of recipes stored
      */
+    @Deprecated
     public ObservableList<String> getRecipes() {
         return recipeObservableList;
     }
@@ -150,6 +174,7 @@ public class MainCtrl {
      * Removes recipe from ObservableList
      * @param recipeName - to remove
      */
+    @Deprecated
     public void removeRecipeFromList(String recipeName) {
         recipeObservableList.remove(recipeName);
     }

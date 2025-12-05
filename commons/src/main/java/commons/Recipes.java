@@ -129,4 +129,9 @@ public class Recipes {
     public int hashCode() {
         return Objects.hash(ingredients, preparationSteps, name);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

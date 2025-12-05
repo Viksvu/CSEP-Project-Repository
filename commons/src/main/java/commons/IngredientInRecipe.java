@@ -82,4 +82,17 @@ public class IngredientInRecipe {
     public int hashCode() {
         return Objects.hash(tempIngredient, quantity, unit);
     }
+
+    //Need to decide if only ingredient name should be shown or also quantity
+    @Override
+    public String toString() {
+        if (getQuantity()==1) {
+            return getTempIngredient().getName()
+                    + " (" + getQuantity() + " " + getUnit()
+                    .toString().replaceAll("/s", "") + ")";
+        }
+        return getTempIngredient().getName()
+                + " (" + getQuantity() + " " + getUnit()
+                .toString().replaceAll("/", "") + ")";
+    }
 }

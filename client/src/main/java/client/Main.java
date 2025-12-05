@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.*;
+import client.utils.ServerUtils;
 import com.google.inject.Injector;
 
 import javafx.application.Application;
@@ -46,15 +47,13 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-//      The below code will be required
-//      once connection with the server is prepared.
-//		var serverUtils = INJECTOR.getInstance(ServerUtils.class);
-//		if (!serverUtils.isServerAvailable()) {
-//			var msg = "Server needs to be started before the client"
-//		+",but it does not seem to be available. Shutting down.";
-//			System.err.println(msg);
-//			return;
-//		}
+		var serverUtils = INJECTOR.getInstance(ServerUtils.class);
+		if (!serverUtils.isServerAvailable()) {
+			var msg = "Server needs to be started before the client"
+		+",but it does not seem to be available. Shutting down.";
+			System.err.println(msg);
+			return;
+		}
 
 		var overview = FXML.load
                 (RecipeOverviewCtrl.class,
@@ -65,8 +64,17 @@ public class Main extends Application {
         var remove = FXML.load
                 (RemoveRecipeCtrl.class,
                         "client", "scenes", "RemoveRecipe.fxml");
+        var addIngredient = FXML.load
+                (AddIngredientCtrl.class,
+                        "client", "scenes", "AddIngredient.fxml");
 
 		var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-		mainCtrl.initialize(primaryStage, overview, add, remove);
+		mainCtrl.initialize(
+                primaryStage,
+                overview,
+                add,
+                remove,
+                addIngredient
+        );
 	}
 }
