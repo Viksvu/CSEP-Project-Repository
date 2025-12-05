@@ -27,8 +27,15 @@ public class IngredientInRecipe {
      */
     public IngredientInRecipe() {}
 
+    /**
+     * constructor for testing
+     * @param ingredient the ingredient
+     */
+    public IngredientInRecipe(Ingredients ingredient) {
+        this.ingredient = ingredient;
+    }
 
-    public Recipes getRecipes() {
+        public Recipes getRecipes() {
         return recipes;
     }
 

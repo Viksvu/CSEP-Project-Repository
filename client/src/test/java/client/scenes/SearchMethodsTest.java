@@ -24,7 +24,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SearchMethodsTest {
+public class    SearchMethodsTest {
 
     private MainCtrl controller;
     private Recipes r1, r2, r3;

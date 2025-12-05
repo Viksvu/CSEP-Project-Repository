@@ -27,7 +27,7 @@ public class Ingredients {
     /**
      * No-args constructor for JPA
      */
-    protected Ingredients() {}
+    public Ingredients() {}
 
     /**
      *
