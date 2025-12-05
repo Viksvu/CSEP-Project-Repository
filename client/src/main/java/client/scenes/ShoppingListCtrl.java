@@ -1,5 +1,7 @@
 package client.scenes;
 
+import client.commonsClient.IngredientInShoppingList;
+import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import jakarta.inject.Inject;
 import javafx.collections.FXCollections;
@@ -14,9 +16,9 @@ public class ShoppingListCtrl implements Initializable {
 
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
-
+    private ShoppingList shoppingList;
     @FXML
-    private ListView<String> shoppingListView;
+    private ListView<IngredientInShoppingList> shoppingListView;
 
     /**
      * Constructor
@@ -34,6 +36,7 @@ public class ShoppingListCtrl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         shoppingListView.setItems(FXCollections.observableArrayList());
+        shoppingList = new ShoppingList();
     }
 
     /**
@@ -47,10 +50,9 @@ public class ShoppingListCtrl implements Initializable {
     /**
      * adds an ingredient from input.
      */
-    public void addIngredientFrom(){
-
+    public void addIngredient() {
+        mainCtrl.showAddIngredient(shoppingList);
     }
-
     /**
      * Removes selected ingredient
      */
@@ -65,5 +67,13 @@ public class ShoppingListCtrl implements Initializable {
 
     }
 
+    public ShoppingList getShoppingList() {
+        return shoppingList;
+    }
+
+
+    public void setShoppingList(ShoppingList shoppingList) {
+        this.shoppingList = shoppingList;
+    }
 
 }

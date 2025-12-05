@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import client.commonsClient.ShoppingList;
 import commons.Recipes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -150,6 +151,16 @@ public class MainCtrl {
         primaryStage.setScene(addIngredient);
         addIngredientCtrl.provideRecipe(recipe);
     }
+
+    /**
+     * Sets the add ingredient scene as the primary scene
+     */
+    public void showAddIngredient(ShoppingList shoppingList) {
+        primaryStage.setTitle("Adding ingredient");
+        primaryStage.setScene(addIngredient);
+        addIngredientCtrl.provideShoppingList(shoppingList);
+    }
+
 
     // EVERYTHING BELOW HAS BEEN REPLACED WITH SERVER-LOGIC
     // IT IS ONLY THERE IN CASE EVER NEEDED FOR DEBUGGING

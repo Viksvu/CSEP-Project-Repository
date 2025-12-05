@@ -1,5 +1,7 @@
 package client.scenes;
 
+import client.commonsClient.IngredientInShoppingList;
+import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.IngredientInRecipe;
@@ -21,8 +23,8 @@ public class AddIngredientCtrl implements Initializable {
 
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
-
     private Recipes recipe;
+    private ShoppingList shoppingList;
 
     @FXML
     private TextField nameField;
@@ -108,4 +110,42 @@ public class AddIngredientCtrl implements Initializable {
     public void provideRecipe(Recipes recipe) {
         this.recipe = recipe;
     }
+
+    /**
+     * Used by mainCtrl to "tell" AddIngredientCtrl
+     * which shopping list the ingredient is being added to.
+     * @param shoppingList the shopping list.
+     */
+    public void provideShoppingList(ShoppingList shoppingList) {
+        this.shoppingList = shoppingList;
+    }
+
+
+    /**
+     * Add an ingredient
+     * directly to the shopping list.
+     */
+    public void addToShoppingList(){
+        String name = nameField.getText();
+        String quantity = null;
+        int quantityInt;
+        try {
+            quantity = quantityField.getText();
+            quantityInt = Integer.parseInt(quantity);
+            Unit unit = unitBox.
+                    getSelectionModel().getSelectedItem();
+            Ingredients ingredient = new Ingredients(name, 0);
+            IngredientInShoppingList ingredientInShoppingList
+                    = new IngredientInShoppingList(
+                            ingredient, quantityInt, unit);
+            shoppingList.addIngredientDirectly(ingredientInShoppingList);
+            mainCtrl.showShoppingList();
+        } catch (Exception e) {
+            //errorLabel.setText("Quantity must be a valid number");
+            errorLabel.setText(e.getMessage());
+            System.out.println(e.getMessage());
+            errorLabel.setVisible(true);
+        }
+    }
+
 }
