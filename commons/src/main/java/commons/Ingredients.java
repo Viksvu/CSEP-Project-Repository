@@ -2,6 +2,8 @@ package commons;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +16,10 @@ public class Ingredients {
     private String name;
     private int kcalPer100g;
     private String ingredient;
+
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL
+            , orphanRemoval = true)
+    private List<IngredientInRecipe> ingredientInRecipes;
 
     @Enumerated(EnumType.STRING)
     private Unit unit;
@@ -32,21 +38,13 @@ public class Ingredients {
      * @param ingredient
      * @param unit
      */
-    public Ingredients(String name, int kcalPer100g, String ingredient, Unit unit) {
+    public Ingredients(String name, int kcalPer100g,
+                       String ingredient, Unit unit) {
         this.name = name;
         this.kcalPer100g = kcalPer100g;
         this.ingredient = ingredient;
         this.unit = unit;
-    }
-
-    /**
-     * this is a constructor
-     * @param name the name
-     * @param ingredient the ingredient
-     */
-    public Ingredients(String name, String ingredient) {
-        this.name = name;
-        this.ingredient = ingredient;
+        this.ingredientInRecipes = new ArrayList<>();
     }
 
     public Long getId() {

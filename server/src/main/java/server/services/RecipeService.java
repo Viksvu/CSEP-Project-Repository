@@ -1,6 +1,9 @@
 package server.services;
 
-import commons.TestRecipeForDB;
+import commons.IngredientInRecipe;
+import commons.Recipes;
+import jakarta.transaction.Transactional;
+import server.database.IngredientsRepository;
 import server.database.RecipeRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,16 +14,20 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
+@Transactional
 public class RecipeService {
     private final RecipeRepository recipeRepository;
+    private final IngredientsRepository ingredientsRepository;
 
     /**
      * Constructor for RecipeService.
      * Serves as dependency injection for RecipeRepository.
      * @param recipeRepository The repository for recipes.
      */
-    public RecipeService(RecipeRepository recipeRepository) {
+    public RecipeService(RecipeRepository recipeRepository,
+                         IngredientsRepository ingredientsRepository) {
         this.recipeRepository = recipeRepository;
+        this.ingredientsRepository = ingredientsRepository;
     }
 
     /**
@@ -28,7 +35,13 @@ public class RecipeService {
      * @param recipe The recipe to be added.
      * @return The saved recipe. Returns the saved recipe with generated ID.
      */
-    public TestRecipeForDB addRecipe(TestRecipeForDB recipe) {
+    public Recipes addRecipe(Recipes recipe) {
+        for (IngredientInRecipe ingredient : recipe.getIngredients()) {
+            ingredient.setRecipes(recipe);
+            if (ingredient.getTempIngredient().getId() == null ) {
+                ingredientsRepository.save(ingredient.getTempIngredient());
+            }
+        }
         return recipeRepository.save(recipe);
     }
 
@@ -36,7 +49,7 @@ public class RecipeService {
      * Retrieves all recipes from the database.
      * @return An iterable collection of all recipes.
      */
-    public Iterable<TestRecipeForDB> getAllRecipes() {
+    public Iterable<Recipes> getAllRecipes() {
         return recipeRepository.findAll();
     }
 
@@ -46,7 +59,7 @@ public class RecipeService {
      * @return The recipe with the specified ID.
      * @throws RuntimeException if the recipe is not found.
      */
-    public TestRecipeForDB getRecipeById(Long recipeId) {
+    public Recipes getRecipeById(Long recipeId) {
         return recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RuntimeException("Recipe not found"));
     }
@@ -58,5 +71,4 @@ public class RecipeService {
     public void deleteRecipe(Long recipeId) {
         recipeRepository.deleteById(recipeId);
     }
-
 }

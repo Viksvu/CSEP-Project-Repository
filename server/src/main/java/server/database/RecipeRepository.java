@@ -1,7 +1,7 @@
 package server.database;
 
-import commons.TestRecipeForDB;
+import commons.Recipes;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RecipeRepository extends JpaRepository<TestRecipeForDB, Long> {
+public interface RecipeRepository extends JpaRepository<Recipes, Long> {
 }
