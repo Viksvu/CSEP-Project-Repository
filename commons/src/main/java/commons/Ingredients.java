@@ -34,25 +34,22 @@ public class Ingredients {
      *
      * @param name
      * @param kcalPer100g
-     * @param ingredient
      */
-    public Ingredients(String name, int kcalPer100g,
-                       String ingredient) {
+    public Ingredients(String name, int kcalPer100g) {
         this.name = name;
         this.kcalPer100g = kcalPer100g;
-        this.ingredient = ingredient;
         this.ingredientInRecipes = new ArrayList<>();
+        this.ingredient=name;
     }
 
     /**
      * this is a constructor
      *
      * @param name       the name
-     * @param ingredient the ingredient
      */
-    public Ingredients(String name, String ingredient) {
+    public Ingredients(String name) {
         this.name = name;
-        this.ingredient = ingredient;
+        this.ingredient=name;
     }
 
 
@@ -76,13 +73,6 @@ public class Ingredients {
         this.kcalPer100g = kcalPer100g;
     }
 
-    public String getIngredient() {
-        return ingredient;
-    }
-
-    public void setIngredient(String ingredient) {
-        this.ingredient = ingredient;
-    }
 
 
     @Override
@@ -91,12 +81,11 @@ public class Ingredients {
         Ingredients that = (Ingredients) o;
         return kcalPer100g == that.kcalPer100g &&
                 Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(ingredient, that.ingredient);
+                Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, kcalPer100g, ingredient);
+        return Objects.hash(id, name, kcalPer100g);
     }
 }

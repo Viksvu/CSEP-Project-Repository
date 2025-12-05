@@ -82,8 +82,7 @@ public class AddIngredientCtrl implements Initializable {
             quantity = quantityField.getText();
             quantityInt = Integer.parseInt(quantity);
             Unit unit = unitBox.getSelectionModel().getSelectedItem();
-            Ingredients ingredient = new Ingredients(name, 0,
-                                                    name);
+            Ingredients ingredient = new Ingredients(name, 0);
             server.addIngredientToDatabase(ingredient);
             IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
             ingredientInRecipe.setTempIngredient(ingredient);

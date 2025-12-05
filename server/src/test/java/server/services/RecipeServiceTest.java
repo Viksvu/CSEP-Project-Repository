@@ -28,7 +28,7 @@ public class RecipeServiceTest {
     void testSavingRecipe() {
         Recipes recipe = new Recipes("Cake");
         IngredientInRecipe ingredient1 = new IngredientInRecipe();
-        Ingredients ing1 = new Ingredients("Flour", 10, "flour", Unit.GRAM);
+        Ingredients ing1 = new Ingredients("Flour", 10);
         ingredient1.setTempIngredient(ing1);
         recipe.addIngredient(ingredient1);
         Recipes savedRecipe = recipeService.addRecipe(recipe);

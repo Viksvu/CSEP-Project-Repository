@@ -22,22 +22,22 @@ public class IngredientsServiceTest {
 
     @Test
     void testAddIngredient() {
-        Ingredients testIngredient = new Ingredients("Sugar", 10, "Sugar", Unit.GRAM);
+        Ingredients testIngredient = new Ingredients("Sugar", 10);
         Ingredients savedIngredient = ingredientsRepository.save(testIngredient);
         Optional<Ingredients> foundIngredient = ingredientsRepository.findById(savedIngredient.getId());
+
         if (foundIngredient.isEmpty()) {
             assert false;
         } else {
             Ingredients ingredient = foundIngredient.get();
             assertEquals("Sugar", ingredient.getName());
             assertEquals(10, ingredient.getKcalPer100g());
-            assert(ingredient.getUnit().equals(Unit.GRAM));
         }
     }
 
     @Test
     void testDeleteIngredient() {
-        Ingredients testIngredient = new Ingredients("Salt", 0, "Salt", Unit.GRAM);
+        Ingredients testIngredient = new Ingredients("Salt", 0);
         Ingredients savedIngredient = ingredientsRepository.save(testIngredient);
         Long ingredientId = savedIngredient.getId();
         ingredientsRepository.deleteById(ingredientId);

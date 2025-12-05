@@ -211,7 +211,7 @@ public class MainCtrl {
                 if(tempIngredient.getName()
                         .toLowerCase().contains(query)
                         || tempIngredient.
-                        getIngredient().toLowerCase().contains(query)) {
+                        getName().toLowerCase().contains(query)) {
                     return true;
                 }
             }
@@ -232,7 +232,7 @@ public class MainCtrl {
                     get(i).getTempIngredient();
             if(tempIngredient.getName().toLowerCase().contains(text)){
                 if(tempIngredient.
-                        getIngredient().toLowerCase().startsWith(text)){
+                        getName().toLowerCase().startsWith(text)){
                     return 2;
                 }
                 mx=1;
