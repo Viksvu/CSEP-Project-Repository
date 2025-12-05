@@ -50,6 +50,9 @@ public class MainCtrl {
     private AddIngredientCtrl addIngredientCtrl;
     private Scene addIngredient;
 
+    private ShoppingListCtrl shoppingListCtrl;
+    private Scene shoppingList;
+
     // This observable list stores the names of all the recipes.
     // <String> might want to be replaced by <Recipe> in
     // the future while also then looking at all its usages.
@@ -75,6 +78,7 @@ public class MainCtrl {
             , Pair<AddRecipeCtrl, Parent> add
             , Pair<RemoveRecipeCtrl, Parent> remove
             , Pair<AddIngredientCtrl, Parent> addIngredient
+            , Pair<ShoppingListCtrl, Parent> shoppingList
     ) {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
@@ -95,6 +99,8 @@ public class MainCtrl {
         // MIGHT NEED TO BE MODIFIED AFTER CONNECTION TO SERVER
         this.recipeObservableList = FXCollections.observableArrayList();
 
+        this.shoppingListCtrl=shoppingList.getKey();
+        this.shoppingList = new Scene(shoppingList.getValue());
         showOverview();
         primaryStage.show();
     }
@@ -115,7 +121,6 @@ public class MainCtrl {
         primaryStage.setTitle("Recipes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();
-
     }
 
     /**
@@ -330,6 +335,12 @@ public class MainCtrl {
 
         // If you have a ListView/TableView in the actual UI:
         // recipeListView.setItems(sortedRecipes);
+    }
+
+    public void showShoppingList() {
+        primaryStage.setTitle("ShoppingList");
+        primaryStage.setScene(shoppingList);
+
     }
 
 }
