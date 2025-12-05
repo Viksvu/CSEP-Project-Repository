@@ -52,7 +52,8 @@ public class ServerUtils {
 		return ClientBuilder.newClient(new ClientConfig()) //
 				.target(SERVER).path("api/recipe/add") //
 				.request(APPLICATION_JSON) //
-				.post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
+				.post(Entity
+                        .entity(recipe, APPLICATION_JSON), Recipes.class);
 	}
 
     /**
@@ -96,8 +97,11 @@ public class ServerUtils {
      * @return a list with all ingredients in a recipe
      */
     public List<IngredientInRecipe> getIngredientsInRecipes(Recipes recipe) {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).queryParam("id", recipe.getId()).path("api/recipeingredient/get")
+        return ClientBuilder
+                .newClient(new ClientConfig())
+                .target(SERVER)
+                .queryParam("id", recipe.getId())
+                .path("api/recipeingredient/get")
                 .request(APPLICATION_JSON)
                 .get(new GenericType<List<IngredientInRecipe>>(){});
     }
@@ -107,7 +111,8 @@ public class ServerUtils {
      * @param ingredient
      * @return
      */
-    public IngredientInRecipe addIngredientToRecipe(IngredientInRecipe ingredient, Recipes recipe) {
+    public IngredientInRecipe
+    addIngredientToRecipe(IngredientInRecipe ingredient, Recipes recipe) {
         long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).queryParam("id", recipeId)
@@ -123,7 +128,8 @@ public class ServerUtils {
      * @param recipe
      * @return
      */
-    public IngredientInRecipe removeIngredientFromRecipe(IngredientInRecipe ingredient,
+    public IngredientInRecipe
+    removeIngredientFromRecipe(IngredientInRecipe ingredient,
                                                          Recipes recipe) {
         long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())

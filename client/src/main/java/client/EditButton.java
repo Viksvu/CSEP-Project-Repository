@@ -22,7 +22,8 @@ public class EditButton extends Button {
      */
     public EditButton(IngredientInRecipe ingredient,
                       String s, int index, ListView<IngredientInRecipe> parent,
-                      ServerUtils server, Recipes recipe, RecipeOverviewCtrl ctrl,
+                      ServerUtils server,
+                      Recipes recipe, RecipeOverviewCtrl ctrl,
                       EditButtonOptions option) {
         super(s);
         this.ingredient = ingredient;

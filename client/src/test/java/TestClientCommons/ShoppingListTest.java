@@ -1,10 +1,11 @@
 package TestClientCommons;
 
-import client.commonsClient.Ingredients;
-import client.commonsClient.Recipes;
-import client.commonsClient.IngredientInRecipe;
-import client.commonsClient.Unit;
+import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
+import commons.IngredientInRecipe;
+import commons.Ingredients;
+import commons.Recipes;
+import commons.Unit;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +24,7 @@ class ShoppingListTest {
     @Test
     void addIngredientDirectly() {
         ShoppingList sl = new ShoppingList();
-        Ingredients t = new Ingredients();
+        IngredientInShoppingList t = new IngredientInShoppingList();
         sl.addIngredientDirectly(t);
         assertEquals(1, sl.getShoppingList().size());
     }
@@ -31,7 +32,7 @@ class ShoppingListTest {
     @Test
     void removeIngredientDirectly() {
         ShoppingList sl = new ShoppingList();
-        Ingredients t = new Ingredients();
+        IngredientInShoppingList t = new IngredientInShoppingList();
         sl.addIngredientDirectly(t);
         assertEquals(1, sl.getShoppingList().size());
         sl.removeIngredientDirectly(t);
@@ -39,7 +40,7 @@ class ShoppingListTest {
     }
 
     @Test
-    void addRecipeIngredientsToOverview() {
+    void addRecipeIngredientInShoppingListToOverview() {
         Recipes recipe = new Recipes();
         IngredientInRecipe iir1 = new IngredientInRecipe();
         IngredientInRecipe iir2 = new IngredientInRecipe();
@@ -53,7 +54,7 @@ class ShoppingListTest {
     @Test
     void addIngredientDirectlyToOverview() {
         ShoppingList sl = new ShoppingList();
-        Ingredients t = new Ingredients();
+        IngredientInShoppingList t = new IngredientInShoppingList();
         sl.addIngredientDirectlyToOverview(t);
         assertEquals(1, sl.getBufferList().size());
     }
@@ -61,7 +62,7 @@ class ShoppingListTest {
     @Test
     void removeIngredientDirectlyFromOverview() {
         ShoppingList sl = new ShoppingList();
-        Ingredients t = new Ingredients();
+        IngredientInShoppingList t = new IngredientInShoppingList();
         sl.addIngredientDirectlyToOverview(t);
         assertEquals(1, sl.getBufferList().size());
         sl.removeIngredientDirectlyFromOverview(t);
@@ -101,15 +102,17 @@ class ShoppingListTest {
     void printableShoppingList() {
         Recipes recipe = new Recipes("bologness");
         IngredientInRecipe iir1 = new IngredientInRecipe();
+        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
+        iir1.setTempIngredient(i);
         iir1.setRecipes(recipe);
         iir1.setQuantity(2);
-        iir1.setUnit(Unit.GRAM);
-        iir1.setName("Matt");
+        iir1.setUnit(Unit.TABLE_SPOON);
+        iir1.getTempIngredient().setName("Matt");
         recipe.addIngredient(iir1);
         ShoppingList sl = new ShoppingList();
         sl.addRecipeIngredientsToOverview(recipe);
         sl.addOverviewToShoppingList();
-        assertEquals("2gram/s Matt bologness\n", sl.printableShoppingList());
+        assertEquals("2table spoon/s Matt bologness\n", sl.printableShoppingList());
 
     }
 
