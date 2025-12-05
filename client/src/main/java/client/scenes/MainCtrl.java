@@ -306,8 +306,8 @@ public class MainCtrl {
     }
 
     /**
-     * bruh
-     * @param recipes ss
+     * setter for temp recipe list
+     * @param recipes list of recipes to set to
      */
     public void setRecipeObservableList(List<Recipes> recipes) {
         // Convert plain list to ObservableList
