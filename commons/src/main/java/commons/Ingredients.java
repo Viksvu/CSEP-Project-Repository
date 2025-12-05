@@ -2,6 +2,8 @@ package commons;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,14 +17,17 @@ public class Ingredients {
     private int kcalPer100g;
     private String ingredient;
 
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL
+            , orphanRemoval = true)
+    private List<IngredientInRecipe> ingredientInRecipes;
+
     @Enumerated(EnumType.STRING)
     private Unit unit;
 
     /**
      * No-args constructor for JPA
      */
-    protected Ingredients() {
-    }
+    public Ingredients() {}
 
     /**
      *
@@ -32,13 +37,14 @@ public class Ingredients {
      * @param ingredient
      * @param unit
      */
-    public Ingredients(String name, int kcalPer100g, String ingredient, Unit unit) {
+    public Ingredients(String name, int kcalPer100g,
+                       String ingredient, Unit unit) {
         this.name = name;
         this.kcalPer100g = kcalPer100g;
         this.ingredient = ingredient;
         this.unit = unit;
+        this.ingredientInRecipes = new ArrayList<>();
     }
-
     /**
      * this is a constructor
      * @param name the name
@@ -48,6 +54,7 @@ public class Ingredients {
         this.name = name;
         this.ingredient = ingredient;
     }
+
 
     public Long getId() {
         return id;

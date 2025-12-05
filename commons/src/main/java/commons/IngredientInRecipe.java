@@ -12,8 +12,7 @@ public class IngredientInRecipe {
     private long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "temp_ingredient_id")
-    private Ingredients tempIngredient;
+    private Ingredients ingredient;
 
     private int quantity;
 
@@ -21,7 +20,6 @@ public class IngredientInRecipe {
     private Unit unit;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "recipe_id")
     private Recipes recipes;
 
     /**
@@ -31,13 +29,13 @@ public class IngredientInRecipe {
 
     /**
      * constructor for testing
-     * @param tempIngredient the ingredient
+     * @param ingredient the ingredient
      */
-    public IngredientInRecipe(Ingredients tempIngredient) {
-        this.tempIngredient = tempIngredient;
+    public IngredientInRecipe(Ingredients ingredient) {
+        this.ingredient = ingredient;
     }
 
-    public Recipes getRecipes() {
+        public Recipes getRecipes() {
         return recipes;
     }
 
@@ -62,11 +60,11 @@ public class IngredientInRecipe {
     }
 
     public Ingredients getTempIngredient() {
-        return tempIngredient;
+        return ingredient;
     }
 
     public void setTempIngredient(final Ingredients tempIngredient) {
-        this.tempIngredient = tempIngredient;
+        this.ingredient = tempIngredient;
     }
 
     @Override
@@ -74,13 +72,13 @@ public class IngredientInRecipe {
         if (o == null || getClass() != o.getClass()) return false;
         IngredientInRecipe that = (IngredientInRecipe) o;
         return quantity == that.quantity
-                && Objects.equals(tempIngredient, that.tempIngredient)
+                && Objects.equals(ingredient, that.ingredient)
                 && unit == that.unit;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tempIngredient, quantity, unit);
+        return Objects.hash(ingredient, quantity, unit);
     }
 
     //Need to decide if only ingredient name should be shown or also quantity
