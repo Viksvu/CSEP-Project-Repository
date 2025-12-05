@@ -60,7 +60,8 @@ public class AddRecipeCtrl implements Initializable {
     public void add() {
         String recipeName = nameField.getText();
         try {
-            server.addRecipe(new Recipes(-1, new ArrayList<>(), new ArrayList<>(), recipeName));
+            server.addRecipe(new Recipes(-1, new ArrayList<>(),
+                    new ArrayList<>(), recipeName));
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);

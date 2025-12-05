@@ -1,5 +1,8 @@
 package client.commonsClient;
 
+import commons.IngredientInRecipe;
+import commons.Recipes;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,11 +13,11 @@ import java.io.IOException;
 
 public class ShoppingList {
     /// The list containing the full shopping list ingredients.
-    private final List<Ingredients> shoppingList;
+    private final List<IngredientInShoppingList> shoppingList;
 
     /// A buffer list that holds
     /// the ingredients in the overview (to be added) shopping list.
-    private final List<Ingredients> bufferList;
+    private final List<IngredientInShoppingList> bufferList;
 
     /**
      * A zero-argument constructor
@@ -32,7 +35,7 @@ public class ShoppingList {
      *
      * @param tempIngredient the ingredient to add.
      */
-    public void addIngredientDirectly(Ingredients tempIngredient) {
+    public void addIngredientDirectly(IngredientInShoppingList tempIngredient) {
         shoppingList.add(tempIngredient);
     }
 
@@ -42,7 +45,8 @@ public class ShoppingList {
      *
      * @param tempIngredient the ingredient to remove.
      */
-    public void removeIngredientDirectly(Ingredients tempIngredient) {
+    public void removeIngredientDirectly(IngredientInShoppingList
+                                                 tempIngredient) {
         shoppingList.remove(tempIngredient);
     }
 
@@ -53,8 +57,11 @@ public class ShoppingList {
      * @param recipe the recipe.
      */
     public void addRecipeIngredientsToOverview(Recipes recipe) {
-        List<Ingredients> ingredientsTemp =
-                new ArrayList<>(recipe.getIngredients());
+        List<IngredientInShoppingList> ingredientsTemp =
+                new ArrayList<>();
+        for (IngredientInRecipe iir : recipe.getIngredients()) {
+            ingredientsTemp.add(new IngredientInShoppingList(iir));
+        }
         bufferList.addAll(ingredientsTemp);
     }
 
@@ -65,15 +72,15 @@ public class ShoppingList {
      * @param tempIngredient the ingredient to add.
      */
     public void
-    addIngredientDirectlyToOverview(Ingredients tempIngredient) {
+    addIngredientDirectlyToOverview(IngredientInShoppingList tempIngredient) {
         bufferList.add(tempIngredient);
     }
 
-    public List<Ingredients> getShoppingList() {
+    public List<IngredientInShoppingList> getShoppingList() {
         return shoppingList;
     }
 
-    public List<Ingredients> getBufferList() {
+    public List<IngredientInShoppingList> getBufferList() {
         return bufferList;
     }
 
@@ -84,7 +91,8 @@ public class ShoppingList {
      * @param tempIngredient the ingredient to remove.
      */
     public void
-    removeIngredientDirectlyFromOverview(Ingredients tempIngredient) {
+    removeIngredientDirectlyFromOverview(IngredientInShoppingList
+                                                 tempIngredient) {
         bufferList.remove(tempIngredient);
     }
 
@@ -117,16 +125,16 @@ public class ShoppingList {
     public String printableShoppingList() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Ingredients ingredient : shoppingList) {
-            if (ingredient instanceof IngredientInRecipe iir) {
-                stringBuilder.append(iir.getQuantity())
-                        .append(iir.getUnit().toString())
+        for (IngredientInShoppingList ingredient : shoppingList) {
+            if (ingredient.getRecipe() != null) {
+                stringBuilder.append(ingredient.getQuantity())
+                        .append(ingredient.getIngredient().getUnit().toString())
                         .append(" ")
-                        .append(iir.getName())
+                        .append(ingredient.getIngredient().getName())
                         .append(" ")
-                        .append(iir.getRecipes().getName());
+                        .append(ingredient.getRecipe().getName());
             } else {
-                stringBuilder.append(ingredient.getName());
+                stringBuilder.append(ingredient.getIngredient().getName());
             }
             stringBuilder.append("\n");
         }
@@ -140,7 +148,7 @@ public class ShoppingList {
      */
     public String printableOverviewList() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Ingredients ingredient : shoppingList) {
+        for (IngredientInShoppingList ingredient : shoppingList) {
             /// stringBuilder.append(((IngredientInRecipe)
             ///ingredient).toString)
 

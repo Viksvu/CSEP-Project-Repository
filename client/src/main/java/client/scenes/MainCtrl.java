@@ -192,17 +192,21 @@ public class MainCtrl {
         final String query=text;
         filteredRecipes.setPredicate(recipes -> {
             if(recipes.getName().toLowerCase().contains(query)) return true;
-            List<PreparationStep> preparationSteps=recipes.getPreparationSteps();
+            List<PreparationStep>
+                    preparationSteps=recipes.getPreparationSteps();
             for(int i=0;i<preparationSteps.size();i++){
-                if(preparationSteps.get(i).getDescription().toLowerCase().contains(query)) {
+                if(preparationSteps.
+                        get(i).getDescription().toLowerCase().contains(query)) {
                     return true;
                 }
             }
             List<IngredientInRecipe> ings=recipes.getIngredients();
             for(int i=0;i<ings.size();i++){
                 Ingredients tempIngredient=ings.get(i).getTempIngredient();
-                if(tempIngredient.getName().toLowerCase().contains(query)
-                        || tempIngredient.getIngredient().toLowerCase().contains(query)) {
+                if(tempIngredient.getName()
+                        .toLowerCase().contains(query)
+                        || tempIngredient.
+                        getIngredient().toLowerCase().contains(query)) {
                     return true;
                 }
             }
@@ -219,9 +223,11 @@ public class MainCtrl {
     public int checkIngs(List<IngredientInRecipe> ings, String text){
         int mx=0;
         for(int i=0;i<ings.size();i++){
-            Ingredients tempIngredient=ings.get(i).getTempIngredient();
+            Ingredients tempIngredient =ings.
+                    get(i).getTempIngredient();
             if(tempIngredient.getName().toLowerCase().contains(text)){
-                if(tempIngredient.getIngredient().toLowerCase().startsWith(text)){
+                if(tempIngredient.
+                        getIngredient().toLowerCase().startsWith(text)){
                     return 2;
                 }
                 mx=1;
@@ -241,7 +247,8 @@ public class MainCtrl {
         for(int i=0;i<prepSteps.size();i++){
             PreparationStep tempPrepStep=prepSteps.get(i);
             if(tempPrepStep.getDescription().toLowerCase().contains(text)){
-                if(tempPrepStep.getDescription().toLowerCase().startsWith(text)){
+                if(tempPrepStep.
+                        getDescription().toLowerCase().startsWith(text)){
                     return 2;
                 }
                 mx=1;
@@ -272,7 +279,9 @@ public class MainCtrl {
     public void applySorting(String text){
         if(text.isEmpty()){
             sortedRecipes.setComparator(
-                    Comparator.comparing(Recipes::getName, String.CASE_INSENSITIVE_ORDER)
+                    Comparator.
+                            comparing(Recipes::getName,
+                                    String.CASE_INSENSITIVE_ORDER)
             );
             return;
         }

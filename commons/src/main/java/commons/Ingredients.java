@@ -32,7 +32,8 @@ public class Ingredients {
      * @param ingredient
      * @param unit
      */
-    public Ingredients(String name, int kcalPer100g, String ingredient, Unit unit) {
+    public Ingredients(String name, int kcalPer100g,
+                       String ingredient, Unit unit) {
         this.name = name;
         this.kcalPer100g = kcalPer100g;
         this.ingredient = ingredient;
