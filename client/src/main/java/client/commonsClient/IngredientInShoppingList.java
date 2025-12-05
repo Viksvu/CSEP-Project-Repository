@@ -34,7 +34,7 @@ public class IngredientInShoppingList {
      * @param ingredientInRecipe the ingredient from recipe.
      */
     public IngredientInShoppingList(IngredientInRecipe ingredientInRecipe) {
-        this.ingredient = ingredientInRecipe.getTempIngredient();
+        this.ingredient = ingredientInRecipe.getIngredient();
         this.quantity = ingredientInRecipe.getQuantity();
         this.recipe = ingredientInRecipe.getRecipes();
         this.unit = ingredientInRecipe.getUnit();

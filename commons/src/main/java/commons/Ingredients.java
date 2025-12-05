@@ -51,8 +51,6 @@ public class Ingredients {
         this.name = name;
         this.ingredient=name;
     }
-
-
     public Long getId() {
         return id;
     }
@@ -72,9 +70,6 @@ public class Ingredients {
     public void setKcalPer100g(int kcalPer100g) {
         this.kcalPer100g = kcalPer100g;
     }
-
-
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

@@ -101,11 +101,11 @@ class ShoppingListTest {
         Recipes recipe = new Recipes("bologness");
         IngredientInRecipe iir1 = new IngredientInRecipe();
         Ingredients i = new Ingredients("pepper", 50);
-        iir1.setTempIngredient(i);
+        iir1.setIngredient(i);
         iir1.setRecipes(recipe);
         iir1.setQuantity(2);
         iir1.setUnit(Unit.TABLE_SPOON);
-        iir1.getTempIngredient().setName("Matt");
+        iir1.getIngredient().setName("Matt");
         recipe.addIngredient(iir1);
         ShoppingList sl = new ShoppingList();
         sl.addRecipeIngredientsToOverview(recipe);

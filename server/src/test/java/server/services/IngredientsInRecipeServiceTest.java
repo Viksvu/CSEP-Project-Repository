@@ -40,13 +40,13 @@ public class IngredientsInRecipeServiceTest {
         Ingredients ingredient1 = new Ingredients("Eggs", 150);
 
         IngredientInRecipe iir1 = new IngredientInRecipe();
-        iir1.setTempIngredient(ingredient1);
+        iir1.setIngredient(ingredient1);
         iir1.setRecipes(recipe1);
         iir1.setQuantity(2);
         iir1.setUnit(commons.Unit.PIECE);
 
         IngredientInRecipe iir2 = new IngredientInRecipe();
-        iir2.setTempIngredient(ingredient1);
+        iir2.setIngredient(ingredient1);
         iir2.setRecipes(recipe2);
         iir2.setQuantity(3);
         iir2.setUnit(commons.Unit.PIECE);

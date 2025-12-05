@@ -36,7 +36,7 @@ class IngredientInRecipeControllerTest {
         iR = new IngredientInRecipe();
         iR.setRecipes(r1);
         iR.setQuantity(1);
-        iR.setTempIngredient(i);
+        iR.setIngredient(i);
         iR.setUnit(Unit.GRAM);
     }
 

@@ -59,11 +59,11 @@ public class IngredientInRecipe {
         this.unit = unit;
     }
 
-    public Ingredients getTempIngredient() {
+    public Ingredients getIngredient() {
         return ingredient;
     }
 
-    public void setTempIngredient(final Ingredients tempIngredient) {
+    public void setIngredient(final Ingredients tempIngredient) {
         this.ingredient = tempIngredient;
     }
 
@@ -85,11 +85,11 @@ public class IngredientInRecipe {
     @Override
     public String toString() {
         if (getQuantity()==1) {
-            return getTempIngredient().getName()
+            return getIngredient().getName()
                     + " (" + getQuantity() + " " + getUnit()
                     .toString().replaceAll("/s", "") + ")";
         }
-        return getTempIngredient().getName()
+        return getIngredient().getName()
                 + " (" + getQuantity() + " " + getUnit()
                 .toString().replaceAll("/", "") + ")";
     }

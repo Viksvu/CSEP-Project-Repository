@@ -24,7 +24,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import commons.Recipes;
 import commons.PreparationStep;
 import commons.IngredientInRecipe;
 import commons.Ingredients;
@@ -207,7 +206,7 @@ public class MainCtrl {
             }
             List<IngredientInRecipe> ings=recipes.getIngredients();
             for(int i=0;i<ings.size();i++){
-                Ingredients tempIngredient=ings.get(i).getTempIngredient();
+                Ingredients tempIngredient=ings.get(i).getIngredient();
                 if(tempIngredient.getName()
                         .toLowerCase().contains(query)
                         || tempIngredient.
@@ -229,7 +228,7 @@ public class MainCtrl {
         int mx=0;
         for(int i=0;i<ings.size();i++){
             Ingredients tempIngredient =ings.
-                    get(i).getTempIngredient();
+                    get(i).getIngredient();
             if(tempIngredient.getName().toLowerCase().contains(text)){
                 if(tempIngredient.
                         getName().toLowerCase().startsWith(text)){

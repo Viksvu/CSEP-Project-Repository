@@ -18,7 +18,7 @@ class KCALTest {
     void calculator_Gram() {
         Ingredients sugar = new Ingredients("Sugar", 387);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
-        ingredientUse.setTempIngredient(sugar);
+        ingredientUse.setIngredient(sugar);
         ingredientUse.setQuantity(200);
         ingredientUse.setUnit(Unit.GRAM);
 
@@ -30,7 +30,7 @@ class KCALTest {
     void calculator_Gram2() {
         Ingredients tomato = new Ingredients("Tomato", 19);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
-        ingredientUse.setTempIngredient(tomato);
+        ingredientUse.setIngredient(tomato);
         ingredientUse.setQuantity(300);
         ingredientUse.setUnit(Unit.GRAM);
 
@@ -42,7 +42,7 @@ class KCALTest {
     void calculator_Gram3() {
         Ingredients cheese = new Ingredients("Cheese", 400);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
-        ingredientUse.setTempIngredient(cheese);
+        ingredientUse.setIngredient(cheese);
         ingredientUse.setQuantity(500);
         ingredientUse.setUnit(Unit.GRAM);
 
@@ -54,7 +54,7 @@ class KCALTest {
     void calculator_Gram4() {
         Ingredients pasta = new Ingredients("Pasta", 141);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
-        ingredientUse.setTempIngredient(pasta);
+        ingredientUse.setIngredient(pasta);
         ingredientUse.setQuantity(125);
         ingredientUse.setUnit(Unit.GRAM);
 
@@ -67,7 +67,7 @@ class KCALTest {
         Ingredients flour = new Ingredients("Flour", 364);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
         ingredientUse.setUnit(Unit.CUP);
-        ingredientUse.setTempIngredient(flour);
+        ingredientUse.setIngredient(flour);
         ingredientUse.setQuantity(2);
 
         int kcal = calc.calculator(ingredientUse);
@@ -78,7 +78,7 @@ class KCALTest {
     void calculator_Teaspoon() {
         Ingredients salt = new Ingredients("Salt", 0);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
-        ingredientUse.setTempIngredient(salt);
+        ingredientUse.setIngredient(salt);
         ingredientUse.setQuantity(3);
         ingredientUse.setUnit(Unit.TEASPOON);
 
@@ -90,7 +90,7 @@ class KCALTest {
     void calculator_Milliliter() {
         Ingredients water = new Ingredients("Water", 0);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
-        ingredientUse.setTempIngredient(water);
+        ingredientUse.setIngredient(water);
         ingredientUse.setQuantity(500);
         ingredientUse.setUnit(Unit.MILLILITER);
 
@@ -102,7 +102,7 @@ class KCALTest {
     void calculator_Milliliter2() {
         Ingredients oil = new Ingredients("Oil", 880);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
-        ingredientUse.setTempIngredient(oil);
+        ingredientUse.setIngredient(oil);
         ingredientUse.setQuantity(100);
 
         int kcal = calc.calculator(ingredientUse);

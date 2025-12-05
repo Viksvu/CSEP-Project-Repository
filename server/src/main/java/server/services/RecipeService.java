@@ -38,8 +38,8 @@ public class RecipeService {
     public Recipes addRecipe(Recipes recipe) {
         for (IngredientInRecipe ingredient : recipe.getIngredients()) {
             ingredient.setRecipes(recipe);
-            if (ingredient.getTempIngredient().getId() == null ) {
-                ingredientsRepository.save(ingredient.getTempIngredient());
+            if (ingredient.getIngredient().getId() == null ) {
+                ingredientsRepository.save(ingredient.getIngredient());
             }
         }
         return recipeRepository.save(recipe);

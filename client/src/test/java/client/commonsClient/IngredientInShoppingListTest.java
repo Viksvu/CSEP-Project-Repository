@@ -30,7 +30,7 @@ class IngredientInShoppingListTest {
 
         IngredientInRecipe iir1 = new IngredientInRecipe();
         Ingredients i = new Ingredients("pepper", 50);
-        iir1.setTempIngredient(i);
+        iir1.setIngredient(i);
         IngredientInShoppingList t = new IngredientInShoppingList(iir1);
         assertEquals(t.getIngredient(), i);
     }
@@ -39,7 +39,7 @@ class IngredientInShoppingListTest {
     void setIngredient() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
         Ingredients i = new Ingredients("pepper", 50);
-        iir1.setTempIngredient(i);
+        iir1.setIngredient(i);
         IngredientInShoppingList t = new IngredientInShoppingList(iir1);
         assertEquals(t.getIngredient(), i);
         Ingredients b = new Ingredients("salt", 50);
@@ -52,7 +52,7 @@ class IngredientInShoppingListTest {
     void getQuantity() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
         Ingredients i = new Ingredients("pepper", 50);
-        iir1.setTempIngredient(i);
+        iir1.setIngredient(i);
         iir1.setQuantity(52);
         IngredientInShoppingList t = new IngredientInShoppingList(iir1);
         assertEquals(52, t.getQuantity());
@@ -62,7 +62,7 @@ class IngredientInShoppingListTest {
     void setQuantity() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
         Ingredients i = new Ingredients("pepper", 50);
-        iir1.setTempIngredient(i);
+        iir1.setIngredient(i);
         IngredientInShoppingList t = new IngredientInShoppingList(iir1);
         t.setQuantity(52);
 
@@ -75,7 +75,7 @@ class IngredientInShoppingListTest {
     void getRecipe() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
         Ingredients i = new Ingredients("pepper", 50);
-        iir1.setTempIngredient(i);
+        iir1.setIngredient(i);
         Recipes r = new Recipes();
         iir1.setRecipes(r);
         IngredientInShoppingList t = new IngredientInShoppingList(iir1);
@@ -87,7 +87,7 @@ class IngredientInShoppingListTest {
     void setRecipe() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
         Ingredients i = new Ingredients("pepper", 50);
-        iir1.setTempIngredient(i);
+        iir1.setIngredient(i);
         Recipes r = new Recipes();
         IngredientInShoppingList t = new IngredientInShoppingList(iir1);
         t.setRecipe(r);
@@ -98,7 +98,7 @@ class IngredientInShoppingListTest {
     void testEqualsSame() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
         Ingredients i = new Ingredients("pepper", 50);
-        iir1.setTempIngredient(i);
+        iir1.setIngredient(i);
         IngredientInShoppingList t1 = new IngredientInShoppingList(iir1);
 
         IngredientInShoppingList t2 = new IngredientInShoppingList(iir1);
@@ -114,8 +114,8 @@ class IngredientInShoppingListTest {
         Ingredients i = new Ingredients("pepper", 50);
         Ingredients i2 = new Ingredients("salt", 50);
 
-        iir1.setTempIngredient(i);
-        iir2.setTempIngredient(i2);
+        iir1.setIngredient(i);
+        iir2.setIngredient(i2);
 
         IngredientInShoppingList t1 = new IngredientInShoppingList(iir1);
 
@@ -134,7 +134,7 @@ class IngredientInShoppingListTest {
     void testHashCode() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
         Ingredients i = new Ingredients("pepper", 50);
-        iir1.setTempIngredient(i);
+        iir1.setIngredient(i);
         IngredientInShoppingList t1 = new IngredientInShoppingList(iir1);
 
         IngredientInShoppingList t2 = new IngredientInShoppingList(iir1);
@@ -149,8 +149,8 @@ class IngredientInShoppingListTest {
         Ingredients i = new Ingredients("pepper", 50);
         Ingredients i2 = new Ingredients("salt", 50);
 
-        iir1.setTempIngredient(i);
-        iir2.setTempIngredient(i2);
+        iir1.setIngredient(i);
+        iir2.setIngredient(i2);
 
         IngredientInShoppingList t1 = new IngredientInShoppingList(iir1);
 

@@ -85,7 +85,7 @@ public class AddIngredientCtrl implements Initializable {
             Ingredients ingredient = new Ingredients(name, 0);
             server.addIngredientToDatabase(ingredient);
             IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
-            ingredientInRecipe.setTempIngredient(ingredient);
+            ingredientInRecipe.setIngredient(ingredient);
             ingredientInRecipe.setRecipes(recipe);
             ingredientInRecipe.setUnit(unit);
             ingredientInRecipe.setQuantity(quantityInt);

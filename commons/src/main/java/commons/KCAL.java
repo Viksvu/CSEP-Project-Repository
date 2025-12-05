@@ -10,7 +10,7 @@ public class KCAL {
      * @return
      */
     public int calculator(IngredientInRecipe ingredient) {
-        int kcalPer100g = ingredient.getTempIngredient().getKcalPer100g();
+        int kcalPer100g = ingredient.getIngredient().getKcalPer100g();
         int quantity = ingredient.getQuantity();
         Unit unit = ingredient.getUnit();
 
