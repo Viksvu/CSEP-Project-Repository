@@ -98,7 +98,7 @@ public class MainCtrl {
         this.addIngredient = new Scene(addIngredient.getValue());
         // MIGHT NEED TO BE MODIFIED AFTER CONNECTION TO SERVER
         this.recipeObservableList = FXCollections.observableArrayList();
-
+        //
         this.shoppingListCtrl=shoppingList.getKey();
         this.shoppingList = new Scene(shoppingList.getValue());
         showOverview();
@@ -337,8 +337,11 @@ public class MainCtrl {
         // recipeListView.setItems(sortedRecipes);
     }
 
+    /**
+     * Show shopping list scene.
+     */
     public void showShoppingList() {
-        primaryStage.setTitle("ShoppingList");
+        primaryStage.setTitle("Shopping list");
         primaryStage.setScene(shoppingList);
 
     }

@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,8 +14,10 @@ public class ShoppingListCtrl implements Initializable {
 
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
+
     @FXML
     private ListView<String> shoppingListView;
+
     /**
      * Constructor
      *
@@ -33,8 +34,8 @@ public class ShoppingListCtrl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         shoppingListView.setItems(FXCollections.observableArrayList());
+    }
 
-        shoppingListView.getItems().addAll("Milk", "Eggs", "Butter");    }
     /**
      * Clicking cancel should clear whatever the user entered in
      * the text field and then show the overview
@@ -44,16 +45,23 @@ public class ShoppingListCtrl implements Initializable {
     }
 
     /**
+     * adds an ingredient from input.
+     */
+    public void addIngredientFrom(){
+
+    }
+
+    /**
      * Removes selected ingredient
      */
-    public void removeSelected(){
+    public void removeSelected() {
 
     }
 
     /**
      * Clears the full list
      */
-    public void clearList(){
+    public void clearList() {
 
     }
 

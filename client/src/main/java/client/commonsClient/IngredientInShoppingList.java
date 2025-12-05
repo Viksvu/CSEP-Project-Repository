@@ -3,6 +3,7 @@ package client.commonsClient;
 import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.Recipes;
+import commons.Unit;
 
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ public class IngredientInShoppingList {
     private Ingredients ingredient;
     private int quantity;
     private Recipes recipe;
+    private Unit unit;
 
     /**
      * A constructor for IISL, this just constructs an ingredient directly
@@ -19,9 +21,10 @@ public class IngredientInShoppingList {
      * @param quantity   the quantity.
      */
     public IngredientInShoppingList(Ingredients ingredient,
-                                    int quantity) {
+                                    int quantity, Unit unit) {
         this.ingredient = ingredient;
         this.quantity = quantity;
+        this.unit = unit;
 
     }
 
@@ -34,13 +37,22 @@ public class IngredientInShoppingList {
         this.ingredient = ingredientInRecipe.getTempIngredient();
         this.quantity = ingredientInRecipe.getQuantity();
         this.recipe = ingredientInRecipe.getRecipes();
+        this.unit = ingredientInRecipe.getUnit();
     }
 
     /**
      * No arg constructor. For JPA.
      */
-    public IngredientInShoppingList(){
+    public IngredientInShoppingList() {
 
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 
     public Ingredients getIngredient() {
@@ -85,15 +97,15 @@ public class IngredientInShoppingList {
 
     @Override
     public String toString() {
-        if (quantity==1) {
+        if (quantity == 1) {
             return ingredient.getName()
-                    + " (" + quantity + " " + ingredient.getUnit()
-                    .toString().replaceAll("/s", "") + ")";
+                    + " (" + quantity + " " + unit.toString()
+                    .replaceAll("/s", "") + ")";
         }
         String s = ingredient.getName()
-                + " (" + quantity + " " + ingredient.getUnit()
-                .toString().replaceAll("/", "") + ")";
-        if(recipe!=null)s+="("+recipe.getName()+")";
+                + " (" + quantity + " " + unit.toString()
+                .replaceAll("/", "") + ")";
+        if (recipe != null) s += "(" + recipe.getName() + ")";
         return s;
     }
 }

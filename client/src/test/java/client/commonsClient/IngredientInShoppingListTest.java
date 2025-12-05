@@ -12,8 +12,8 @@ class IngredientInShoppingListTest {
 
     @Test
     void testToStringQuantityOne() {
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.GRAM);
-        IngredientInShoppingList t = new IngredientInShoppingList(i, 34);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
+        IngredientInShoppingList t = new IngredientInShoppingList(i, 34, Unit.GRAM);
 
         String result = t.toString();
 
@@ -21,15 +21,15 @@ class IngredientInShoppingListTest {
     }
     @Test
     void testConstructor(){
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
-        IngredientInShoppingList t = new IngredientInShoppingList(i, 34);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
+        IngredientInShoppingList t = new IngredientInShoppingList(i, 34, Unit.TABLE_SPOON);
         assertEquals(i, t.getIngredient());
     }
     @Test
     void getIngredient() {
 
         IngredientInRecipe iir1 = new IngredientInRecipe();
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
         iir1.setTempIngredient(i);
         IngredientInShoppingList t = new IngredientInShoppingList(iir1);
         assertEquals(t.getIngredient(), i);
@@ -38,11 +38,11 @@ class IngredientInShoppingListTest {
     @Test
     void setIngredient() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
         iir1.setTempIngredient(i);
         IngredientInShoppingList t = new IngredientInShoppingList(iir1);
         assertEquals(t.getIngredient(), i);
-        Ingredients b = new Ingredients("salt", 50, "Pepper", Unit.TABLE_SPOON);
+        Ingredients b = new Ingredients("salt", 50, "Pepper");
         t.setIngredient(b);
         assertEquals(t.getIngredient(), b);
 
@@ -51,7 +51,7 @@ class IngredientInShoppingListTest {
     @Test
     void getQuantity() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
         iir1.setTempIngredient(i);
         iir1.setQuantity(52);
         IngredientInShoppingList t = new IngredientInShoppingList(iir1);
@@ -61,7 +61,7 @@ class IngredientInShoppingListTest {
     @Test
     void setQuantity() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
         iir1.setTempIngredient(i);
         IngredientInShoppingList t = new IngredientInShoppingList(iir1);
         t.setQuantity(52);
@@ -74,7 +74,7 @@ class IngredientInShoppingListTest {
     @Test
     void getRecipe() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
         iir1.setTempIngredient(i);
         Recipes r = new Recipes();
         iir1.setRecipes(r);
@@ -86,7 +86,7 @@ class IngredientInShoppingListTest {
     @Test
     void setRecipe() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
         iir1.setTempIngredient(i);
         Recipes r = new Recipes();
         IngredientInShoppingList t = new IngredientInShoppingList(iir1);
@@ -97,7 +97,7 @@ class IngredientInShoppingListTest {
     @Test
     void testEqualsSame() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
         iir1.setTempIngredient(i);
         IngredientInShoppingList t1 = new IngredientInShoppingList(iir1);
 
@@ -111,8 +111,8 @@ class IngredientInShoppingListTest {
         IngredientInRecipe iir1 = new IngredientInRecipe();
         IngredientInRecipe iir2 = new IngredientInRecipe();
 
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
-        Ingredients i2 = new Ingredients("salt", 50, "Pepper", Unit.TABLE_SPOON);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
+        Ingredients i2 = new Ingredients("salt", 50, "Pepper");
 
         iir1.setTempIngredient(i);
         iir2.setTempIngredient(i2);
@@ -133,7 +133,7 @@ class IngredientInShoppingListTest {
     @Test
     void testHashCode() {
         IngredientInRecipe iir1 = new IngredientInRecipe();
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
         iir1.setTempIngredient(i);
         IngredientInShoppingList t1 = new IngredientInShoppingList(iir1);
 
@@ -146,8 +146,8 @@ class IngredientInShoppingListTest {
         IngredientInRecipe iir1 = new IngredientInRecipe();
         IngredientInRecipe iir2 = new IngredientInRecipe();
 
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
-        Ingredients i2 = new Ingredients("salt", 50, "Pepper", Unit.TABLE_SPOON);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
+        Ingredients i2 = new Ingredients("salt", 50, "Pepper");
 
         iir1.setTempIngredient(i);
         iir2.setTempIngredient(i2);

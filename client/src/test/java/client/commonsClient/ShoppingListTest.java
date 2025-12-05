@@ -1,7 +1,5 @@
-package TestClientCommons;
+package client.commonsClient;
 
-import client.commonsClient.IngredientInShoppingList;
-import client.commonsClient.ShoppingList;
 import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.Recipes;
@@ -102,7 +100,7 @@ class ShoppingListTest {
     void printableShoppingList() {
         Recipes recipe = new Recipes("bologness");
         IngredientInRecipe iir1 = new IngredientInRecipe();
-        Ingredients i = new Ingredients("pepper", 50, "Pepper", Unit.TABLE_SPOON);
+        Ingredients i = new Ingredients("pepper", 50, "Pepper");
         iir1.setTempIngredient(i);
         iir1.setRecipes(recipe);
         iir1.setQuantity(2);
