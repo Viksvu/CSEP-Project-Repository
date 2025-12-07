@@ -128,7 +128,7 @@ public class ShoppingList {
         for (IngredientInShoppingList ingredient : shoppingList) {
             if (ingredient.getRecipe() != null) {
                 stringBuilder.append(ingredient.getQuantity())
-                        .append(ingredient.getIngredient().getUnit().toString())
+                        .append(ingredient.getUnit().toString())
                         .append(" ")
                         .append(ingredient.getIngredient().getName())
                         .append(" ")
@@ -187,6 +187,9 @@ public class ShoppingList {
         result *= 21;
         return result;
     }
+
+
+
 
 
 }

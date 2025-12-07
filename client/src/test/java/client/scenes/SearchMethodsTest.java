@@ -40,8 +40,8 @@ public class    SearchMethodsTest {
                 new PreparationStep("Boil chicken")
         ));
         r1.setIngredients(List.of(
-                new IngredientInRecipe(new Ingredients("Chicken", "chicken")),
-                new IngredientInRecipe(new Ingredients("Onion", "onion"))
+                new IngredientInRecipe(new Ingredients("Chicken")),
+                new IngredientInRecipe(new Ingredients("Onion"))
         ));
 
         r2 = new Recipes();
@@ -51,8 +51,8 @@ public class    SearchMethodsTest {
                 new PreparationStep("Bake cake")
         ));
         r2.setIngredients(List.of(
-                new IngredientInRecipe(new Ingredients("Chocolate", "cocoa")),
-                new IngredientInRecipe(new Ingredients("Flour", "flour"))
+                new IngredientInRecipe(new Ingredients("Chocolate")),
+                new IngredientInRecipe(new Ingredients("Flour"))
         ));
 
         r3 = new Recipes();
@@ -62,8 +62,8 @@ public class    SearchMethodsTest {
                 new PreparationStep("Boil pasta")
         ));
         r3.setIngredients(List.of(
-                new IngredientInRecipe(new Ingredients("Tomato", "tomato")),
-                new IngredientInRecipe(new Ingredients("Pasta", "pasta"))
+                new IngredientInRecipe(new Ingredients("Tomato")),
+                new IngredientInRecipe(new Ingredients("Pasta"))
         ));
 
         List<Recipes> baseList = List.of(r1, r2, r3);

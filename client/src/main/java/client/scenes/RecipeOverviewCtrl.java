@@ -231,6 +231,12 @@ public class RecipeOverviewCtrl implements Initializable {
         mainCtrl.applySearchFilter(text);
         mainCtrl.applySorting(text);
     }
-    
+
+    /**
+     * Shows the current shopping list
+     */
+    public void openShoppingList(){
+        mainCtrl.showShoppingList();
+    }
 
 }

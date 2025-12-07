@@ -37,16 +37,16 @@ public class IngredientsInRecipeServiceTest {
     void setUp() {
         recipe1 = new Recipes("Pancakes");
         recipe2 = new Recipes("Omelette");
-        Ingredients ingredient1 = new Ingredients("Eggs", 150, "Eggs", commons.Unit.PIECE);
+        Ingredients ingredient1 = new Ingredients("Eggs", 150);
 
         IngredientInRecipe iir1 = new IngredientInRecipe();
-        iir1.setTempIngredient(ingredient1);
+        iir1.setIngredient(ingredient1);
         iir1.setRecipes(recipe1);
         iir1.setQuantity(2);
         iir1.setUnit(commons.Unit.PIECE);
 
         IngredientInRecipe iir2 = new IngredientInRecipe();
-        iir2.setTempIngredient(ingredient1);
+        iir2.setIngredient(ingredient1);
         iir2.setRecipes(recipe2);
         iir2.setQuantity(3);
         iir2.setUnit(commons.Unit.PIECE);
@@ -56,7 +56,7 @@ public class IngredientsInRecipeServiceTest {
     }
 
     @Test
-    void testFindRecipeIdsByIngredientId() {
+    void  testFindRecipeIdsByIngredientId() {
         Recipes r1 = recipeService.addRecipe(recipe1);
         Recipes r2 = recipeService.addRecipe(recipe2);
         int count = 0;

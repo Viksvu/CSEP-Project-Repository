@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import client.commonsClient.ShoppingList;
 import commons.Recipes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +25,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import commons.Recipes;
 import commons.PreparationStep;
 import commons.IngredientInRecipe;
 import commons.Ingredients;
@@ -49,6 +49,9 @@ public class MainCtrl {
 
     private AddIngredientCtrl addIngredientCtrl;
     private Scene addIngredient;
+
+    private ShoppingListCtrl shoppingListCtrl;
+    private Scene shoppingList;
 
     // This observable list stores the names of all the recipes.
     // <String> might want to be replaced by <Recipe> in
@@ -75,6 +78,7 @@ public class MainCtrl {
             , Pair<AddRecipeCtrl, Parent> add
             , Pair<RemoveRecipeCtrl, Parent> remove
             , Pair<AddIngredientCtrl, Parent> addIngredient
+            , Pair<ShoppingListCtrl, Parent> shoppingList
     ) {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
@@ -94,7 +98,9 @@ public class MainCtrl {
         this.addIngredient = new Scene(addIngredient.getValue());
         // MIGHT NEED TO BE MODIFIED AFTER CONNECTION TO SERVER
         this.recipeObservableList = FXCollections.observableArrayList();
-
+        //
+        this.shoppingListCtrl=shoppingList.getKey();
+        this.shoppingList = new Scene(shoppingList.getValue());
         showOverview();
         primaryStage.show();
     }
@@ -115,7 +121,6 @@ public class MainCtrl {
         primaryStage.setTitle("Recipes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();
-
     }
 
     /**
@@ -146,6 +151,16 @@ public class MainCtrl {
         primaryStage.setScene(addIngredient);
         addIngredientCtrl.provideRecipe(recipe);
     }
+
+    /**
+     * Sets the add ingredient scene as the primary scene
+     */
+    public void showAddIngredient(ShoppingList shoppingList) {
+        primaryStage.setTitle("Adding ingredient");
+        primaryStage.setScene(addIngredient);
+        addIngredientCtrl.provideShoppingList(shoppingList);
+    }
+
 
     // EVERYTHING BELOW HAS BEEN REPLACED WITH SERVER-LOGIC
     // IT IS ONLY THERE IN CASE EVER NEEDED FOR DEBUGGING
@@ -202,11 +217,11 @@ public class MainCtrl {
             }
             List<IngredientInRecipe> ings=recipes.getIngredients();
             for(int i=0;i<ings.size();i++){
-                Ingredients tempIngredient=ings.get(i).getTempIngredient();
+                Ingredients tempIngredient=ings.get(i).getIngredient();
                 if(tempIngredient.getName()
                         .toLowerCase().contains(query)
                         || tempIngredient.
-                        getIngredient().toLowerCase().contains(query)) {
+                        getName().toLowerCase().contains(query)) {
                     return true;
                 }
             }
@@ -224,10 +239,10 @@ public class MainCtrl {
         int mx=0;
         for(int i=0;i<ings.size();i++){
             Ingredients tempIngredient =ings.
-                    get(i).getTempIngredient();
+                    get(i).getIngredient();
             if(tempIngredient.getName().toLowerCase().contains(text)){
                 if(tempIngredient.
-                        getIngredient().toLowerCase().startsWith(text)){
+                        getName().toLowerCase().startsWith(text)){
                     return 2;
                 }
                 mx=1;
@@ -330,6 +345,15 @@ public class MainCtrl {
 
         // If you have a ListView/TableView in the actual UI:
         // recipeListView.setItems(sortedRecipes);
+    }
+
+    /**
+     * Show shopping list scene.
+     */
+    public void showShoppingList() {
+        primaryStage.setTitle("Shopping list");
+        primaryStage.setScene(shoppingList);
+
     }
 
 }

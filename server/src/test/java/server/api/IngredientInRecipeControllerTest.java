@@ -31,12 +31,13 @@ class IngredientInRecipeControllerTest {
 
         ic = new IngredientInRecipeController();
 
-        i = new Ingredients("Tomato", 1, "Tomato", Unit.PIECE);
+        i = new Ingredients("Tomato", 1);
 
         iR = new IngredientInRecipe();
         iR.setRecipes(r1);
         iR.setQuantity(1);
-        iR.setTempIngredient(i);
+        iR.setIngredient(i);
+        iR.setUnit(Unit.GRAM);
     }
 
     @Test
