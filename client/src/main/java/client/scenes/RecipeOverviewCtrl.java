@@ -201,7 +201,6 @@ public class RecipeOverviewCtrl implements Initializable {
     public void recipeClicked(MouseEvent actionEvent) {
         refresh();
     }
-
     /**
      * Updates the ingredients section
      *

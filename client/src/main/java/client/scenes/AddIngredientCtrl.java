@@ -11,6 +11,7 @@ import commons.Unit;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,6 +26,7 @@ public class AddIngredientCtrl implements Initializable {
     private final ServerUtils server;
     private Recipes recipe;
     private ShoppingList shoppingList;
+    private Scene previousScene;
 
     @FXML
     private TextField nameField;
@@ -37,8 +39,10 @@ public class AddIngredientCtrl implements Initializable {
 
     @FXML
     private Label errorLabel;
+
     /**
      * Constructor
+     *
      * @param mainCtrl
      * @param server
      */
@@ -51,6 +55,7 @@ public class AddIngredientCtrl implements Initializable {
 
     /**
      * initialises all fields
+     *
      * @param url
      * @param resourceBundle
      */
@@ -68,15 +73,33 @@ public class AddIngredientCtrl implements Initializable {
     public void cancel() {
         nameField.clear();
         quantityField.clear();
-        mainCtrl.showOverview();
+        if (previousScene.getRoot().getId().equals("shoppingList")) {
+            mainCtrl.showShoppingList();
+        }
+        if (previousScene.getRoot().getId().equals("overview")) {
+            mainCtrl.showOverview();
+        }
     }
 
+    /**
+     * Based on the previous scene this method
+     * decides where to add the parsed ingredient
+     */
+    public void add() {
+        if (previousScene.getRoot().getId().equals("shoppingList")) {
+            addToShoppingList();
+        }
+        if (previousScene.getRoot().getId().equals("overview")) {
+            addToRecipe();
+        }
+    }
     //MUST MODIFY: UNIT.TOSTRING() BEING USED SINCE
     // INGREDIENTS IS NOT REFACTORED YET!
+
     /**
      * Adds an ingredient to the recipe that was selected
      */
-    public void add() {
+    public void addToRecipe() {
         String name = nameField.getText();
         String quantity = null;
         int quantityInt;
@@ -105,6 +128,7 @@ public class AddIngredientCtrl implements Initializable {
     /**
      * Used by mainCtrl to "tell" AddIngredientCtrl
      * which recipe the ingredient is being added to.
+     *
      * @param recipe
      */
     public void provideRecipe(Recipes recipe) {
@@ -114,6 +138,7 @@ public class AddIngredientCtrl implements Initializable {
     /**
      * Used by mainCtrl to "tell" AddIngredientCtrl
      * which shopping list the ingredient is being added to.
+     *
      * @param shoppingList the shopping list.
      */
     public void provideShoppingList(ShoppingList shoppingList) {
@@ -125,7 +150,7 @@ public class AddIngredientCtrl implements Initializable {
      * Add an ingredient
      * directly to the shopping list.
      */
-    public void addToShoppingList(){
+    public void addToShoppingList() {
         String name = nameField.getText();
         String quantity = null;
         int quantityInt;
@@ -137,7 +162,7 @@ public class AddIngredientCtrl implements Initializable {
             Ingredients ingredient = new Ingredients(name, 0);
             IngredientInShoppingList ingredientInShoppingList
                     = new IngredientInShoppingList(
-                            ingredient, quantityInt, unit);
+                    ingredient, quantityInt, unit);
             shoppingList.addIngredientDirectly(ingredientInShoppingList);
             mainCtrl.showShoppingList();
         } catch (Exception e) {
@@ -146,6 +171,15 @@ public class AddIngredientCtrl implements Initializable {
             System.out.println(e.getMessage());
             errorLabel.setVisible(true);
         }
+    }
+
+    /**
+     * sets the previous scene
+     *
+     * @param previousScene the previous scene.
+     */
+    public void previousSceneSetter(Scene previousScene) {
+        this.previousScene = previousScene;
     }
 
 }

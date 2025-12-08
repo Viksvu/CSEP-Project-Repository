@@ -83,6 +83,8 @@ public class MainCtrl {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
+        this.overview.getRoot().setId("overview");
+
         // TO CHANGE AFTER REFACTORING
         this.tempRecipeList = FXCollections.observableArrayList();
         this.filteredRecipes=new FilteredList<>(tempRecipeList);
@@ -101,6 +103,7 @@ public class MainCtrl {
         //
         this.shoppingListCtrl=shoppingList.getKey();
         this.shoppingList = new Scene(shoppingList.getValue());
+        this.shoppingList.getRoot().setId("shoppingList");
         showOverview();
         primaryStage.show();
     }
@@ -150,6 +153,8 @@ public class MainCtrl {
         primaryStage.setTitle("Adding Ingredient to: "+recipe.toString());
         primaryStage.setScene(addIngredient);
         addIngredientCtrl.provideRecipe(recipe);
+        addIngredientCtrl.previousSceneSetter(this.overview);
+
     }
 
     /**
@@ -159,6 +164,7 @@ public class MainCtrl {
         primaryStage.setTitle("Adding ingredient");
         primaryStage.setScene(addIngredient);
         addIngredientCtrl.provideShoppingList(shoppingList);
+        addIngredientCtrl.previousSceneSetter(this.shoppingList);
     }
 
 
@@ -353,7 +359,19 @@ public class MainCtrl {
     public void showShoppingList() {
         primaryStage.setTitle("Shopping list");
         primaryStage.setScene(shoppingList);
+        shoppingListCtrl.refresh();
 
     }
 
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public Scene getAddScene() {
+        return add;
+    }
+
+    public Scene getShoppingListScene() {
+        return shoppingList;
+    }
 }
