@@ -15,6 +15,7 @@ public class EditButton extends Button {
     private final Recipes recipe;
     private RecipeOverviewCtrl ctrl;
     private EditButtonOptions option;
+
     /**
      * Constructor for edit ingredient button
      * @param ingredient to which this button is associated
@@ -38,13 +39,14 @@ public class EditButton extends Button {
         super.setTranslateX(
                 8 * parent.getItems().get(index).toString().length()
         );
-        editIngredient();
+        editIngredientInRecipe();
     }
+
 
     /**
      * Actually allows to edit by creating a new
      */
-    public void editIngredient() {
+    public void editIngredientInRecipe() {
         this.setOnAction(event -> {
             if (this.option==EditButtonOptions.REMOVE_INGREDIENT) {
                 server.removeIngredientFromRecipe(ingredient, recipe);
@@ -57,4 +59,5 @@ public class EditButton extends Button {
             }
         });
     }
+
 }
