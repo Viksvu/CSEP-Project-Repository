@@ -22,8 +22,11 @@ public class EditButtonShoppingList extends Button {
      * @param s          for button text
      */
     public EditButtonShoppingList(IngredientInShoppingList ingredient,
-                                  String s, int index, ListView<IngredientInShoppingList> parent,
-                                   ShoppingListCtrl ctrl, ShoppingList shoppingList,
+                                  String s,
+                                  int index,
+                                  ListView<IngredientInShoppingList> parent,
+                                   ShoppingListCtrl ctrl,
+                                  ShoppingList shoppingList,
                                   EditButtonOptions option) {
         super(s);
         this.ingredient = ingredient;

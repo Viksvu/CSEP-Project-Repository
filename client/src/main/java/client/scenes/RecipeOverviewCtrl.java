@@ -238,4 +238,7 @@ public class RecipeOverviewCtrl implements Initializable {
         mainCtrl.showShoppingList();
     }
 
+    public ObservableList<Recipes> getData() {
+        return data;
+    }
 }

@@ -1,6 +1,5 @@
 package client.scenes;
 
-import client.EditButton;
 import client.EditButtonOptions;
 import client.EditButtonShoppingList;
 import client.commonsClient.IngredientInShoppingList;
@@ -74,7 +73,15 @@ public class ShoppingListCtrl implements Initializable {
      */
     public void addIngredient() {
         mainCtrl.showAddIngredient(shoppingList);
-        totalItemsLabel.setText("Total: " + shoppingList.getShoppingList().size() + " items");
+        totalItemsLabel.setText(
+                "Total: " + shoppingList.getShoppingList().size() + " items");
+    }
+
+    /**
+     * Adds selected recipe ingredients.
+     */
+    public void addRecipe(){
+       mainCtrl.showAddRecipeIngredientsOverview(shoppingList);
     }
 
         /**
