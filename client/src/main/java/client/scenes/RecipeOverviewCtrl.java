@@ -201,7 +201,6 @@ public class RecipeOverviewCtrl implements Initializable {
     public void recipeClicked(MouseEvent actionEvent) {
         refresh();
     }
-
     /**
      * Updates the ingredients section
      *
@@ -239,4 +238,7 @@ public class RecipeOverviewCtrl implements Initializable {
         mainCtrl.showShoppingList();
     }
 
+    public ObservableList<Recipes> getData() {
+        return data;
+    }
 }
