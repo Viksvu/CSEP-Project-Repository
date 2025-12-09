@@ -92,8 +92,8 @@ public class MainCtrl {
         this.overview.getRoot().setId("overview");
 
         // TO CHANGE AFTER REFACTORING
-        this.tempRecipeList = FXCollections.observableArrayList();
-        this.filteredRecipes = new FilteredList<>(tempRecipeList);
+        this.tempRecipeList = overview.getKey().getData();
+        this.filteredRecipes = new FilteredList<>(overview.getKey().getData());
         this.sortedRecipes = new SortedList<>(filteredRecipes);
 
         this.addCtrl = add.getKey();
@@ -214,34 +214,29 @@ public class MainCtrl {
     }
 
     /**
-     * Applying search filters
-     *
+     *  Applying search filters
      * @param text the text query
      */
-    public void applySearchFilter(String text) {
-        if (text.isEmpty()) {
+    public void applySearchFilter(String text){
+        filteredRecipes=new FilteredList<>(overviewCtrl.getData());
+        if(text.isEmpty()){
             filteredRecipes.setPredicate(recipes -> true);
             return;
         }
-        text = text.toLowerCase();
-        final String query = text;
+        text=text.toLowerCase();
+        final String query=text;
         filteredRecipes.setPredicate(recipes -> {
-            if (recipes.getName().toLowerCase().contains(query)) return true;
-            List<PreparationStep>
-                    preparationSteps = recipes.getPreparationSteps();
-            for (int i = 0; i < preparationSteps.size(); i++) {
-                if (preparationSteps.
-                        get(i).getDescription().toLowerCase().contains(query)) {
+            if(recipes.getName().toLowerCase().contains(query)) return true;
+            List<PreparationStep> preparationSteps=recipes.getPreparationSteps();
+            for(int i=0;i<preparationSteps.size();i++){
+                if(preparationSteps.get(i).getDescription().toLowerCase().contains(query)) {
                     return true;
                 }
             }
-            List<IngredientInRecipe> ings = recipes.getIngredients();
-            for (int i = 0; i < ings.size(); i++) {
-                Ingredients tempIngredient = ings.get(i).getIngredient();
-                if (tempIngredient.getName()
-                        .toLowerCase().contains(query)
-                        || tempIngredient.
-                        getName().toLowerCase().contains(query)) {
+            List<IngredientInRecipe> ings=recipes.getIngredients();
+            for(int i=0;i<ings.size();i++){
+                Ingredients tempIngredient=ings.get(i).getIngredient();
+                if(tempIngredient.getName().toLowerCase().contains(query)) {
                     return true;
                 }
             }
@@ -313,42 +308,40 @@ public class MainCtrl {
 
     /**
      * Do the sorting
-     *
      * @param text the text query
      */
-    public void applySorting(String text) {
-        if (text.isEmpty()) {
+    public void applySorting(String text){
+        sortedRecipes=new SortedList<>(filteredRecipes);
+        if(text.isEmpty()){
             sortedRecipes.setComparator(
-                    Comparator.
-                            comparing(Recipes::getName,
-                                    String.CASE_INSENSITIVE_ORDER)
+                    Comparator.comparing(Recipes::getName, String.CASE_INSENSITIVE_ORDER)
             );
             return;
         }
-        text = text.toLowerCase();
-        final String query = text;
-        sortedRecipes.setComparator((r1, r2) -> {
-            String t1 = r1.getName().toLowerCase();
-            String t2 = r2.getName().toLowerCase();
-            if (checkName(t1, query) > checkName(t2, query)) return -1;
-            else if (checkName(t1, query) < checkName(t2, query)) return 1;
+        text=text.toLowerCase();
+        final String query=text;
+        sortedRecipes.setComparator((r1,r2)->{
+            String t1=r1.getName().toLowerCase();
+            String t2=r2.getName().toLowerCase();
+            if(checkName(t1,query)>checkName(t2,query)) return -1;
+            else if(checkName(t1,query)<checkName(t2,query)) return 1;
 
-            int chckVal1 = checkIngs(r1.getIngredients(), query);
-            int chckVal2 = checkIngs(r2.getIngredients(), query);
-            if (chckVal1 > chckVal2) {
+            int chckVal1=checkIngs(r1.getIngredients(), query);
+            int chckVal2=checkIngs(r2.getIngredients(), query);
+            if(chckVal1>chckVal2){
                 return -1;
-            } else if (chckVal1 < chckVal2) return 1;
+            }else if(chckVal1<chckVal2) return 1;
 
-            chckVal1 = checkPrepSteps(r1.getPreparationSteps(), query);
-            chckVal2 = checkPrepSteps(r2.getPreparationSteps(), query);
-            if (chckVal1 > chckVal2) {
+            chckVal1=checkPrepSteps(r1.getPreparationSteps(), query);
+            chckVal2=checkPrepSteps(r2.getPreparationSteps(), query);
+            if(chckVal1>chckVal2){
                 return -1;
-            } else if (chckVal1 < chckVal2) return 1;
-
+            }else if(chckVal1<chckVal2) return 1;
             return 0;
 
         });
     }
+
 
     public ObservableList<Recipes> getRecipeObservableList() {
         return tempRecipeList;

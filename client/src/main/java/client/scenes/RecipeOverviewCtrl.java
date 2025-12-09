@@ -27,6 +27,7 @@ public class RecipeOverviewCtrl implements Initializable {
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
     ObservableList<Recipes> data;
+    ObservableList<Recipes> data1;
     ObservableList<IngredientInRecipe> ingredientsData;
     ObservableList<String> preparationsData;
     // Button someButton;
@@ -87,7 +88,8 @@ public class RecipeOverviewCtrl implements Initializable {
         // will also add to the ListView of Recipes
         //recipeListView.setItems(recipeObservableList);
         //recipeListView.setEditable(true);
-
+        data=FXCollections.observableArrayList();
+        data1=FXCollections.observableArrayList();
     }
 
     /**
@@ -117,7 +119,8 @@ public class RecipeOverviewCtrl implements Initializable {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        recipeListView.setItems(data);
+        if(!data1.isEmpty()) recipeListView.setItems(data1);
+        else recipeListView.setItems(data);
         ingredientListView.setItems(ingredientsData);
         addEditButtonToIngredient();
 
@@ -227,8 +230,11 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void searchInit(){
         String text=searchField.getText();
+        refresh();
         mainCtrl.applySearchFilter(text);
         mainCtrl.applySorting(text);
+        data1=mainCtrl.getSortedRecipes();
+        refresh();
     }
 
     /**
