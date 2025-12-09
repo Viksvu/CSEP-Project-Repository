@@ -42,6 +42,7 @@
                                                   layoutY="36.0"
                                                   prefHeight="318.0"
                                                   prefWidth="175.0"
+                                                  onMouseClicked="#recipeClicked"
                                                   AnchorPane.bottomAnchor="0.0"
                                                   AnchorPane.leftAnchor="0.0"
                                                   AnchorPane.rightAnchor="0.0"
