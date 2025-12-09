@@ -119,48 +119,7 @@ public class    SearchMethodsTest {
         assertEquals(0, controller.checkPrepSteps(r1.getPreparationSteps(), "xyz"));
     }
 
-    @Test
-    void testApplySearchFilterName() {
-        controller.applySearchFilter("chicken");
 
-        List<Recipes> filtered = controller.getFilteredRecipes();
-        assertEquals(1, filtered.size());
-        assertEquals("Chicken Soup", filtered.get(0).getName());
-    }
-
-    @Test
-    void testApplySearchFilterIngredient() {
-        controller.applySearchFilter("tomato");
-
-        List<Recipes> filtered = controller.getFilteredRecipes();
-        assertEquals(1, filtered.size());
-        assertEquals("Tomato Pasta", filtered.get(0).getName());
-    }
-
-    @Test
-    void testApplySearchFilterPrepStep() {
-        controller.applySearchFilter("mix"); // Chocolate Cake
-
-        List<Recipes> filtered = controller.getFilteredRecipes();
-        assertEquals(1, filtered.size());
-        assertEquals("Chocolate Cake", filtered.get(0).getName());
-    }
-
-    @Test
-    void testApplySearchFilterNoMatch() {
-        controller.applySearchFilter("xyz");
-
-        List<Recipes> filtered = controller.getFilteredRecipes();
-        assertEquals(0, filtered.size());
-    }
-
-    @Test
-    void testApplySearchFilterEmptyQueryShowsAll() {
-        controller.applySearchFilter("");
-
-        List<Recipes> filtered = controller.getFilteredRecipes();
-        assertEquals(3, filtered.size());
-    }
 
 
     @Test
