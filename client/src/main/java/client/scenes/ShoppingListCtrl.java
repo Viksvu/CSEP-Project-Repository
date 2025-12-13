@@ -90,6 +90,8 @@ public class ShoppingListCtrl implements Initializable {
     public void clearList() {
         shoppingList.resetShoppingList();
         shoppingListView.getItems().clear();
+        ingredientsPane.getChildren().clear();
+
     }
 
     public ShoppingList getShoppingList() {

@@ -74,6 +74,8 @@ public class Main extends Application {
                 (AddRecipeIngredientsCtrl.class,
                         "client", "scenes",
                         "AddRecipeIngredientsOverview.fxml");
+		var overviewList= FXML.load(OverviewListCtrl.class,
+				"client", "scenes", "OverviewList.fxml");
 
 		var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 		mainCtrl.initialize(
@@ -83,7 +85,8 @@ public class Main extends Application {
                 remove,
                 addIngredient,
                 shoppingList,
-                addRecipeIngredients
+                addRecipeIngredients,
+				overviewList
         );
 	}
 }

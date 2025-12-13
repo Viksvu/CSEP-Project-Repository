@@ -37,6 +37,7 @@ import java.util.List;
 public class MainCtrl {
 
     private Stage primaryStage;
+    private Stage secondaryStage;
 
     private Scene overview;
     private RecipeOverviewCtrl overviewCtrl;
@@ -52,6 +53,9 @@ public class MainCtrl {
 
     private ShoppingListCtrl shoppingListCtrl;
     private Scene shoppingList;
+
+    private OverviewListCtrl overviewListCtrl;
+    private Scene overviewList;
 
     private AddRecipeIngredientsCtrl addRecipeIngredientsCtrl;
     private Scene addRecipeIngredients;
@@ -84,7 +88,8 @@ public class MainCtrl {
             , Pair<RemoveRecipeCtrl, Parent> remove
             , Pair<AddIngredientCtrl, Parent> addIngredient
             , Pair<ShoppingListCtrl, Parent> shoppingList
-            , Pair<AddRecipeIngredientsCtrl, Parent> addRecipeIngredientsP
+            , Pair<AddRecipeIngredientsCtrl, Parent> addRecipeIngredientsP,
+                           Pair<OverviewListCtrl, Parent> overviewListPair
     ) {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
@@ -110,6 +115,10 @@ public class MainCtrl {
         this.shoppingListCtrl = shoppingList.getKey();
         this.shoppingList = new Scene(shoppingList.getValue());
         this.shoppingList.getRoot().setId("shoppingList");
+
+        this.overviewListCtrl=overviewListPair.getKey();
+        this.overviewList= new Scene(overviewListPair.getValue());
+
 
         this.addRecipeIngredientsCtrl = addRecipeIngredientsP.getKey();
         this.addRecipeIngredients = new Scene(addRecipeIngredientsP.getValue());
@@ -383,10 +392,12 @@ public class MainCtrl {
      * @param shoppingList the shopping list to add too.
      */
     public void showAddRecipeIngredientsOverview(ShoppingList shoppingList) {
+
         primaryStage.setTitle("Add recipe ingredients");
         primaryStage.setScene(addRecipeIngredients);
         addRecipeIngredientsCtrl.setChoiceBox(overviewCtrl.getData());
         addRecipeIngredientsCtrl.setShoppingList(shoppingList);
+
     }
 
     public Stage getPrimaryStage() {
