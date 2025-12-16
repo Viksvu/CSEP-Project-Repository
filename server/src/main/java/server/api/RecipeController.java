@@ -66,7 +66,7 @@ public class RecipeController {
         if (recipe == null)
             return ResponseEntity.badRequest().build();
 
-        if (recipe.getId() == null || recipe.getId() == -1) {
+        if (recipe.getId() == 0) {
             return ResponseEntity.badRequest().build();
         }
         recipeService.deleteRecipe(recipe.getId());

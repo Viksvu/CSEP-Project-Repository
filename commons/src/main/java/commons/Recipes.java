@@ -11,7 +11,7 @@ public class Recipes {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
-    private Long id;
+    private long id;
     @OneToMany(mappedBy = "recipes", cascade = CascadeType.ALL,
             orphanRemoval = true)
     // to change after ingredients class is implemented
@@ -30,11 +30,11 @@ public class Recipes {
         this.preparationSteps = new ArrayList<>();
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -57,7 +57,7 @@ public class Recipes {
      * @param preparationSteps the preparation steps in a recipe.
      * @param name             the name of the recipe.
      */
-    public Recipes(Long id, List<IngredientInRecipe> ingredients,
+    public Recipes(long id, List<IngredientInRecipe> ingredients,
                    List<PreparationStep> preparationSteps, String name) {
         this.id = id;
         this.ingredients = ingredients;
