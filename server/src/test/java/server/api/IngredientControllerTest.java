@@ -1,46 +1,98 @@
 package server.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import commons.Ingredients;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import server.temp.Ingredient;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import server.services.IngredientsService;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
-@Disabled
+@WebMvcTest(IngredientController.class)
+@Import(IngredientControllerTest.MockConfig.class)
 public class IngredientControllerTest {
 
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private IngredientsService ingredientsService;
+
+    // used the help of ChatGPT to debug and set up the configuration for the tests.
+    @TestConfiguration
+    static class MockConfig {
+
+        @Bean
+        IngredientsService ingredientService() {
+            return Mockito.mock(IngredientsService.class);
+        }
+    }
     private IngredientController ic;
-    private Ingredient i1;
-    private Ingredient i2;
+    private Ingredients i1;
+    private Ingredients i2;
 
     @BeforeEach
     public void setup() {
-//        ic = new IngredientController();
-        i1 = new Ingredient(0, "Salt");
-        i2 = new Ingredient(1, "Pepperoni");
+        ic = new IngredientController(ingredientsService);
+        i1 = new Ingredients("Salt", 10);
+        i2 = new Ingredients("Pepperoni", 100);
     }
 
     @Test
-    public void addNullIngredient() {
-//        ResponseEntity<Ingredient> actual = ic.add(null);
-//        assertEquals(BAD_REQUEST, actual.getStatusCode());
+    public void addNullIngredient() throws Exception {
+        List<Ingredients> ingredients = new ArrayList<>();
+        when(ingredientsService.getAllIngredients()).thenReturn(ingredients);
+        MvcResult result = mockMvc.perform(get("/api/ingredient/list")).andReturn();
+        String json = result.getResponse().getContentAsString();
+        List<Ingredients> responseList = Arrays.asList(objectMapper.readValue(json, Ingredients[].class));
+        assertEquals(0, responseList.size());
     }
 
     @Test
-    public void checkAdd() {
-//        ic.add(i1);
-//        ic.add(i2);
-//        assertTrue(ic.getAll().containsAll(Arrays.asList(i1, i2)));
+    public void checkAdd() throws Exception {
+        when(ingredientsService.addIngredient(any())).thenReturn(i1);
+        MvcResult result = mockMvc.perform(post("/api/ingredient/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(i1))).andReturn();
+        String json = result.getResponse().getContentAsString();
+        Ingredients response = objectMapper.readValue(json, Ingredients.class);
+        assertEquals(response.getId(), i1.getId());
+        assertEquals(response.getName(), i1.getName());
+        verify(ingredientsService).addIngredient(any());
     }
 
     @Test
-    public void checkAddIngredientNameNull() {
-//        ResponseEntity<Ingredient> response = ic.add(new Ingredient(-1, null));
-//        assertEquals(BAD_REQUEST, response.getStatusCode());
+    public void checkAddIngredientNameNull() throws Exception {
+        i1.setName("");
+        when(ingredientsService.addIngredient(any())).thenReturn(i1);
+        MvcResult result = mockMvc.perform(post("/api/ingredient/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(i1))).andReturn();
+        assertEquals(400, result.getResponse().getStatus());
     }
 
     @Test
@@ -58,73 +110,6 @@ public class IngredientControllerTest {
         assertTrue(isValidName("Spaghetti"));
     }
 
-    @Test
-    public void checkIngredientExists() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-//        assertFalse(ingredientExists(i1.getId()));
-//        ic.add(i1);
-//        assertTrue(ingredientExists(i1.getId()));
-    }
-
-    @Test
-    public void checkAutoNewID() {
-//        Ingredient newIngredient = new Ingredient(-1, "Wraps");
-//
-//        ResponseEntity<Ingredient> response = ic.add(newIngredient);
-//        Ingredient ingredient = response.getBody();
-//
-//        assertEquals(OK, response.getStatusCode());
-//        assertNotNull(ingredient);
-//
-//        assertNotEquals(newIngredient.getId(), ingredient.getId());
-    }
-
-    @Test
-    public void checkAutoNewIDWithNonEmptyIngredientList() {
-//        ic.add(i2);
-//        ic.add(i1);
-//
-//        Ingredient newIngredient = new Ingredient(-1, "Milk");
-//
-//        ResponseEntity<Ingredient> response = ic.add(newIngredient);
-//        Ingredient ingredient = response.getBody();
-//
-//        assertEquals(OK, response.getStatusCode());
-//        assertNotNull(ingredient);
-//
-//        assertNotEquals(newIngredient.getId(), ingredient.getId());
-    }
-
-    @Test
-    public void checkRemove() {
-//        ic.add(i1);
-//
-//        ResponseEntity<Ingredient> response = ic.remove(i1);
-//        assertEquals(OK, response.getStatusCode());
-    }
-
-    @Test
-    public void checkRemoveWithMultipleEntries() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-//        ic.add(i1);
-//        ic.add(i2);
-//
-//        ResponseEntity<Ingredient> response = ic.remove(i1);
-//        assertEquals(OK, response.getStatusCode());
-//
-//        assertTrue(ingredientExists(i2.getId()));
-    }
-
-    @Test
-    public void checkRemoveNull() {
-//        ResponseEntity<Ingredient> response = ic.remove(null);
-//        assertEquals(BAD_REQUEST, response.getStatusCode());
-    }
-
-    @Test
-    public void checkRemoveNonExisting() {
-//        ResponseEntity<Ingredient> response = ic.remove(i1);
-//        assertEquals(BAD_REQUEST, response.getStatusCode());
-    }
-
     /**
      * Get the private method isValidName for testing
      * @param name input for isValidName method of IngredientController
@@ -134,16 +119,5 @@ public class IngredientControllerTest {
         Method m = ic.getClass().getDeclaredMethod("isValidName", String.class);
         m.setAccessible(true);
         return (boolean) m.invoke(ic, name);
-    }
-
-    /**
-     * Get the private method ingredientExists for testing
-     * @param ingredientID input for ingredientExists method of IngredientController
-     * @return true, if ingredient with id exists
-     */
-    private boolean ingredientExists(int ingredientID) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = ic.getClass().getDeclaredMethod("ingredientExists", int.class);
-        m.setAccessible(true);
-        return (boolean) m.invoke(ic, ingredientID);
     }
 }
