@@ -112,6 +112,15 @@ public class Recipes {
         this.preparationSteps = preparationSteps;
     }
 
+    /**
+     * Removes a specific preparation step from the
+     * list of all preparation steps
+     * @param preparationStep to remove from the list
+     */
+    public void removePreparationStep(PreparationStep preparationStep) {
+        preparationSteps.remove(preparationStep);
+    }
+
     public void setIngredients(List<IngredientInRecipe> ingredients) {
         this.ingredients = ingredients;
     }
