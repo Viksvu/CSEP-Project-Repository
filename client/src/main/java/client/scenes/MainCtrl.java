@@ -427,4 +427,5 @@ public class MainCtrl {
     public Scene getShoppingListScene() {
         return shoppingList;
     }
+
 }
