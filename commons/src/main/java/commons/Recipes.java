@@ -121,6 +121,15 @@ public class Recipes {
         preparationSteps.remove(preparationStep);
     }
 
+    /**
+     * Checks whether a given preparation step is a part of the recipe
+     * @param preparationStep to check for
+     * @return a boolean for contains or not contains
+     */
+    public boolean containsPreparationStep(PreparationStep preparationStep) {
+        return preparationSteps.contains(preparationStep);
+    }
+
     public void setIngredients(List<IngredientInRecipe> ingredients) {
         this.ingredients = ingredients;
     }

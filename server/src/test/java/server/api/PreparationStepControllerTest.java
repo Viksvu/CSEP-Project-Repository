@@ -73,6 +73,8 @@ class PreparationStepControllerTest {
     }
     @Test
     void deletePreparationStepFromNullRecipe() {
-
+        ResponseEntity<PreparationStep> response
+                = preparationStepController.deletePreparationStep(null, ps1);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }
