@@ -22,6 +22,7 @@ import java.util.List;
 
 import commons.IngredientInRecipe;
 import commons.Ingredients;
+import commons.PreparationStep;
 import commons.Recipes;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -139,6 +140,39 @@ public class ServerUtils {
                 .post(Entity.entity(ingredient, APPLICATION_JSON),
                         IngredientInRecipe.class);
     }
+
+    public List<PreparationStep> getPreparationSteps(Recipes recipe) {
+        long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .queryParam("recipeId", recipeId)
+                .path("api/prep-step/list")
+                .request(APPLICATION_JSON)
+                .get(new GenericType<List<PreparationStep>>() {});
+    }
+
+    public PreparationStep addPreparationStepToRecipe(PreparationStep step, Recipes recipe) {
+        long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .queryParam("recipeId", recipeId)
+                .path("api/prep-step/add")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(step, APPLICATION_JSON),
+                        PreparationStep.class);
+    }
+
+    public PreparationStep deletePreparationStepToRecipe(PreparationStep step, Recipes recipe) {
+        long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .queryParam("recipeId", recipeId)
+                .path("api/prep-step/delete")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(step, APPLICATION_JSON),
+                        PreparationStep.class);
+    }
+
 
 	/**
      * temp

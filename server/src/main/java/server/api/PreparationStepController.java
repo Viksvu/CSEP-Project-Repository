@@ -17,32 +17,32 @@ public class PreparationStepController {
 
     /**
      * Lists the preparation steps of a recipe
-     * @param recipes to list the preparation steps of
+     * @param recipeId id of recipe to fetch preparation steps from
      * @return a List of all the preparation steps from the database.
      */
     @GetMapping("/list")
-    public List<PreparationStep> getPreparationSteps(@RequestBody Recipes recipes) {
-        long id = recipes.getId();
-        Recipes recipe = recipeService.getRecipeById(id);
+    public List<PreparationStep> getPreparationSteps(@RequestParam long recipeId) {
+        Recipes recipe = recipeService.getRecipeById(recipeId);
+        if (recipe == null) return null;
         return recipe.getPreparationSteps();
     }
 
     /**
      * Adds a preparation step to any given recipe
-     * @param recipes recipe to add the step
+     * @param recipeId get id of recipe to add to
      * @param preparationStep to add
      * @return the preparation step if successful, else return
      * a bad request.
      */
     @PostMapping("/add")
     public ResponseEntity<PreparationStep> addPreparationStep(
-            @RequestBody Recipes recipes,
-            @RequestParam PreparationStep preparationStep) {
-        if (isEmptyOrNull(recipes) ||  isEmptyOrNull(preparationStep)) {
+            @RequestParam long recipeId,
+            @RequestBody PreparationStep preparationStep) {
+        if (isEmptyOrNull(recipeId) ||  isEmptyOrNull(preparationStep)) {
             return ResponseEntity.badRequest().build();
         }
-        long id = recipes.getId();
-        Recipes recipe = recipeService.getRecipeById(id);
+        Recipes recipe = recipeService.getRecipeById(recipeId);
+        if (recipe == null) return ResponseEntity.badRequest().build();
         recipe.addPreparationStep(preparationStep);
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(preparationStep);
@@ -50,21 +50,21 @@ public class PreparationStepController {
 
     /**
      * Deletes a recipe from the list of all recipes
-     * @param recipes to delete step from
+     * @param recipeId id of recipe to delete step from
      * @param preparationStep to be deleted
      * @return preparation step deleted if successful
      * and bad request if not successful
      */
     @PostMapping("/delete")
     public ResponseEntity<PreparationStep> deletePreparationStep(
-            @RequestBody Recipes recipes,
-            @RequestParam PreparationStep preparationStep
+            @RequestParam long recipeId,
+            @RequestBody PreparationStep preparationStep
     ) {
-        if (isEmptyOrNull(recipes) ||  isEmptyOrNull(preparationStep)) {
+        if (isEmptyOrNull(recipeId) ||  isEmptyOrNull(preparationStep)) {
             return ResponseEntity.badRequest().build();
         }
-        long id = recipes.getId();
-        Recipes recipe = recipeService.getRecipeById(id);
+        Recipes recipe = recipeService.getRecipeById(recipeId);
+        if (recipe == null) return ResponseEntity.badRequest().build();
         recipe.removePreparationStep(preparationStep);
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(preparationStep);
