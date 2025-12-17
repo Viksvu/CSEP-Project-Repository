@@ -92,8 +92,9 @@ public class MainCtrl {
         this.overview.getRoot().setId("overview");
 
         // TO CHANGE AFTER REFACTORING
-        this.tempRecipeList = overview.getKey().getData();
-        this.filteredRecipes = new FilteredList<>(overview.getKey().getData());
+        this.tempRecipeList = overview.getKey().getRecipeData();
+        this.filteredRecipes = new FilteredList<>(
+                overview.getKey().getRecipeData());
         this.sortedRecipes = new SortedList<>(filteredRecipes);
 
         this.addCtrl = add.getKey();
@@ -106,7 +107,7 @@ public class MainCtrl {
         this.addIngredient = new Scene(addIngredient.getValue());
         // MIGHT NEED TO BE MODIFIED AFTER CONNECTION TO SERVER
         this.recipeObservableList = FXCollections.observableArrayList();
-        //
+
         this.shoppingListCtrl = shoppingList.getKey();
         this.shoppingList = new Scene(shoppingList.getValue());
         this.shoppingList.getRoot().setId("shoppingList");
@@ -213,12 +214,14 @@ public class MainCtrl {
         recipeObservableList.remove(recipeName);
     }
 
+    // END - Deprecated section ;)
+
     /**
      *  Applying search filters
      * @param text the text query
      */
     public void applySearchFilter(String text){
-        filteredRecipes=new FilteredList<>(overviewCtrl.getData());
+        filteredRecipes=new FilteredList<>(overviewCtrl.getRecipeData());
         if(text.isEmpty()){
             filteredRecipes.setPredicate(recipes -> true);
             return;
@@ -226,13 +229,19 @@ public class MainCtrl {
         text=text.toLowerCase();
         final String query=text;
         filteredRecipes.setPredicate(recipes -> {
-            if(recipes.getName().toLowerCase().contains(query)) return true;
-            List<PreparationStep> preparationSteps=recipes.getPreparationSteps();
-            for(int i=0;i<preparationSteps.size();i++){
-                if(preparationSteps.get(i).getDescription().toLowerCase().contains(query)) {
+            if(recipes.getName().toLowerCase().contains(query))
+                return true;
+            List<PreparationStep> preparationSteps =
+                    recipes.getPreparationSteps();
+
+            for (int i = 0; i < preparationSteps.size(); i++) {
+                if(preparationSteps.get(i)
+                        .getDescription().toLowerCase()
+                        .contains(query)) {
                     return true;
                 }
             }
+
             List<IngredientInRecipe> ings=recipes.getIngredients();
             for(int i=0;i<ings.size();i++){
                 Ingredients tempIngredient=ings.get(i).getIngredient();
@@ -314,7 +323,8 @@ public class MainCtrl {
         sortedRecipes=new SortedList<>(filteredRecipes);
         if(text.isEmpty()){
             sortedRecipes.setComparator(
-                    Comparator.comparing(Recipes::getName, String.CASE_INSENSITIVE_ORDER)
+                    Comparator.comparing(Recipes::getName,
+                            String.CASE_INSENSITIVE_ORDER)
             );
             return;
         }
@@ -385,7 +395,7 @@ public class MainCtrl {
     public void showAddRecipeIngredientsOverview(ShoppingList shoppingList) {
         primaryStage.setTitle("Add recipe ingredients");
         primaryStage.setScene(addRecipeIngredients);
-        addRecipeIngredientsCtrl.setChoiceBox(overviewCtrl.getData());
+        addRecipeIngredientsCtrl.setChoiceBox(overviewCtrl.getRecipeData());
         addRecipeIngredientsCtrl.setShoppingList(shoppingList);
     }
 
