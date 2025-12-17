@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,6 +30,9 @@ public class ShoppingListCtrl implements Initializable {
     private ListView<IngredientInShoppingList> shoppingListView;
     @FXML
     private Label totalItemsLabel;
+    @FXML
+    private ListView<IngredientInShoppingList> overviewListView;
+
 
     @FXML
     private AnchorPane ingredientsPane;
@@ -49,7 +53,6 @@ public class ShoppingListCtrl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         shoppingListView.setItems(items);
-        shoppingList = new ShoppingList();
     }
 
     /**
@@ -72,7 +75,7 @@ public class ShoppingListCtrl implements Initializable {
      * adds an ingredient from input.
      */
     public void addIngredient() {
-        mainCtrl.showAddIngredient(shoppingList);
+        mainCtrl.showAddIngredient();
         totalItemsLabel.setText(
                 "Total: " + shoppingList.getShoppingList().size() + " items");
     }
@@ -81,9 +84,10 @@ public class ShoppingListCtrl implements Initializable {
      * Adds selected recipe ingredients.
      */
     public void addRecipe(){
-       mainCtrl.showAddRecipeIngredientsOverview(shoppingList);
-    }
+       mainCtrl.showAddRecipeIngredientsOverview();
 
+
+    }
         /**
      * Clears the full list
      */

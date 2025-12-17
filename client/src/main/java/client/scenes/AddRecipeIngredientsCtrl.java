@@ -69,7 +69,7 @@ public class AddRecipeIngredientsCtrl implements Initializable {
         Recipes recipe= choiceBox.getValue();
 
         for(IngredientInRecipe iir: recipe.getIngredients()) {
-            shoppingList.getShoppingList()
+            shoppingList.getBufferList()
                     .add(new IngredientInShoppingList(iir));
         }
         mainCtrl.showShoppingList();

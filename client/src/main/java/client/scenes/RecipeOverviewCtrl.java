@@ -2,6 +2,8 @@ package client.scenes;
 
 import client.EditButton;
 import client.EditButtonOptions;
+import client.commonsClient.IngredientInShoppingList;
+import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.IngredientInRecipe;
@@ -26,6 +28,7 @@ public class RecipeOverviewCtrl implements Initializable {
 
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
+    private final ShoppingList shoppingList = new ShoppingList();
     ObservableList<Recipes> data;
     ObservableList<Recipes> data1;
     ObservableList<IngredientInRecipe> ingredientsData;
@@ -60,6 +63,8 @@ public class RecipeOverviewCtrl implements Initializable {
     // ObservableList<String> recipeObservableList;
     @FXML
     private GridPane ingredientsGrid;
+    @FXML
+    private Button addToShop;
 
     private Recipes lastSelectedRecipe;
 
@@ -88,8 +93,8 @@ public class RecipeOverviewCtrl implements Initializable {
         // will also add to the ListView of Recipes
         //recipeListView.setItems(recipeObservableList);
         //recipeListView.setEditable(true);
-        data=FXCollections.observableArrayList();
-        data1=FXCollections.observableArrayList();
+        data = FXCollections.observableArrayList();
+        data1 = FXCollections.observableArrayList();
     }
 
     /**
@@ -100,7 +105,7 @@ public class RecipeOverviewCtrl implements Initializable {
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
         var serverRecipes = server.getRecipes();
         data = FXCollections.observableArrayList(serverRecipes);
-        if (getSelectedRecipe()!=null){
+        if (getSelectedRecipe() != null) {
             lastSelectedRecipe = getSelectedRecipe();
         }
 
@@ -111,15 +116,14 @@ public class RecipeOverviewCtrl implements Initializable {
             if (lastSelectedRecipe == null) {
                 updateIngredients(getSelectedRecipe());
                 updatePreparations(getSelectedRecipe());
-            }
-            else {
+            } else {
                 updateIngredients(lastSelectedRecipe);
                 updatePreparations(lastSelectedRecipe);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        if(!data1.isEmpty()) recipeListView.setItems(data1);
+        if (!data1.isEmpty()) recipeListView.setItems(data1);
         else recipeListView.setItems(data);
         ingredientListView.setItems(ingredientsData);
         addEditButtonToIngredient();
@@ -133,6 +137,7 @@ public class RecipeOverviewCtrl implements Initializable {
         ingredientsPane.getChildren().clear();
         ingredientsPane.getChildren().addAll(ingredientListView);
         ingredientsPane.getChildren().add(addIngredientButton);
+        ingredientsPane.getChildren().add(addToShop);
         if (!ingredientsData.isEmpty()) {
             int numIngredients = ingredientsData.size();
             for (int i = 0; i < numIngredients; i++) {
@@ -189,7 +194,7 @@ public class RecipeOverviewCtrl implements Initializable {
         Recipes ret = recipeListView
                 .getSelectionModel()
                 .getSelectedItem();
-        if (ret!=null) {
+        if (ret != null) {
             this.lastSelectedRecipe = ret;
         }
         return ret;
@@ -198,12 +203,14 @@ public class RecipeOverviewCtrl implements Initializable {
     /**
      * Handles recipes being clicked showing corresponding ingredients and
      * preparations steps
-     *  @param actionEvent the event.
+     *
+     * @param actionEvent the event.
      */
 
     public void recipeClicked(MouseEvent actionEvent) {
         refresh();
     }
+
     /**
      * Updates the ingredients section
      *
@@ -224,25 +231,39 @@ public class RecipeOverviewCtrl implements Initializable {
     public void updatePreparations(Recipes recipes) {
         return;
     }
+
     /**
      *
      * The button search has been clicked
      */
-    public void searchInit(){
-        String text=searchField.getText();
+    public void searchInit() {
+        String text = searchField.getText();
         refresh();
         mainCtrl.applySearchFilter(text);
         mainCtrl.applySorting(text);
-        data1=mainCtrl.getSortedRecipes();
+        data1 = mainCtrl.getSortedRecipes();
         refresh();
     }
 
     /**
+     * Adds selected recipes
+     * ingredients to shopping list overview
+     */
+    public void addToOverViewIngredients() {
+        for (IngredientInRecipe iir : lastSelectedRecipe.getIngredients()) {
+            shoppingList.getBufferList()
+                    .add(new IngredientInShoppingList(iir));
+        }
+    }
+
+
+    /**
      * Shows the current shopping list
      */
-    public void openShoppingList(){
+    public void openShoppingList() {
         mainCtrl.showShoppingList();
     }
+
 
     public ObservableList<Recipes> getData() {
         return data;
