@@ -227,9 +227,11 @@ public class MainCtrl {
         final String query=text;
         filteredRecipes.setPredicate(recipes -> {
             if(recipes.getName().toLowerCase().contains(query)) return true;
-            List<PreparationStep> preparationSteps=recipes.getPreparationSteps();
+            List<PreparationStep> preparationSteps=recipes
+                    .getPreparationSteps();
             for(int i=0;i<preparationSteps.size();i++){
-                if(preparationSteps.get(i).getDescription().toLowerCase().contains(query)) {
+                if(preparationSteps.get(i).getDescription()
+                        .toLowerCase().contains(query)) {
                     return true;
                 }
             }
@@ -314,7 +316,8 @@ public class MainCtrl {
         sortedRecipes=new SortedList<>(filteredRecipes);
         if(text.isEmpty()){
             sortedRecipes.setComparator(
-                    Comparator.comparing(Recipes::getName, String.CASE_INSENSITIVE_ORDER)
+                    Comparator.comparing(Recipes::getName, String
+                            .CASE_INSENSITIVE_ORDER)
             );
             return;
         }
