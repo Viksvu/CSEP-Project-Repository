@@ -2,11 +2,10 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Ingredients;
+import commons.PreparationStep;
 import commons.Recipes;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -19,7 +18,6 @@ public class AddPreparationStepCtrl implements Initializable {
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
     private Recipes recipe;
-    private Scene previousScene;
 
     @FXML
     private TextField nameField;
@@ -29,9 +27,8 @@ public class AddPreparationStepCtrl implements Initializable {
 
     /**
      * Constructor
-     *
-     * @param mainCtrl
-     * @param server
+     * @param mainCtrl main controller
+     * @param server functions to interact to server
      */
     @Inject
     public AddPreparationStepCtrl(MainCtrl mainCtrl, ServerUtils server) {
@@ -42,7 +39,6 @@ public class AddPreparationStepCtrl implements Initializable {
 
     /**
      * initialises all fields
-     *
      * @param url
      * @param resourceBundle
      */
@@ -62,44 +58,20 @@ public class AddPreparationStepCtrl implements Initializable {
     }
 
     /**
-     * Based on the previous scene this method
-     * decides where to add the parsed ingredient
-     */
-    public void add() {
-        addToRecipe();
-    }
-
-    /**
      * Adds an ingredient to the recipe that was selected
      */
-    public void addToRecipe() {
+    public void add() {
         String name = nameField.getText();
-        String quantity = null;
-        int quantityInt;
         try {
-            Ingredients ingredient = new Ingredients(name, 0);
-            server.addIngredientToDatabase(ingredient);
-
-            // TODO
-
-//            server.addIngredientToRecipe(ingredientInRecipe, recipe);
+            PreparationStep preparationStep = new PreparationStep();
+            preparationStep.setDescription(name);
+            server.addPreparationStepToRecipe(preparationStep, recipe);
             mainCtrl.showOverview();
         } catch (Exception e) {
-            //errorLabel.setText("Quantity must be a valid number");
             errorLabel.setText(e.getMessage());
             System.out.println(e.getMessage());
             errorLabel.setVisible(true);
         }
-
-    }
-
-    /**
-     * sets the previous scene
-     *
-     * @param previousScene the previous scene.
-     */
-    public void previousSceneSetter(Scene previousScene) {
-        this.previousScene = previousScene;
     }
 
     /**

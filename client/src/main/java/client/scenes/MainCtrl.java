@@ -194,7 +194,6 @@ public class MainCtrl {
         primaryStage.setTitle("Adding preparation to: " + recipe.toString());
         primaryStage.setScene(addPreparationStep);
         addPreparationStepCtrl.provideRecipe(recipe);
-        addPreparationStepCtrl.previousSceneSetter(this.overview);
     }
 
     // EVERYTHING BELOW HAS BEEN REPLACED WITH SERVER-LOGIC

@@ -56,10 +56,11 @@ public class RecipeOverviewCtrl implements Initializable {
     private ListView<PreparationStep> preparationsListView;
     @FXML
     private AnchorPane ingredientsPane;
-
     @FXML
     private Button addIngredientButton;
 
+    @FXML
+    private AnchorPane preparationStepsPane;
     @FXML
     private Button addPreparationStepButton;
 
@@ -156,6 +157,7 @@ public class RecipeOverviewCtrl implements Initializable {
         }
         preparationStepsData = FXCollections.observableArrayList(steps);
         preparationsListView.setItems(preparationStepsData);
+        addDeleteButtonToPreparationStep();
     }
 
     /**
@@ -168,8 +170,8 @@ public class RecipeOverviewCtrl implements Initializable {
         if (!ingredientsData.isEmpty()) {
             int numIngredients = ingredientsData.size();
             for (int i = 0; i < numIngredients; i++) {
-                EditButton editButton =
-                        new EditButton(
+                EditButton<IngredientInRecipe> editButton =
+                        new EditButton<>(
                                 ingredientsData.get(i),
                                 "delete",
                                 i,
@@ -182,6 +184,34 @@ public class RecipeOverviewCtrl implements Initializable {
                 // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
 
                 ingredientsPane.getChildren().add(editButton);
+            }
+        }
+    }
+
+    /**
+     * Adds an edit button next to the name of the ingredient
+     */
+    public void addDeleteButtonToPreparationStep() {
+        preparationStepsPane.getChildren().clear();
+        preparationStepsPane.getChildren().addAll(preparationsListView);
+        preparationStepsPane.getChildren().add(addPreparationStepButton);
+        if (!preparationStepsData.isEmpty()) {
+            int numIngredients = preparationStepsData.size();
+            for (int i = 0; i < numIngredients; i++) {
+                EditButton<PreparationStep> editButton =
+                        new EditButton<>(
+                                preparationStepsData.get(i),
+                                "delete",
+                                i,
+                                preparationsListView,
+                                server,
+                                lastSelectedRecipe,
+                                this,
+                                EditButtonOptions.REMOVE_STEP
+                        );
+                // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
+
+                preparationStepsPane.getChildren().add(editButton);
             }
         }
     }
