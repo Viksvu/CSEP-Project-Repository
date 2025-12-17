@@ -38,6 +38,10 @@ public class MainCtrl {
 
     private Stage primaryStage;
 
+    private static final int NO_MATCH = 0;
+    private static final int PARTIAL_MATCH = 1;
+    private static final int STARTS_WITH_MATCH = 2;
+
     private Scene overview;
     private RecipeOverviewCtrl overviewCtrl;
 
@@ -259,7 +263,7 @@ public class MainCtrl {
      * @return int value showing if it is in there
      */
     public int checkIngs(List<IngredientInRecipe> ings, String[] texts) {
-        int mx = 0;
+        int mx = NO_MATCH;
         for(int i0=0;i0<texts.length;i0++) {
             String text=texts[i0];
             for (int i = 0; i < ings.size(); i++) {
@@ -268,9 +272,9 @@ public class MainCtrl {
                 if (tempIngredient.getName().toLowerCase().contains(text)) {
                     if (tempIngredient.
                             getName().toLowerCase().startsWith(text)) {
-                        return 2;
+                        return STARTS_WITH_MATCH;
                     }
-                    mx = 1;
+                    mx = PARTIAL_MATCH;
                 }
             }
         }
@@ -285,7 +289,7 @@ public class MainCtrl {
      * @return int value showing if it is there
      */
     public int checkPrepSteps(List<PreparationStep> prepSteps, String[] texts) {
-        int mx = 0;
+        int mx = NO_MATCH;
         for(int i0=0;i0<texts.length;i0++) {
             String text=texts[i0];
             for (int i = 0; i < prepSteps.size(); i++) {
@@ -293,9 +297,9 @@ public class MainCtrl {
                 if (tempPrepStep.getDescription().toLowerCase().contains(text)) {
                     if (tempPrepStep.
                             getDescription().toLowerCase().startsWith(text)) {
-                        return 2;
+                        return STARTS_WITH_MATCH;
                     }
-                    mx = 1;
+                    mx = PARTIAL_MATCH;
                 }
             }
         }
@@ -314,12 +318,12 @@ public class MainCtrl {
             String text=texts[i];
             if (name.contains(text)) {
                 if (name.startsWith(text)) {
-                    return 2;
+                    return STARTS_WITH_MATCH;
                 }
-                return 1;
+                return PARTIAL_MATCH;
             }
         }
-        return 0;
+        return NO_MATCH;
     }
 
     /**
