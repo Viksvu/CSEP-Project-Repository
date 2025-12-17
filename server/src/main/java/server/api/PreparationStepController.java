@@ -25,8 +25,6 @@ public class PreparationStepController {
     public List<PreparationStep> getPreparationSteps(@RequestParam long recipeId) {
         Recipes recipe = recipeService.getRecipeById(recipeId);
         if (recipe == null) return null;
-        List<PreparationStep> steps = recipe.getPreparationSteps();
-        System.out.println(Arrays.toString(steps.stream().map(s -> s.getDescription()).toArray()));
         return recipe.getPreparationSteps();
     }
 
