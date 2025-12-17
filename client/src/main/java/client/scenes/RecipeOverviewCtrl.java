@@ -17,7 +17,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -61,8 +60,7 @@ public class RecipeOverviewCtrl implements Initializable {
     private Button addIngredientButton;
     //IMPORTANT: Change String to Recipe
     // ObservableList<String> recipeObservableList;
-    @FXML
-    private GridPane ingredientsGrid;
+
     @FXML
     private Button addToShop;
 
