@@ -33,8 +33,9 @@ import jakarta.ws.rs.core.GenericType;
 
 public class ServerUtils {
 
-	private static final String SERVER = "http://localhost:8080/";
-
+	private static final String SERVER = System.getenv("SERVER_URL") == null
+            ? "http://localhost:8080/"
+            : System.getenv("SERVER_URL");
 
     /**
 	* temp
@@ -141,6 +142,11 @@ public class ServerUtils {
                         IngredientInRecipe.class);
     }
 
+    /**
+     * Get all the preparation steps of a recipe
+     * @param recipe recipe to get preparation steps from
+     * @return List of PreparationSteps
+     */
     public List<PreparationStep> getPreparationSteps(Recipes recipe) {
         long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
@@ -151,6 +157,12 @@ public class ServerUtils {
                 .get(new GenericType<List<PreparationStep>>() {});
     }
 
+    /**
+     * Add a preparationStep to a recipe
+     * @param step PreparationStep to add
+     * @param recipe Recipe to add to
+     * @return The PreparationStep if successful
+     */
     public PreparationStep addPreparationStepToRecipe(PreparationStep step, Recipes recipe) {
         long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
@@ -162,6 +174,12 @@ public class ServerUtils {
                         PreparationStep.class);
     }
 
+    /**
+     * Delete a preparationStep from a recipe
+     * @param step PreparationStep to delete
+     * @param recipe Recipe to delete from
+     * @return The PreparationStep if successful
+     */
     public PreparationStep deletePreparationStepToRecipe(PreparationStep step, Recipes recipe) {
         long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
