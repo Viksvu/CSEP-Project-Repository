@@ -56,6 +56,9 @@ public class MainCtrl {
     private AddRecipeIngredientsCtrl addRecipeIngredientsCtrl;
     private Scene addRecipeIngredients;
 
+    private AddPreparationStepCtrl addPreparationStepCtrl;
+    private Scene addPreparationStep;
+
     // This observable list stores the names of all the recipes.
     // <String> might want to be replaced by <Recipe> in
     // the future while also then looking at all its usages.
@@ -85,6 +88,7 @@ public class MainCtrl {
             , Pair<AddIngredientCtrl, Parent> addIngredient
             , Pair<ShoppingListCtrl, Parent> shoppingList
             , Pair<AddRecipeIngredientsCtrl, Parent> addRecipeIngredientsP
+            , Pair<AddPreparationStepCtrl, Parent> addPreparationStep
     ) {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
@@ -114,6 +118,10 @@ public class MainCtrl {
 
         this.addRecipeIngredientsCtrl = addRecipeIngredientsP.getKey();
         this.addRecipeIngredients = new Scene(addRecipeIngredientsP.getValue());
+
+        this.addPreparationStepCtrl = addPreparationStep.getKey();
+        this.addPreparationStep = new Scene(addPreparationStep.getValue());
+
         showOverview();
         primaryStage.show();
     }
@@ -178,6 +186,16 @@ public class MainCtrl {
         addIngredientCtrl.previousSceneSetter(this.shoppingList);
     }
 
+    /**
+     * Sets the add preparation step scene as the primary scene
+     * @param recipe current recipe
+     */
+    public void showAddPreparationStep(Recipes recipe) {
+        primaryStage.setTitle("Adding preparation to: " + recipe.toString());
+        primaryStage.setScene(addPreparationStep);
+        addPreparationStepCtrl.provideRecipe(recipe);
+        addPreparationStepCtrl.previousSceneSetter(this.overview);
+    }
 
     // EVERYTHING BELOW HAS BEEN REPLACED WITH SERVER-LOGIC
     // IT IS ONLY THERE IN CASE EVER NEEDED FOR DEBUGGING
@@ -410,5 +428,4 @@ public class MainCtrl {
     public Scene getShoppingListScene() {
         return shoppingList;
     }
-
 }

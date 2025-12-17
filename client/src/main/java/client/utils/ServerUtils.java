@@ -98,7 +98,7 @@ public class ServerUtils {
      * @param recipe to add the ingredient to
      * @return a list with all ingredients in a recipe
      */
-    public List<IngredientInRecipe> getIngredientsInRecipes(Recipes recipe) {
+    public List<IngredientInRecipe> getIngredientsInRecipe(Recipes recipe) {
         return ClientBuilder
                 .newClient(new ClientConfig())
                 .target(SERVER)
@@ -163,7 +163,8 @@ public class ServerUtils {
      * @param recipe Recipe to add to
      * @return The PreparationStep if successful
      */
-    public PreparationStep addPreparationStepToRecipe(PreparationStep step, Recipes recipe) {
+    public PreparationStep addPreparationStepToRecipe(PreparationStep step,
+                                                      Recipes recipe) {
         long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
@@ -180,7 +181,8 @@ public class ServerUtils {
      * @param recipe Recipe to delete from
      * @return The PreparationStep if successful
      */
-    public PreparationStep deletePreparationStepToRecipe(PreparationStep step, Recipes recipe) {
+    public PreparationStep deletePreparationStepToRecipe(PreparationStep step,
+                                                         Recipes recipe) {
         long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)

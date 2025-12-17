@@ -30,7 +30,5 @@ public class MyModule implements Module {
         binder.bind(RemoveRecipeCtrl.class).in(Scopes.SINGLETON);
         binder.bind(ShoppingListCtrl.class).in(Scopes.SINGLETON);
         binder.bind(AddRecipeIngredientsCtrl.class).in(Scopes.SINGLETON);
-
-
     }
 }

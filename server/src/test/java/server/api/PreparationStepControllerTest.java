@@ -42,7 +42,7 @@ class PreparationStepControllerTest {
 
     @Test
     void getPreparationSteps() {
-        List<PreparationStep> steps = preparationStepController.getPreparationSteps(r1);
+        List<PreparationStep> steps = preparationStepController.getPreparationSteps(r1.getId());
         List<PreparationStep> expected = List.of(ps1, ps2);
 
         assertEquals(expected, steps);
@@ -51,30 +51,30 @@ class PreparationStepControllerTest {
     @Test
     void addPreparationStepToNullRecipe() {
         ResponseEntity<PreparationStep> response =
-                preparationStepController.addPreparationStep(null, ps1);
+                preparationStepController.addPreparationStep(-1, ps1);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     void addNullPreparationStep() {
         ResponseEntity<PreparationStep> response =
-                preparationStepController.addPreparationStep(r3, null);
+                preparationStepController.addPreparationStep(r3.getId(), null);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     void addPreparationStep() {
-        List<PreparationStep> steps = preparationStepController.getPreparationSteps(r1);
+        List<PreparationStep> steps = preparationStepController.getPreparationSteps(r1.getId());
         ResponseEntity<PreparationStep>  response =
-                preparationStepController.addPreparationStep(r1, ps3);
+                preparationStepController.addPreparationStep(r1.getId(), ps3);
         r1.addPreparationStep(ps3);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(steps, preparationStepController.getPreparationSteps(r1));
+        assertEquals(steps, preparationStepController.getPreparationSteps(r1.getId()));
     }
     @Test
     void deletePreparationStepFromNullRecipe() {
         ResponseEntity<PreparationStep> response
-                = preparationStepController.deletePreparationStep(null, ps1);
+                = preparationStepController.deletePreparationStep(-1, ps1);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }
