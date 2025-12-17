@@ -226,6 +226,7 @@ public class MainCtrl {
         text=text.toLowerCase();
         final String[] texts=text.split("\\s+");
         filteredRecipes.setPredicate(recipes -> {
+            boolean finalcheck=true;
             for(int i1=0;i1<texts.length;i1++) {
                 boolean checkIfContains=false;
                 String query=texts[i1];
@@ -244,9 +245,9 @@ public class MainCtrl {
                     }
                 }
                 System.out.println(checkIfContains);
-                if(!checkIfContains) return false;
+                finalcheck=finalcheck&&checkIfContains;
             }
-            return true;
+            return finalcheck;
         });
     }
 
