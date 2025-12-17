@@ -224,23 +224,29 @@ public class MainCtrl {
             return;
         }
         text=text.toLowerCase();
-        final String query=text;
+        final String[] texts=text.split("\\s+");
         filteredRecipes.setPredicate(recipes -> {
-            if(recipes.getName().toLowerCase().contains(query)) return true;
-            List<PreparationStep> preparationSteps=recipes.getPreparationSteps();
-            for(int i=0;i<preparationSteps.size();i++){
-                if(preparationSteps.get(i).getDescription().toLowerCase().contains(query)) {
-                    return true;
+            for(int i1=0;i1<texts.length;i1++) {
+                boolean checkIfContains=false;
+                String query=texts[i1];
+                if (recipes.getName().toLowerCase().contains(query)) checkIfContains=true;
+                List<PreparationStep> preparationSteps = recipes.getPreparationSteps();
+                for (int i = 0; i < preparationSteps.size(); i++) {
+                    if (preparationSteps.get(i).getDescription().toLowerCase().contains(query)) {
+                        checkIfContains=true;
+                    }
                 }
-            }
-            List<IngredientInRecipe> ings=recipes.getIngredients();
-            for(int i=0;i<ings.size();i++){
-                Ingredients tempIngredient=ings.get(i).getIngredient();
-                if(tempIngredient.getName().toLowerCase().contains(query)) {
-                    return true;
+                List<IngredientInRecipe> ings = recipes.getIngredients();
+                for (int i = 0; i < ings.size(); i++) {
+                    Ingredients tempIngredient = ings.get(i).getIngredient();
+                    if (tempIngredient.getName().toLowerCase().contains(query)) {
+                        checkIfContains=true;
+                    }
                 }
+                System.out.println(checkIfContains);
+                if(!checkIfContains) return false;
             }
-            return false;
+            return true;
         });
     }
 
@@ -248,20 +254,23 @@ public class MainCtrl {
      * New method to sort through ingredients for applySorting
      *
      * @param ings the ingredients list for the checked recipe
-     * @param text the query text
+     * @param texts the query text
      * @return int value showing if it is in there
      */
-    public int checkIngs(List<IngredientInRecipe> ings, String text) {
+    public int checkIngs(List<IngredientInRecipe> ings, String[] texts) {
         int mx = 0;
-        for (int i = 0; i < ings.size(); i++) {
-            Ingredients tempIngredient = ings.
-                    get(i).getIngredient();
-            if (tempIngredient.getName().toLowerCase().contains(text)) {
-                if (tempIngredient.
-                        getName().toLowerCase().startsWith(text)) {
-                    return 2;
+        for(int i0=0;i0<texts.length;i0++) {
+            String text=texts[i0];
+            for (int i = 0; i < ings.size(); i++) {
+                Ingredients tempIngredient = ings.
+                        get(i).getIngredient();
+                if (tempIngredient.getName().toLowerCase().contains(text)) {
+                    if (tempIngredient.
+                            getName().toLowerCase().startsWith(text)) {
+                        return 2;
+                    }
+                    mx = 1;
                 }
-                mx = 1;
             }
         }
         return mx;
@@ -271,19 +280,22 @@ public class MainCtrl {
      * New method to sort through preparation steps for applySorting
      *
      * @param prepSteps the preparation steps for the current recipe
-     * @param text      the text query
+     * @param texts      the text query
      * @return int value showing if it is there
      */
-    public int checkPrepSteps(List<PreparationStep> prepSteps, String text) {
+    public int checkPrepSteps(List<PreparationStep> prepSteps, String[] texts) {
         int mx = 0;
-        for (int i = 0; i < prepSteps.size(); i++) {
-            PreparationStep tempPrepStep = prepSteps.get(i);
-            if (tempPrepStep.getDescription().toLowerCase().contains(text)) {
-                if (tempPrepStep.
-                        getDescription().toLowerCase().startsWith(text)) {
-                    return 2;
+        for(int i0=0;i0<texts.length;i0++) {
+            String text=texts[i0];
+            for (int i = 0; i < prepSteps.size(); i++) {
+                PreparationStep tempPrepStep = prepSteps.get(i);
+                if (tempPrepStep.getDescription().toLowerCase().contains(text)) {
+                    if (tempPrepStep.
+                            getDescription().toLowerCase().startsWith(text)) {
+                        return 2;
+                    }
+                    mx = 1;
                 }
-                mx = 1;
             }
         }
         return mx;
@@ -293,15 +305,18 @@ public class MainCtrl {
      * New method to sort names for apply sorting
      *
      * @param name the name of the current recipe
-     * @param text the query text
+     * @param texts the query text
      * @return int value showing if it is there
      */
-    public int checkName(String name, String text) {
-        if (name.contains(text)) {
-            if (name.startsWith(text)) {
-                return 2;
+    public int checkName(String name, String[] texts) {
+        for(int i=0;i<texts.length;i++) {
+            String text=texts[i];
+            if (name.contains(text)) {
+                if (name.startsWith(text)) {
+                    return 2;
+                }
+                return 1;
             }
-            return 1;
         }
         return 0;
     }
@@ -319,21 +334,21 @@ public class MainCtrl {
             return;
         }
         text=text.toLowerCase();
-        final String query=text;
+        final String[] texts=text.split("\\s+");
         sortedRecipes.setComparator((r1,r2)->{
             String t1=r1.getName().toLowerCase();
             String t2=r2.getName().toLowerCase();
-            if(checkName(t1,query)>checkName(t2,query)) return -1;
-            else if(checkName(t1,query)<checkName(t2,query)) return 1;
+            if(checkName(t1,texts)>checkName(t2,texts)) return -1;
+            else if(checkName(t1,texts)<checkName(t2,texts)) return 1;
 
-            int chckVal1=checkIngs(r1.getIngredients(), query);
-            int chckVal2=checkIngs(r2.getIngredients(), query);
+            int chckVal1=checkIngs(r1.getIngredients(), texts);
+            int chckVal2=checkIngs(r2.getIngredients(), texts);
             if(chckVal1>chckVal2){
                 return -1;
             }else if(chckVal1<chckVal2) return 1;
 
-            chckVal1=checkPrepSteps(r1.getPreparationSteps(), query);
-            chckVal2=checkPrepSteps(r2.getPreparationSteps(), query);
+            chckVal1=checkPrepSteps(r1.getPreparationSteps(), texts);
+            chckVal2=checkPrepSteps(r2.getPreparationSteps(), texts);
             if(chckVal1>chckVal2){
                 return -1;
             }else if(chckVal1<chckVal2) return 1;

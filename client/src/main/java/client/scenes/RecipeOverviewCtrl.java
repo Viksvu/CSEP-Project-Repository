@@ -13,6 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -90,6 +92,11 @@ public class RecipeOverviewCtrl implements Initializable {
         //recipeListView.setEditable(true);
         data=FXCollections.observableArrayList();
         data1=FXCollections.observableArrayList();
+        searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                clearSearch();
+            }
+        });
     }
 
     /**
@@ -168,6 +175,14 @@ public class RecipeOverviewCtrl implements Initializable {
         mainCtrl.showRemove();
     }
 
+
+    /**
+     * Resets the search field and refreshes the view to show all recipes
+     */
+    private void clearSearch() {
+        searchField.clear();
+        searchInit();
+    }
     /**
      * Adds ab ingredient to the recipe
      */
