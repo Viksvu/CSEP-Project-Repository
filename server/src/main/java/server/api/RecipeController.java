@@ -32,7 +32,11 @@ public class RecipeController {
     public List<Recipes> getAll() {
         Iterable<Recipes> allRecipesIterable = recipeService.getAllRecipes();
         List<Recipes> allRecipes = new ArrayList<>();
-        allRecipesIterable.forEach(allRecipes::add);
+        allRecipesIterable.forEach(r -> {
+            Recipes recipe = new Recipes(r.getName());
+            recipe.setId(r.getId());
+            allRecipes.add(r);
+        });
         return allRecipes;
     }
 

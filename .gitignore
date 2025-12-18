@@ -44,3 +44,4 @@ out/
 .vscode/
 
 h2-database.trace.db
+server/h2-database.trace.db

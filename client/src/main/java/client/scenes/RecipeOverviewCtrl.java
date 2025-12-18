@@ -133,12 +133,11 @@ public class RecipeOverviewCtrl implements Initializable {
      * @param currentRecipe current selected currentRecipe
      */
     private void refreshIngredients(Recipes currentRecipe) {
-        List<IngredientInRecipe> ingredients;
-        if (currentRecipe == null) {
-            ingredients = Collections.emptyList();
-        } else {
+        List<IngredientInRecipe> ingredients = Collections.emptyList();
+        if (currentRecipe != null) {
             ingredients = server.getIngredientsInRecipe(currentRecipe);
         }
+        if (ingredients == null) ingredients = Collections.emptyList();
         ingredientsData = FXCollections.observableArrayList(ingredients);
         ingredientListView.setItems(ingredientsData);
         addEditButtonToIngredient();
@@ -149,12 +148,11 @@ public class RecipeOverviewCtrl implements Initializable {
      * @param currentRecipe current selected currentRecipe
      */
     private void refreshPreparationSteps(Recipes currentRecipe) {
-        List<PreparationStep> steps;
-        if (currentRecipe == null) {
-            steps = Collections.emptyList();
-        } else {
+        List<PreparationStep> steps = Collections.emptyList();
+        if (currentRecipe != null) {
             steps = server.getPreparationSteps(currentRecipe);
         }
+        if (steps == null) steps = Collections.emptyList();
         preparationStepsData = FXCollections.observableArrayList(steps);
         preparationsListView.setItems(preparationStepsData);
         addDeleteButtonToPreparationStep();
