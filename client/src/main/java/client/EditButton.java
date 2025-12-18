@@ -3,31 +3,32 @@ package client;
 import client.scenes.RecipeOverviewCtrl;
 import client.utils.ServerUtils;
 import commons.IngredientInRecipe;
+import commons.PreparationStep;
 import commons.Recipes;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
-public class EditButton extends Button {
-    private final IngredientInRecipe ingredient;
+public class EditButton<K> extends Button {
+    private final K object;
     private final int index;
-    private final ListView<IngredientInRecipe> parent;
+    private final ListView<K> parent;
     private ServerUtils server;
     private final Recipes recipe;
     private RecipeOverviewCtrl ctrl;
     private EditButtonOptions option;
 
     /**
-     * Constructor for edit ingredient button
-     * @param ingredient to which this button is associated
+     * Constructor for edit object button
+     * @param object to which this button is associated
      * @param s for button text
      */
-    public EditButton(IngredientInRecipe ingredient,
-                      String s, int index, ListView<IngredientInRecipe> parent,
+    public EditButton(K object,
+                      String s, int index, ListView<K> parent,
                       ServerUtils server,
                       Recipes recipe, RecipeOverviewCtrl ctrl,
                       EditButtonOptions option) {
         super(s);
-        this.ingredient = ingredient;
+        this.object = object;
         this.index = index;
         this.parent = parent;
         this.server = server;
@@ -48,16 +49,29 @@ public class EditButton extends Button {
      */
     public void editIngredientInRecipe() {
         this.setOnAction(event -> {
-            if (this.option==EditButtonOptions.REMOVE_INGREDIENT) {
+            if (this.option.equals(EditButtonOptions.REMOVE_INGREDIENT)
+                    && object instanceof IngredientInRecipe ingredient) {
                 server.removeIngredientFromRecipe(ingredient, recipe);
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-
-                }
+                sleep();
+                ctrl.refresh();
+            }
+            if (this.option.equals(EditButtonOptions.REMOVE_STEP)
+                    && object instanceof PreparationStep step) {
+                server.deletePreparationStepToRecipe(step, recipe);
+                sleep();
                 ctrl.refresh();
             }
         });
     }
 
+    /**
+     * Wait for some time
+     */
+    private void sleep() {
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException _) {
+
+        }
+    }
 }
