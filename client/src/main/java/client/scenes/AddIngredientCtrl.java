@@ -107,6 +107,7 @@ public class AddIngredientCtrl implements Initializable {
             quantity = quantityField.getText();
             quantityInt = Integer.parseInt(quantity);
             Unit unit = unitBox.getSelectionModel().getSelectedItem();
+            if(unit.equals(Unit.NULL)) return;
             Ingredients ingredient = new Ingredients(name, 0);
             server.addIngredientToDatabase(ingredient);
             IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
@@ -159,6 +160,7 @@ public class AddIngredientCtrl implements Initializable {
             quantityInt = Integer.parseInt(quantity);
             Unit unit = unitBox.
                     getSelectionModel().getSelectedItem();
+            if(quantity.isEmpty() || unit.equals(Unit.NULL) || name.isEmpty()) return;
             Ingredients ingredient = new Ingredients(name, 0);
             IngredientInShoppingList ingredientInShoppingList
                     = new IngredientInShoppingList(
