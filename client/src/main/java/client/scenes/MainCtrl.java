@@ -191,6 +191,7 @@ public class MainCtrl {
      * @param recipe current recipe
      */
     public void showAddPreparationStep(Recipes recipe) {
+        if (recipe == null) return;
         primaryStage.setTitle("Adding preparation to: " + recipe.toString());
         primaryStage.setScene(addPreparationStep);
         addPreparationStepCtrl.provideRecipe(recipe);

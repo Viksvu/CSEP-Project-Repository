@@ -3,17 +3,18 @@ package server.api;
 
 import commons.PreparationStep;
 import commons.Recipes;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.services.TempRecipeService;
+import server.services.RecipeService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/prep-step")
 public class PreparationStepController {
-    public TempRecipeService recipeService = TempRecipeService.get();
-    private List<Recipes> allRecipes = recipeService.getAllRecipes();
+    @Autowired
+    public RecipeService recipeService;
 
     /**
      * Lists the preparation steps of a recipe
@@ -42,7 +43,7 @@ public class PreparationStepController {
             return ResponseEntity.badRequest().build();
         }
         Recipes recipe = recipeService.getRecipeById(recipeId);
-        if (recipe == null) return ResponseEntity.badRequest().build();
+        if (recipe == null) return ResponseEntity.notFound().build();
         recipe.addPreparationStep(preparationStep);
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(preparationStep);
