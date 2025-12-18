@@ -37,7 +37,8 @@ public class IngredientsInRecipeServiceTest {
     void setUp() {
         recipe1 = new Recipes("Pancakes");
         recipe2 = new Recipes("Omelette");
-        Ingredients ingredient1 = new Ingredients("Eggs", 150);
+        Ingredients ingredient1 = new Ingredients("Eggs", 150,
+                0.0, 1.0, 13.0);
 
         IngredientInRecipe iir1 = new IngredientInRecipe();
         iir1.setIngredient(ingredient1);

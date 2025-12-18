@@ -22,7 +22,7 @@ public class IngredientsServiceTest {
 
     @Test
     void testAddIngredient() {
-        Ingredients testIngredient = new Ingredients("Sugar", 10);
+        Ingredients testIngredient = new Ingredients("Sugar", 10, 0.0, 100.0, 387.0);
         Ingredients savedIngredient = ingredientsRepository.save(testIngredient);
         Optional<Ingredients> foundIngredient = ingredientsRepository.findById(savedIngredient.getId());
 
@@ -37,7 +37,7 @@ public class IngredientsServiceTest {
 
     @Test
     void testDeleteIngredient() {
-        Ingredients testIngredient = new Ingredients("Salt", 0);
+        Ingredients testIngredient = new Ingredients("Salt", 0, 0.0, 0.0, 0.0);
         Ingredients savedIngredient = ingredientsRepository.save(testIngredient);
         Long ingredientId = savedIngredient.getId();
         ingredientsRepository.deleteById(ingredientId);
