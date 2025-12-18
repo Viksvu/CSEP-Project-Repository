@@ -109,13 +109,36 @@ public class ServerUtils {
     }
 
     /**
+     * Checks if a recipe exists
+     * @param recipe the recipe that is checked
+     * @return true or false
+     */
+    public boolean recipeExists(Recipes recipe) {
+        if (recipe == null || recipe.getId() <= 0) {
+            return false;
+        }
+        try {
+            ClientBuilder
+                    .newClient(new ClientConfig())
+                    .target(SERVER)
+                    .queryParam("id", recipe.getId())
+                    .path("api/recipeingredient/get")
+                    .request(APPLICATION_JSON)
+                    .get(new GenericType<List<IngredientInRecipe>>(){});
+            return true;
+        }catch(jakarta.ws.rs.WebApplicationException e) {
+            return false;
+        }
+    }
+
+    /**
      * Adds an ingredient as to a recipe
      * @param ingredient
      * @return
      */
     public IngredientInRecipe
     addIngredientToRecipe(IngredientInRecipe ingredient, Recipes recipe) {
-        long recipeId = recipe.getId();
+        Long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).queryParam("id", recipeId)
                 .path("api/recipeingredient/add")
@@ -133,7 +156,7 @@ public class ServerUtils {
     public IngredientInRecipe
     removeIngredientFromRecipe(IngredientInRecipe ingredient,
                                                          Recipes recipe) {
-        long recipeId = recipe.getId();
+        Long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).queryParam("id", recipeId)
                 .path("api/recipeingredient/delete")
@@ -148,7 +171,7 @@ public class ServerUtils {
      * @return List of PreparationSteps
      */
     public List<PreparationStep> getPreparationSteps(Recipes recipe) {
-        long recipeId = recipe.getId();
+        Long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
                 .queryParam("recipeId", recipeId)
@@ -165,7 +188,7 @@ public class ServerUtils {
      */
     public PreparationStep addPreparationStepToRecipe(PreparationStep step,
                                                       Recipes recipe) {
-        long recipeId = recipe.getId();
+        Long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
                 .queryParam("recipeId", recipeId)
@@ -183,7 +206,7 @@ public class ServerUtils {
      */
     public PreparationStep deletePreparationStepToRecipe(PreparationStep step,
                                                          Recipes recipe) {
-        long recipeId = recipe.getId();
+        Long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
                 .queryParam("recipeId", recipeId)
