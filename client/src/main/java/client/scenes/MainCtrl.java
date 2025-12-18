@@ -120,6 +120,7 @@ public class MainCtrl {
 
         this.overviewListCtrl=overviewListPair.getKey();
         this.overviewList= new Scene(overviewListPair.getValue());
+        this.overviewListCtrl.setShoppingList(this.shoppingList);
 
 
 
@@ -403,6 +404,12 @@ public class MainCtrl {
 
     }
 
+    public void showOverviewList(){
+        primaryStage.setTitle("Overview");
+        primaryStage.setScene(overviewList);
+
+    }
+
     public Stage getPrimaryStage() {
         return primaryStage;
     }
@@ -414,5 +421,8 @@ public class MainCtrl {
     public Scene getShoppingListScene() {
         return shoppingListScene;
     }
+
+
+
 
 }

@@ -29,8 +29,7 @@ public class ShoppingListCtrl implements Initializable {
     private ListView<IngredientInShoppingList> shoppingListView;
     @FXML
     private Label totalItemsLabel;
-    @FXML
-    private ListView<IngredientInShoppingList> overviewListView;
+
 
 
     @FXML

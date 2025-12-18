@@ -252,6 +252,7 @@ public class RecipeOverviewCtrl implements Initializable {
             shoppingList.getBufferList()
                     .add(new IngredientInShoppingList(iir));
         }
+        mainCtrl.showOverviewList();
     }
 
 
