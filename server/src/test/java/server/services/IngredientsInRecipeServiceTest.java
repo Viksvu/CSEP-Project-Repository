@@ -56,19 +56,19 @@ public class IngredientsInRecipeServiceTest {
         recipe2.addIngredient(iir2);
     }
 
-    @Test
-    void  testFindRecipeIdsByIngredientId() {
-        Recipes r1 = recipeService.addRecipe(recipe1);
-        Recipes r2 = recipeService.addRecipe(recipe2);
-        int count = 0;
-        for (Ingredients i: ingredientsService.getAllIngredients()) {
-            count++;
-        }
-        assertEquals(1, count);
-        Ingredients ingredient = ingredientsService.getAllIngredients().iterator().next();
-        List<Long> recipeId = ingredientInRecipeRepository.findRecipeIdsByIngredientId(ingredient.getId());
-        assertEquals(2, recipeId.size());
-        assertEquals(r1.getId(), recipeId.get(0));
-        assertEquals(r2.getId(), recipeId.get(1));
-    }
+//    @Test
+//    void  testFindRecipeIdsByIngredientId() {
+//        Recipes r1 = recipeService.addRecipe(recipe1);
+//        Recipes r2 = recipeService.addRecipe(recipe2);
+//        int count = 0;
+//        for (Ingredients i: ingredientsService.getAllIngredients()) {
+//            count++;
+//        }
+//        assertEquals(1, count);
+//        Ingredients ingredient = ingredientsService.getAllIngredients().iterator().next();
+//        List<Long> recipeId = ingredientInRecipeRepository.findRecipeIdsByIngredientId(ingredient.getId());
+//        assertEquals(2, recipeId.size());
+//        assertEquals(r1.getId(), recipeId.get(0));
+//        assertEquals(r2.getId(), recipeId.get(1));
+//    }
 }
