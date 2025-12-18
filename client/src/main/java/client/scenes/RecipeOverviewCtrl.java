@@ -2,7 +2,6 @@ package client.scenes;
 
 import client.EditButton;
 import client.EditButtonOptions;
-import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -248,11 +247,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * ingredients to shopping list overview
      */
     public void addToOverViewIngredients() {
-        for (IngredientInRecipe iir : lastSelectedRecipe.getIngredients()) {
-            shoppingList.getBufferList()
-                    .add(new IngredientInShoppingList(iir));
-        }
-        mainCtrl.showOverviewList();
+        mainCtrl.showOverviewList(lastSelectedRecipe);
     }
 
 

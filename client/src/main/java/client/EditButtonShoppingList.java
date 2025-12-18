@@ -51,7 +51,7 @@ public class EditButtonShoppingList extends Button {
 
 
     /**
-     * currently just has an delete edit button
+     * currently just has a delete edit button
      */
     public void editIngredientInShoppingList() {
         this.setOnAction(event -> {
@@ -62,11 +62,17 @@ public class EditButtonShoppingList extends Button {
         });
     }
 
-
+    /**
+     * Currently has an edit and delete button
+     */
     public void editIngredientInOverviewList() {
         this.setOnAction(event -> {
             if (this.option == EditButtonOptions.REMOVE_INGREDIENT) {
                 shoppingList.getBufferList().remove(ingredient);
+                ((OverviewListCtrl) ctrl).refresh();
+            }
+            else if(this.option == EditButtonOptions.EDIT_INGREDIENT){
+                ((OverviewListCtrl) ctrl).editIngredient(ingredient);
                 ((OverviewListCtrl) ctrl).refresh();
             }
         });

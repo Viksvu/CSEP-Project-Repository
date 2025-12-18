@@ -60,6 +60,9 @@ public class MainCtrl {
     private AddRecipeIngredientsCtrl addRecipeIngredientsCtrl;
     private Scene addRecipeIngredients;
 
+    private EditIngredientCtrl editIngredientCtrl;
+    private Scene editIngredient;
+
     // This observable list stores the names of all the recipes.
     // <String> might want to be replaced by <Recipe> in
     // the future while also then looking at all its usages.
@@ -71,7 +74,8 @@ public class MainCtrl {
     // to use after refactoring
     private FilteredList<Recipes> filteredRecipes;
     private SortedList<Recipes> sortedRecipes;
-    private ShoppingList shoppingList= new ShoppingList();
+    private ShoppingList shoppingList = new ShoppingList();
+
     /**
      * Initializes the application. Necessary when running
      * for the first time. Initializes the ObservableList.
@@ -89,8 +93,7 @@ public class MainCtrl {
             , Pair<AddIngredientCtrl, Parent> addIngredient
             , Pair<ShoppingListCtrl, Parent> shoppingList
             , Pair<AddRecipeIngredientsCtrl, Parent> addRecipeIngredientsP,
-                           Pair<OverviewListCtrl, Parent> overviewListPair
-    ) {
+                           Pair<OverviewListCtrl, Parent> overviewListPair) {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -118,15 +121,21 @@ public class MainCtrl {
         this.shoppingListScene.getRoot().setId("shoppingList");
         this.shoppingListCtrl.setShoppingList(this.shoppingList);
 
-        this.overviewListCtrl=overviewListPair.getKey();
-        this.overviewList= new Scene(overviewListPair.getValue());
+        this.overviewListCtrl = overviewListPair.getKey();
+        this.overviewList = new Scene(overviewListPair.getValue());
         this.overviewListCtrl.setShoppingList(this.shoppingList);
-
+        this.overviewList.getRoot().setId("overviewList");
 
 
         this.addRecipeIngredientsCtrl = addRecipeIngredientsP.getKey();
         this.addRecipeIngredients = new Scene(addRecipeIngredientsP.getValue());
         addRecipeIngredientsCtrl.setShoppingList(this.shoppingList);
+        this.addRecipeIngredients.getRoot().setId("addRepIngrs");
+
+        //this.editIngredientCtrl=editIngredientCtrlParentPair.getKey();
+        //this.editIngredient=
+        // new Scene(editIngredientCtrlParentPair.getValue());
+
 
         showOverview();
         primaryStage.show();
@@ -229,29 +238,35 @@ public class MainCtrl {
     }
 
     /**
-     *  Applying search filters
+     * Applying search filters
+     *
      * @param text the text query
      */
-    public void applySearchFilter(String text){
-        filteredRecipes=new FilteredList<>(overviewCtrl.getData());
-        if(text.isEmpty()){
+    public void applySearchFilter(String text) {
+        filteredRecipes = new FilteredList<>(overviewCtrl.getData());
+        if (text.isEmpty()) {
             filteredRecipes.setPredicate(recipes -> true);
             return;
         }
-        text=text.toLowerCase();
-        final String query=text;
+        text = text.toLowerCase();
+        final String query = text;
         filteredRecipes.setPredicate(recipes -> {
-            if(recipes.getName().toLowerCase().contains(query)) return true;
-            List<PreparationStep> preparationSteps=recipes.getPreparationSteps();
-            for(int i=0;i<preparationSteps.size();i++){
-                if(preparationSteps.get(i).getDescription().toLowerCase().contains(query)) {
+            if (recipes.getName().
+                    toLowerCase().contains(query)) return true;
+            List<PreparationStep>
+                    preparationSteps = recipes
+                    .getPreparationSteps();
+            for (int i = 0; i < preparationSteps.size(); i++) {
+                if (preparationSteps.get(i)
+                        .getDescription().
+                        toLowerCase().contains(query)) {
                     return true;
                 }
             }
-            List<IngredientInRecipe> ings=recipes.getIngredients();
-            for(int i=0;i<ings.size();i++){
-                Ingredients tempIngredient=ings.get(i).getIngredient();
-                if(tempIngredient.getName().toLowerCase().contains(query)) {
+            List<IngredientInRecipe> ings = recipes.getIngredients();
+            for (int i = 0; i < ings.size(); i++) {
+                Ingredients tempIngredient = ings.get(i).getIngredient();
+                if (tempIngredient.getName().toLowerCase().contains(query)) {
                     return true;
                 }
             }
@@ -323,35 +338,37 @@ public class MainCtrl {
 
     /**
      * Do the sorting
+     *
      * @param text the text query
      */
-    public void applySorting(String text){
-        sortedRecipes=new SortedList<>(filteredRecipes);
-        if(text.isEmpty()){
+    public void applySorting(String text) {
+        sortedRecipes = new SortedList<>(filteredRecipes);
+        if (text.isEmpty()) {
             sortedRecipes.setComparator(
-                    Comparator.comparing(Recipes::getName, String.CASE_INSENSITIVE_ORDER)
+                    Comparator.comparing
+                            (Recipes::getName, String.CASE_INSENSITIVE_ORDER)
             );
             return;
         }
-        text=text.toLowerCase();
-        final String query=text;
-        sortedRecipes.setComparator((r1,r2)->{
-            String t1=r1.getName().toLowerCase();
-            String t2=r2.getName().toLowerCase();
-            if(checkName(t1,query)>checkName(t2,query)) return -1;
-            else if(checkName(t1,query)<checkName(t2,query)) return 1;
+        text = text.toLowerCase();
+        final String query = text;
+        sortedRecipes.setComparator((r1, r2) -> {
+            String t1 = r1.getName().toLowerCase();
+            String t2 = r2.getName().toLowerCase();
+            if (checkName(t1, query) > checkName(t2, query)) return -1;
+            else if (checkName(t1, query) < checkName(t2, query)) return 1;
 
-            int chckVal1=checkIngs(r1.getIngredients(), query);
-            int chckVal2=checkIngs(r2.getIngredients(), query);
-            if(chckVal1>chckVal2){
+            int chckVal1 = checkIngs(r1.getIngredients(), query);
+            int chckVal2 = checkIngs(r2.getIngredients(), query);
+            if (chckVal1 > chckVal2) {
                 return -1;
-            }else if(chckVal1<chckVal2) return 1;
+            } else if (chckVal1 < chckVal2) return 1;
 
-            chckVal1=checkPrepSteps(r1.getPreparationSteps(), query);
-            chckVal2=checkPrepSteps(r2.getPreparationSteps(), query);
-            if(chckVal1>chckVal2){
+            chckVal1 = checkPrepSteps(r1.getPreparationSteps(), query);
+            chckVal2 = checkPrepSteps(r2.getPreparationSteps(), query);
+            if (chckVal1 > chckVal2) {
                 return -1;
-            }else if(chckVal1<chckVal2) return 1;
+            } else if (chckVal1 < chckVal2) return 1;
             return 0;
 
         });
@@ -404,10 +421,17 @@ public class MainCtrl {
 
     }
 
-    public void showOverviewList(){
-        primaryStage.setTitle("Overview");
+    /**
+     * Displays overview list from the recipe
+     * @param recipe the recipe.
+     */
+    public void showOverviewList(Recipes recipe) {
+        overviewListCtrl.previousSceneSetter(primaryStage.getScene());
+        primaryStage.setTitle("Adding from");
         primaryStage.setScene(overviewList);
-
+        overviewListCtrl.clear();
+        overviewListCtrl.addIngredients(recipe.getIngredients());
+        overviewListCtrl.refresh();
     }
 
     public Stage getPrimaryStage() {
@@ -422,7 +446,20 @@ public class MainCtrl {
         return shoppingListScene;
     }
 
+    /**
+     * Displays the ingredient editing scene
+     * @param ingredient the ingredient to edit
+     */
+    public void showEditIngredient(IngredientInShoppingList ingredient) {
 
+    }
+    /**
+     * Displays the ingredient editing scene
+     * @param ingredient the ingredient to edit
+     */
+    public void showEditIngredient(IngredientInRecipe ingredient){
+
+    }
 
 
 }

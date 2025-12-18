@@ -83,8 +83,6 @@ public class ShoppingListCtrl implements Initializable {
      */
     public void addRecipe(){
        mainCtrl.showAddRecipeIngredientsOverview();
-
-
     }
         /**
      * Clears the full list
