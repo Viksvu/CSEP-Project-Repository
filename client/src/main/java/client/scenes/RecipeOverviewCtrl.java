@@ -232,22 +232,14 @@ public class RecipeOverviewCtrl implements Initializable {
      * Adds ab ingredient to the recipe
      */
     public void addIngredient() {
-        Recipes selectedRecipe =
-                recipeListView
-                        .getSelectionModel()
-                        .getSelectedItem();
-        mainCtrl.showAddIngredient(selectedRecipe);
+        mainCtrl.showAddIngredient(lastSelectedRecipe);
     }
 
     /**
      * Adds a preparationStep to the recipe
      */
     public void addPreparationStep() {
-        Recipes selectedRecipe =
-                recipeListView
-                        .getSelectionModel()
-                        .getSelectedItem();
-        mainCtrl.showAddPreparationStep(selectedRecipe);
+        mainCtrl.showAddPreparationStep(lastSelectedRecipe);
     }
 
     /**
