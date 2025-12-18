@@ -66,8 +66,8 @@ public class AddRecipeIngredientsCtrl implements Initializable {
      * Parses all ingredients in a recipe.
      */
     public void addRecipeIngredients(){
+        if(choiceBox.getValue()==null) return;
         Recipes recipe= choiceBox.getValue();
-
         for(IngredientInRecipe iir: recipe.getIngredients()) {
             shoppingList.getShoppingList()
                     .add(new IngredientInShoppingList(iir));

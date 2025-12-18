@@ -22,7 +22,7 @@ public class PreparationStepController {
      * @return a List of all the preparation steps from the database.
      */
     @GetMapping("/list")
-    public List<PreparationStep> getPreparationSteps(@RequestParam long recipeId) {
+    public List<PreparationStep> getPreparationSteps(@RequestParam Long recipeId) {
         Recipes recipe = recipeService.getRecipeById(recipeId);
         if (recipe == null) return null;
         return recipe.getPreparationSteps();
@@ -37,7 +37,7 @@ public class PreparationStepController {
      */
     @PostMapping("/add")
     public ResponseEntity<PreparationStep> addPreparationStep(
-            @RequestParam long recipeId,
+            @RequestParam Long recipeId,
             @RequestBody PreparationStep preparationStep) {
         if (isEmptyOrNull(recipeId) ||  isEmptyOrNull(preparationStep)) {
             return ResponseEntity.badRequest().build();
@@ -58,7 +58,7 @@ public class PreparationStepController {
      */
     @PostMapping("/delete")
     public ResponseEntity<PreparationStep> deletePreparationStep(
-            @RequestParam long recipeId,
+            @RequestParam Long recipeId,
             @RequestBody PreparationStep preparationStep
     ) {
         if (isEmptyOrNull(recipeId) ||  isEmptyOrNull(preparationStep)) {
