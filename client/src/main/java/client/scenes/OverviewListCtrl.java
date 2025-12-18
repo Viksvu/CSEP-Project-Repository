@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 
@@ -32,6 +33,9 @@ public class OverviewListCtrl implements Initializable {
     
     @FXML
     private AnchorPane overviewListPane;
+
+    @FXML
+    private Button addIngredient;
 
     /**
      * A constructor for overview controller
@@ -63,6 +67,14 @@ public class OverviewListCtrl implements Initializable {
     public void refresh(){
         items.setAll(shoppingList.getBufferList());
         addEditButtonToIngredient();
+    }
+
+
+    /**
+     * add ingredient scene
+     */
+    public void addIngredient(){
+        mainCtrl.showAddIngredient();
     }
 
     /**
@@ -105,8 +117,6 @@ public class OverviewListCtrl implements Initializable {
     public void setShoppingList(ShoppingList shoppingList) {
         this.shoppingList = shoppingList;
     }
-
-
     /**
      * Edit the selected ingredient
      * @param ingredient the selected ingredient
@@ -122,14 +132,13 @@ public class OverviewListCtrl implements Initializable {
     public void previousSceneSetter(Scene previousScene) {
         this.previousScene = previousScene;
     }
-
-
     /**
      * Adds an edit button next to the name of the ingredient
      */
     public void addEditButtonToIngredient() {
         overviewListPane.getChildren().clear();
         overviewListPane.getChildren().addAll(overviewListView);
+        overviewListPane.getChildren().add(addIngredient);
         if (!items.isEmpty()) {
             int numIngredients = items.size();
             for (int i = 0; i < numIngredients; i++) {

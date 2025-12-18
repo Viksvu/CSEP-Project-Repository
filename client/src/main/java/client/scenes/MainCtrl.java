@@ -135,6 +135,7 @@ public class MainCtrl {
         //this.editIngredientCtrl=editIngredientCtrlParentPair.getKey();
         //this.editIngredient=
         // new Scene(editIngredientCtrlParentPair.getValue());
+        addIngredientCtrl.provideShoppingList(this.shoppingList);
 
 
         showOverview();
@@ -197,8 +198,16 @@ public class MainCtrl {
     public void showAddIngredient() {
         primaryStage.setTitle("Adding ingredient");
         primaryStage.setScene(addIngredient);
-        addIngredientCtrl.provideShoppingList(shoppingList);
         addIngredientCtrl.previousSceneSetter(shoppingListScene);
+    }
+
+    /**
+     * shows ingredient overlay
+     */
+    public void showAddIngredientOverlay(){
+        primaryStage.setTitle("Adding ingredient");
+        primaryStage.setScene(addIngredient);
+        addIngredientCtrl.previousSceneSetter(overviewList);
     }
 
 
@@ -427,11 +436,20 @@ public class MainCtrl {
      */
     public void showOverviewList(Recipes recipe) {
         overviewListCtrl.previousSceneSetter(primaryStage.getScene());
-        primaryStage.setTitle("Adding from");
+        primaryStage.setTitle("Adding from \""+recipe.getName()+"\"" +
+                " recipe");
         primaryStage.setScene(overviewList);
         overviewListCtrl.clear();
         overviewListCtrl.addIngredients(recipe.getIngredients());
         overviewListCtrl.refresh();
+    }
+
+    /**
+     * Displays overview without overwrite
+     */
+    public void showOverviewList(){
+        primaryStage.setScene(overviewList);
+
     }
 
     public Stage getPrimaryStage() {

@@ -89,9 +89,13 @@ public class AddIngredientCtrl implements Initializable {
         if (previousScene.getRoot().getId().equals("shoppingList")) {
             addToShoppingList();
         }
-        if (previousScene.getRoot().getId().equals("overview")) {
+        else if (previousScene.getRoot().getId().equals("overview")) {
             addToRecipe();
         }
+        else if (previousScene.getRoot().getId().equals("overviewList")) {
+            addToOverview();
+        }
+
     }
     //MUST MODIFY: UNIT.TOSTRING() BEING USED SINCE
     // INGREDIENTS IS NOT REFACTORED YET!
@@ -164,6 +168,35 @@ public class AddIngredientCtrl implements Initializable {
                     = new IngredientInShoppingList(
                     ingredient, quantityInt, unit);
             shoppingList.addIngredientDirectly(ingredientInShoppingList);
+            mainCtrl.showShoppingList();
+        } catch (Exception e) {
+            //errorLabel.setText("Quantity must be a valid number");
+            errorLabel.setText(e.getMessage());
+            System.out.println(e.getMessage());
+            errorLabel.setVisible(true);
+        }
+    }
+
+
+    /**
+     * Add an ingredient
+     * directly to the overview list.
+     */
+    public void addToOverview() {
+        String name = nameField.getText();
+        String quantity = null;
+        int quantityInt;
+        try {
+            quantity = quantityField.getText();
+            quantityInt = Integer.parseInt(quantity);
+            Unit unit = unitBox.
+                    getSelectionModel().getSelectedItem();
+            Ingredients ingredient = new Ingredients(name, 0);
+            IngredientInShoppingList ingredientInShoppingList
+                    = new IngredientInShoppingList(
+                    ingredient, quantityInt, unit);
+            shoppingList.
+                    addIngredientDirectlyToOverview(ingredientInShoppingList);
             mainCtrl.showShoppingList();
         } catch (Exception e) {
             //errorLabel.setText("Quantity must be a valid number");

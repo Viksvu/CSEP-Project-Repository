@@ -37,7 +37,7 @@
                 <AnchorPane fx:id="overviewListPane" minHeight="0.0" minWidth="0.0" prefHeight="328.0" prefWidth="599.0">
                      <children>
                         <ListView fx:id="overviewListView" prefHeight="327.0" prefWidth="600.0" />
-                        <Button layoutX="519.0" layoutY="269.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="57.0" text="+" />
+                        <Button fx:id="addIngredient" layoutX="519.0" layoutY="269.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="57.0" text="+" />
                      </children>
                   </AnchorPane>
               </content>
