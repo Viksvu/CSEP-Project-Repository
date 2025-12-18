@@ -3,7 +3,7 @@ package server.api;
 import commons.Recipes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.services.TempRecipeService;
+import server.services.RecipeService;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,8 +12,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/recipe")
 public class RecipeController {
-    // TODO: recipes should be replaced with appropriate JpaRepository Class
-    public TempRecipeService recipes = TempRecipeService.get();
+    RecipeService recipeService;
+
+    /**
+     * Public constructor for RecipeController
+     * Springboot handles the dependency injection for the recipe service
+     * @param recipeService service used for crud operations on recipes
+     */
+    public RecipeController(RecipeService recipeService) {
+        this.recipeService = recipeService;
+    }
 
     /**
      * Get a list of all known recipes
@@ -22,7 +30,14 @@ public class RecipeController {
      */
     @GetMapping("/list")
     public List<Recipes> getAll() {
-        return recipes.getAllRecipes();
+        Iterable<Recipes> allRecipesIterable = recipeService.getAllRecipes();
+        List<Recipes> allRecipes = new ArrayList<>();
+        allRecipesIterable.forEach(r -> {
+            Recipes recipe = new Recipes(r.getName());
+            recipe.setId(r.getId());
+            allRecipes.add(r);
+        });
+        return allRecipes;
     }
 
     /**
@@ -40,17 +55,8 @@ public class RecipeController {
         String name = recipe.getName();
         if (!isValidName(name))
             return ResponseEntity.badRequest().build();
-
-        long id = recipe.getId();
-        if (id == -1) {
-            id = getNewID();
-            recipe = new Recipes(id,
-                    new ArrayList<>(),
-                    new ArrayList<>(),
-                    name);
-        }
-
-        return ResponseEntity.ok(this.recipes.addRecipe(recipe));
+        Recipes savedRecipe = recipeService.addRecipe(recipe);
+        return ResponseEntity.ok(savedRecipe);
     }
 
     /**
@@ -64,10 +70,10 @@ public class RecipeController {
         if (recipe == null)
             return ResponseEntity.badRequest().build();
 
-        if (!recipeExists(recipe.getId()))
+        if (recipe.getId() == 0) {
             return ResponseEntity.badRequest().build();
-
-        this.recipes.deleteRecipe(recipe.getId());
+        }
+        recipeService.deleteRecipe(recipe.getId());
         return ResponseEntity.ok(recipe);
     }
 
@@ -80,34 +86,18 @@ public class RecipeController {
      */
     @PostMapping("/rename")
     public ResponseEntity<String> rename
-    (@RequestParam int id, @RequestBody String name) {
-        if (!recipeExists(id) || !isValidName(name))
+    (@RequestParam Long id, @RequestBody String name) {
+        if (!isValidName(name))
             return ResponseEntity.badRequest().build();
-
-        this.recipes.getAllRecipes().stream()
-                .filter(r -> r.getId() == id)
-                .forEach(r -> r.setName(name));
-
-        return ResponseEntity.ok(name);
-    }
-
-    /**
-     * Get a new unused id for a new recipe
-     *
-     * @return new unused recipe id
-     */
-    private long getNewID() {
-        List<Recipes> recipes = this.getAll();
-        recipes.sort(new RecipeComparator());
-
-        if (recipes.isEmpty()) return 0;
-
-        long id = recipes.getLast().getId();
-        while (recipeExists(id)) {
-            id++;
+        Recipes recipe;
+        try {
+            recipe = recipeService.getRecipeById(id);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
         }
-
-        return id;
+        recipe.setName(name);
+        recipeService.addRecipe(recipe);
+        return ResponseEntity.ok(name);
     }
 
     /**
@@ -118,16 +108,6 @@ public class RecipeController {
      */
     private boolean isValidName(String name) {
         return name != null && !name.isEmpty();
-    }
-
-    /**
-     * Check if a recipe already exists
-     *
-     * @param id id of the recipe
-     * @return true if already existing
-     */
-    private boolean recipeExists(long id) {
-        return this.recipes.getRecipeById(id) != null;
     }
 
     static class RecipeComparator implements Comparator<Recipes> {

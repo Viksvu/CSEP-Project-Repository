@@ -60,6 +60,9 @@ public class MainCtrl {
     private AddRecipeIngredientsCtrl addRecipeIngredientsCtrl;
     private Scene addRecipeIngredients;
 
+    private AddPreparationStepCtrl addPreparationStepCtrl;
+    private Scene addPreparationStep;
+
     // This observable list stores the names of all the recipes.
     // <String> might want to be replaced by <Recipe> in
     // the future while also then looking at all its usages.
@@ -89,6 +92,7 @@ public class MainCtrl {
             , Pair<AddIngredientCtrl, Parent> addIngredient
             , Pair<ShoppingListCtrl, Parent> shoppingList
             , Pair<AddRecipeIngredientsCtrl, Parent> addRecipeIngredientsP
+            , Pair<AddPreparationStepCtrl, Parent> addPreparationStep
     ) {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
@@ -96,8 +100,9 @@ public class MainCtrl {
         this.overview.getRoot().setId("overview");
 
         // TO CHANGE AFTER REFACTORING
-        this.tempRecipeList = overview.getKey().getData();
-        this.filteredRecipes = new FilteredList<>(overview.getKey().getData());
+        this.tempRecipeList = overview.getKey().getRecipeData();
+        this.filteredRecipes = new FilteredList<>(
+                overview.getKey().getRecipeData());
         this.sortedRecipes = new SortedList<>(filteredRecipes);
 
         this.addCtrl = add.getKey();
@@ -110,13 +115,17 @@ public class MainCtrl {
         this.addIngredient = new Scene(addIngredient.getValue());
         // MIGHT NEED TO BE MODIFIED AFTER CONNECTION TO SERVER
         this.recipeObservableList = FXCollections.observableArrayList();
-        //
+
         this.shoppingListCtrl = shoppingList.getKey();
         this.shoppingList = new Scene(shoppingList.getValue());
         this.shoppingList.getRoot().setId("shoppingList");
 
         this.addRecipeIngredientsCtrl = addRecipeIngredientsP.getKey();
         this.addRecipeIngredients = new Scene(addRecipeIngredientsP.getValue());
+
+        this.addPreparationStepCtrl = addPreparationStep.getKey();
+        this.addPreparationStep = new Scene(addPreparationStep.getValue());
+
         showOverview();
         primaryStage.show();
     }
@@ -181,6 +190,16 @@ public class MainCtrl {
         addIngredientCtrl.previousSceneSetter(this.shoppingList);
     }
 
+    /**
+     * Sets the add preparation step scene as the primary scene
+     * @param recipe current recipe
+     */
+    public void showAddPreparationStep(Recipes recipe) {
+        if (recipe == null) return;
+        primaryStage.setTitle("Adding preparation to: " + recipe.toString());
+        primaryStage.setScene(addPreparationStep);
+        addPreparationStepCtrl.provideRecipe(recipe);
+    }
 
     // EVERYTHING BELOW HAS BEEN REPLACED WITH SERVER-LOGIC
     // IT IS ONLY THERE IN CASE EVER NEEDED FOR DEBUGGING
@@ -217,12 +236,14 @@ public class MainCtrl {
         recipeObservableList.remove(recipeName);
     }
 
+    // END - Deprecated section ;)
+
     /**
      *  Applying search filters
      * @param text the text query
      */
     public void applySearchFilter(String text){
-        filteredRecipes=new FilteredList<>(overviewCtrl.getData());
+        filteredRecipes=new FilteredList<>(overviewCtrl.getRecipeData());
         if(text.isEmpty()){
             filteredRecipes.setPredicate(recipes -> true);
             return;
@@ -334,7 +355,8 @@ public class MainCtrl {
         sortedRecipes=new SortedList<>(filteredRecipes);
         if(text.isEmpty()){
             sortedRecipes.setComparator(
-                    Comparator.comparing(Recipes::getName, String.CASE_INSENSITIVE_ORDER)
+                    Comparator.comparing(Recipes::getName,
+                            String.CASE_INSENSITIVE_ORDER)
             );
             return;
         }
@@ -405,7 +427,7 @@ public class MainCtrl {
     public void showAddRecipeIngredientsOverview(ShoppingList shoppingList) {
         primaryStage.setTitle("Add recipe ingredients");
         primaryStage.setScene(addRecipeIngredients);
-        addRecipeIngredientsCtrl.setChoiceBox(overviewCtrl.getData());
+        addRecipeIngredientsCtrl.setChoiceBox(overviewCtrl.getRecipeData());
         addRecipeIngredientsCtrl.setShoppingList(shoppingList);
     }
 

@@ -43,4 +43,9 @@ public class PreparationStep {
     public int hashCode() {
         return Objects.hashCode(description);
     }
+
+    @Override
+    public String toString() {
+        return description;
+    }
 }
