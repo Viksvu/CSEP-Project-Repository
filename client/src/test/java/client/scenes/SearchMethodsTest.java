@@ -74,49 +74,49 @@ public class    SearchMethodsTest {
 
     @Test
     void testCheckNameStartsWith() {
-        assertEquals(2, controller.checkName("chicken soup", "chi"));
+        assertEquals(2, controller.checkName("chicken soup", new String[]{"chi"}));
     }
 
     @Test
     void testCheckNameContains() {
-        assertEquals(1, controller.checkName("chicken soup", "ken"));
+        assertEquals(1, controller.checkName("chicken soup", new String[]{"ken"}));
     }
 
     @Test
     void testCheckNameNoMatch() {
-        assertEquals(0, controller.checkName("chicken soup", "xyz"));
+        assertEquals(0, controller.checkName("chicken soup", new String[]{"xyz"}));
     }
 
 
     @Test
     void testCheckIngsStartsWith() {
-        assertEquals(2, controller.checkIngs(r1.getIngredients(), "chi"));
+        assertEquals(2, controller.checkIngs(r1.getIngredients(), new String[]{"chi"}));
     }
 
     @Test
     void testCheckIngsContains() {
-        assertEquals(1, controller.checkIngs(r1.getIngredients(), "nio"));
+        assertEquals(1, controller.checkIngs(r1.getIngredients(), new String[]{"nio"}));
     }
 
     @Test
     void testCheckIngsNoMatch() {
-        assertEquals(0, controller.checkIngs(r1.getIngredients(), "zzz"));
+        assertEquals(0, controller.checkIngs(r1.getIngredients(), new String[]{"zzz"}));
     }
 
 
     @Test
     void testCheckPrepStepsStartsWith() {
-        assertEquals(2, controller.checkPrepSteps(r1.getPreparationSteps(), "chop"));
+        assertEquals(2, controller.checkPrepSteps(r1.getPreparationSteps(), new String[]{"chop"}));
     }
 
     @Test
     void testCheckPrepStepsContains() {
-        assertEquals(1, controller.checkPrepSteps(r1.getPreparationSteps(), "oil")); // matches "boil"
+        assertEquals(1, controller.checkPrepSteps(r1.getPreparationSteps(), new String[]{"oil"})); // matches "boil"
     }
 
     @Test
     void testCheckPrepStepsNoMatch() {
-        assertEquals(0, controller.checkPrepSteps(r1.getPreparationSteps(), "xyz"));
+        assertEquals(0, controller.checkPrepSteps(r1.getPreparationSteps(), new String[]{"xyz"}));
     }
 
 
