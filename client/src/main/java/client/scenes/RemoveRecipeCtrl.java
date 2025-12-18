@@ -37,6 +37,7 @@ public class RemoveRecipeCtrl implements Initializable {
     public void confirmRemoveRecipe() {
         //mainCtrl.removeRecipeFromList(choiceBox.getValue());
         //choiceBox.getItems().clear();
+        if(choiceBox.getValue()==null) return;
         server.removeRecipe(choiceBox.getValue());
         mainCtrl.showOverview();
     }

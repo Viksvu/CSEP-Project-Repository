@@ -53,7 +53,7 @@ class PreparationStepControllerTest {
     @Test
     void addPreparationStepToNullRecipe() {
         ResponseEntity<PreparationStep> response =
-                preparationStepController.addPreparationStep(-1, ps1);
+                preparationStepController.addPreparationStep(-1L, ps1);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
@@ -76,7 +76,7 @@ class PreparationStepControllerTest {
     @Test
     void deletePreparationStepFromNullRecipe() {
         ResponseEntity<PreparationStep> response
-                = preparationStepController.deletePreparationStep(-1, ps1);
+                = preparationStepController.deletePreparationStep(-1L, ps1);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }
