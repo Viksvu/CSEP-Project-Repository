@@ -13,6 +13,7 @@ import java.util.List;
  */
 // TODO remove this class and integrate the real Recipe Service
 @Service
+@Deprecated
 public class TempRecipeService {
     @Deprecated
     private static TempRecipeService tempService;

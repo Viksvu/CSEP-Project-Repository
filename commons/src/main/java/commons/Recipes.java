@@ -1,5 +1,6 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Recipes {
     @OneToMany(mappedBy = "recipes", cascade = CascadeType.ALL,
             orphanRemoval = true)
     // to change after ingredients class is implemented
+    @JsonManagedReference
     private List<IngredientInRecipe> ingredients;
     @ElementCollection
     private List<PreparationStep> preparationSteps;
@@ -110,6 +112,24 @@ public class Recipes {
 
     public void setPreparationSteps(List<PreparationStep> preparationSteps) {
         this.preparationSteps = preparationSteps;
+    }
+
+    /**
+     * Removes a specific preparation step from the
+     * list of all preparation steps
+     * @param preparationStep to remove from the list
+     */
+    public void removePreparationStep(PreparationStep preparationStep) {
+        preparationSteps.remove(preparationStep);
+    }
+
+    /**
+     * Checks whether a given preparation step is a part of the recipe
+     * @param preparationStep to check for
+     * @return a boolean for contains or not contains
+     */
+    public boolean containsPreparationStep(PreparationStep preparationStep) {
+        return preparationSteps.contains(preparationStep);
     }
 
     public void setIngredients(List<IngredientInRecipe> ingredients) {

@@ -1,5 +1,6 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -20,6 +21,7 @@ public class IngredientInRecipe {
     private Unit unit;
 
     @ManyToOne(optional = false)
+    @JsonBackReference
     private Recipes recipes;
 
     /**

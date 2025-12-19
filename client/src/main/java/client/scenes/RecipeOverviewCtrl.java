@@ -6,6 +6,7 @@ import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.IngredientInRecipe;
+import commons.PreparationStep;
 import commons.Recipes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,23 +15,27 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class RecipeOverviewCtrl implements Initializable {
 
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
-    private final ShoppingList shoppingList = new ShoppingList();
-    ObservableList<Recipes> data;
+    private  ShoppingList shoppingList;
+    ObservableList<Recipes> recipeData;
     ObservableList<Recipes> data1;
     ObservableList<IngredientInRecipe> ingredientsData;
-    ObservableList<String> preparationsData;
+    ObservableList<PreparationStep> preparationStepsData;
     // Button someButton;
     ArrayList<Button> ingredientButtons;
 
@@ -51,12 +56,17 @@ public class RecipeOverviewCtrl implements Initializable {
     //IMPORTANT: Type change likely
     // not needed in future but usage will have to be modified
     @FXML
-    private ListView<String> preparationsListView;
+    private ListView<PreparationStep> preparationsListView;
     @FXML
     private AnchorPane ingredientsPane;
-
     @FXML
     private Button addIngredientButton;
+
+    @FXML
+    private AnchorPane preparationStepsPane;
+    @FXML
+    private Button addPreparationStepButton;
+
     //IMPORTANT: Change String to Recipe
     // ObservableList<String> recipeObservableList;
 
@@ -90,7 +100,13 @@ public class RecipeOverviewCtrl implements Initializable {
         // will also add to the ListView of Recipes
         //recipeListView.setItems(recipeObservableList);
         //recipeListView.setEditable(true);
-        data = FXCollections.observableArrayList();
+
+        searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                clearSearch();
+            }
+        });
+        recipeData = FXCollections.observableArrayList();
         data1 = FXCollections.observableArrayList();
     }
 
@@ -100,31 +116,55 @@ public class RecipeOverviewCtrl implements Initializable {
     public void refresh() {
         splitPaneRefreshButton.setDividerPosition(0, 0.10090361445783134);
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
-        var serverRecipes = server.getRecipes();
-        data = FXCollections.observableArrayList(serverRecipes);
+        refreshRecipes();
         if (getSelectedRecipe() != null) {
             lastSelectedRecipe = getSelectedRecipe();
         }
 
-        //ObservableList<String> recipeList
-        // = FXCollections.observableArrayList(server.getRecipes());
+        refreshIngredients(lastSelectedRecipe);
+        refreshPreparationSteps(lastSelectedRecipe);
+    }
 
-        try {
-            if (lastSelectedRecipe == null) {
-                updateIngredients(getSelectedRecipe());
-                updatePreparations(getSelectedRecipe());
-            } else {
-                updateIngredients(lastSelectedRecipe);
-                updatePreparations(lastSelectedRecipe);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+
+
+    /**
+     * Refreshes the recipes on the client
+     */
+    private void refreshRecipes() {
+        var serverRecipes = server.getRecipes();
+        recipeData = FXCollections.observableArrayList(serverRecipes);
+        if(!data1.isEmpty()) recipeListView.setItems(data1);
+        else recipeListView.setItems(recipeData);
+    }
+
+    /**
+     * Refreshes the ingredients from the current selected currentRecipe
+     * @param currentRecipe current selected currentRecipe
+     */
+    private void refreshIngredients(Recipes currentRecipe) {
+        List<IngredientInRecipe> ingredients = Collections.emptyList();
+        if (currentRecipe != null) {
+            ingredients = server.getIngredientsInRecipe(currentRecipe);
         }
-        if (!data1.isEmpty()) recipeListView.setItems(data1);
-        else recipeListView.setItems(data);
+        if (ingredients == null) ingredients = Collections.emptyList();
+        ingredientsData = FXCollections.observableArrayList(ingredients);
         ingredientListView.setItems(ingredientsData);
         addEditButtonToIngredient();
+    }
 
+    /**
+     * Refreshes the preparation steps of the current selected currentRecipe
+     * @param currentRecipe current selected currentRecipe
+     */
+    private void refreshPreparationSteps(Recipes currentRecipe) {
+        List<PreparationStep> steps = Collections.emptyList();
+        if (currentRecipe != null) {
+            steps = server.getPreparationSteps(currentRecipe);
+        }
+        if (steps == null) steps = Collections.emptyList();
+        preparationStepsData = FXCollections.observableArrayList(steps);
+        preparationsListView.setItems(preparationStepsData);
+        addDeleteButtonToPreparationStep();
     }
 
     /**
@@ -138,8 +178,8 @@ public class RecipeOverviewCtrl implements Initializable {
         if (!ingredientsData.isEmpty()) {
             int numIngredients = ingredientsData.size();
             for (int i = 0; i < numIngredients; i++) {
-                EditButton editButton =
-                        new EditButton(
+                EditButton<IngredientInRecipe> editButton =
+                        new EditButton<>(
                                 ingredientsData.get(i),
                                 "delete",
                                 i,
@@ -152,6 +192,34 @@ public class RecipeOverviewCtrl implements Initializable {
                 // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
 
                 ingredientsPane.getChildren().add(editButton);
+            }
+        }
+    }
+
+    /**
+     * Adds an edit button next to the name of the ingredient
+     */
+    public void addDeleteButtonToPreparationStep() {
+        preparationStepsPane.getChildren().clear();
+        preparationStepsPane.getChildren().addAll(preparationsListView);
+        preparationStepsPane.getChildren().add(addPreparationStepButton);
+        if (!preparationStepsData.isEmpty()) {
+            int numIngredients = preparationStepsData.size();
+            for (int i = 0; i < numIngredients; i++) {
+                EditButton<PreparationStep> editButton =
+                        new EditButton<>(
+                                preparationStepsData.get(i),
+                                "delete",
+                                i,
+                                preparationsListView,
+                                server,
+                                lastSelectedRecipe,
+                                this,
+                                EditButtonOptions.REMOVE_STEP
+                        );
+                // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
+
+                preparationStepsPane.getChildren().add(editButton);
             }
         }
     }
@@ -170,15 +238,26 @@ public class RecipeOverviewCtrl implements Initializable {
         mainCtrl.showRemove();
     }
 
+
+    /**
+     * Resets the search field and refreshes the view to show all recipes
+     */
+    private void clearSearch() {
+        searchField.clear();
+        searchInit();
+    }
     /**
      * Adds ab ingredient to the recipe
      */
     public void addIngredient() {
-        Recipes selectedRecipe =
-                recipeListView
-                        .getSelectionModel()
-                        .getSelectedItem();
-        mainCtrl.showAddIngredient(selectedRecipe);
+        mainCtrl.showAddIngredient(lastSelectedRecipe);
+    }
+
+    /**
+     * Adds a preparationStep to the recipe
+     */
+    public void addPreparationStep() {
+        mainCtrl.showAddPreparationStep(lastSelectedRecipe);
     }
 
     /**
@@ -215,8 +294,7 @@ public class RecipeOverviewCtrl implements Initializable {
      *                passed on as a parameter
      */
     public void updateIngredients(Recipes recipes) {
-        var ingredients = server.getIngredientsInRecipes(recipes);
-        ingredientsData = FXCollections.observableArrayList(ingredients);
+
     }
 
     /**
@@ -259,7 +337,12 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
 
-    public ObservableList<Recipes> getData() {
-        return data;
+        public ObservableList<Recipes> getRecipeData () {
+            return recipeData;
+        }
+
+
+        public void setShoppingList (ShoppingList shoppingList){
+            this.shoppingList = shoppingList;
+        }
     }
-}

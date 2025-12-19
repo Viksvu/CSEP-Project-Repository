@@ -22,6 +22,7 @@ import java.util.List;
 
 import commons.IngredientInRecipe;
 import commons.Ingredients;
+import commons.PreparationStep;
 import commons.Recipes;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -32,8 +33,9 @@ import jakarta.ws.rs.core.GenericType;
 
 public class ServerUtils {
 
-	private static final String SERVER = "http://localhost:8080/";
-
+	private static final String SERVER = System.getenv("SERVER_URL") == null
+            ? "http://localhost:8080/"
+            : System.getenv("SERVER_URL");
 
     /**
 	* temp
@@ -96,7 +98,7 @@ public class ServerUtils {
      * @param recipe to add the ingredient to
      * @return a list with all ingredients in a recipe
      */
-    public List<IngredientInRecipe> getIngredientsInRecipes(Recipes recipe) {
+    public List<IngredientInRecipe> getIngredientsInRecipe(Recipes recipe) {
         return ClientBuilder
                 .newClient(new ClientConfig())
                 .target(SERVER)
@@ -139,6 +141,58 @@ public class ServerUtils {
                 .post(Entity.entity(ingredient, APPLICATION_JSON),
                         IngredientInRecipe.class);
     }
+
+    /**
+     * Get all the preparation steps of a recipe
+     * @param recipe recipe to get preparation steps from
+     * @return List of PreparationSteps
+     */
+    public List<PreparationStep> getPreparationSteps(Recipes recipe) {
+        long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .queryParam("recipeId", recipeId)
+                .path("api/prep-step/list")
+                .request(APPLICATION_JSON)
+                .get(new GenericType<List<PreparationStep>>() {});
+    }
+
+    /**
+     * Add a preparationStep to a recipe
+     * @param step PreparationStep to add
+     * @param recipe Recipe to add to
+     * @return The PreparationStep if successful
+     */
+    public PreparationStep addPreparationStepToRecipe(PreparationStep step,
+                                                      Recipes recipe) {
+        long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .queryParam("recipeId", recipeId)
+                .path("api/prep-step/add")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(step, APPLICATION_JSON),
+                        PreparationStep.class);
+    }
+
+    /**
+     * Delete a preparationStep from a recipe
+     * @param step PreparationStep to delete
+     * @param recipe Recipe to delete from
+     * @return The PreparationStep if successful
+     */
+    public PreparationStep deletePreparationStepToRecipe(PreparationStep step,
+                                                         Recipes recipe) {
+        long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .queryParam("recipeId", recipeId)
+                .path("api/prep-step/delete")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(step, APPLICATION_JSON),
+                        PreparationStep.class);
+    }
+
 
 	/**
      * temp

@@ -33,6 +33,5 @@ public class MyModule implements Module {
         binder.bind(OverviewListCtrl.class).in(Scopes.SINGLETON);
        // binder.bind(EditIngredientCtrl.class).in(Scopes.SINGLETON);
 
-
     }
 }

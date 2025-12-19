@@ -70,7 +70,7 @@ public class Main extends Application {
         var shoppingList = FXML.load
                 (ShoppingListCtrl.class,
                         "client", "scenes", "ShoppingList.fxml");
-        var addRecipeIngredients= FXML.load
+        var addRecipeIngredients = FXML.load
                 (AddRecipeIngredientsCtrl.class,
                         "client", "scenes",
                         "AddRecipeIngredientsOverview.fxml");
@@ -78,6 +78,11 @@ public class Main extends Application {
 				"client", "scenes", "OverviewList.fxml");
 		//var editIngredient= FXML.load(EditIngredientCtrl.class,
 		//"client", "scenes", "EditIngredientCtrl.fxml");
+
+		var addRecipePreparationStep = FXML.load
+				(AddPreparationStepCtrl.class,
+						"client", "scenes",
+						"AddPreparationStep.fxml");
 
 		var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 		mainCtrl.initialize(
@@ -89,6 +94,7 @@ public class Main extends Application {
                 shoppingList,
                 addRecipeIngredients,
 				overviewList
-        );
+				,addRecipePreparationStep
+		);
 	}
 }
