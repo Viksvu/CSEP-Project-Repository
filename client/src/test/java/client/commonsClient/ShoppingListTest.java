@@ -100,7 +100,7 @@ class ShoppingListTest {
     void printableShoppingList() {
         Recipes recipe = new Recipes("bologness");
         IngredientInRecipe iir1 = new IngredientInRecipe();
-        Ingredients i = new Ingredients("pepper", 50);
+        Ingredients i = new Ingredients("pepper", 50, 5.0, 10.0, 200.0);
         iir1.setIngredient(i);
         iir1.setRecipes(recipe);
         iir1.setQuantity(2);

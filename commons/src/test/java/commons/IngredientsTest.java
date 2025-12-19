@@ -7,7 +7,7 @@ public class IngredientsTest {
 
     @Test
     void constructorShouldSetAllFields() {
-        Ingredients i = new Ingredients("salt", 0);
+        Ingredients i = new Ingredients("salt", 0, 0.0, 0.0, 0.0);
 
         assertEquals("salt", i.getName());
         assertEquals(0, i.getKcalPer100g());
@@ -15,7 +15,7 @@ public class IngredientsTest {
 
     @Test
     void settersShouldUpdateFields() {
-        Ingredients i = new Ingredients("pepper", 50);
+        Ingredients i = new Ingredients("pepper", 50, 0.0, 0.0, 0.0);
 
         i.setName("pepper-new");
         i.setKcalPer100g(200);
@@ -26,8 +26,8 @@ public class IngredientsTest {
 
     @Test
     void equalsShouldReturnTrueForSameValues() {
-        Ingredients i1 = new Ingredients("milk", 60);
-        Ingredients i2 = new Ingredients("milk", 60);
+        Ingredients i1 = new Ingredients("milk", 60, 0.0, 0.0, 0.0);
+        Ingredients i2 = new Ingredients("milk", 60, 0.0, 0.0, 0.0);
 
         assertEquals(i1, i2);
         assertEquals(i1.hashCode(), i2.hashCode());
@@ -35,15 +35,15 @@ public class IngredientsTest {
 
     @Test
     void equalsShouldReturnFalseForDifferentValues() {
-        Ingredients i1 = new Ingredients("water", 1);
-        Ingredients i2 = new Ingredients("oil", 900);
+        Ingredients i1 = new Ingredients("water", 1, 0.0, 0.0, 0.0);
+        Ingredients i2 = new Ingredients("oil", 900, 0.0, 0.0, 0.0);
 
         assertNotEquals(i1, i2);
     }
 
     @Test
     void equalsShouldReturnFalseWhenComparingWithNullOrDifferentClass() {
-        Ingredients i = new Ingredients("sugar", 387);
+        Ingredients i = new Ingredients("sugar", 387, 0.0, 0.0, 0.0);
 
         assertNotNull(i);
         assertNotEquals("not-an-ingredient", i);
@@ -51,7 +51,7 @@ public class IngredientsTest {
 
     @Test
     void hashCodeShouldBeConsistent() {
-        Ingredients i = new Ingredients("oil", 884);
+        Ingredients i = new Ingredients("oil", 884, 0.0, 0.0, 0.0);
 
         int h1 = i.hashCode();
         int h2 = i.hashCode();
@@ -67,8 +67,8 @@ public class IngredientsTest {
 
     @Test
     void quantityCanBeZeroOrNegative() {
-        Ingredients zero = new Ingredients("water", 0);
-        Ingredients negative = new Ingredients("salt", -5);
+        Ingredients zero = new Ingredients("water", 0, 0.0, 0.0, 0.0);
+        Ingredients negative = new Ingredients("salt", -5, 0.0, 0.0, 0.0);
 
         assertEquals(0, zero.getKcalPer100g());
         assertEquals(-5, negative.getKcalPer100g());
@@ -76,7 +76,7 @@ public class IngredientsTest {
 
     @Test
     void nameAndIngredientCanBeEmptyString() {
-        Ingredients i = new Ingredients("", 0);
+        Ingredients i = new Ingredients("", 0, 0.0, 0.0, 0.0);
 
         assertEquals("", i.getName());
         assertEquals("", i.getName());
@@ -86,8 +86,8 @@ public class IngredientsTest {
 
     @Test
     void equalsShouldReturnFalseForDifferentIds() {
-        Ingredients i1 = new Ingredients("sugar", 300);
-        Ingredients i2 = new Ingredients("sugar", 300);
+        Ingredients i1 = new Ingredients("sugar", 300, 0.0, 0.0, 0.0);
+        Ingredients i2 = new Ingredients("sugar", 300, 0.0, 0.0, 0.0);
 
         i1.setName("sugar1");
         assertNotEquals(i1, i2);
@@ -95,7 +95,7 @@ public class IngredientsTest {
 
     @Test
     void hashCodeShouldChangeIfFieldChanges() {
-        Ingredients i = new Ingredients("oil", 884);
+        Ingredients i = new Ingredients("oil", 884, 0.0, 0.0, 0.0);
         int originalHash = i.hashCode();
         i.setKcalPer100g(2000);
 

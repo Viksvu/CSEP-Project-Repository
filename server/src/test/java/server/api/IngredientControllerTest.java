@@ -58,8 +58,8 @@ public class IngredientControllerTest {
     @BeforeEach
     public void setup() {
         ic = new IngredientController(ingredientsService);
-        i1 = new Ingredients("Salt", 10);
-        i2 = new Ingredients("Pepperoni", 100);
+        i1 = new Ingredients("Salt", 10, 0.0, 0.0, 0.0);
+        i2 = new Ingredients("Pepperoni", 100, 10.0, 0.0, 5.0);
     }
 
     @Test

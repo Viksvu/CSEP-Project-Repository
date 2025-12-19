@@ -16,7 +16,7 @@ class KCALTest {
 
     @Test
     void calculator_Gram() {
-        Ingredients sugar = new Ingredients("Sugar", 387);
+        Ingredients sugar = new Ingredients("Sugar", 387, 0.0, 100.0, 387.0);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
         ingredientUse.setIngredient(sugar);
         ingredientUse.setQuantity(200);
@@ -28,7 +28,7 @@ class KCALTest {
 
     @Test
     void calculator_Gram2() {
-        Ingredients tomato = new Ingredients("Tomato", 19);
+        Ingredients tomato = new Ingredients("Tomato", 19, 0.9, 3.9, 19.0);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
         ingredientUse.setIngredient(tomato);
         ingredientUse.setQuantity(300);
@@ -40,7 +40,7 @@ class KCALTest {
 
     @Test
     void calculator_Gram3() {
-        Ingredients cheese = new Ingredients("Cheese", 400);
+        Ingredients cheese = new Ingredients("Cheese", 400, 25.0, 1.3, 400.0);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
         ingredientUse.setIngredient(cheese);
         ingredientUse.setQuantity(500);
@@ -52,7 +52,7 @@ class KCALTest {
 
     @Test
     void calculator_Gram4() {
-        Ingredients pasta = new Ingredients("Pasta", 141);
+        Ingredients pasta = new Ingredients("Pasta", 141, 5.0, 75.0, 141.0);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
         ingredientUse.setIngredient(pasta);
         ingredientUse.setQuantity(125);
@@ -64,7 +64,7 @@ class KCALTest {
 
     @Test
     void calculator_Cup() {
-        Ingredients flour = new Ingredients("Flour", 364);
+        Ingredients flour = new Ingredients("Flour", 364, 10.0, 76.0, 364.0);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
         ingredientUse.setUnit(Unit.CUP);
         ingredientUse.setIngredient(flour);
@@ -76,7 +76,7 @@ class KCALTest {
 
     @Test
     void calculator_Teaspoon() {
-        Ingredients salt = new Ingredients("Salt", 0);
+        Ingredients salt = new Ingredients("Salt", 0, 0.0, 0.0, 0.0);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
         ingredientUse.setIngredient(salt);
         ingredientUse.setQuantity(3);
@@ -88,7 +88,7 @@ class KCALTest {
 
     @Test
     void calculator_Milliliter() {
-        Ingredients water = new Ingredients("Water", 0);
+        Ingredients water = new Ingredients("Water", 0, 0.0, 0.0, 0.0);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
         ingredientUse.setIngredient(water);
         ingredientUse.setQuantity(500);
@@ -100,7 +100,7 @@ class KCALTest {
     }
 
     void calculator_Milliliter2() {
-        Ingredients oil = new Ingredients("Oil", 880);
+        Ingredients oil = new Ingredients("Oil", 880, 0.0, 0.0, 100.0);
         IngredientInRecipe ingredientUse = new IngredientInRecipe();
         ingredientUse.setIngredient(oil);
         ingredientUse.setQuantity(100);
