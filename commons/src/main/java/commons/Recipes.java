@@ -12,7 +12,7 @@ public class Recipes {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
-    private long id;
+    private Long id;
     @OneToMany(mappedBy = "recipes", cascade = CascadeType.ALL,
             orphanRemoval = true)
     // to change after ingredients class is implemented
@@ -32,11 +32,11 @@ public class Recipes {
         this.preparationSteps = new ArrayList<>();
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

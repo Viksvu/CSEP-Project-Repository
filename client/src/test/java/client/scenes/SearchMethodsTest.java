@@ -15,7 +15,12 @@
  */
 package client.scenes;
 
+import client.utils.ServerUtils;
 import commons.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,13 +31,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class    SearchMethodsTest {
 
-    private MainCtrl controller;
+    private RecipeOverviewCtrl controller;
     private Recipes r1, r2, r3;
 
     @BeforeEach
     void setup() {
-        controller = new MainCtrl();
-
+        controller = new RecipeOverviewCtrl(new MainCtrl(),new ServerUtils());
         r1 = new Recipes();
         r1.setName("Chicken Soup");
         r1.setPreparationSteps(List.of(
@@ -66,9 +70,12 @@ public class    SearchMethodsTest {
                 new IngredientInRecipe(new Ingredients("Pasta"))
         ));
 
-        List<Recipes> baseList = List.of(r1, r2, r3);
+        ObservableList<Recipes> baseList = FXCollections.observableArrayList(r1, r2, r3);
 
-        controller.setRecipeObservableList(baseList);
+
+        controller.setRecipeData(baseList);
+        controller.setFilteredRecipes(new FilteredList<>(baseList));
+        controller.setSortedRecipes(new SortedList<>(baseList));
     }
 
 

@@ -12,6 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class AddRecipeCtrl implements Initializable {
@@ -58,6 +59,20 @@ public class AddRecipeCtrl implements Initializable {
      */
     public void add() {
         String recipeName = nameField.getText();
+        try {
+            ArrayList<Recipes> currRecipes = (ArrayList<Recipes>) server.getRecipes();
+            for (int i=0;i<currRecipes.size();i++){
+                if(currRecipes.get(i).getName().equals(recipeName)){
+                    return;
+                }
+            }
+        }catch (WebApplicationException e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+            return;
+        }
         try {
             server.addRecipe(new Recipes(recipeName));
         } catch (WebApplicationException e) {

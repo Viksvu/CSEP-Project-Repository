@@ -64,8 +64,10 @@ public class AddRecipeIngredientsCtrl implements Initializable {
      * Parses all ingredients in a recipe.
      */
     public void addRecipeIngredients(){
+        if(choiceBox.getValue()==null) return;
         Recipes recipe= choiceBox.getValue();
         mainCtrl.showOverviewList(recipe);
+
     }
 
     /**

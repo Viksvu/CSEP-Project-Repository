@@ -28,7 +28,7 @@ public class IngredientInRecipeController {
      * @return List with IngredientInRecipe
      */
     @GetMapping("/get")
-    public ResponseEntity<List<IngredientInRecipe>> get(@RequestParam long id) {
+    public ResponseEntity<List<IngredientInRecipe>> get(@RequestParam Long id) {
         if (id == 0) return ResponseEntity.badRequest().build();
         Recipes recipe;
         try {
@@ -47,7 +47,7 @@ public class IngredientInRecipeController {
      */
     @PostMapping("/add")
     public ResponseEntity<IngredientInRecipe> add(
-            @RequestParam long id,
+            @RequestParam Long id,
             @RequestBody IngredientInRecipe ingredient) {
         if (ingredient == null) return ResponseEntity.badRequest().build();
 
@@ -70,7 +70,7 @@ public class IngredientInRecipeController {
      */
     @PostMapping("/delete")
     public ResponseEntity<IngredientInRecipe> delete(
-            @RequestParam long id,
+            @RequestParam Long id,
             @RequestBody IngredientInRecipe ingredient) {
         if (ingredient == null) return ResponseEntity.badRequest().build();
 

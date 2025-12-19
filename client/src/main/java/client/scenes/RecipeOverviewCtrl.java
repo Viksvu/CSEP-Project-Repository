@@ -6,10 +6,13 @@ import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.IngredientInRecipe;
+import commons.Ingredients;
 import commons.PreparationStep;
 import commons.Recipes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -22,10 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class RecipeOverviewCtrl implements Initializable {
 
@@ -38,6 +38,10 @@ public class RecipeOverviewCtrl implements Initializable {
     ObservableList<PreparationStep> preparationStepsData;
     // Button someButton;
     ArrayList<Button> ingredientButtons;
+
+    private static final int NO_MATCH = 0;
+    private static final int PARTIAL_MATCH = 1;
+    private static final int STARTS_WITH_MATCH = 2;
 
     @FXML
     public TextField searchField;
@@ -73,6 +77,8 @@ public class RecipeOverviewCtrl implements Initializable {
     @FXML
     private Button addToShop;
 
+    private FilteredList<Recipes> filteredRecipes;
+    private SortedList<Recipes> sortedRecipes;
     private Recipes lastSelectedRecipe;
 
     /**
@@ -108,6 +114,8 @@ public class RecipeOverviewCtrl implements Initializable {
         });
         recipeData = FXCollections.observableArrayList();
         data1 = FXCollections.observableArrayList();
+        this.filteredRecipes = new FilteredList<>(recipeData);
+        this.sortedRecipes = new SortedList<>(filteredRecipes);
     }
 
     /**
@@ -120,7 +128,7 @@ public class RecipeOverviewCtrl implements Initializable {
         if (getSelectedRecipe() != null) {
             lastSelectedRecipe = getSelectedRecipe();
         }
-
+        if(!server.recipeExists(lastSelectedRecipe)) lastSelectedRecipe=null;
         refreshIngredients(lastSelectedRecipe);
         refreshPreparationSteps(lastSelectedRecipe);
     }
@@ -131,10 +139,11 @@ public class RecipeOverviewCtrl implements Initializable {
      * Refreshes the recipes on the client
      */
     private void refreshRecipes() {
-        var serverRecipes = server.getRecipes();
-        recipeData = FXCollections.observableArrayList(serverRecipes);
-        if(!data1.isEmpty()) recipeListView.setItems(data1);
-        else recipeListView.setItems(recipeData);
+
+        recipeData.setAll(server.getRecipes());
+
+        recipeListView.setItems(sortedRecipes);
+
     }
 
     /**
@@ -238,6 +247,21 @@ public class RecipeOverviewCtrl implements Initializable {
         mainCtrl.showRemove();
     }
 
+    public void setRecipeData(ObservableList<Recipes> recipeData) {
+        this.recipeData = recipeData;
+    }
+
+    public SortedList<Recipes> getSortedRecipes() {
+        return sortedRecipes;
+    }
+
+    public void setSortedRecipes(SortedList<Recipes> sortedRecipes) {
+        this.sortedRecipes = sortedRecipes;
+    }
+
+    public void setFilteredRecipes(FilteredList<Recipes> filteredRecipes) {
+        this.filteredRecipes = filteredRecipes;
+    }
 
     /**
      * Resets the search field and refreshes the view to show all recipes
@@ -250,6 +274,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * Adds ab ingredient to the recipe
      */
     public void addIngredient() {
+        if(lastSelectedRecipe==null) return;
         mainCtrl.showAddIngredient(lastSelectedRecipe);
     }
 
@@ -314,10 +339,153 @@ public class RecipeOverviewCtrl implements Initializable {
     public void searchInit() {
         String text = searchField.getText();
         refresh();
-        mainCtrl.applySearchFilter(text);
-        mainCtrl.applySorting(text);
-        data1 = mainCtrl.getSortedRecipes();
+
+        applySearchFilter(text);
+        applySorting(text);
         refresh();
+    }
+    /**
+     *  Applying search filters
+     * @param text the text query
+     */
+    public void applySearchFilter(String text){
+        if(text.isEmpty()){
+            filteredRecipes.setPredicate(recipes -> true);
+            return;
+        }
+        text=text.toLowerCase();
+        final String[] texts=text.split("\\s+");
+        filteredRecipes.setPredicate(recipes -> {
+            boolean finalcheck=true;
+            for(int i1=0;i1<texts.length;i1++) {
+                boolean checkIfContains=false;
+                String query=texts[i1];
+                if (recipes.getName().toLowerCase().contains(query)) checkIfContains=true;
+                List<PreparationStep> preparationSteps = recipes.getPreparationSteps();
+                for (int i = 0; i < preparationSteps.size(); i++) {
+                    if (preparationSteps.get(i).getDescription().toLowerCase().contains(query)) {
+                        checkIfContains=true;
+                    }
+                }
+                List<IngredientInRecipe> ings = recipes.getIngredients();
+                for (int i = 0; i < ings.size(); i++) {
+                    Ingredients tempIngredient = ings.get(i).getIngredient();
+                    if (tempIngredient.getName().toLowerCase().contains(query)) {
+                        checkIfContains=true;
+                    }
+                }
+                System.out.println(checkIfContains);
+                finalcheck=finalcheck&&checkIfContains;
+            }
+            return finalcheck;
+        });
+    }
+
+    /**
+     * New method to sort through ingredients for applySorting
+     *
+     * @param ings the ingredients list for the checked recipe
+     * @param texts the query text
+     * @return int value showing if it is in there
+     */
+    public int checkIngs(List<IngredientInRecipe> ings, String[] texts) {
+        int mx = NO_MATCH;
+        for(int i0=0;i0<texts.length;i0++) {
+            String text=texts[i0];
+            for (int i = 0; i < ings.size(); i++) {
+                Ingredients tempIngredient = ings.
+                        get(i).getIngredient();
+                if (tempIngredient.getName().toLowerCase().contains(text)) {
+                    if (tempIngredient.
+                            getName().toLowerCase().startsWith(text)) {
+                        return STARTS_WITH_MATCH;
+                    }
+                    mx = PARTIAL_MATCH;
+                }
+            }
+        }
+        return mx;
+    }
+
+    /**
+     * New method to sort through preparation steps for applySorting
+     *
+     * @param prepSteps the preparation steps for the current recipe
+     * @param texts      the text query
+     * @return int value showing if it is there
+     */
+    public int checkPrepSteps(List<PreparationStep> prepSteps, String[] texts) {
+        int mx = NO_MATCH;
+        for(int i0=0;i0<texts.length;i0++) {
+            String text=texts[i0];
+            for (int i = 0; i < prepSteps.size(); i++) {
+                PreparationStep tempPrepStep = prepSteps.get(i);
+                if (tempPrepStep.getDescription().toLowerCase().contains(text)) {
+                    if (tempPrepStep.
+                            getDescription().toLowerCase().startsWith(text)) {
+                        return STARTS_WITH_MATCH;
+                    }
+                    mx = PARTIAL_MATCH;
+                }
+            }
+        }
+        return mx;
+    }
+
+    /**
+     * New method to sort names for apply sorting
+     *
+     * @param name the name of the current recipe
+     * @param texts the query text
+     * @return int value showing if it is there
+     */
+    public int checkName(String name, String[] texts) {
+        for(int i=0;i<texts.length;i++) {
+            String text=texts[i];
+            if (name.contains(text)) {
+                if (name.startsWith(text)) {
+                    return STARTS_WITH_MATCH;
+                }
+                return PARTIAL_MATCH;
+            }
+        }
+        return NO_MATCH;
+    }
+
+    /**
+     * Do the sorting
+     * @param text the text query
+     */
+    public void applySorting(String text){
+        if(text.isEmpty()){
+            sortedRecipes.setComparator(
+                    Comparator.comparing(Recipes::getName,
+                            String.CASE_INSENSITIVE_ORDER)
+            );
+            return;
+        }
+        text=text.toLowerCase();
+        final String[] texts=text.split("\\s+");
+        sortedRecipes.setComparator((r1,r2)->{
+            String t1=r1.getName().toLowerCase();
+            String t2=r2.getName().toLowerCase();
+            if(checkName(t1,texts)>checkName(t2,texts)) return -1;
+            else if(checkName(t1,texts)<checkName(t2,texts)) return 1;
+
+            int chckVal1=checkIngs(r1.getIngredients(), texts);
+            int chckVal2=checkIngs(r2.getIngredients(), texts);
+            if(chckVal1>chckVal2){
+                return -1;
+            }else if(chckVal1<chckVal2) return 1;
+
+            chckVal1=checkPrepSteps(r1.getPreparationSteps(), texts);
+            chckVal2=checkPrepSteps(r2.getPreparationSteps(), texts);
+            if(chckVal1>chckVal2){
+                return -1;
+            }else if(chckVal1<chckVal2) return 1;
+            return 0;
+
+        });
     }
 
     /**

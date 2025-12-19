@@ -41,7 +41,7 @@ class IngredientInRecipeControllerTest {
 
     @Test
     void getInvalid() {
-        ResponseEntity<List<IngredientInRecipe>> response = ic.get(-2);
+        ResponseEntity<List<IngredientInRecipe>> response = ic.get(-2L);
         assertEquals(BAD_REQUEST, response.getStatusCode());
     }
 
@@ -65,7 +65,7 @@ class IngredientInRecipeControllerTest {
 
     @Test
     void addInvalidRecipe() {
-        ResponseEntity<IngredientInRecipe> response = ic.add(-2, iR);
+        ResponseEntity<IngredientInRecipe> response = ic.add(-2L, iR);
         assertEquals(BAD_REQUEST, response.getStatusCode());
     }
 
@@ -92,7 +92,7 @@ class IngredientInRecipeControllerTest {
 
     @Test
     void deleteInvalidRecipe() {
-        ResponseEntity<IngredientInRecipe> response = ic.delete(-2, iR);
+        ResponseEntity<IngredientInRecipe> response = ic.delete( -2L, iR);
         assertEquals(BAD_REQUEST, response.getStatusCode());
     }
 }
