@@ -15,19 +15,25 @@
  */
 package client.scenes;
 
+import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import commons.Recipes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import commons.IngredientInRecipe;
+
 
 
 public class MainCtrl {
 
     private Stage primaryStage;
+    private Stage secondaryStage;
 
     private Scene overview;
     private RecipeOverviewCtrl overviewCtrl;
@@ -42,11 +48,16 @@ public class MainCtrl {
     private Scene addIngredient;
 
     private ShoppingListCtrl shoppingListCtrl;
-    private Scene shoppingList;
+    private Scene shoppingListScene;
+
+    private OverviewListCtrl overviewListCtrl;
+    private Scene overviewList;
 
     private AddRecipeIngredientsCtrl addRecipeIngredientsCtrl;
     private Scene addRecipeIngredients;
 
+    private EditIngredientCtrl editIngredientCtrl;
+    private Scene editIngredient;
     private AddPreparationStepCtrl addPreparationStepCtrl;
     private Scene addPreparationStep;
 
@@ -54,6 +65,14 @@ public class MainCtrl {
     // <String> might want to be replaced by <Recipe> in
     // the future while also then looking at all its usages.
     private ObservableList<String> recipeObservableList;
+
+    // temporary, to be replaced with recipeObservableList
+    private ObservableList<Recipes> tempRecipeList;
+
+    // to use after refactoring
+    private FilteredList<Recipes> filteredRecipes;
+    private SortedList<Recipes> sortedRecipes;
+    private ShoppingList shoppingList = new ShoppingList();
 
     /**
      * Initializes the application. Necessary when running
@@ -71,13 +90,15 @@ public class MainCtrl {
             , Pair<RemoveRecipeCtrl, Parent> remove
             , Pair<AddIngredientCtrl, Parent> addIngredient
             , Pair<ShoppingListCtrl, Parent> shoppingList
-            , Pair<AddRecipeIngredientsCtrl, Parent> addRecipeIngredientsP
+            , Pair<AddRecipeIngredientsCtrl, Parent> addRecipeIngredientsP,
+                           Pair<OverviewListCtrl, Parent> overviewListPair
             , Pair<AddPreparationStepCtrl, Parent> addPreparationStep
     ) {
         this.primaryStage = primaryStage;
         this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
         this.overview.getRoot().setId("overview");
+        this.overviewCtrl.setShoppingList(this.shoppingList);
 
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());
@@ -91,11 +112,26 @@ public class MainCtrl {
         this.recipeObservableList = FXCollections.observableArrayList();
 
         this.shoppingListCtrl = shoppingList.getKey();
-        this.shoppingList = new Scene(shoppingList.getValue());
-        this.shoppingList.getRoot().setId("shoppingList");
+        this.shoppingListScene = new Scene(shoppingList.getValue());
+        this.shoppingListScene.getRoot().setId("shoppingList");
+        this.shoppingListCtrl.setShoppingList(this.shoppingList);
+
+        this.overviewListCtrl = overviewListPair.getKey();
+        this.overviewList = new Scene(overviewListPair.getValue());
+        this.overviewListCtrl.setShoppingList(this.shoppingList);
+        this.overviewList.getRoot().setId("overviewList");
+
 
         this.addRecipeIngredientsCtrl = addRecipeIngredientsP.getKey();
         this.addRecipeIngredients = new Scene(addRecipeIngredientsP.getValue());
+        addRecipeIngredientsCtrl.setShoppingList(this.shoppingList);
+        this.addRecipeIngredients.getRoot().setId("addRepIngrs");
+
+        //this.editIngredientCtrl=editIngredientCtrlParentPair.getKey();
+        //this.editIngredient=
+        // new Scene(editIngredientCtrlParentPair.getValue());
+        addIngredientCtrl.provideShoppingList(this.shoppingList);
+
 
         this.addPreparationStepCtrl = addPreparationStep.getKey();
         this.addPreparationStep = new Scene(addPreparationStep.getValue());
@@ -148,11 +184,19 @@ public class MainCtrl {
     /**
      * Sets the add ingredient scene as the primary scene
      */
-    public void showAddIngredient(ShoppingList shoppingList) {
+    public void showAddIngredient() {
         primaryStage.setTitle("Adding ingredient");
         primaryStage.setScene(addIngredient);
-        addIngredientCtrl.provideShoppingList(shoppingList);
-        addIngredientCtrl.previousSceneSetter(this.shoppingList);
+        addIngredientCtrl.previousSceneSetter(shoppingListScene);
+    }
+
+    /**
+     * shows ingredient overlay
+     */
+    public void showAddIngredientOverlay(){
+        primaryStage.setTitle("Adding ingredient");
+        primaryStage.setScene(addIngredient);
+        addIngredientCtrl.previousSceneSetter(overviewList);
     }
 
     /**
@@ -202,12 +246,13 @@ public class MainCtrl {
     }
 
 
+
     /**
      * Show shopping list scene.
      */
     public void showShoppingList() {
         primaryStage.setTitle("Shopping list");
-        primaryStage.setScene(shoppingList);
+        primaryStage.setScene(shoppingListScene);
         shoppingListCtrl.refresh();
 
     }
@@ -216,13 +261,35 @@ public class MainCtrl {
      * Shows the add recipe ingredients to
      * shopping list overview.
      *
-     * @param shoppingList the shopping list to add too.
      */
-    public void showAddRecipeIngredientsOverview(ShoppingList shoppingList) {
+    public void showAddRecipeIngredientsOverview() {
+
         primaryStage.setTitle("Add recipe ingredients");
         primaryStage.setScene(addRecipeIngredients);
         addRecipeIngredientsCtrl.setChoiceBox(overviewCtrl.getRecipeData());
-        addRecipeIngredientsCtrl.setShoppingList(shoppingList);
+
+    }
+
+    /**
+     * Displays overview list from the recipe
+     * @param recipe the recipe.
+     */
+    public void showOverviewList(Recipes recipe) {
+        overviewListCtrl.previousSceneSetter(primaryStage.getScene());
+        primaryStage.setTitle("Adding from \""+recipe.getName()+"\"" +
+                " recipe");
+        primaryStage.setScene(overviewList);
+        overviewListCtrl.clear();
+        overviewListCtrl.addIngredients(recipe.getIngredients());
+        overviewListCtrl.refresh();
+    }
+
+    /**
+     * Displays overview without overwrite
+     */
+    public void showOverviewList(){
+        primaryStage.setScene(overviewList);
+
     }
 
     public Stage getPrimaryStage() {
@@ -234,7 +301,23 @@ public class MainCtrl {
     }
 
     public Scene getShoppingListScene() {
-        return shoppingList;
+        return shoppingListScene;
     }
+
+    /**
+     * Displays the ingredient editing scene
+     * @param ingredient the ingredient to edit
+     */
+    public void showEditIngredient(IngredientInShoppingList ingredient) {
+
+    }
+    /**
+     * Displays the ingredient editing scene
+     * @param ingredient the ingredient to edit
+     */
+    public void showEditIngredient(IngredientInRecipe ingredient){
+
+    }
+
 
 }

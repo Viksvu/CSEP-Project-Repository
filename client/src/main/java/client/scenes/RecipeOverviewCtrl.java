@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.EditButton;
 import client.EditButtonOptions;
+import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.IngredientInRecipe;
@@ -21,7 +22,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -31,6 +31,7 @@ public class RecipeOverviewCtrl implements Initializable {
 
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
+    private  ShoppingList shoppingList;
     ObservableList<Recipes> recipeData;
     ObservableList<Recipes> data1;
     ObservableList<IngredientInRecipe> ingredientsData;
@@ -72,8 +73,9 @@ public class RecipeOverviewCtrl implements Initializable {
 
     //IMPORTANT: Change String to Recipe
     // ObservableList<String> recipeObservableList;
+
     @FXML
-    private GridPane ingredientsGrid;
+    private Button addToShop;
 
     private FilteredList<Recipes> filteredRecipes;
     private SortedList<Recipes> sortedRecipes;
@@ -104,6 +106,7 @@ public class RecipeOverviewCtrl implements Initializable {
         // will also add to the ListView of Recipes
         //recipeListView.setItems(recipeObservableList);
         //recipeListView.setEditable(true);
+
         searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 clearSearch();
@@ -121,9 +124,7 @@ public class RecipeOverviewCtrl implements Initializable {
     public void refresh() {
         splitPaneRefreshButton.setDividerPosition(0, 0.10090361445783134);
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
-
         refreshRecipes();
-
         if (getSelectedRecipe() != null) {
             lastSelectedRecipe = getSelectedRecipe();
         }
@@ -132,13 +133,17 @@ public class RecipeOverviewCtrl implements Initializable {
         refreshPreparationSteps(lastSelectedRecipe);
     }
 
+
+
     /**
      * Refreshes the recipes on the client
      */
     private void refreshRecipes() {
+
         recipeData.setAll(server.getRecipes());
 
         recipeListView.setItems(sortedRecipes);
+
     }
 
     /**
@@ -178,6 +183,7 @@ public class RecipeOverviewCtrl implements Initializable {
         ingredientsPane.getChildren().clear();
         ingredientsPane.getChildren().addAll(ingredientListView);
         ingredientsPane.getChildren().add(addIngredientButton);
+        ingredientsPane.getChildren().add(addToShop);
         if (!ingredientsData.isEmpty()) {
             int numIngredients = ingredientsData.size();
             for (int i = 0; i < numIngredients; i++) {
@@ -298,12 +304,14 @@ public class RecipeOverviewCtrl implements Initializable {
     /**
      * Handles recipes being clicked showing corresponding ingredients and
      * preparations steps
-     *  @param actionEvent the event.
+     *
+     * @param actionEvent the event.
      */
 
     public void recipeClicked(MouseEvent actionEvent) {
         refresh();
     }
+
     /**
      * Updates the ingredients section
      *
@@ -323,13 +331,15 @@ public class RecipeOverviewCtrl implements Initializable {
     public void updatePreparations(Recipes recipes) {
         return;
     }
+
     /**
      *
      * The button search has been clicked
      */
-    public void searchInit(){
-        String text=searchField.getText();
+    public void searchInit() {
+        String text = searchField.getText();
         refresh();
+
         applySearchFilter(text);
         applySorting(text);
         refresh();
@@ -479,13 +489,28 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
     /**
+     * Adds selected recipes
+     * ingredients to shopping list overview
+     */
+    public void addToOverViewIngredients() {
+        mainCtrl.showOverviewList(lastSelectedRecipe);
+    }
+
+
+    /**
      * Shows the current shopping list
      */
-    public void openShoppingList(){
+    public void openShoppingList() {
         mainCtrl.showShoppingList();
     }
 
-    public ObservableList<Recipes> getRecipeData() {
-        return recipeData;
+
+        public ObservableList<Recipes> getRecipeData () {
+            return recipeData;
+        }
+
+
+        public void setShoppingList (ShoppingList shoppingList){
+            this.shoppingList = shoppingList;
+        }
     }
-}

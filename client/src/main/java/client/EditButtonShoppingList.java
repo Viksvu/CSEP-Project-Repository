@@ -2,8 +2,10 @@ package client;
 
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
+import client.scenes.OverviewListCtrl;
 import client.scenes.ShoppingListCtrl;
 
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
@@ -12,7 +14,7 @@ public class EditButtonShoppingList extends Button {
     private final int index;
     private final ListView<IngredientInShoppingList> parent;
     private EditButtonOptions option;
-    private ShoppingListCtrl ctrl;
+    private Initializable ctrl;
     private ShoppingList shoppingList;
 
     /**
@@ -25,7 +27,7 @@ public class EditButtonShoppingList extends Button {
                                   String s,
                                   int index,
                                   ListView<IngredientInShoppingList> parent,
-                                   ShoppingListCtrl ctrl,
+                                  Initializable ctrl,
                                   ShoppingList shoppingList,
                                   EditButtonOptions option) {
         super(s);
@@ -40,18 +42,38 @@ public class EditButtonShoppingList extends Button {
         super.setTranslateX(
                 8 * parent.getItems().get(index).toString().length()
         );
-        editIngredientInShoppingList();
+        if (ctrl instanceof ShoppingListCtrl) {
+            editIngredientInShoppingList();
+        } else if (ctrl instanceof OverviewListCtrl) {
+            editIngredientInOverviewList();
+        }
     }
 
 
     /**
-     * currently just has an delete edit button
+     * currently just has a delete edit button
      */
     public void editIngredientInShoppingList() {
         this.setOnAction(event -> {
             if (this.option == EditButtonOptions.REMOVE_INGREDIENT) {
                 shoppingList.getShoppingList().remove(ingredient);
-                ctrl.refresh();
+                ((ShoppingListCtrl) ctrl).refresh();
+            }
+        });
+    }
+
+    /**
+     * Currently has an edit and delete button
+     */
+    public void editIngredientInOverviewList() {
+        this.setOnAction(event -> {
+            if (this.option == EditButtonOptions.REMOVE_INGREDIENT) {
+                shoppingList.getBufferList().remove(ingredient);
+                ((OverviewListCtrl) ctrl).refresh();
+            }
+            else if(this.option == EditButtonOptions.EDIT_INGREDIENT){
+                ((OverviewListCtrl) ctrl).editIngredient(ingredient);
+                ((OverviewListCtrl) ctrl).refresh();
             }
         });
     }

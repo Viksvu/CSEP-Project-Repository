@@ -74,6 +74,11 @@ public class Main extends Application {
                 (AddRecipeIngredientsCtrl.class,
                         "client", "scenes",
                         "AddRecipeIngredientsOverview.fxml");
+		var overviewList= FXML.load(OverviewListCtrl.class,
+				"client", "scenes", "OverviewList.fxml");
+		//var editIngredient= FXML.load(EditIngredientCtrl.class,
+		//"client", "scenes", "EditIngredientCtrl.fxml");
+
 		var addRecipePreparationStep = FXML.load
 				(AddPreparationStepCtrl.class,
 						"client", "scenes",
@@ -88,7 +93,8 @@ public class Main extends Application {
                 addIngredient,
                 shoppingList,
                 addRecipeIngredients,
-				addRecipePreparationStep
+				overviewList
+				,addRecipePreparationStep
 		);
 	}
 }

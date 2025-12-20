@@ -30,6 +30,8 @@ public class ShoppingListCtrl implements Initializable {
     @FXML
     private Label totalItemsLabel;
 
+
+
     @FXML
     private AnchorPane ingredientsPane;
 
@@ -49,7 +51,6 @@ public class ShoppingListCtrl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         shoppingListView.setItems(items);
-        shoppingList = new ShoppingList();
     }
 
     /**
@@ -72,7 +73,7 @@ public class ShoppingListCtrl implements Initializable {
      * adds an ingredient from input.
      */
     public void addIngredient() {
-        mainCtrl.showAddIngredient(shoppingList);
+        mainCtrl.showAddIngredient();
         totalItemsLabel.setText(
                 "Total: " + shoppingList.getShoppingList().size() + " items");
     }
@@ -81,15 +82,16 @@ public class ShoppingListCtrl implements Initializable {
      * Adds selected recipe ingredients.
      */
     public void addRecipe(){
-       mainCtrl.showAddRecipeIngredientsOverview(shoppingList);
+       mainCtrl.showAddRecipeIngredientsOverview();
     }
-
         /**
      * Clears the full list
      */
     public void clearList() {
         shoppingList.resetShoppingList();
         shoppingListView.getItems().clear();
+        ingredientsPane.getChildren().clear();
+
     }
 
     public ShoppingList getShoppingList() {

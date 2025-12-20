@@ -1,9 +1,7 @@
 package client.scenes;
 
-import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
-import commons.IngredientInRecipe;
 import commons.Recipes;
 import jakarta.inject.Inject;
 import javafx.collections.ObservableList;
@@ -68,11 +66,8 @@ public class AddRecipeIngredientsCtrl implements Initializable {
     public void addRecipeIngredients(){
         if(choiceBox.getValue()==null) return;
         Recipes recipe= choiceBox.getValue();
-        for(IngredientInRecipe iir: recipe.getIngredients()) {
-            shoppingList.getShoppingList()
-                    .add(new IngredientInShoppingList(iir));
-        }
-        mainCtrl.showShoppingList();
+        mainCtrl.showOverviewList(recipe);
+
     }
 
     /**

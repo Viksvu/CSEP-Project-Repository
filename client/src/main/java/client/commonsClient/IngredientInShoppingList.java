@@ -97,15 +97,18 @@ public class IngredientInShoppingList {
 
     @Override
     public String toString() {
+        String s;
         if (quantity == 1) {
-            return ingredient.getName()
+            s = ingredient.getName()
                     + " (" + quantity + " " + unit.toString()
                     .replaceAll("/s", "") + ")";
         }
-        String s = ingredient.getName()
-                + " (" + quantity + " " + unit.toString()
-                .replaceAll("/", "") + ")";
-        if (recipe != null) s += "(" + recipe.getName() + ")";
+        else {
+            s = ingredient.getName()
+                    + " (" + quantity + " " + unit.toString()
+                    .replaceAll("/", "") + ")";
+        }
+        if (recipe != null) s += " (" + recipe.getName() + ")";
         return s;
     }
 }
