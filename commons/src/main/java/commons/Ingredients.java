@@ -2,6 +2,7 @@ package commons;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,8 +22,8 @@ public class Ingredients {
     private double proteinPer100g;
 
 
-    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL, orphanRemoval = true)
-    @com.fasterxml.jackson.annotation.JsonIgnore
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL
+            , orphanRemoval = true)
     private List<IngredientInRecipe> ingredientInRecipes;
 
 
@@ -44,6 +45,7 @@ public class Ingredients {
                        double proteinPer100g) {
         this.name = name;
         this.kcalPer100g = kcalPer100g;
+        this.ingredientInRecipes = new ArrayList<>();
         this.ingredient=name;
 
         this.fatPer100g = fatPer100g;
@@ -135,12 +137,13 @@ public class Ingredients {
                 Double.compare(proteinPer100g, that.proteinPer100g) == 0 &&
                 Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(ingredient, that.ingredient);
+                Objects.equals(ingredient, that.ingredient) &&
+                Objects.equals(ingredientInRecipes, that.ingredientInRecipes);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, name, kcalPer100g, ingredient, fatPer100g,
-                carbsPer100g, proteinPer100g);
+                carbsPer100g, proteinPer100g, ingredientInRecipes);
     }
 }
