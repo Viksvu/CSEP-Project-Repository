@@ -198,7 +198,7 @@ public class AddIngredientCtrl implements Initializable {
                     ingredient, quantityInt, unit);
             shoppingList.
                     addIngredientDirectlyToOverview(ingredientInShoppingList);
-            mainCtrl.showShoppingList();
+            mainCtrl.showOverviewList();
         } catch (Exception e) {
             //errorLabel.setText("Quantity must be a valid number");
             errorLabel.setText(e.getMessage());

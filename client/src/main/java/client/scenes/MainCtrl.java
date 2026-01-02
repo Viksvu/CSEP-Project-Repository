@@ -183,19 +183,12 @@ public class MainCtrl {
      * Sets the add ingredient scene as the primary scene
      */
     public void showAddIngredient() {
+        addIngredientCtrl.previousSceneSetter(primaryStage.getScene());
         primaryStage.setTitle("Adding ingredient");
         primaryStage.setScene(addIngredient);
-        addIngredientCtrl.previousSceneSetter(shoppingListScene);
     }
 
-    /**
-     * shows ingredient overlay
-     */
-    public void showAddIngredientOverlay(){
-        primaryStage.setTitle("Adding ingredient");
-        primaryStage.setScene(addIngredient);
-        addIngredientCtrl.previousSceneSetter(overviewList);
-    }
+
 
     /**
      * Sets the add preparation step scene as the primary scene
@@ -287,7 +280,7 @@ public class MainCtrl {
      */
     public void showOverviewList(){
         primaryStage.setScene(overviewList);
-
+        overviewListCtrl.refresh();
     }
 
     public Stage getPrimaryStage() {
