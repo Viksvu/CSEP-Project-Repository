@@ -187,13 +187,10 @@ public class EditIngredientCtrl implements Initializable {
             quantityInt = Integer.parseInt(quantity);
             Unit unit = unitBox.
                     getSelectionModel().getSelectedItem();
-            Ingredients ingredient = new Ingredients(name, 0, 0.0, 0.0, 0.0);
-            IngredientInShoppingList ingredientInShoppingList
-                    = new IngredientInShoppingList(
-                    ingredient, quantityInt, unit);
-            shoppingList.
-                    addIngredientDirectlyToOverview(ingredientInShoppingList);
-            mainCtrl.showShoppingList();
+            ingredientInShoppingList.getIngredient().setName(name);
+            ingredientInShoppingList.setQuantity(quantityInt);
+            ingredientInShoppingList.setUnit(unit);
+            mainCtrl.showOverview();
         } catch (Exception e) {
             //errorLabel.setText("Quantity must be a valid number");
             errorLabel.setText(e.getMessage());

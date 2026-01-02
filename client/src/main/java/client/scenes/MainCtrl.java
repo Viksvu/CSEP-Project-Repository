@@ -279,8 +279,8 @@ public class MainCtrl {
      * Displays overview without overwrite
      */
     public void showOverviewList(){
-        primaryStage.setScene(overviewList);
         overviewListCtrl.refresh();
+        primaryStage.setScene(overviewList);
     }
 
     public Stage getPrimaryStage() {

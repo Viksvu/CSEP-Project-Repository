@@ -154,10 +154,12 @@ public class RecipeOverviewCtrl implements Initializable {
         List<IngredientInRecipe> ingredients = Collections.emptyList();
         if (currentRecipe != null) {
             ingredients = server.getIngredientsInRecipe(currentRecipe);
+            currentRecipe.setIngredients(ingredients);
         }
         if (ingredients == null) ingredients = Collections.emptyList();
         ingredientsData = FXCollections.observableArrayList(ingredients);
         ingredientListView.setItems(ingredientsData);
+
         addEditButtonToIngredient();
     }
 
@@ -493,6 +495,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * ingredients to shopping list overview
      */
     public void addToOverViewIngredients() {
+        refresh();
         mainCtrl.showOverviewList(lastSelectedRecipe);
     }
 
