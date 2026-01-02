@@ -33,8 +33,6 @@ import commons.IngredientInRecipe;
 public class MainCtrl {
 
     private Stage primaryStage;
-    private Stage secondaryStage;
-
     private Scene overview;
     private RecipeOverviewCtrl overviewCtrl;
 
@@ -309,7 +307,9 @@ public class MainCtrl {
      * @param ingredient the ingredient to edit
      */
     public void showEditIngredient(IngredientInShoppingList ingredient) {
-
+        editIngredientCtrl.previousSceneSetter(primaryStage.getScene());
+        primaryStage.setScene(editIngredient);
+        editIngredientCtrl.setIngredient(ingredient);
     }
     /**
      * Displays the ingredient editing scene
