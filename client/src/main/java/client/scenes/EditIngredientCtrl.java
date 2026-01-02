@@ -66,7 +66,7 @@ public class EditIngredientCtrl implements Initializable {
 
     /**
      * Cancel just clears the fields and
-     * shows back the overview field
+     * shows back the original field
      */
     public void cancel() {
         nameField.clear();
@@ -81,7 +81,7 @@ public class EditIngredientCtrl implements Initializable {
 
     /**
      * Based on the previous scene this method
-     * decides where to add the parsed ingredient
+     * decides where to add the edited ingredient
      */
     public void add() {
         if (previousScene.getRoot().getId().equals("shoppingList")) {
@@ -96,7 +96,7 @@ public class EditIngredientCtrl implements Initializable {
 
     }
     /**
-     * Adds an ingredient to the recipe that was selected
+     * adds the changed ingredient to the recipe that was selected
      */
     public void addToRecipe() {
         String name = nameField.getText();
@@ -125,10 +125,10 @@ public class EditIngredientCtrl implements Initializable {
     }
 
     /**
-     * Used by mainCtrl to "tell" AddIngredientCtrl
+     * Used by mainCtrl to "tell" EditIngredientCtrl
      * which recipe the ingredient is being added to.
      *
-     * @param recipe
+     * @param recipe the recipe to add to.
      */
     public void provideRecipe(Recipes recipe) {
         this.recipe = recipe;
@@ -146,7 +146,7 @@ public class EditIngredientCtrl implements Initializable {
 
 
     /**
-     * Add an ingredient
+     * Adds the edited ingredient
      * directly to the shopping list.
      */
     public void addToShoppingList() {
@@ -175,7 +175,7 @@ public class EditIngredientCtrl implements Initializable {
 
 
     /**
-     * Add an ingredient
+     * Adds the edited ingredient
      * directly to the overview list.
      */
     public void addToOverview() {
@@ -218,6 +218,10 @@ public class EditIngredientCtrl implements Initializable {
      */
     public void setIngredient(IngredientInShoppingList ingredientInShoppingList){
         this.ingredientInShoppingList=ingredientInShoppingList;
+        nameField.setText(ingredientInShoppingList.getIngredient().getName());
+        String s= ""+ ingredientInRecipe.getQuantity();
+        quantityField.setText(s);
+        unitBox.setValue(ingredientInShoppingList.getUnit());
     }
 
 

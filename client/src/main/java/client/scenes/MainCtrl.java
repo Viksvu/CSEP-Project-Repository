@@ -308,8 +308,8 @@ public class MainCtrl {
      */
     public void showEditIngredient(IngredientInShoppingList ingredient) {
         editIngredientCtrl.previousSceneSetter(primaryStage.getScene());
-        primaryStage.setScene(editIngredient);
         editIngredientCtrl.setIngredient(ingredient);
+        primaryStage.setScene(editIngredient);
     }
     /**
      * Displays the ingredient editing scene
