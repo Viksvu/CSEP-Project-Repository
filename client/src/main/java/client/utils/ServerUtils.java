@@ -38,17 +38,19 @@ public class ServerUtils {
             : System.getenv("SERVER_URL");
 
     /**
-	* temp
-     * @return
+	* Gets a list of all the recipes in the database
+     * @return the list
      */
     public List<Recipes> getRecipes() {
 		return ClientBuilder.newClient(new ClientConfig()) //
 				.target(SERVER).path("api/recipe/list") //
 				.request(APPLICATION_JSON) //
 				.get(new GenericType<List<Recipes>>() {});
-	}/**
-     * temp
-     * @return
+	}
+
+    /**
+     * Adds a recipe through the API endpoints
+     * @return the recipe if added successfully
      */
 	public Recipes addRecipe(Recipes recipe) {
 		return ClientBuilder.newClient(new ClientConfig()) //
@@ -59,15 +61,29 @@ public class ServerUtils {
 	}
 
     /**
-     * temp
-     * @param recipe
-     * @return
+     * Remove a recipe from the database
+     * @param recipe to remove
+     * @return the recipe if removed successfully
      */
     public Recipes removeRecipe(Recipes recipe) {
        return ClientBuilder.newClient(new ClientConfig())
                .target(SERVER).path("api/recipe/delete")
                .request(APPLICATION_JSON)
                .post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
+    }
+
+    /**
+     * Clones a recipe from the database
+     * @param recipe to be cloned
+     * @return the recipe if cloned successfully
+     */
+    public Recipes cloneRecipe(Recipes recipe, String newName) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .queryParam("newName", newName)
+                .path("api/recipe/clone")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
     }
 
     public List<Ingredients> getIngredientsFromDatabase() {

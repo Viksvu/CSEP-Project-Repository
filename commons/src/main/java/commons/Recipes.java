@@ -143,8 +143,8 @@ public class Recipes {
      * setRecipeOnIngredients();
      * @return the clone
      */
-    public Recipes cloneRecipes() {
-        Recipes recipes = new Recipes(this.name);
+    public Recipes cloneRecipes(String newName) {
+        Recipes recipes = new Recipes(newName);
         for (IngredientInRecipe ingredient : this.ingredients) {
             recipes.addIngredient(ingredient.cloneIngredientInRecipe());
         }
