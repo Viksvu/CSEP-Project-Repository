@@ -37,7 +37,19 @@ public class IngredientInRecipe {
         this.ingredient = ingredient;
     }
 
-        public Recipes getRecipes() {
+    /**
+     * Clones "this" by cloning all the attributes
+     * @return the clone
+     */
+    public IngredientInRecipe cloneIngredientInRecipe(){
+        IngredientInRecipe ingredientInRecipe =
+                new IngredientInRecipe(ingredient.cloneIngredients());
+        ingredientInRecipe.setQuantity(this.quantity);
+        ingredientInRecipe.setUnit(this.unit);
+        return ingredientInRecipe;
+    }
+
+    public Recipes getRecipes() {
         return recipes;
     }
 
