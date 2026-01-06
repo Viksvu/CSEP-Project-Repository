@@ -219,7 +219,7 @@ public class RecipeOverviewCtrl implements Initializable {
                 EditButton<IngredientInRecipe> editButton2 =
                         new EditButton<>(
                                 ingredientsData.get(i),
-                                "delete",
+                                "edit",
                                 i,
                                 ingredientListView,
                                 server,
@@ -260,7 +260,7 @@ public class RecipeOverviewCtrl implements Initializable {
                 EditButton<PreparationStep> editButton2 =
                         new EditButton<>(
                                 preparationStepsData.get(i),
-                                "delete",
+                                "edit",
                                 i,
                                 preparationsListView,
                                 server,

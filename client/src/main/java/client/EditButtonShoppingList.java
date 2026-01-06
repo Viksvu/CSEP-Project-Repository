@@ -59,6 +59,10 @@ public class EditButtonShoppingList extends Button {
                 shoppingList.getShoppingList().remove(ingredient);
                 ((ShoppingListCtrl) ctrl).refresh();
             }
+            else if(this.option == EditButtonOptions.EDIT_INGREDIENT){
+                ((ShoppingListCtrl) ctrl).editIngredient(ingredient);
+                ((ShoppingListCtrl) ctrl).refresh();
+            }
         });
     }
 
