@@ -163,6 +163,23 @@ public class ServerUtils {
                         IngredientInRecipe.class);
     }
 
+
+    /**
+     * Adds an ingredient as to a recipe
+     * @param ingredient
+     * @return
+     */
+    public IngredientInRecipe
+    editIngredientInRecipe(IngredientInRecipe ingredient, Recipes recipe) {
+        Long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).queryParam("id", recipeId)
+                .path("api/recipeingredient/edit")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(ingredient, APPLICATION_JSON),
+                        IngredientInRecipe.class);
+    }
+
     /**
      * Deletes an ingredient from a recipe
      * @param ingredient

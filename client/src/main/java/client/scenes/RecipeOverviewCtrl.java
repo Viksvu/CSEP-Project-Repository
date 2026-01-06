@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.EditButton;
 import client.EditButtonOptions;
+import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -605,5 +606,14 @@ public class RecipeOverviewCtrl implements Initializable {
                 okClone();
             }
         }
+    }
+
+    /**
+     * Edit the selected ingredient
+     *
+     * @param ingredient the selected ingredient
+     */
+    public void editIngredient(IngredientInRecipe ingredient, Recipes recipe) {
+        mainCtrl.showEditIngredient(ingredient, recipe);
     }
 }
