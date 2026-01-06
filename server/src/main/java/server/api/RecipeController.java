@@ -101,6 +101,25 @@ public class RecipeController {
     }
 
     /**
+     * Clones a given recipe
+     * @param recipe
+     * @return
+     */
+    @PostMapping("/clone")
+    public ResponseEntity<Recipes> cloneRecipe(@RequestBody Recipes recipe,
+                                               @RequestParam String newName)
+    {
+        if (recipe == null)
+            return ResponseEntity.badRequest().build();
+        if (!getAll().contains(recipe))
+            return ResponseEntity.badRequest().build();
+        Recipes retRecipe = recipe.cloneRecipes(newName);
+        retRecipe.setRecipeOnIngredients();
+        recipeService.addRecipe(retRecipe);
+        return ResponseEntity.ok(retRecipe);
+    }
+
+    /**
      * Check if a recipe name is valid
      *
      * @param name recipes name

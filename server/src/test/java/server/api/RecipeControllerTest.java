@@ -152,6 +152,14 @@ public class RecipeControllerTest {
     }
 
     @Test
+    public void checkCloneRecipeEquals() {
+        r1 = new Recipes("Soup");
+        var response = rc.cloneRecipe(r1, "Soup");
+        r2 = response.getBody();
+        assertNotEquals(r1, r2);
+    }
+
+    @Test
     public void checkRename() {
 //        rc.add(r1);
 //        ResponseEntity<String> response = rc.rename(0, "Hello World");

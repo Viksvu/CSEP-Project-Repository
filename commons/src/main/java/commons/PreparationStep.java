@@ -32,6 +32,14 @@ public class PreparationStep {
         this.description = description;
     }
 
+    /**
+     * Clones "this" by cloning all the attributes
+     * @return the clone
+     */
+    public PreparationStep clonePreparationStep() {
+        return new PreparationStep(this.description);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

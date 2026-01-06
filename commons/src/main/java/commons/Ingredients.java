@@ -126,6 +126,16 @@ public class Ingredients {
         this.ingredientInRecipes = ingredientInRecipes;
     }
 
+    /**
+     * Clones "this" by cloning all the attributes
+     * @return the clone
+     */
+    public Ingredients cloneIngredients() {
+        return new Ingredients(this.name, this.kcalPer100g,
+        this.fatPer100g, this.carbsPer100g,
+                this.proteinPer100g);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

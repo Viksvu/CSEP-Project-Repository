@@ -15,14 +15,11 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SplitPane;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.*;
@@ -77,6 +74,17 @@ public class RecipeOverviewCtrl implements Initializable {
     @FXML
     private Button addToShop;
 
+    @FXML
+    private TextField cloneRecipeNameTF;
+
+    @FXML
+    private Label cloneRecipeNameLabel;
+
+    @FXML
+    private Button cloneRecipeButton;
+
+    private boolean isCloning;
+
     private FilteredList<Recipes> filteredRecipes;
     private SortedList<Recipes> sortedRecipes;
     private Recipes lastSelectedRecipe;
@@ -93,6 +101,7 @@ public class RecipeOverviewCtrl implements Initializable {
         //splitPaneRefreshButton = new SplitPane();
         this.server = server;
         this.ingredientsData = FXCollections.observableArrayList();
+        this.isCloning = false;
         ingredientButtons = new ArrayList<>();
     }
 
@@ -116,6 +125,9 @@ public class RecipeOverviewCtrl implements Initializable {
         data1 = FXCollections.observableArrayList();
         this.filteredRecipes = new FilteredList<>(recipeData);
         this.sortedRecipes = new SortedList<>(filteredRecipes);
+        cloneRecipeNameLabel.toBack();
+        cloneRecipeNameTF.toBack();
+        cloneRecipeButton.toBack();
     }
 
     /**
@@ -131,6 +143,9 @@ public class RecipeOverviewCtrl implements Initializable {
         if(!server.recipeExists(lastSelectedRecipe)) lastSelectedRecipe=null;
         refreshIngredients(lastSelectedRecipe);
         refreshPreparationSteps(lastSelectedRecipe);
+        if (isCloning) {
+            cloneRecipeNameTF.setText(lastSelectedRecipe.getName() + " copy");
+        }
     }
 
 
@@ -283,6 +298,41 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void addPreparationStep() {
         mainCtrl.showAddPreparationStep(lastSelectedRecipe);
+    }
+
+    /**
+     * Shows the text field for entering the new recipe name
+     */
+    public void cloneRecipe() {
+        if (lastSelectedRecipe == null) {
+            // Show the error scene
+        }
+        else {
+            isCloning = true;
+            cloneRecipeNameLabel.toFront();
+            cloneRecipeNameTF.toFront();
+            cloneRecipeNameTF.setText(lastSelectedRecipe.getName() + " copy");
+            cloneRecipeNameTF.setEditable(true);
+            cloneRecipeButton.toFront();
+        }
+    }
+
+    /**
+     * Calls the clone recipe method of the server
+     * and clones the last selected recipe
+     */
+    public void okClone() {
+        if (cloneRecipeNameTF.getText().isEmpty()) {
+            // Show the error scene here
+        }
+        server.cloneRecipe(lastSelectedRecipe, cloneRecipeNameTF.getText());
+        refreshRecipes();
+        refreshIngredients(lastSelectedRecipe);
+        refreshPreparationSteps(lastSelectedRecipe);
+        cloneRecipeNameTF.toBack();
+        cloneRecipeNameLabel.toBack();
+        cloneRecipeButton.toBack();
+        isCloning = false;
     }
 
     /**
@@ -505,12 +555,25 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
 
-        public ObservableList<Recipes> getRecipeData () {
-            return recipeData;
-        }
+    public ObservableList<Recipes> getRecipeData () {
+        return recipeData;
+    }
 
 
-        public void setShoppingList (ShoppingList shoppingList){
-            this.shoppingList = shoppingList;
+    public void setShoppingList (ShoppingList shoppingList){
+        this.shoppingList = shoppingList;
+    }
+
+
+    /**
+     * Decided the behaviour if a key press is detected
+     * @param keyEvent (the key pressed)
+     */
+    public void keyPressed(KeyEvent keyEvent) {
+        if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.ENTER) {
+            if (isCloning) {
+                okClone();
+            }
         }
     }
+}
