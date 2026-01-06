@@ -76,8 +76,8 @@ public class Main extends Application {
                         "AddRecipeIngredientsOverview.fxml");
 		var overviewList= FXML.load(OverviewListCtrl.class,
 				"client", "scenes", "OverviewList.fxml");
-		//var editIngredient= FXML.load(EditIngredientCtrl.class,
-		//"client", "scenes", "EditIngredientCtrl.fxml");
+		var editIngredient= FXML.load(EditIngredientCtrl.class,
+		"client", "scenes", "EditIngredientCtrl.fxml");
 
 		var addRecipePreparationStep = FXML.load
 				(AddPreparationStepCtrl.class,
@@ -85,6 +85,7 @@ public class Main extends Application {
 						"AddPreparationStep.fxml");
 
 		var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+
 		mainCtrl.initialize(
                 primaryStage,
                 overview,
