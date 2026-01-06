@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import commons.IngredientInRecipe;
 
+import java.util.Map;
 
 
 public class MainCtrl {
@@ -73,66 +74,76 @@ public class MainCtrl {
     private ShoppingList shoppingList = new ShoppingList();
 
     /**
-     * Initializes the application. Necessary when running
-     * for the first time. Initializes the ObservableList.
+     * Initializes the main control
+     * and give access to all the other controllers
      *
-     * @param primaryStage  The main stage of the application
-     * @param overview      The Overview-Scene control
-     * @param add           The Add-Scene control
-     * @param remove        The remove scene control
-     * @param addIngredient The add ingredient scene control
+     * @param primaryStage the main stage.
+     * @param sceneMap a map with all the
+     *                 controller, parent pairs
      */
-    public void initialize(Stage primaryStage
-            , Pair<RecipeOverviewCtrl, Parent> overview
-            , Pair<AddRecipeCtrl, Parent> add
-            , Pair<RemoveRecipeCtrl, Parent> remove
-            , Pair<AddIngredientCtrl, Parent> addIngredient
-            , Pair<ShoppingListCtrl, Parent> shoppingList
-            , Pair<AddRecipeIngredientsCtrl, Parent> addRecipeIngredientsP,
-                           Pair<OverviewListCtrl, Parent> overviewListPair
-            , Pair<AddPreparationStepCtrl, Parent> addPreparationStep
+    public void initialize(
+            Stage primaryStage,
+            Map<String, Pair<?, Parent>> sceneMap
     ) {
         this.primaryStage = primaryStage;
-        this.overviewCtrl = overview.getKey();
-        this.overview = new Scene(overview.getValue());
+
+        Pair<?, Parent> overviewPair = sceneMap.get("overview");
+        this.overviewCtrl = (RecipeOverviewCtrl) overviewPair.getKey();
+        this.overview = new Scene(overviewPair.getValue());
         this.overview.getRoot().setId("overview");
         this.overviewCtrl.setShoppingList(this.shoppingList);
 
-        this.addCtrl = add.getKey();
-        this.add = new Scene(add.getValue());
+        Pair<?, Parent> addPair = sceneMap.get("addRecipe");
+        this.addCtrl = (AddRecipeCtrl) addPair.getKey();
+        this.add = new Scene(addPair.getValue());
 
-        this.removeCtrl = remove.getKey();
-        this.remove = new Scene(remove.getValue());
+        Pair<?, Parent> removePair = sceneMap.get("removeRecipe");
+        this.removeCtrl = (RemoveRecipeCtrl) removePair.getKey();
+        this.remove = new Scene(removePair.getValue());
 
-        this.addIngredientCtrl = addIngredient.getKey();
-        this.addIngredient = new Scene(addIngredient.getValue());
-        // MIGHT NEED TO BE MODIFIED AFTER CONNECTION TO SERVER
-        this.recipeObservableList = FXCollections.observableArrayList();
+        Pair<?, Parent> addIngredientPair = sceneMap.get("addIngredient");
+        this.addIngredientCtrl = (AddIngredientCtrl) addIngredientPair.getKey();
+        this.addIngredient = new Scene(addIngredientPair.getValue());
 
-        this.shoppingListCtrl = shoppingList.getKey();
-        this.shoppingListScene = new Scene(shoppingList.getValue());
+
+        Pair<?, Parent> shoppingListPair = sceneMap.get("shoppingList");
+        this.shoppingListCtrl = (ShoppingListCtrl) shoppingListPair.getKey();
+        this.shoppingListScene = new Scene(shoppingListPair.getValue());
         this.shoppingListScene.getRoot().setId("shoppingList");
         this.shoppingListCtrl.setShoppingList(this.shoppingList);
 
-        this.overviewListCtrl = overviewListPair.getKey();
+        Pair<?, Parent> overviewListPair = sceneMap.get("overviewList");
+        this.overviewListCtrl = (OverviewListCtrl) overviewListPair.getKey();
         this.overviewList = new Scene(overviewListPair.getValue());
-        this.overviewListCtrl.setShoppingList(this.shoppingList);
         this.overviewList.getRoot().setId("overviewList");
+        this.overviewListCtrl.setShoppingList(this.shoppingList);
 
-
-        this.addRecipeIngredientsCtrl = addRecipeIngredientsP.getKey();
-        this.addRecipeIngredients = new Scene(addRecipeIngredientsP.getValue());
-        addRecipeIngredientsCtrl.setShoppingList(this.shoppingList);
+        Pair<?, Parent> addRecipeIngredientsPair =
+                sceneMap.get("addRecipeIngredients");
+        this.addRecipeIngredientsCtrl =
+                (AddRecipeIngredientsCtrl) addRecipeIngredientsPair.getKey();
+        this.addRecipeIngredients =
+                new Scene(addRecipeIngredientsPair.getValue());
         this.addRecipeIngredients.getRoot().setId("addRepIngrs");
+        this.addRecipeIngredientsCtrl.setShoppingList(this.shoppingList);
 
-        //this.editIngredientCtrl=editIngredientCtrlParentPair.getKey();
-        //this.editIngredient=
-        // new Scene(editIngredientCtrlParentPair.getValue());
-        addIngredientCtrl.provideShoppingList(this.shoppingList);
+        Pair<?, Parent> addPreparationStepPair =
+                sceneMap.get("addPreparationStep");
+        this.addPreparationStepCtrl =
+                (AddPreparationStepCtrl) addPreparationStepPair.getKey();
+        this.addPreparationStep =
+                new Scene(addPreparationStepPair.getValue());
+
+        Pair<?, Parent> editIngredientPair =
+                sceneMap.get("editIngredient");
+        this.editIngredientCtrl =
+                (EditIngredientCtrl) editIngredientPair.getKey();
+        this.editIngredient =
+                new Scene(editIngredientPair.getValue());
 
 
-        this.addPreparationStepCtrl = addPreparationStep.getKey();
-        this.addPreparationStep = new Scene(addPreparationStep.getValue());
+        this.recipeObservableList = FXCollections.observableArrayList();
+        this.addIngredientCtrl.provideShoppingList(this.shoppingList);
 
         showOverview();
         primaryStage.show();

@@ -188,7 +188,7 @@ public class EditIngredientCtrl implements Initializable {
             ingredientInShoppingList.getIngredient().setName(name);
             ingredientInShoppingList.setQuantity(quantityInt);
             ingredientInShoppingList.setUnit(unit);
-            mainCtrl.showOverview();
+            mainCtrl.showOverviewList();
         } catch (Exception e) {
             //errorLabel.setText("Quantity must be a valid number");
             errorLabel.setText(e.getMessage());
@@ -215,7 +215,7 @@ public class EditIngredientCtrl implements Initializable {
     public void setIngredient(IngredientInShoppingList ingredientInShoppingList){
         this.ingredientInShoppingList=ingredientInShoppingList;
         nameField.setText(ingredientInShoppingList.getIngredient().getName());
-        String s= ""+ ingredientInRecipe.getQuantity();
+        String s= ""+ ingredientInShoppingList.getQuantity();
         quantityField.setText(s);
         unitBox.setValue(ingredientInShoppingList.getUnit());
     }
@@ -227,10 +227,10 @@ public class EditIngredientCtrl implements Initializable {
      */
     public void setIngredient(IngredientInRecipe ingredientInRecipe){
         this.ingredientInRecipe=ingredientInRecipe;
-        nameField.setText(ingredientInShoppingList.getIngredient().getName());
+        nameField.setText(ingredientInRecipe.getIngredient().getName());
         String s= ""+ ingredientInRecipe.getQuantity();
         quantityField.setText(s);
-        unitBox.setValue(ingredientInShoppingList.getUnit());
+        unitBox.setValue(ingredientInRecipe.getUnit());
     }
 
 
