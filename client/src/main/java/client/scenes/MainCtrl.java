@@ -271,7 +271,9 @@ public class MainCtrl {
                 " recipe");
         primaryStage.setScene(overviewList);
         overviewListCtrl.clear();
-        overviewListCtrl.addIngredients(recipe.getIngredients());
+
+        overviewListCtrl.addIngredients(recipe.getIngredients()
+        , recipe);
         overviewListCtrl.refresh();
     }
 
@@ -308,8 +310,12 @@ public class MainCtrl {
      * Displays the ingredient editing scene
      * @param ingredient the ingredient to edit
      */
-    public void showEditIngredient(IngredientInRecipe ingredient){
-
+    public void showEditIngredient(IngredientInRecipe ingredient, Recipes recipe){
+        editIngredientCtrl.previousSceneSetter(primaryStage.getScene());
+        editIngredientCtrl.setIngredient(ingredient);
+        primaryStage.setScene(editIngredient);
+        primaryStage.setTitle("Editing ingredient from: " + recipe.toString());
+        editIngredientCtrl.provideRecipe(recipe);
     }
 
 

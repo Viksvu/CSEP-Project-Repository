@@ -6,6 +6,7 @@ import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import commons.IngredientInRecipe;
+import commons.Recipes;
 import jakarta.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,10 +28,11 @@ public class OverviewListCtrl implements Initializable {
     private ShoppingList shoppingList;
     private ObservableList<IngredientInShoppingList> items
             = FXCollections.observableArrayList();
+    private Recipes currRecipe;
     private Scene previousScene;
     @FXML
     private ListView<IngredientInShoppingList> overviewListView;
-    
+
     @FXML
     private AnchorPane overviewListPane;
 
@@ -39,14 +41,16 @@ public class OverviewListCtrl implements Initializable {
 
     /**
      * A constructor for overview controller
+     *
      * @param mainCtrl the mainctrl
-     * @param server the server.
+     * @param server   the server.
      */
     @Inject
-    public OverviewListCtrl(MainCtrl mainCtrl, ServerUtils server){
-        this.mainCtrl=mainCtrl;
-        this.server=server;
+    public OverviewListCtrl(MainCtrl mainCtrl, ServerUtils server) {
+        this.mainCtrl = mainCtrl;
+        this.server = server;
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         items.clear();
@@ -56,7 +60,7 @@ public class OverviewListCtrl implements Initializable {
     /**
      * Clears the buffer
      */
-    public void clear(){
+    public void clear() {
         shoppingList.getBufferList().clear();
         refresh();
     }
@@ -64,7 +68,7 @@ public class OverviewListCtrl implements Initializable {
     /**
      * Refreshes the stage
      */
-    public void refresh(){
+    public void refresh() {
         items.setAll(shoppingList.getBufferList());
         addEditButtonToIngredient();
     }
@@ -73,26 +77,33 @@ public class OverviewListCtrl implements Initializable {
     /**
      * add ingredient scene
      */
-    public void addIngredient(){
+    public void addIngredient() {
         mainCtrl.showAddIngredient();
     }
 
     /**
      * Adds add ingredients from some recipe
-     * @param ingredientInRecipeList
-     * the list of ingredients
+     *
+     * @param ingredientInRecipeList the ingredients in a recipe
+     * @param recipe                 the recipe
+     *                               the list of ingredients
      */
-    public void addIngredients(List<IngredientInRecipe> ingredientInRecipeList){
-        for(IngredientInRecipe ingredientInRecipe:ingredientInRecipeList){
+    public void addIngredients(List<IngredientInRecipe> ingredientInRecipeList
+            ,Recipes recipe) {
+        this.currRecipe=recipe;
+        for (IngredientInRecipe ingredientInRecipe : ingredientInRecipeList) {
+            IngredientInShoppingList ingredient=
+                    new IngredientInShoppingList(ingredientInRecipe);
+            ingredient.setRecipe(null);
             shoppingList.getBufferList()
-                    .add(new IngredientInShoppingList(ingredientInRecipe));
+                    .add(ingredient);
         }
     }
 
     /**
      * Go back to the prev scene
      */
-    public void goBack(){
+    public void goBack() {
         if (previousScene.getRoot().getId().equals("addRepIngrs")) {
             mainCtrl.showShoppingList();
         }
@@ -105,25 +116,32 @@ public class OverviewListCtrl implements Initializable {
      * Add the whole buffer
      * to the shopping list
      */
-    public void addToShoppingList(){
+    public void addToShoppingList() {
+        for (IngredientInShoppingList ingredient:shoppingList.getBufferList() ) {
+            ingredient.setRecipe(currRecipe);
+        }
         shoppingList.addOverviewToShoppingList();
         goBack();
     }
 
     /**
      * Setter for the shopping list
+     *
      * @param shoppingList the shopping list
      */
     public void setShoppingList(ShoppingList shoppingList) {
         this.shoppingList = shoppingList;
     }
+
     /**
      * Edit the selected ingredient
+     *
      * @param ingredient the selected ingredient
      */
-    public void editIngredient(IngredientInShoppingList ingredient){
+    public void editIngredient(IngredientInShoppingList ingredient) {
         mainCtrl.showEditIngredient(ingredient);
     }
+
     /**
      * sets the previous scene
      *
@@ -132,6 +150,7 @@ public class OverviewListCtrl implements Initializable {
     public void previousSceneSetter(Scene previousScene) {
         this.previousScene = previousScene;
     }
+
     /**
      * Adds an edit button next to the name of the ingredient
      */
