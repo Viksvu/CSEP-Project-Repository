@@ -2,7 +2,6 @@ package client.scenes;
 
 import client.EditButton;
 import client.EditButtonOptions;
-import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
