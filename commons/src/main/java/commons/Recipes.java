@@ -136,6 +136,33 @@ public class Recipes {
         this.ingredients = ingredients;
     }
 
+    /**
+     * Clones "this" by cloning all the attributes
+     * Important: IngredientInRecipe stored in this recipe DO NOT have
+     * the recipe as it should be. So, after cloning the recipe, please call
+     * setRecipeOnIngredients();
+     * @return the clone
+     */
+    public Recipes cloneRecipes(String newName) {
+        Recipes recipes = new Recipes(newName);
+        for (IngredientInRecipe ingredient : this.ingredients) {
+            recipes.addIngredient(ingredient.cloneIngredientInRecipe());
+        }
+        for (PreparationStep preparationStep : this.preparationSteps) {
+            recipes.addPreparationStep(preparationStep.clonePreparationStep());
+        }
+        return recipes;
+    }
+
+    /**
+     * Sets "this" as the recipe on all ingredients of the recipe
+     */
+    public void setRecipeOnIngredients() {
+        for (IngredientInRecipe ingredient : this.ingredients) {
+            ingredient.setRecipes(this);
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

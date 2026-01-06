@@ -145,6 +145,7 @@ public class MainCtrl {
         primaryStage.setTitle("Recipes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();
+        overview.setOnKeyPressed(e -> overviewCtrl.keyPressed(e));
     }
 
     /**

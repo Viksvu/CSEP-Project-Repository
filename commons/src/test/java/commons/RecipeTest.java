@@ -84,6 +84,23 @@ class RecipeTest {
     }
 
     @Test
+    void testCloneRecipe() {
+        Recipes r = new Recipes("My Recipe");
+        r.addIngredient(new IngredientInRecipe(new Ingredients("Cheese")));
+        Recipes r2 = r.cloneRecipes("My Recipe");
+        assertEquals(r, r2);
+    }
+
+    @Test
+    void testModifyOneIngredientClone() {
+        Recipes r = new Recipes("My Recipe");
+        r.addIngredient(new IngredientInRecipe(new Ingredients("Cheese")));
+        Recipes r2 = r.cloneRecipes("My Recipe");
+        r2.getIngredients().getFirst().getIngredient().setName("Not Cheese");
+        assertNotEquals(r, r2);
+    }
+
+    @Test
     void testEquals() {
         Recipes r1 = new Recipes("Soup");
         Recipes r2 = new Recipes("Soup");
