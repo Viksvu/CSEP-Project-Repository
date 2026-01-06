@@ -106,6 +106,7 @@ public class EditIngredientCtrl implements Initializable {
             quantity = quantityField.getText();
             quantityInt = Integer.parseInt(quantity);
             Unit unit = unitBox.getSelectionModel().getSelectedItem();
+            //TODO need to fix add the implementation for recipe overview editing
             Ingredients ingredient = new Ingredients(name, 0, 0.0, 0.0, 0.0);
             server.addIngredientToDatabase(ingredient);
             IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
