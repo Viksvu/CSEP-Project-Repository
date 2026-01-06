@@ -33,8 +33,6 @@ import commons.IngredientInRecipe;
 public class MainCtrl {
 
     private Stage primaryStage;
-    private Stage secondaryStage;
-
     private Scene overview;
     private RecipeOverviewCtrl overviewCtrl;
 
@@ -186,19 +184,12 @@ public class MainCtrl {
      * Sets the add ingredient scene as the primary scene
      */
     public void showAddIngredient() {
+        addIngredientCtrl.previousSceneSetter(primaryStage.getScene());
         primaryStage.setTitle("Adding ingredient");
         primaryStage.setScene(addIngredient);
-        addIngredientCtrl.previousSceneSetter(shoppingListScene);
     }
 
-    /**
-     * shows ingredient overlay
-     */
-    public void showAddIngredientOverlay(){
-        primaryStage.setTitle("Adding ingredient");
-        primaryStage.setScene(addIngredient);
-        addIngredientCtrl.previousSceneSetter(overviewList);
-    }
+
 
     /**
      * Sets the add preparation step scene as the primary scene
@@ -281,7 +272,9 @@ public class MainCtrl {
                 " recipe");
         primaryStage.setScene(overviewList);
         overviewListCtrl.clear();
-        overviewListCtrl.addIngredients(recipe.getIngredients());
+
+        overviewListCtrl.addIngredients(recipe.getIngredients()
+        , recipe);
         overviewListCtrl.refresh();
     }
 
@@ -289,8 +282,8 @@ public class MainCtrl {
      * Displays overview without overwrite
      */
     public void showOverviewList(){
+        overviewListCtrl.refresh();
         primaryStage.setScene(overviewList);
-
     }
 
     public Stage getPrimaryStage() {
@@ -310,14 +303,20 @@ public class MainCtrl {
      * @param ingredient the ingredient to edit
      */
     public void showEditIngredient(IngredientInShoppingList ingredient) {
-
+        editIngredientCtrl.previousSceneSetter(primaryStage.getScene());
+        editIngredientCtrl.setIngredient(ingredient);
+        primaryStage.setScene(editIngredient);
     }
     /**
      * Displays the ingredient editing scene
      * @param ingredient the ingredient to edit
      */
-    public void showEditIngredient(IngredientInRecipe ingredient){
-
+    public void showEditIngredient(IngredientInRecipe ingredient, Recipes recipe){
+        editIngredientCtrl.previousSceneSetter(primaryStage.getScene());
+        editIngredientCtrl.setIngredient(ingredient);
+        primaryStage.setScene(editIngredient);
+        primaryStage.setTitle("Editing ingredient from: " + recipe.toString());
+        editIngredientCtrl.provideRecipe(recipe);
     }
 
 

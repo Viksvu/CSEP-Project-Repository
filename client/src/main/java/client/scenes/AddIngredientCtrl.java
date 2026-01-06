@@ -76,8 +76,11 @@ public class AddIngredientCtrl implements Initializable {
         if (previousScene.getRoot().getId().equals("shoppingList")) {
             mainCtrl.showShoppingList();
         }
-        if (previousScene.getRoot().getId().equals("overview")) {
+        else if (previousScene.getRoot().getId().equals("overview")) {
             mainCtrl.showOverview();
+        }
+        else if(previousScene.getRoot().getId().equals("overviewList")){
+            mainCtrl.showOverviewList();
         }
     }
 
@@ -198,7 +201,7 @@ public class AddIngredientCtrl implements Initializable {
                     ingredient, quantityInt, unit);
             shoppingList.
                     addIngredientDirectlyToOverview(ingredientInShoppingList);
-            mainCtrl.showShoppingList();
+            mainCtrl.showOverviewList();
         } catch (Exception e) {
             //errorLabel.setText("Quantity must be a valid number");
             errorLabel.setText(e.getMessage());
