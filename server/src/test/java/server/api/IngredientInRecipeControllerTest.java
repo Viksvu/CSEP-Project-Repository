@@ -92,14 +92,6 @@ class IngredientInRecipeControllerTest {
     }
 
     @Test
-    void deleteInvalidRecipe() {
-        ResponseEntity<IngredientInRecipe> response = ic.delete( -2L, iR);
-        assertEquals(BAD_REQUEST, response.getStatusCode());
-    }
-
-
-
-    @Test
     void editIngredientInRecipe_success() {
         Ingredients newIngredient = new Ingredients("Onion", 0,
                 0.0, 0.0,0.0);
@@ -125,4 +117,11 @@ class IngredientInRecipeControllerTest {
         assertEquals(5, updated.getQuantity());
         assertEquals(Unit.TABLE_SPOON, updated.getUnit());
     }
+
+    @Test
+    void deleteInvalidRecipe() {
+        ResponseEntity<IngredientInRecipe> response = ic.delete( -2L, iR);
+        assertEquals(BAD_REQUEST, response.getStatusCode());
+    }
+
 }
