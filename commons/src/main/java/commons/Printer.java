@@ -1,13 +1,17 @@
 package commons;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 public class Printer {
     /**
      * Downloads the object into a readme file
      * @param thing to print
      */
-    public static void print(Printable thing) {
+    public static void print(Printable thing) throws IOException {
         StringBuilder text = new StringBuilder();
         // This is the text that will finally be stored in a file
         List<Object> contents = thing.indexing();
@@ -45,6 +49,10 @@ public class Printer {
             }
         }
         String fileText = text.toString();
+        FileWriter fw = new FileWriter("test.md");
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(text.toString().trim());
+        bw.flush();
     }
 
 }
