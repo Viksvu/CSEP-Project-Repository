@@ -61,7 +61,7 @@ public class RecipeService {
      */
     public Recipes getRecipeById(Long recipeId) {
         return recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RuntimeException("Recipe not found"));
+                .orElseThrow(() -> new RecipeNotFoundException(recipeId));
     }
 
     /**
@@ -70,5 +70,15 @@ public class RecipeService {
      */
     public void deleteRecipe(Long recipeId) {
         recipeRepository.deleteById(recipeId);
+    }
+
+    public static class RecipeNotFoundException extends RuntimeException {
+        /**
+         * RecipeNotFoundException constructor
+         * @param recipeId the id of the recipe which wasn't found
+         */
+        public RecipeNotFoundException(Long recipeId) {
+            super(String.format("Recipe %s not found", recipeId));
+        }
     }
 }
