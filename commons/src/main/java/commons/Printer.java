@@ -11,7 +11,9 @@ public class Printer {
         StringBuilder text = new StringBuilder();
         // This is the text that will finally be stored in a file
         List<Object> contents = thing.indexing();
+        int number = 0;
         boolean bulletPoints = false;
+        boolean numbers = false;
         for (Object o : contents) {
             switch (o) {
                 case ReadmeOptions.H1 -> text.append("\n# ");
@@ -20,11 +22,20 @@ public class Printer {
                 case ReadmeOptions.BULLET -> bulletPoints = true;
                 case ReadmeOptions.END_BULLET -> bulletPoints = false;
                 case ReadmeOptions.TEXT -> text.append("\n");
+                case ReadmeOptions.NUMBERING -> numbers = true;
+                case ReadmeOptions.END_NUMBERING -> {
+                    numbers = false;
+                    number=0;
+                }
                 default -> {
                     if (o instanceof String) {
                         if (bulletPoints) {
-                            text.append("- ").append(o);
-                        } else {
+                            text.append("\n- ").append(o);
+                        } else if (numbers) {
+                            text.append("\n").append(++number).append(". ");
+                            text.append((String) o);
+                        }
+                        else {
                             text.append((String) o);
                         }
                     } else {
