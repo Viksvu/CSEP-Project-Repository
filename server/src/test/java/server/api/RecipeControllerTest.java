@@ -1,214 +1,220 @@
 package server.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Recipes;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import server.Main;
+import server.services.RecipeService;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Disabled
+@AutoConfigureMockMvc
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.MOCK,
+        classes = Main.class)
+@TestPropertySource(
+        locations = "classpath:application-junit.properties")
 public class RecipeControllerTest {
 
-    private RecipeController rc;
-    private Recipes r1;
-    private Recipes r2;
+    @Autowired
+    private MockMvc mvc;
 
-    @BeforeEach
-    public void setup() {
-//        rc = new RecipeController();
-//        r1 = new Recipes(0, new ArrayList<>(), new ArrayList<>(), "Spaghetti");
-//        r2 = new Recipes(1, new ArrayList<>(), new ArrayList<>(), "Pasta");
+    @Autowired
+    private RecipeService recipeService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Test
+    public void testList() throws Exception {
+        String name1 = "TestRecipeList1";
+        String name2 = "TestRecipeList2";
+
+        Recipes t1 = new Recipes(name1);
+        Recipes t2 = new Recipes(name2);
+
+        this.recipeService.addRecipe(t1);
+        this.recipeService.addRecipe(t2);
+
+        MvcResult result = mvc.perform(get("/api/recipe/list"))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+
+        Recipes[] list = this.objectMapper.readValue(result.getResponse().getContentAsString(), Recipes[].class);
+        assertTrue(Arrays.stream(list).anyMatch(r -> r.getName().equals(name1)));
+        assertTrue(Arrays.stream(list).anyMatch(r -> r.getName().equals(name2)));
     }
 
     @Test
-    public void addNullRecipe() {
-        ResponseEntity<Recipes> actual = rc.add(null);
-        assertEquals(BAD_REQUEST, actual.getStatusCode());
+    public void testAddAndDelete() throws Exception {
+        Recipes t1 = new Recipes("TestRecipeAdd");
+
+        // Check add
+        MvcResult result = this.mvc.perform(post("/api/recipe/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(t1)))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+
+        Recipes r1 = this.objectMapper.readValue(result.getResponse().getContentAsString(), Recipes.class);
+        assertNotNull(r1);
+        assertNotNull(r1.getId());
+
+        Recipes f1 = this.recipeService.getRecipeById(r1.getId());
+        assertNotNull(f1);
+
+        // Then delete
+        result = this.mvc.perform(post("/api/recipe/delete")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(this.objectMapper.writeValueAsString(r1)))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+        Recipes r2 = this.objectMapper.readValue(result.getResponse().getContentAsString(), Recipes.class);
+        assertNotNull(r2);
+        assertNotNull(r2.getId());
+
+        assertThrows(RecipeService.RecipeNotFoundException.class, () -> this.recipeService.getRecipeById(r2.getId()));
     }
 
     @Test
-    public void checkAdd() {
-        rc.add(r1);
-        rc.add(r2);
-        assertTrue(rc.getAll().containsAll(Arrays.asList(r1, r2)));
+    public void testAddNull() throws Exception {
+        this.mvc.perform(post("/api/recipe/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void checkAddRecipeNameNull() {
-//        ResponseEntity<Recipes> response = rc.add(new Recipes(-1, null, null, null));
-//        assertEquals(BAD_REQUEST, response.getStatusCode());
+    public void testAddInvalidName() throws Exception {
+        Recipes t1 = new Recipes("");
+
+        this.mvc.perform(post("/api/recipe/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(t1)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void checkNullRecipeName() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        assertFalse(isValidName(null));
+    public void testAddNullName() throws Exception {
+        Recipes t1 = new Recipes(null);
+
+        this.mvc.perform(post("/api/recipe/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(t1)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void checkEmptyRecipeName() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        assertFalse(isValidName(""));
+    public void testDeleteNull() throws Exception {
+        this.mvc.perform(post("/api/recipe/delete")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void checkGoodRecipeName() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        assertTrue(isValidName("Spaghetti"));
+    public void testDeleteInvalidId() throws Exception {
+        Recipes t1 = new Recipes("TestDeleteNull");
+
+        this.mvc.perform(post("/api/recipe/delete")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(this.objectMapper.writeValueAsString(t1)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void checkRecipeExists() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        assertFalse(recipeExists(r1.getId()));
-        rc.add(r1);
-        assertTrue(recipeExists(r1.getId()));
-        rc.remove(r1);
+    public void testRename() throws Exception {
+        Recipes r = new Recipes("TestRename");
+        r = this.recipeService.addRecipe(r);
+
+        Long id = r.getId();
+        assertNotNull(id);
+
+        String newName = "VeryCoolName";
+        this.mvc.perform(post("/api/recipe/rename")
+                        .queryParam("id", String.valueOf(id))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newName))
+                .andExpect(status().is2xxSuccessful());
+
+        r = this.recipeService.getRecipeById(id);
+        assertNotNull(r);
+        assertEquals(newName, r.getName());
     }
 
     @Test
-    public void checkAutoNewID() {
-//        Recipes newRecipe = new Recipes(-1, new ArrayList<>(), new ArrayList<>(), "Wraps");
-//
-//        ResponseEntity<Recipes> response = rc.add(newRecipe);
-//        Recipes recipe = response.getBody();
-//
-//        assertEquals(OK, response.getStatusCode());
-//        assertNotNull(recipe);
-//
-//        assertNotEquals(newRecipe.getId(), recipe.getId());
-//
-//        rc.remove(newRecipe);
+    public void testRenameInvalidName() throws Exception {
+        Recipes r = new Recipes("TestRename");
+        r = this.recipeService.addRecipe(r);
+
+        Long id = r.getId();
+        assertNotNull(id);
+
+        String newName = "";
+        this.mvc.perform(post("/api/recipe/rename")
+                        .queryParam("id", String.valueOf(id))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newName))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void checkAutoNewIDWithNonEmptyRecipeList() {
-//        rc.add(r2);
-//        rc.add(r1);
-//
-//        Recipes newRecipe = new Recipes(-1, new ArrayList<>(), new ArrayList<>(), "Wraps");
-//
-//        ResponseEntity<Recipes> response = rc.add(newRecipe);
-//        Recipes recipe = response.getBody();
-//
-//        assertEquals(OK, response.getStatusCode());
-//        assertNotNull(recipe);
-//
-//        assertNotEquals(newRecipe.getId(), recipe.getId());
-//
-//        rc.remove(r1);
-//        rc.remove(r2);
+    public void testRenameInvalidID() throws Exception {
+        Long id = -1L;
+        String newName = "VeryCoolName";
+        this.mvc.perform(post("/api/recipe/rename")
+                        .queryParam("id", String.valueOf(id))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newName))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void checkRemove() {
-        rc.add(r1);
+    public void testClone() throws Exception {
+        Recipes r = new Recipes("TestClone");
+        r = this.recipeService.addRecipe(r);
 
-        ResponseEntity<Recipes> response = rc.remove(r1);
-        assertEquals(OK, response.getStatusCode());
+        String newName = "ClonedRecipe";
+
+        MvcResult result = this.mvc.perform(post("/api/recipe/clone")
+                .queryParam("newName", newName)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(r)))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+
+        String json = result.getResponse().getContentAsString();
+        assertNotNull(json);
+
+        Recipes res = this.objectMapper.readValue(json, Recipes.class);
+        assertNotNull(res);
+
+        assertEquals(newName, res.getName());
     }
 
     @Test
-    public void checkRemoveWithMultipleEntries() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        rc.add(r1);
-        rc.add(r2);
+    public void testCloneNonExisting() throws Exception {
+        Recipes r = new Recipes("TestCloneNonExisting");
 
-        ResponseEntity<Recipes> response = rc.remove(r1);
-        assertEquals(OK, response.getStatusCode());
+        String newName = "ClonedRecipe";
 
-        assertTrue(recipeExists(r2.getId()));
-
-        rc.remove(r2);
-    }
-
-    @Test
-    public void checkRemoveWithMultipleEntries2() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        rc.add(r1);
-        rc.add(r2);
-
-        ResponseEntity<Recipes> response = rc.remove(r1);
-        assertEquals(OK, response.getStatusCode());
-
-        assertTrue(recipeExists(r2.getId()));
-        assertFalse(recipeExists(r1.getId()));
-
-        rc.remove(r2);
-    }
-
-    @Test
-    public void checkRemoveNull() {
-        ResponseEntity<Recipes> response = rc.remove(null);
-        assertEquals(BAD_REQUEST, response.getStatusCode());
-    }
-
-    @Test
-    public void checkRemoveNonExisting() {
-        ResponseEntity<Recipes> response = rc.remove(r1);
-        assertEquals(BAD_REQUEST, response.getStatusCode());
-    }
-
-    @Test
-    public void checkCloneRecipeEquals() {
-        r1 = new Recipes("Soup");
-        var response = rc.cloneRecipe(r1, "Soup");
-        r2 = response.getBody();
-        assertNotEquals(r1, r2);
-    }
-
-    @Test
-    public void checkRename() {
-//        rc.add(r1);
-//        ResponseEntity<String> response = rc.rename(0, "Hello World");
-//        assertEquals(OK, response.getStatusCode());
-//        assertEquals("Hello World", response.getBody());
-//        rc.remove(r1);
-    }
-
-    @Test
-    public void checkRenameNull() {
-//        rc.add(r1);
-//        ResponseEntity<String> response = rc.rename(0, null);
-//        assertEquals(BAD_REQUEST, response.getStatusCode());
-//        rc.remove(r1);
-    }
-
-    @Test
-    public void checkRenameEmpty() {
-//        rc.add(r1);
-//        ResponseEntity<String> response = rc.rename(0, "");
-//        assertEquals(BAD_REQUEST, response.getStatusCode());
-//        rc.remove(r1);
-    }
-
-    @Test
-    public void checkRenameNonExistingRecipe() {
-//        ResponseEntity<String> response = rc.rename(0, "Hello World");
-//        assertEquals(BAD_REQUEST, response.getStatusCode());
-    }
-
-    /**
-     * Get the private method isValidName for testing
-     * @param name input for isValidName method of RecipeController
-     * @return true, if valid name
-     */
-    private boolean isValidName(String name) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = rc.getClass().getDeclaredMethod("isValidName", String.class);
-        m.setAccessible(true);
-        return (boolean) m.invoke(rc, name);
-    }
-
-    /**
-     * Get the private method recipeExists for testing
-     * @param recipeID input for recipeExists method of RecipeController
-     * @return true, if recipe with id exists
-     */
-    private boolean recipeExists(long recipeID) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = rc.getClass().getDeclaredMethod("recipeExists", long.class);
-        m.setAccessible(true);
-        return (boolean) m.invoke(rc, recipeID);
+        this.mvc.perform(post("/api/recipe/clone")
+                        .queryParam("newName", newName)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(this.objectMapper.writeValueAsString(r)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
     }
 }
