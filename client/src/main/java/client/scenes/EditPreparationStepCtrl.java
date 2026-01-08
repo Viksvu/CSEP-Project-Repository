@@ -76,6 +76,10 @@ public class EditPreparationStepCtrl implements Initializable {
         String name = nameField.getText();
         try {
             int index=getIndex();
+            if(index==-1){
+                System.err.println("No such prep in recipe");
+                return;
+            }
             preparationStep.setDescription(name);
             server.editPreparationStepFromRecipe(preparationStep, recipe, index);
             mainCtrl.showOverview();
