@@ -20,6 +20,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.util.*;
@@ -204,7 +205,7 @@ public class RecipeOverviewCtrl implements Initializable {
         if (!ingredientsData.isEmpty()) {
             int numIngredients = ingredientsData.size();
             for (int i = 0; i < numIngredients; i++) {
-                EditButton<IngredientInRecipe> editButton =
+                EditButton<IngredientInRecipe> editButton1 =
                         new EditButton<>(
                                 ingredientsData.get(i),
                                 "delete",
@@ -215,9 +216,22 @@ public class RecipeOverviewCtrl implements Initializable {
                                 this,
                                 EditButtonOptions.REMOVE_INGREDIENT
                         );
+                EditButton<IngredientInRecipe> editButton2 =
+                        new EditButton<>(
+                                ingredientsData.get(i),
+                                "edit",
+                                i,
+                                ingredientListView,
+                                server,
+                                lastSelectedRecipe,
+                                this,
+                                EditButtonOptions.EDIT_INGREDIENT
+                        );
                 // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
 
-                ingredientsPane.getChildren().add(editButton);
+                HBox buttonBox = new HBox(8); // 8 px space
+                buttonBox.getChildren().addAll(editButton1, editButton2);
+                ingredientsPane.getChildren().add(buttonBox);
             }
         }
     }
@@ -232,7 +246,7 @@ public class RecipeOverviewCtrl implements Initializable {
         if (!preparationStepsData.isEmpty()) {
             int numIngredients = preparationStepsData.size();
             for (int i = 0; i < numIngredients; i++) {
-                EditButton<PreparationStep> editButton =
+                EditButton<PreparationStep> editButton1 =
                         new EditButton<>(
                                 preparationStepsData.get(i),
                                 "delete",
@@ -243,9 +257,22 @@ public class RecipeOverviewCtrl implements Initializable {
                                 this,
                                 EditButtonOptions.REMOVE_STEP
                         );
+                EditButton<PreparationStep> editButton2 =
+                        new EditButton<>(
+                                preparationStepsData.get(i),
+                                "edit",
+                                i,
+                                preparationsListView,
+                                server,
+                                lastSelectedRecipe,
+                                this,
+                                EditButtonOptions.EDIT_STEP
+                        );
                 // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
 
-                preparationStepsPane.getChildren().add(editButton);
+                HBox buttonBox = new HBox(8); // 8 px space
+                buttonBox.getChildren().addAll(editButton1, editButton2);
+                preparationStepsPane.getChildren().add(buttonBox);
             }
         }
     }
@@ -578,5 +605,14 @@ public class RecipeOverviewCtrl implements Initializable {
                 okClone();
             }
         }
+    }
+
+    /**
+     * Edit the selected ingredient
+     *
+     * @param ingredient the selected ingredient
+     */
+    public void editIngredient(IngredientInRecipe ingredient, Recipes recipe) {
+        mainCtrl.showEditIngredient(ingredient, recipe);
     }
 }
