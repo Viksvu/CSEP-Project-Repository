@@ -56,7 +56,7 @@ public class Main extends Application {
 			System.err.println(msg);
 			return;
 		}
-		Locale locale = Locale.forLanguageTag("nl");
+		Locale locale = Locale.forLanguageTag("en");
 		ResourceBundle bundle = ResourceBundle
 				.getBundle("languageBundles.messages", locale);
 
@@ -64,28 +64,28 @@ public class Main extends Application {
                 (RecipeOverviewCtrl.class, bundle,
                         "client", "scenes", "RecipeOverview.fxml");
 		var add = FXML.load
-                (AddRecipeCtrl.class, null,
+                (AddRecipeCtrl.class, bundle,
                         "client", "scenes", "AddRecipe.fxml");
         var remove = FXML.load
-                (RemoveRecipeCtrl.class, null,
+                (RemoveRecipeCtrl.class, bundle,
                         "client", "scenes", "RemoveRecipe.fxml");
         var addIngredient = FXML.load
-                (AddIngredientCtrl.class, null,
+                (AddIngredientCtrl.class, bundle,
                         "client", "scenes", "AddIngredient.fxml");
         var shoppingList = FXML.load
-                (ShoppingListCtrl.class, null,
+                (ShoppingListCtrl.class, bundle,
                         "client", "scenes", "ShoppingList.fxml");
         var addRecipeIngredients = FXML.load
-                (AddRecipeIngredientsCtrl.class, null,
+                (AddRecipeIngredientsCtrl.class, bundle,
                         "client", "scenes",
                         "AddRecipeIngredientsOverview.fxml");
-		var overviewList= FXML.load(OverviewListCtrl.class, null,
+		var overviewList= FXML.load(OverviewListCtrl.class, bundle,
 				"client", "scenes", "OverviewList.fxml");
 		//var editIngredient= FXML.load(EditIngredientCtrl.class,
 		//"client", "scenes", "EditIngredientCtrl.fxml");
 
 		var addRecipePreparationStep = FXML.load
-				(AddPreparationStepCtrl.class, null,
+				(AddPreparationStepCtrl.class, bundle,
 						"client", "scenes",
 						"AddPreparationStep.fxml");
 
