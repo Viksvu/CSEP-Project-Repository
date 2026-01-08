@@ -10,8 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class EditPreparationStepCtrl implements Initializable {
@@ -61,6 +59,11 @@ public class EditPreparationStepCtrl implements Initializable {
         mainCtrl.showOverview();
     }
 
+    /**
+     * Gets the index of
+     * the current prep step
+     * @return the prep step index.
+     */
     public int getIndex(){
         for(int i=0;i<recipe.getPreparationSteps().size();i++){
             if(recipe.getPreparationSteps().get(i).equals(preparationStep)){

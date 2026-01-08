@@ -19,7 +19,6 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.net.ConnectException;
 import java.util.List;
-import java.util.UUID;
 
 import commons.IngredientInRecipe;
 import commons.Ingredients;
@@ -232,6 +231,13 @@ public class ServerUtils {
                         PreparationStep.class);
     }
 
+    /**
+     * edit a preparationStep in a recipe
+     * @param step PreparationStep to edit
+     * @param recipe Recipe in which it will be edited
+     * @param index the index of the prep-step in recipe.
+     * @return The PreparationStep if successful
+     */
     public PreparationStep editPreparationStepFromRecipe(PreparationStep step,
                                                          Recipes recipe,
                                                          int index){
