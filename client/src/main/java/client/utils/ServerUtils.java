@@ -232,6 +232,27 @@ public class ServerUtils {
     }
 
     /**
+     * edit a preparationStep in a recipe
+     * @param step PreparationStep to edit
+     * @param recipe Recipe in which it will be edited
+     * @param index the index of the prep-step in recipe.
+     * @return The PreparationStep if successful
+     */
+    public PreparationStep editPreparationStepFromRecipe(PreparationStep step,
+                                                         Recipes recipe,
+                                                         int index){
+        Long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .queryParam("recipeId", recipeId)
+                .queryParam("index", index)
+                .path("api/prep-step/edit")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(step, APPLICATION_JSON),
+                        PreparationStep.class);
+    }
+
+    /**
      * Delete a preparationStep from a recipe
      * @param step PreparationStep to delete
      * @param recipe Recipe to delete from

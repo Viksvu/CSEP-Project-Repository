@@ -187,6 +187,7 @@ public class RecipeOverviewCtrl implements Initializable {
         List<PreparationStep> steps = Collections.emptyList();
         if (currentRecipe != null) {
             steps = server.getPreparationSteps(currentRecipe);
+            currentRecipe.setPreparationSteps(steps);
         }
         if (steps == null) steps = Collections.emptyList();
         preparationStepsData = FXCollections.observableArrayList(steps);
@@ -230,6 +231,7 @@ public class RecipeOverviewCtrl implements Initializable {
                 // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
 
                 HBox buttonBox = new HBox(8); // 8 px space
+                buttonBox.setPickOnBounds(false);
                 buttonBox.getChildren().addAll(editButton1, editButton2);
                 ingredientsPane.getChildren().add(buttonBox);
             }
@@ -271,6 +273,7 @@ public class RecipeOverviewCtrl implements Initializable {
                 // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
 
                 HBox buttonBox = new HBox(8); // 8 px space
+                buttonBox.setPickOnBounds(false);
                 buttonBox.getChildren().addAll(editButton1, editButton2);
                 preparationStepsPane.getChildren().add(buttonBox);
             }
@@ -327,6 +330,15 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void addPreparationStep() {
         mainCtrl.showAddPreparationStep(lastSelectedRecipe);
+    }
+
+    /**
+     * edits a certain preparation step.
+     * @param preparationStep
+     */
+    public void editPreparationStep(PreparationStep preparationStep){
+        refresh();
+        mainCtrl.showEditPreparationStep(lastSelectedRecipe, preparationStep);
     }
 
     /**

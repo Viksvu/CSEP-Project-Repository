@@ -17,6 +17,7 @@ package client.scenes;
 
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
+import commons.PreparationStep;
 import commons.Recipes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -59,6 +60,9 @@ public class MainCtrl {
     private Scene editIngredient;
     private AddPreparationStepCtrl addPreparationStepCtrl;
     private Scene addPreparationStep;
+
+    private EditPreparationStepCtrl editPreparationStepCtrl;
+    private Scene editPreparationStep;
 
     // This observable list stores the names of all the recipes.
     // <String> might want to be replaced by <Recipe> in
@@ -141,6 +145,12 @@ public class MainCtrl {
         this.editIngredient =
                 new Scene(editIngredientPair.getValue());
 
+        Pair<?, Parent> editPreparationStepPair =
+                sceneMap.get("editPreparationStep");
+        this.editPreparationStepCtrl =
+                (EditPreparationStepCtrl) editPreparationStepPair.getKey();
+        this.editPreparationStep =
+                new Scene(editPreparationStepPair.getValue());
 
         this.recipeObservableList = FXCollections.observableArrayList();
         this.addIngredientCtrl.provideShoppingList(this.shoppingList);
@@ -211,6 +221,18 @@ public class MainCtrl {
         primaryStage.setTitle("Adding preparation to: " + recipe.toString());
         primaryStage.setScene(addPreparationStep);
         addPreparationStepCtrl.provideRecipe(recipe);
+    }
+
+    /**
+     * Sets the edit preparation step scene as the primary scene
+     * @param recipe current recipe
+     */
+    public void showEditPreparationStep(Recipes recipe, PreparationStep preparationStep) {
+        if (recipe == null) return;
+        primaryStage.setTitle("Editing preparation from: " + recipe.toString());
+        primaryStage.setScene(editPreparationStep);
+        editPreparationStepCtrl.provideRecipe(recipe);
+        editPreparationStepCtrl.providePrepStep(preparationStep);
     }
 
     // EVERYTHING BELOW HAS BEEN REPLACED WITH SERVER-LOGIC

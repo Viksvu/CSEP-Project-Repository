@@ -141,6 +141,7 @@ public class ShoppingListCtrl implements Initializable {
                                 EditButtonOptions.EDIT_INGREDIENT
                         );
                 HBox buttonBox = new HBox(8); // 8 px space
+                buttonBox.setPickOnBounds(false);
                 buttonBox.getChildren().addAll(deleteButton, editButton);
                 ingredientsPane.getChildren().add(buttonBox);
             }

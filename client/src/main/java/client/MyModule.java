@@ -32,6 +32,6 @@ public class MyModule implements Module {
         binder.bind(AddRecipeIngredientsCtrl.class).in(Scopes.SINGLETON);
         binder.bind(OverviewListCtrl.class).in(Scopes.SINGLETON);
         binder.bind(EditIngredientCtrl.class).in(Scopes.SINGLETON);
-
+        binder.bind(EditPreparationStepCtrl.class).in(Scopes.SINGLETON);
     }
 }
