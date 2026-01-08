@@ -50,7 +50,7 @@ public class AddPreparationStepCtrl implements Initializable {
     /**
      * initialises all fields
      * @param url
-     * @param resourceBundleA
+     * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
