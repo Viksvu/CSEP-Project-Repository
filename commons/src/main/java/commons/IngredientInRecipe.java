@@ -24,6 +24,7 @@ public class IngredientInRecipe {
     @JsonBackReference
     private Recipes recipes;
 
+
     /**
      * No-args constructor for JPA
      */
@@ -106,5 +107,14 @@ public class IngredientInRecipe {
         return getIngredient().getName()
                 + " (" + getQuantity() + " " + getUnit()
                 .toString().replaceAll("/", "") + ")";
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
