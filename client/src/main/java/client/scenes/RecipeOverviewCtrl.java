@@ -43,7 +43,6 @@ public class RecipeOverviewCtrl implements Initializable {
     @FXML
     public TextField searchField;
 
-
     @FXML
     private SplitPane splitPaneRefreshButton;
     @FXML
@@ -83,6 +82,18 @@ public class RecipeOverviewCtrl implements Initializable {
     @FXML
     private Button cloneRecipeButton;
 
+    @FXML
+    private Button shoppingListButon;
+
+    @FXML
+    private Button cloneButton;
+
+    @FXML
+    private Button refreshButton;
+
+    @FXML
+    private Label mainTitle;
+
     private boolean isCloning;
 
     private FilteredList<Recipes> filteredRecipes;
@@ -115,6 +126,13 @@ public class RecipeOverviewCtrl implements Initializable {
         // will also add to the ListView of Recipes
         //recipeListView.setItems(recipeObservableList);
         //recipeListView.setEditable(true);
+        mainTitle.setText(resourceBundle.getString("title"));
+        shoppingListButon.setText(resourceBundle.getString("shoppingList"));
+        addToShop.setText(resourceBundle.getString("shop"));
+        refreshButton.setText(resourceBundle.getString("refresh"));
+        cloneButton.setText(resourceBundle.getString("clone"));
+        cloneRecipeButton.setText(resourceBundle.getString("clone.ok"));
+        cloneRecipeNameLabel.setText(resourceBundle.getString("clone.newRecipeName"));
 
         searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ESCAPE) {

@@ -60,7 +60,8 @@ public class AddRecipeCtrl implements Initializable {
     public void add() {
         String recipeName = nameField.getText();
         try {
-            ArrayList<Recipes> currRecipes = (ArrayList<Recipes>) server.getRecipes();
+            ArrayList<Recipes> currRecipes =
+                    (ArrayList<Recipes>) server.getRecipes();
             for (int i=0;i<currRecipes.size();i++){
                 if(currRecipes.get(i).getName().equals(recipeName)){
                     return;

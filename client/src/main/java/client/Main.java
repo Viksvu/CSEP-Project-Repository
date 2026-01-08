@@ -19,6 +19,8 @@ import static com.google.inject.Guice.createInjector;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import client.scenes.*;
 import client.utils.ServerUtils;
@@ -54,33 +56,36 @@ public class Main extends Application {
 			System.err.println(msg);
 			return;
 		}
+		Locale locale = Locale.forLanguageTag("nl");
+		ResourceBundle bundle = ResourceBundle
+				.getBundle("languageBundles.messages", locale);
 
 		var overview = FXML.load
-                (RecipeOverviewCtrl.class,
+                (RecipeOverviewCtrl.class, bundle,
                         "client", "scenes", "RecipeOverview.fxml");
 		var add = FXML.load
-                (AddRecipeCtrl.class,
+                (AddRecipeCtrl.class, null,
                         "client", "scenes", "AddRecipe.fxml");
         var remove = FXML.load
-                (RemoveRecipeCtrl.class,
+                (RemoveRecipeCtrl.class, null,
                         "client", "scenes", "RemoveRecipe.fxml");
         var addIngredient = FXML.load
-                (AddIngredientCtrl.class,
+                (AddIngredientCtrl.class, null,
                         "client", "scenes", "AddIngredient.fxml");
         var shoppingList = FXML.load
-                (ShoppingListCtrl.class,
+                (ShoppingListCtrl.class, null,
                         "client", "scenes", "ShoppingList.fxml");
         var addRecipeIngredients = FXML.load
-                (AddRecipeIngredientsCtrl.class,
+                (AddRecipeIngredientsCtrl.class, null,
                         "client", "scenes",
                         "AddRecipeIngredientsOverview.fxml");
-		var overviewList= FXML.load(OverviewListCtrl.class,
+		var overviewList= FXML.load(OverviewListCtrl.class, null,
 				"client", "scenes", "OverviewList.fxml");
 		//var editIngredient= FXML.load(EditIngredientCtrl.class,
 		//"client", "scenes", "EditIngredientCtrl.fxml");
 
 		var addRecipePreparationStep = FXML.load
-				(AddPreparationStepCtrl.class,
+				(AddPreparationStepCtrl.class, null,
 						"client", "scenes",
 						"AddPreparationStep.fxml");
 
