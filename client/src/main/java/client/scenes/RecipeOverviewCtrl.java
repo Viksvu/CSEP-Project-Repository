@@ -187,6 +187,7 @@ public class RecipeOverviewCtrl implements Initializable {
         List<PreparationStep> steps = Collections.emptyList();
         if (currentRecipe != null) {
             steps = server.getPreparationSteps(currentRecipe);
+            currentRecipe.setPreparationSteps(steps);
         }
         if (steps == null) steps = Collections.emptyList();
         preparationStepsData = FXCollections.observableArrayList(steps);
@@ -336,6 +337,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * @param preparationStep
      */
     public void editPreparationStep(PreparationStep preparationStep){
+        refresh();
         mainCtrl.showEditPreparationStep(lastSelectedRecipe, preparationStep);
     }
 

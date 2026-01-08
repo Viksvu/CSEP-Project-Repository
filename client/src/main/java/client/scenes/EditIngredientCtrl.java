@@ -77,6 +77,10 @@ public class EditIngredientCtrl implements Initializable {
         if (previousScene.getRoot().getId().equals("overview")) {
             mainCtrl.showOverview();
         }
+        if (previousScene.getRoot().getId().equals("overviewList")) {
+            mainCtrl.showOverviewList();
+        }
+
     }
 
     /**
@@ -216,6 +220,8 @@ public class EditIngredientCtrl implements Initializable {
         String s= ""+ ingredientInShoppingList.getQuantity();
         quantityField.setText(s);
         unitBox.setValue(ingredientInShoppingList.getUnit());
+        errorLabel.setVisible(false);
+
     }
 
     /**
@@ -229,6 +235,8 @@ public class EditIngredientCtrl implements Initializable {
         String s= ""+ ingredientInRecipe.getQuantity();
         quantityField.setText(s);
         unitBox.setValue(ingredientInRecipe.getUnit());
+        errorLabel.setVisible(false);
+
     }
 
 

@@ -102,5 +102,6 @@ public class EditPreparationStepCtrl implements Initializable {
      */
     public void providePrepStep(PreparationStep preparationStep) {
         this.preparationStep=preparationStep;
+        nameField.setText(preparationStep.getDescription());
     }
 }
