@@ -22,8 +22,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
+import java.io.*;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class RecipeOverviewCtrl implements Initializable {
 
@@ -32,8 +34,12 @@ public class RecipeOverviewCtrl implements Initializable {
     private  ShoppingList shoppingList;
     ObservableList<Recipes> recipeData;
     ObservableList<Recipes> data1;
+    HashSet<Long> favorites;
     ObservableList<IngredientInRecipe> ingredientsData;
     ObservableList<PreparationStep> preparationStepsData;
+    private static final File STARREDFILE =
+            new File("C:\\Users\\Boyan\\Documents\\Foodpal" +
+                    "\\csep-team-10\\starred_recipes.txt");
     // Button someButton;
     ArrayList<Button> ingredientButtons;
 
@@ -63,7 +69,10 @@ public class RecipeOverviewCtrl implements Initializable {
     private AnchorPane ingredientsPane;
     @FXML
     private Button addIngredientButton;
-
+    @FXML
+    private ToggleButton star;
+    @FXML
+    private ToggleButton favSort;
     @FXML
     private AnchorPane preparationStepsPane;
     @FXML
@@ -89,6 +98,9 @@ public class RecipeOverviewCtrl implements Initializable {
     private FilteredList<Recipes> filteredRecipes;
     private SortedList<Recipes> sortedRecipes;
     private Recipes lastSelectedRecipe;
+    private Predicate<Recipes> searchFilter=(Recipes r)->true;
+    private Predicate<Recipes> favFilter=
+            (Recipes r)->true;
 
     /**
      * Recipe overview controller constructor.
@@ -116,7 +128,7 @@ public class RecipeOverviewCtrl implements Initializable {
         // will also add to the ListView of Recipes
         //recipeListView.setItems(recipeObservableList);
         //recipeListView.setEditable(true);
-
+        favorites=new HashSet<>();
         searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 clearSearch();
@@ -125,10 +137,20 @@ public class RecipeOverviewCtrl implements Initializable {
         recipeData = FXCollections.observableArrayList();
         data1 = FXCollections.observableArrayList();
         this.filteredRecipes = new FilteredList<>(recipeData);
+      //  filteredRecipes.setPredicate(searchFilter);
         this.sortedRecipes = new SortedList<>(filteredRecipes);
         cloneRecipeNameLabel.toBack();
         cloneRecipeNameTF.toBack();
         cloneRecipeButton.toBack();
+        Scanner scanner= null;
+        try {
+            scanner = new Scanner(STARREDFILE);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        while(scanner.hasNextLong()){
+            favorites.add(scanner.nextLong());
+        }
     }
 
     /**
@@ -141,6 +163,13 @@ public class RecipeOverviewCtrl implements Initializable {
         if (getSelectedRecipe() != null) {
             lastSelectedRecipe = getSelectedRecipe();
         }
+        if(lastSelectedRecipe!=null && favorites.contains(lastSelectedRecipe.getId())) {
+            star.setSelected(true);
+            star.setText("★");
+        }else{
+            star.setSelected(false);
+            star.setText("☆");
+        }
         if(!server.recipeExists(lastSelectedRecipe)) lastSelectedRecipe=null;
         refreshIngredients(lastSelectedRecipe);
         refreshPreparationSteps(lastSelectedRecipe);
@@ -149,19 +178,99 @@ public class RecipeOverviewCtrl implements Initializable {
         }
     }
 
-
+    /**
+     * Apply the favorite filter
+     */
+    public void applyFav(){
+        if(favSort.isSelected()) {
+            favFilter=(Recipes a)->favorites.contains(a.getId());
+        }else favFilter=(Recipes a)->true;
+        applyPredicates();
+    }
 
     /**
      * Refreshes the recipes on the client
      */
     private void refreshRecipes() {
-
         recipeData.setAll(server.getRecipes());
-
         recipeListView.setItems(sortedRecipes);
+
+        applyPredicates();
 
     }
 
+    /**
+     * Checks if a recipe is favorited
+     * @param id the id of the recipe
+     * @return if the recipe is favorited
+     */
+    public boolean isRecipeFavorited(Long id){
+        return favorites.contains(id);
+    }
+
+    /**
+     * when the favorite toggle button is clicked
+     */
+    public void starToggle(){
+        if(lastSelectedRecipe==null) {
+            star.setSelected(!star.isSelected());
+            return;
+        }
+        if(star.isSelected()) {
+            addFavRecipeId(lastSelectedRecipe.getId());
+        }else removeFavRecipeId(lastSelectedRecipe.getId());
+        star.setText(star.isSelected() ? "★" : "☆");
+    }
+
+    /**
+     * Add a recipe to favorites
+     * @param id the id of the recipe to be added
+     */
+    public void addFavRecipeId(Long id) {
+        favorites.add(id);
+        try (PrintWriter writer =
+                     new PrintWriter(new FileWriter(STARREDFILE, true))) {
+
+            writer.println(id);
+
+        } catch (IOException e) {
+            System.out.println("6767");
+        }
+    }
+
+    /**
+     * Remove a recipe to favorites
+     * @param idToRemove the id of the recipe to be removed
+     */
+    public void removeFavRecipeId(Long idToRemove) {
+        favorites.remove(idToRemove);
+        if (!STARREDFILE.exists()) {
+            return;
+        }
+        List<String> remainingLines = new ArrayList<>();
+
+        try (Scanner scanner = new Scanner(STARREDFILE)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (!line.equals(idToRemove.toString())) {
+                    remainingLines.add(line);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("676767");
+            return;
+        }
+
+        try (PrintWriter writer =
+                     new PrintWriter(new FileWriter(STARREDFILE, false))) {
+
+            for (String line : remainingLines) {
+                writer.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("676");
+        }
+    }
     /**
      * Refreshes the ingredients from the current selected currentRecipe
      * @param currentRecipe current selected currentRecipe
@@ -203,6 +312,7 @@ public class RecipeOverviewCtrl implements Initializable {
         ingredientsPane.getChildren().addAll(ingredientListView);
         ingredientsPane.getChildren().add(addIngredientButton);
         ingredientsPane.getChildren().add(addToShop);
+        ingredientsPane.getChildren().add(star);
         if (!ingredientsData.isEmpty()) {
             int numIngredients = ingredientsData.size();
             for (int i = 0; i < numIngredients; i++) {
@@ -404,6 +514,12 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
     /**
+     * Apply the predicates to the sorted list
+     */
+    public void applyPredicates(){
+        filteredRecipes.setPredicate(searchFilter.and(favFilter));
+    }
+    /**
      * Updates the ingredients section
      *
      * @param recipes the selected recipe will be
@@ -441,12 +557,13 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void applySearchFilter(String text){
         if(text.isEmpty()){
-            filteredRecipes.setPredicate(recipes -> true);
+            searchFilter=recipes -> true;
+            applyPredicates();
             return;
         }
         text=text.toLowerCase();
         final String[] texts=text.split("\\s+");
-        filteredRecipes.setPredicate(recipes -> {
+        searchFilter = recipes -> {
             boolean finalcheck=true;
             for(int i1=0;i1<texts.length;i1++) {
                 boolean checkIfContains=false;
@@ -469,7 +586,8 @@ public class RecipeOverviewCtrl implements Initializable {
                 finalcheck=finalcheck&&checkIfContains;
             }
             return finalcheck;
-        });
+        };
+        applyPredicates();
     }
 
     /**
