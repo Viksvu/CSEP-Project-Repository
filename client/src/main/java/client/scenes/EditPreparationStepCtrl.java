@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class EditPreparationStepCtrl implements Initializable {
@@ -18,7 +20,7 @@ public class EditPreparationStepCtrl implements Initializable {
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
     private Recipes recipe;
-
+    private PreparationStep preparationStep;
     @FXML
     private TextField nameField;
 
@@ -57,15 +59,29 @@ public class EditPreparationStepCtrl implements Initializable {
         mainCtrl.showOverview();
     }
 
+    public int getPrepIndex(){
+        List<PreparationStep> temp=recipe.getPreparationSteps();
+        for(int i=0;i<temp.size();i++){
+        if(temp.get(i).equals(this.preparationStep)){
+            return i;
+        }
+        }
+        return -1;
+    }
     /**
      * Adds an ingredient to the recipe that was selected
      */
     public void add() {
         String name = nameField.getText();
         try {
+            int index=getPrepIndex();
+            if(index==-1) {
+                System.err.println("Prep step not in recipe");
+                return;
+            }
             PreparationStep preparationStep = new PreparationStep();
             preparationStep.setDescription(name);
-            server.addPreparationStepToRecipe(preparationStep, recipe);
+            server.editPreparationStepFromRecipe(preparationStep, recipe, index);
             mainCtrl.showOverview();
         } catch (Exception e) {
             errorLabel.setText(e.getMessage());
@@ -80,5 +96,13 @@ public class EditPreparationStepCtrl implements Initializable {
      */
     public void provideRecipe(Recipes recipe) {
         this.recipe = recipe;
+    }
+
+    /**
+     * A setter of preparation step
+     * @param preparationStep the preparation step
+     */
+    public void providePrepStep(PreparationStep preparationStep){
+
     }
 }

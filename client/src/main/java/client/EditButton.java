@@ -68,7 +68,7 @@ public class EditButton<K> extends Button {
             }
             if (this.option.equals(EditButtonOptions.EDIT_STEP)
                     && object instanceof PreparationStep step) {
-
+                ctrl.editPreparationStep(step);
                 ctrl.refresh();
             }
 

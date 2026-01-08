@@ -332,6 +332,14 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
     /**
+     * edits a certain preparation step.
+     * @param preparationStep
+     */
+    public void editPreparationStep(PreparationStep preparationStep){
+        mainCtrl.showEditPreparationStep(lastSelectedRecipe, preparationStep);
+    }
+
+    /**
      * Shows the text field for entering the new recipe name
      */
     public void cloneRecipe() {

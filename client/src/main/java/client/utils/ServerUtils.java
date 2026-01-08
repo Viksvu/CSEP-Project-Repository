@@ -231,6 +231,19 @@ public class ServerUtils {
                         PreparationStep.class);
     }
 
+    public PreparationStep editPreparationStepFromRecipe(PreparationStep step,
+                                                         Recipes recipe, int index){
+        Long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .queryParam("recipeId", recipeId)
+                .queryParam("prepId", index)
+                .path("api/prep-step/add")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(step, APPLICATION_JSON),
+                        PreparationStep.class);
+    }
+
     /**
      * Delete a preparationStep from a recipe
      * @param step PreparationStep to delete
