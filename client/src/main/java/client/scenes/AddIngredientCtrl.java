@@ -101,7 +101,6 @@ public class AddIngredientCtrl implements Initializable {
         errorLabel.setText("");
         errorLabel.setVisible(false);
     }
-
     /**
      * Cancel just clears the fields and
      * shows back the overview field

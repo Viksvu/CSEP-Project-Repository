@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.List;
@@ -39,6 +40,12 @@ public class OverviewListCtrl implements Initializable {
     @FXML
     private Button addIngredient;
 
+    @FXML
+    private Text overviewListLabel;
+
+    @FXML
+    private Button overviewListAddButton;
+
     /**
      * A constructor for overview controller
      *
@@ -53,6 +60,8 @@ public class OverviewListCtrl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        overviewListLabel.setText(resourceBundle.getString("overviewList.label"));
+        overviewListAddButton.setText(resourceBundle.getString("overviewList.add"));
         items.clear();
         overviewListView.setItems(items);
     }

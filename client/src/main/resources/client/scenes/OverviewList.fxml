@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.OverviewListCtrl">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.OverviewListCtrl">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <top>
             <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <items>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Overview" />
+                  <Text fx:id="overviewListLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="%overviewList.label" />
                   <Pane prefHeight="29.0" prefWidth="456.0" />
                 <Button mnemonicParsing="false" onAction="#goBack" text="Cancel" />
               </items>
@@ -27,7 +27,7 @@
             <HBox prefHeight="31.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
                   <Pane prefHeight="31.0" prefWidth="536.0" />
-                  <Button mnemonicParsing="false" onAction="#addToShoppingList" prefHeight="27.0" prefWidth="218.0" text="Add to shopping list" />
+                  <Button fx:id="overviewListAddButton" mnemonicParsing="false" onAction="#addToShoppingList" prefHeight="27.0" prefWidth="218.0" text="%overviewList.add" />
                </children>
             </HBox>
          </bottom>
