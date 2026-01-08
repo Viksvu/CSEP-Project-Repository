@@ -238,7 +238,7 @@ public class ServerUtils {
                 .target(SERVER)
                 .queryParam("recipeId", recipeId)
                 .queryParam("prepId", index)
-                .path("api/prep-step/add")
+                .path("api/prep-step/edit")
                 .request(APPLICATION_JSON)
                 .post(Entity.entity(step, APPLICATION_JSON),
                         PreparationStep.class);

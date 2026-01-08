@@ -50,6 +50,28 @@ public class PreparationStepController {
     }
 
     /**
+     * Adds a preparation step to any given recipe
+     * @param recipeId get id of recipe to add to
+     * @param preparationStep to add
+     * @return the preparation step if successful, else return
+     * a bad request.
+     */
+    @PostMapping("/edit")
+    public ResponseEntity<PreparationStep> editPreparationStep(
+            @RequestParam Long recipeId,
+            @RequestParam int index,
+            @RequestBody PreparationStep preparationStep) {
+        if (isEmptyOrNull(recipeId) ||  isEmptyOrNull(preparationStep)) {
+            return ResponseEntity.badRequest().build();
+        }
+        Recipes recipe = recipeService.getRecipeById(recipeId);
+        if (recipe == null) return ResponseEntity.notFound().build();
+        recipe.getPreparationSteps().set(index, preparationStep);
+        recipeService.addRecipe(recipe);
+        return ResponseEntity.ok(preparationStep);
+    }
+
+    /**
      * Deletes a recipe from the list of all recipes
      * @param recipeId id of recipe to delete step from
      * @param preparationStep to be deleted
