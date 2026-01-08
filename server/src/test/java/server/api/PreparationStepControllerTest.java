@@ -79,4 +79,38 @@ class PreparationStepControllerTest {
                 = preparationStepController.deletePreparationStep(-1L, ps1);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
+
+    @Test
+    void editPreparationStepSuccessfully() {
+        // given
+        PreparationStep updatedStep = new PreparationStep("Updated first step.");
+
+        // sanity check before edit
+        assertEquals(
+                "First step.",
+                preparationStepController
+                        .getPreparationSteps(r1.getId())
+                        .get(0)
+                        .getDescription()
+        );
+
+        // when
+        ResponseEntity<PreparationStep> response =
+                preparationStepController.editPreparationStep(
+                        r1.getId(),
+                        0,
+                        updatedStep
+                );
+
+        // then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(
+                "Updated first step.",
+                preparationStepController
+                        .getPreparationSteps(r1.getId())
+                        .get(0)
+                        .getDescription()
+        );
+    }
+
 }
