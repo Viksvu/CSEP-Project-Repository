@@ -19,6 +19,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.net.ConnectException;
 import java.util.List;
+import java.util.UUID;
 
 import commons.IngredientInRecipe;
 import commons.Ingredients;
@@ -232,12 +233,13 @@ public class ServerUtils {
     }
 
     public PreparationStep editPreparationStepFromRecipe(PreparationStep step,
-                                                         Recipes recipe, int index){
+                                                         Recipes recipe,
+                                                         int index){
         Long recipeId = recipe.getId();
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
                 .queryParam("recipeId", recipeId)
-                .queryParam("prepId", index)
+                .queryParam("index", index)
                 .path("api/prep-step/edit")
                 .request(APPLICATION_JSON)
                 .post(Entity.entity(step, APPLICATION_JSON),

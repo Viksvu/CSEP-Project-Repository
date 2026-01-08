@@ -29,8 +29,9 @@ public class EditPreparationStepCtrl implements Initializable {
 
     /**
      * Constructor
+     *
      * @param mainCtrl main controller
-     * @param server functions to interact to server
+     * @param server   functions to interact to server
      */
     @Inject
     public EditPreparationStepCtrl(MainCtrl mainCtrl, ServerUtils server) {
@@ -41,6 +42,7 @@ public class EditPreparationStepCtrl implements Initializable {
 
     /**
      * initialises all fields
+     *
      * @param url
      * @param resourceBundle
      */
@@ -59,12 +61,11 @@ public class EditPreparationStepCtrl implements Initializable {
         mainCtrl.showOverview();
     }
 
-    public int getPrepIndex(){
-        List<PreparationStep> temp=recipe.getPreparationSteps();
-        for(int i=0;i<temp.size();i++){
-        if(temp.get(i).equals(this.preparationStep)){
-            return i;
-        }
+    public int getIndex(){
+        for(int i=0;i<recipe.getPreparationSteps().size();i++){
+            if(recipe.getPreparationSteps().get(i).equals(preparationStep)){
+                return i;
+            }
         }
         return -1;
     }
@@ -74,12 +75,7 @@ public class EditPreparationStepCtrl implements Initializable {
     public void add() {
         String name = nameField.getText();
         try {
-            int index=getPrepIndex();
-            if(index==-1) {
-                System.err.println("Prep step not in recipe");
-                return;
-            }
-            PreparationStep preparationStep = new PreparationStep();
+            int index=getIndex();
             preparationStep.setDescription(name);
             server.editPreparationStepFromRecipe(preparationStep, recipe, index);
             mainCtrl.showOverview();
@@ -92,6 +88,7 @@ public class EditPreparationStepCtrl implements Initializable {
 
     /**
      * Provide the recipe to add the preparation step to
+     *
      * @param recipe recipe to add preparation step to
      */
     public void provideRecipe(Recipes recipe) {
@@ -100,9 +97,10 @@ public class EditPreparationStepCtrl implements Initializable {
 
     /**
      * A setter of preparation step
+     *
      * @param preparationStep the preparation step
      */
-    public void providePrepStep(PreparationStep preparationStep){
-
+    public void providePrepStep(PreparationStep preparationStep) {
+        this.preparationStep=preparationStep;
     }
 }

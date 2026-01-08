@@ -66,7 +66,7 @@ public class PreparationStepController {
         }
         Recipes recipe = recipeService.getRecipeById(recipeId);
         if (recipe == null) return ResponseEntity.notFound().build();
-        recipe.getPreparationSteps().set(index, preparationStep);
+        recipe.getPreparationSteps().get(index).setDescription(preparationStep.getDescription());
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(preparationStep);
     }

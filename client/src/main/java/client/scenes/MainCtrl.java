@@ -229,7 +229,7 @@ public class MainCtrl {
      */
     public void showEditPreparationStep(Recipes recipe, PreparationStep preparationStep) {
         if (recipe == null) return;
-        primaryStage.setTitle("Adding preparation to: " + recipe.toString());
+        primaryStage.setTitle("Editing preparation from: " + recipe.toString());
         primaryStage.setScene(editPreparationStep);
         editPreparationStepCtrl.provideRecipe(recipe);
         editPreparationStepCtrl.providePrepStep(preparationStep);

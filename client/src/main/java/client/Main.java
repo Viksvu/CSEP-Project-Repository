@@ -101,7 +101,7 @@ public class Main extends Application {
 		scenes.put("editPreparationStep",
 				FXML.load(AddPreparationStepCtrl.class,
 						"client", "scenes",
-						"EditPreparationStepCtrl.fxml"));
+						"EditPreparationStep.fxml"));
 
 
 		var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
