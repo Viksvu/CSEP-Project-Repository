@@ -230,6 +230,7 @@ public class RecipeOverviewCtrl implements Initializable {
                 // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
 
                 HBox buttonBox = new HBox(8); // 8 px space
+                buttonBox.setPickOnBounds(false);
                 buttonBox.getChildren().addAll(editButton1, editButton2);
                 ingredientsPane.getChildren().add(buttonBox);
             }
@@ -271,6 +272,7 @@ public class RecipeOverviewCtrl implements Initializable {
                 // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
 
                 HBox buttonBox = new HBox(8); // 8 px space
+                buttonBox.setPickOnBounds(false);
                 buttonBox.getChildren().addAll(editButton1, editButton2);
                 preparationStepsPane.getChildren().add(buttonBox);
             }

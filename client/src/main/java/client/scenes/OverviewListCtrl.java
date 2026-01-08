@@ -181,6 +181,7 @@ public class OverviewListCtrl implements Initializable {
                                 EditButtonOptions.EDIT_INGREDIENT
                         );
                 HBox buttonBox = new HBox(8); // 8 px space
+                buttonBox.setPickOnBounds(false);
                 buttonBox.getChildren().addAll(deleteButton, editButton);
                 overviewListPane.getChildren().add(buttonBox);
 

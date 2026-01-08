@@ -60,6 +60,9 @@ public class MainCtrl {
     private AddPreparationStepCtrl addPreparationStepCtrl;
     private Scene addPreparationStep;
 
+    private EditPreparationStepCtrl editPreparationStepCtrl;
+    private Scene editPreparationStep;
+
     // This observable list stores the names of all the recipes.
     // <String> might want to be replaced by <Recipe> in
     // the future while also then looking at all its usages.
@@ -141,7 +144,13 @@ public class MainCtrl {
         this.editIngredient =
                 new Scene(editIngredientPair.getValue());
 
-
+        Pair<?, Parent> editPreparationStepPair =
+                sceneMap.get("editPreparationStep");
+        this.editPreparationStepCtrl =
+                (EditPreparationStepCtrl) editPreparationStepPair.getKey();
+        this.editPreparationStep =
+                new Scene(editPreparationStepPair.getValue());
+        
         this.recipeObservableList = FXCollections.observableArrayList();
         this.addIngredientCtrl.provideShoppingList(this.shoppingList);
 
