@@ -24,9 +24,12 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import commons.IngredientInRecipe;
+import javafx.application.Platform;
+
 
 
 
@@ -165,6 +168,24 @@ public class MainCtrl {
         primaryStage.setTitle("Recipes: Removing Recipe");
         primaryStage.setScene(remove);
         remove.setOnKeyPressed(e -> removeCtrl.keyPressed(e));
+    }
+
+    /**
+     * To remove the recipe from favorites
+     * @param removed the id of the removed recipe
+     */
+    public void onRecipeRemoved(Long removed){
+        if(overviewCtrl.isRecipeFavorited(removed)) {
+            overviewCtrl.removeFavRecipeId(removed);
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Favorite removed");
+                alert.setHeaderText(null);
+                alert.setContentText("A favorited recipe was deleted " +
+                        "and removed from your favorites.");
+                alert.showAndWait();
+            });
+        }
     }
 
     /**
