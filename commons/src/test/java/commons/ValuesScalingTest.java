@@ -50,4 +50,15 @@ class ValuesScalingTest {
         String scaled = ValuesScaling.getScaledAmount(ingredient, 1.00);
         assertEquals("3 piece", scaled);
     }
+    @Test
+    void testNonScalableUnitPiece() {
+        IngredientInRecipe ingredient = new IngredientInRecipe();
+        ingredient.setQuantity(3);
+        ingredient.setUnit(Unit.PIECE);
+        ingredient.setIngredient(new Ingredients("Eggs"));
+
+        String scaled = ValuesScaling.getScaledAmount(ingredient, 2.0);
+        assertEquals("6 piece", scaled);
+    }
+
 }
