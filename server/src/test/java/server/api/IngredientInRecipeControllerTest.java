@@ -96,13 +96,13 @@ class IngredientInRecipeControllerTest {
         Ingredients newIngredient = new Ingredients("Onion", 0,
                 0.0, 0.0,0.0);
 
-        IngredientInRecipe existing = new IngredientInRecipe();
+        IngredientInRecipe existing = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         existing.setIngredient(i);
         existing.setQuantity(1);
         existing.setUnit(Unit.GRAM);
         r1.getIngredients().add(existing);
         existing.setId(1L);
-        IngredientInRecipe edited = new IngredientInRecipe();
+        IngredientInRecipe edited = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         edited.setId(1L);
         edited.setIngredient(newIngredient);
         edited.setQuantity(5);

@@ -12,7 +12,7 @@ class FatTest {
     void calculate() {
         Ingredients avocado = new Ingredients("Avocado", 15,
                 2.0, 9.0, 160.0);
-        IngredientInRecipe iir = new IngredientInRecipe();
+        IngredientInRecipe iir = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         iir.setIngredient(avocado);
         iir.setQuantity(150);
         iir.setUnit(Unit.GRAM);
@@ -28,12 +28,12 @@ class FatTest {
         Ingredients oil = new Ingredients("Oil", 0,
                 0.0, 0.0, 884.0);
 
-        IngredientInRecipe nutsInRecipe = new IngredientInRecipe();
+        IngredientInRecipe nutsInRecipe = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         nutsInRecipe.setIngredient(nuts);
         nutsInRecipe.setQuantity(100);
         nutsInRecipe.setUnit(Unit.GRAM);
 
-        IngredientInRecipe oilInRecipe = new IngredientInRecipe();
+        IngredientInRecipe oilInRecipe = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         oilInRecipe.setIngredient(oil);
         oilInRecipe.setQuantity(30);
         oilInRecipe.setUnit(Unit.GRAM);

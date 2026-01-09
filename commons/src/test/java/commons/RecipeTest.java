@@ -35,7 +35,7 @@ class RecipeTest {
         List<IngredientInRecipe> ingredients = new ArrayList<>();
         List<PreparationStep> steps = new ArrayList<>();
 
-        IngredientInRecipe ingr = new IngredientInRecipe();
+        IngredientInRecipe ingr = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         ingredients.add(ingr);
 
         PreparationStep step = new PreparationStep("Mix ingredients");
@@ -52,7 +52,7 @@ class RecipeTest {
     @Test
     void testAddIngredient() {
         Recipes r = new Recipes();
-        IngredientInRecipe ingr = new IngredientInRecipe();
+        IngredientInRecipe ingr = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
 
         r.addIngredient(ingr);
 
@@ -63,7 +63,7 @@ class RecipeTest {
     @Test
     void testRemoveIngredient() {
         Recipes r = new Recipes();
-        IngredientInRecipe ingr = new IngredientInRecipe();
+        IngredientInRecipe ingr = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
 
         r.addIngredient(ingr);
         r.removeIngredient(ingr);
@@ -108,7 +108,7 @@ class RecipeTest {
         assertEquals(r1, r2);
 
         // Add ingredients to both
-        IngredientInRecipe ingr = new IngredientInRecipe();
+        IngredientInRecipe ingr = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         r1.addIngredient(ingr);
         r2.addIngredient(ingr);
 

@@ -19,6 +19,19 @@ public class KCAL {
         return (int) Math.round((grams / 100.0) * kcalPer100g);
 
     }
+    /**
+     *
+     * calculates total kcal in recipe
+     *
+     * @param recipe
+     * @return
+     */
+    public int calculateTotal(Recipes recipe) {
+        return  recipe.getIngredients()
+                .stream()
+                .mapToInt(this::calculator)
+                .sum();
+    }
 
 
     /**

@@ -40,8 +40,8 @@ class ShoppingListTest {
     @Test
     void addRecipeIngredientInShoppingListToOverview() {
         Recipes recipe = new Recipes();
-        IngredientInRecipe iir1 = new IngredientInRecipe();
-        IngredientInRecipe iir2 = new IngredientInRecipe();
+        IngredientInRecipe iir1 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
+        IngredientInRecipe iir2 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         recipe.addIngredient(iir1);
         recipe.addIngredient(iir2);
         ShoppingList sl = new ShoppingList();
@@ -70,9 +70,9 @@ class ShoppingListTest {
     @Test
     void addOverviewToShoppingList() {
         Recipes recipe = new Recipes();
-        IngredientInRecipe iir1 = new IngredientInRecipe();
-        IngredientInRecipe iir2 = new IngredientInRecipe();
-        IngredientInRecipe iir3 = new IngredientInRecipe();
+        IngredientInRecipe iir1 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
+        IngredientInRecipe iir2 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
+        IngredientInRecipe iir3 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         recipe.addIngredient(iir1);
         recipe.addIngredient(iir2);
         recipe.addIngredient(iir3);
@@ -85,7 +85,7 @@ class ShoppingListTest {
     @Test
     void resetShoppingList() {
         Recipes recipe = new Recipes();
-        IngredientInRecipe iir1 = new IngredientInRecipe();
+        IngredientInRecipe iir1 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         recipe.addIngredient(iir1);
         ShoppingList sl = new ShoppingList();
         sl.addRecipeIngredientsToOverview(recipe);
@@ -99,7 +99,7 @@ class ShoppingListTest {
     @Test
     void printableShoppingList() {
         Recipes recipe = new Recipes("bologness");
-        IngredientInRecipe iir1 = new IngredientInRecipe();
+        IngredientInRecipe iir1 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         Ingredients i = new Ingredients("pepper", 50, 5.0, 10.0, 200.0);
         iir1.setIngredient(i);
         iir1.setRecipes(recipe);

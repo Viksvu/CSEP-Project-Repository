@@ -116,7 +116,7 @@ public class AddIngredientCtrl implements Initializable {
             Unit unit = unitBox.getSelectionModel().getSelectedItem();
             Ingredients ingredient = new Ingredients(name, 0, 0.0, 0.0, 0.0);
             server.addIngredientToDatabase(ingredient);
-            IngredientInRecipe ingredientInRecipe = new IngredientInRecipe();
+            IngredientInRecipe ingredientInRecipe = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
             ingredientInRecipe.setIngredient(ingredient);
             ingredientInRecipe.setRecipes(recipe);
             ingredientInRecipe.setUnit(unit);

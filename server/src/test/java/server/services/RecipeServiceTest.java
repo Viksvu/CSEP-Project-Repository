@@ -26,7 +26,7 @@ public class RecipeServiceTest {
     @Test
     void testSavingRecipe() {
         Recipes recipe = new Recipes("Cake");
-        IngredientInRecipe ingredient1 = new IngredientInRecipe();
+        IngredientInRecipe ingredient1 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         Ingredients ing1 = new Ingredients("Flour", 10, 0.0, 76.0, 364.0);
         ingredient1.setIngredient(ing1);
         recipe.addIngredient(ingredient1);

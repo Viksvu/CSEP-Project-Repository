@@ -13,7 +13,7 @@ class ProteinTest {
     void calculate_withGrams() {
         Ingredients chicken = new Ingredients("Chicken", 31,
                 3.6, 0.0, 165.0);
-        IngredientInRecipe iir = new IngredientInRecipe();
+        IngredientInRecipe iir = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         iir.setIngredient(chicken);
         iir.setQuantity(200);
         iir.setUnit(Unit.GRAM);
@@ -26,7 +26,7 @@ class ProteinTest {
     void calculate_withKilograms() {
         Ingredients beef = new Ingredients("Beef", 26,
                 0.0, 0.0, 250.0);
-        IngredientInRecipe iir = new IngredientInRecipe();
+        IngredientInRecipe iir = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         iir.setIngredient(beef);
         iir.setQuantity(1);
         iir.setUnit(Unit.KILOGRAM);
@@ -41,7 +41,7 @@ class ProteinTest {
     void calculate_withPiece() {
         Ingredients egg = new Ingredients("Egg", 13,
                 1.1, 0.0, 155.0);
-        IngredientInRecipe iir = new IngredientInRecipe();
+        IngredientInRecipe iir = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         iir.setIngredient(egg);
         iir.setQuantity(3);
         iir.setUnit(Unit.PIECE);
@@ -57,12 +57,12 @@ class ProteinTest {
         Ingredients rice = new Ingredients("Rice", 7,
                 0.5, 28.0, 130.0);
 
-        IngredientInRecipe fishInRecipe = new IngredientInRecipe();
+        IngredientInRecipe fishInRecipe = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         fishInRecipe.setIngredient(fish);
         fishInRecipe.setQuantity(300);
         fishInRecipe.setUnit(Unit.GRAM);
 
-        IngredientInRecipe riceInRecipe = new IngredientInRecipe();
+        IngredientInRecipe riceInRecipe = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         riceInRecipe.setIngredient(rice);
         riceInRecipe.setQuantity(200);
         riceInRecipe.setUnit(Unit.GRAM);

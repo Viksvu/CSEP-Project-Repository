@@ -12,7 +12,7 @@ class CarbsTest {
     void calculate_withGrams() {
         Ingredients pasta = new Ingredients("Pasta", 25,
                 5.0, 75.0, 141.0);
-        IngredientInRecipe iir = new IngredientInRecipe();
+        IngredientInRecipe iir = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         iir.setIngredient(pasta);
         iir.setQuantity(200);
         iir.setUnit(Unit.GRAM);
@@ -28,12 +28,12 @@ class CarbsTest {
         Ingredients butter = new Ingredients("Butter", 0,
                 0.1, 0.0, 717.0);
 
-        IngredientInRecipe breadInRecipe = new IngredientInRecipe();
+        IngredientInRecipe breadInRecipe = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         breadInRecipe.setIngredient(bread);
         breadInRecipe.setQuantity(100);
         breadInRecipe.setUnit(Unit.GRAM);
 
-        IngredientInRecipe butterInRecipe = new IngredientInRecipe();
+        IngredientInRecipe butterInRecipe = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
         butterInRecipe.setIngredient(butter);
         butterInRecipe.setQuantity(50);
         butterInRecipe.setUnit(Unit.GRAM);
