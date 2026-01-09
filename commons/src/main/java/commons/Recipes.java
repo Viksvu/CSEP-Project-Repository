@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Recipes {
+public class Recipes implements Printable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
@@ -180,5 +180,44 @@ public class Recipes {
     @Override
     public String toString() {
         return name;
+    }
+
+    /**
+     * Creates a list of all things to be printed so that
+     * Printer.print() can interpret it and create a .md
+     * file based on that content.
+     * @return the list of file content
+     */
+    @Override
+    public List<Object> indexing(){
+        List<Object> list = new ArrayList<>();
+        list.add(ReadmeOptions.H1);
+        list.add(name);
+        if (ingredients != null && !ingredients.isEmpty()) {
+            list.add(ReadmeOptions.BULLET);
+            for (IngredientInRecipe ingredient : this.ingredients) {
+                list.add(ingredient.toString());
+            }
+            list.add(ReadmeOptions.END_BULLET);
+        }
+        else {
+            list.add(ReadmeOptions.TEXT);
+            list.add("No Ingredients provided");
+        }
+        list.add(ReadmeOptions.TEXT);
+        list.add("Preparation Steps:");
+        if (preparationSteps != null && !preparationSteps.isEmpty()) {
+            list.add(ReadmeOptions.NUMBERING);
+            for (PreparationStep preparationStep : this.preparationSteps) {
+                list.add(preparationStep.toString());
+            }
+            list.add(ReadmeOptions.END_NUMBERING);
+        }
+        else {
+            list.add(ReadmeOptions.TEXT);
+            list.add("No Preparation Steps provided");
+        }
+        return list;
+
     }
 }
