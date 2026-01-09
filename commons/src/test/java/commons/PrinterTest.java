@@ -29,7 +29,7 @@ class PrinterTest {
             }
             assertEquals(
                     "# Pizza\n" +
-                            "- Cheese (10 kilograms)\n" +
+                            "- Cheese (10 kilogram)\n" +
                     "Preparation Steps:\n" +
                     "1. Melt the cheese", text.trim());
         } catch (Exception e) {
