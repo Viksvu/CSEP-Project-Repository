@@ -20,19 +20,6 @@ public class KCAL {
 
     }
 
-    /**
-     *
-     * calculates total kcal in recipe
-     *
-     * @param recipe
-     * @return
-     */
-    public int calculateTotal(Recipes recipe) {
-        return  recipe.getIngredients()
-                .stream()
-                .mapToInt(this::calculator)
-                .sum();
-    }
 
     /**
      *
