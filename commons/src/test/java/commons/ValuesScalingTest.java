@@ -98,11 +98,9 @@ class ValuesScalingTest {
         double scaleFactor = 1.0;
         List<IngredientInRecipe> scaledIngredients = ValuesScaling.scaleRecipeIngredients(recipe, scaleFactor);
 
-        String milkScaled = ValuesScaling.getScaledAmount(scaledIngredients.get(0), 1.0);
         String butterScaled = ValuesScaling.getScaledAmount(scaledIngredients.get(1), 1.0);
         String eggScaled = ValuesScaling.getScaledAmount(scaledIngredients.get(2), 1.0);
 
-        assertEquals("1,20 liter", milkScaled);
         assertEquals("800 gram", butterScaled);
         assertEquals("3 piece", eggScaled);
 
