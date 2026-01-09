@@ -1,18 +1,23 @@
-# CSEP Template Project
+# CSEP Project Team 10
+## How to run the project
+### 1. Setup environment
+* Setup intellij with maven installed
+* Clone this repository to your local system
+* Download a (and unzip!) an [OpenJFX SDK](https://openjfx.io).
+### 2. Start the server
+* First start the server with the following maven command
+* ```mvn -pl server -am spring-boot:run```
+### 3. Start the client
+* Then start the client with the following java options
+* ```--module-path=C:\path\to\your\downloaded\javafx-sdk-25.0.1\lib --add-modules=javafx.controls,javafx.fxml,javafx.web```
+* And the following maven command
+* ```mvn -pl client -am javafx:run```
 
-This repository contains the template for the CSE project. Please extend this README.md with sufficient instructions that will illustrate for your TA and the course staff how they can run your project.
+## Basic feature overview
+TODO: Have an overview about how you implement the basic requirements
 
-To run the template project from the command line, you either need to have [Maven](https://maven.apache.org/install.html) installed on your local system (`mvn`) or you need to use the Maven wrapper (`mvnw`). You can then execute
+## Project extensions done
+TODO: In readme: put all extensions that you did
 
-	mvn -pl server -am spring-boot:run
-
-to run the server and
-
-	mvn -pl client -am javafx:run
-
-to run the client. Please note that the server needs to be running, before you can start the client.
-
-Get the template project running from the command line first to ensure you have the required tools on your sytem.
-
-Once it is working, you can try importing the project into your favorite IDE. Especially the client is a bit more tricky to set up there due to the dependency on a JavaFX SDK.
-To help you get started, you can find additional instructions in the corresponding README of the client project.
+## Things done extra (outside basic requirements and extensions)
+TODO: In readme: state what you did extra for the project
