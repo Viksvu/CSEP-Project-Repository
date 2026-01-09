@@ -93,30 +93,30 @@ class IngredientInRecipeControllerTest {
 
     @Test
     void editIngredientInRecipe_success() {
-        Ingredients newIngredient = new Ingredients("Onion", 0,
-                0.0, 0.0,0.0);
+        Ingredients newIngredient = new Ingredients("Onion", 0, 0.0, 0.0, 0.0);
 
-        IngredientInRecipe existing = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        existing.setIngredient(i);
+        Ingredients i = new Ingredients("Garlic", 0, 0.0, 0.0, 0.0);
+        IngredientInRecipe existing = new IngredientInRecipe(i);
         existing.setQuantity(1);
         existing.setUnit(Unit.GRAM);
-        r1.getIngredients().add(existing);
         existing.setId(1L);
-        IngredientInRecipe edited = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
+
+        r1.getIngredients().add(existing);
+
+        IngredientInRecipe edited = new IngredientInRecipe(newIngredient);
         edited.setId(1L);
-        edited.setIngredient(newIngredient);
         edited.setQuantity(5);
         edited.setUnit(Unit.TABLE_SPOON);
-        ResponseEntity<IngredientInRecipe> response =
-                ic.edit(r1.getId(), edited);
-        assertEquals(OK, response.getStatusCode());
-        IngredientInRecipe updated =
-                r1.getIngredients().get(0);
 
+        ResponseEntity<IngredientInRecipe> response = ic.edit(r1.getId(), edited);
+        assertEquals(OK, response.getStatusCode());
+
+        IngredientInRecipe updated = r1.getIngredients().get(0);
         assertEquals(newIngredient, updated.getIngredient());
         assertEquals(5, updated.getQuantity());
         assertEquals(Unit.TABLE_SPOON, updated.getUnit());
     }
+
 
     @Test
     void deleteInvalidRecipe() {

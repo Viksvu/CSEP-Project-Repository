@@ -102,8 +102,8 @@ class ValuesScalingTest {
         String butterScaled = ValuesScaling.getScaledAmount(scaledIngredients.get(1), 1.0);
         String eggScaled = ValuesScaling.getScaledAmount(scaledIngredients.get(2), 1.0);
 
-        assertEquals("1.20 liter", milkScaled);
-        assertEquals("0.80 kilogram", butterScaled);
+        assertEquals("1,20 liter", milkScaled);
+        assertEquals("800 gram", butterScaled);
         assertEquals("3 piece", eggScaled);
 
         assertEquals(1200, scaledIngredients.get(0).getQuantity());

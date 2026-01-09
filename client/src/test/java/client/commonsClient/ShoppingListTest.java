@@ -1,15 +1,12 @@
 package client.commonsClient;
 
-import commons.IngredientInRecipe;
-import commons.Ingredients;
-import commons.Recipes;
+import commons.*;
 import commons.Unit;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShoppingListTest {
-
 
     @Test
     void testConstructor() {
@@ -40,10 +37,20 @@ class ShoppingListTest {
     @Test
     void addRecipeIngredientInShoppingListToOverview() {
         Recipes recipe = new Recipes();
-        IngredientInRecipe iir1 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        IngredientInRecipe iir2 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        recipe.addIngredient(iir1);
-        recipe.addIngredient(iir2);
+        Ingredients i1 = new Ingredients("Flour");
+        Ingredients i2 = new Ingredients("Sugar");
+
+        IngredientInRecipe ing1 = new IngredientInRecipe(i1);
+        ing1.setQuantity(100);
+        ing1.setUnit(Unit.GRAM);
+
+        IngredientInRecipe ing2 = new IngredientInRecipe(i2);
+        ing2.setQuantity(50);
+        ing2.setUnit(Unit.GRAM);
+
+        recipe.addIngredient(ing1);
+        recipe.addIngredient(ing2);
+
         ShoppingList sl = new ShoppingList();
         sl.addRecipeIngredientsToOverview(recipe);
         assertEquals(2, sl.getBufferList().size());
@@ -70,58 +77,73 @@ class ShoppingListTest {
     @Test
     void addOverviewToShoppingList() {
         Recipes recipe = new Recipes();
-        IngredientInRecipe iir1 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        IngredientInRecipe iir2 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        IngredientInRecipe iir3 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        recipe.addIngredient(iir1);
-        recipe.addIngredient(iir2);
-        recipe.addIngredient(iir3);
+        Ingredients i1 = new Ingredients("Flour");
+        Ingredients i2 = new Ingredients("Sugar");
+        Ingredients i3 = new Ingredients("Milk");
+
+        IngredientInRecipe ing1 = new IngredientInRecipe(i1);
+        ing1.setQuantity(100);
+        ing1.setUnit(Unit.GRAM);
+
+        IngredientInRecipe ing2 = new IngredientInRecipe(i2);
+        ing2.setQuantity(50);
+        ing2.setUnit(Unit.GRAM);
+
+        IngredientInRecipe ing3 = new IngredientInRecipe(i3);
+        ing3.setQuantity(200);
+        ing3.setUnit(Unit.MILLILITER);
+
+        recipe.addIngredient(ing1);
+        recipe.addIngredient(ing2);
+        recipe.addIngredient(ing3);
+
         ShoppingList sl = new ShoppingList();
         sl.addRecipeIngredientsToOverview(recipe);
         sl.addOverviewToShoppingList();
-        assertEquals(3,sl.getShoppingList().size());
+        assertEquals(3, sl.getShoppingList().size());
     }
 
     @Test
     void resetShoppingList() {
         Recipes recipe = new Recipes();
-        IngredientInRecipe iir1 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        recipe.addIngredient(iir1);
+        Ingredients i1 = new Ingredients("Flour");
+
+        IngredientInRecipe ing1 = new IngredientInRecipe(i1);
+        ing1.setQuantity(100);
+        ing1.setUnit(Unit.GRAM);
+        recipe.addIngredient(ing1);
+
         ShoppingList sl = new ShoppingList();
         sl.addRecipeIngredientsToOverview(recipe);
         sl.addOverviewToShoppingList();
-        assertEquals(1,sl.getShoppingList().size());
-        sl.resetShoppingList();
-        assertEquals(0,sl.getShoppingList().size());
+        assertEquals(1, sl.getShoppingList().size());
 
+        sl.resetShoppingList();
+        assertEquals(0, sl.getShoppingList().size());
     }
 
     @Test
     void printableShoppingList() {
-        Recipes recipe = new Recipes("bologness");
-        IngredientInRecipe iir1 = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
+        Recipes recipe = new Recipes("Bolognese");
         Ingredients i = new Ingredients("pepper", 50, 5.0, 10.0, 200.0);
-        iir1.setIngredient(i);
+
+        IngredientInRecipe iir1 = new IngredientInRecipe(i);
         iir1.setRecipes(recipe);
         iir1.setQuantity(2);
         iir1.setUnit(Unit.TABLE_SPOON);
-        iir1.getIngredient().setName("Matt");
+
         recipe.addIngredient(iir1);
+
         ShoppingList sl = new ShoppingList();
         sl.addRecipeIngredientsToOverview(recipe);
         sl.addOverviewToShoppingList();
-        assertEquals("2table spoon/s Matt bologness\n", sl.printableShoppingList());
 
-    }
-
-    @Test
-    void printableOverviewList() {
+        assertEquals("2table spoon/s pepper Bolognese\n", sl.printableShoppingList());
     }
 
     @Test
     void testEqualsSameList() {
         ShoppingList sl = new ShoppingList();
-        assertNotNull(sl);
         assertEquals(sl, sl);
     }
 
@@ -135,7 +157,7 @@ class ShoppingListTest {
     @Test
     void testNotEqualsDifferentClass() {
         ShoppingList sl1 = new ShoppingList();
-        String s2= "yayaa";
+        String s2 = "yayaa";
         assertNotEquals(sl1, s2);
     }
 

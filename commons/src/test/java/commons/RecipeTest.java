@@ -35,7 +35,10 @@ class RecipeTest {
         List<IngredientInRecipe> ingredients = new ArrayList<>();
         List<PreparationStep> steps = new ArrayList<>();
 
-        IngredientInRecipe ingr = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
+        Ingredients sugar = new Ingredients("Sugar");
+        IngredientInRecipe ingr = new IngredientInRecipe(sugar);
+        ingr.setQuantity(100);
+        ingr.setUnit(Unit.GRAM);
         ingredients.add(ingr);
 
         PreparationStep step = new PreparationStep("Mix ingredients");
@@ -52,7 +55,10 @@ class RecipeTest {
     @Test
     void testAddIngredient() {
         Recipes r = new Recipes();
-        IngredientInRecipe ingr = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
+        Ingredients flour = new Ingredients("Flour");
+        IngredientInRecipe ingr = new IngredientInRecipe(flour);
+        ingr.setQuantity(200);
+        ingr.setUnit(Unit.GRAM);
 
         r.addIngredient(ingr);
 
@@ -63,7 +69,10 @@ class RecipeTest {
     @Test
     void testRemoveIngredient() {
         Recipes r = new Recipes();
-        IngredientInRecipe ingr = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
+        Ingredients butter = new Ingredients("Butter");
+        IngredientInRecipe ingr = new IngredientInRecipe(butter);
+        ingr.setQuantity(50);
+        ingr.setUnit(Unit.GRAM);
 
         r.addIngredient(ingr);
         r.removeIngredient(ingr);
@@ -107,10 +116,17 @@ class RecipeTest {
 
         assertEquals(r1, r2);
 
-        // Add ingredients to both
-        IngredientInRecipe ingr = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        r1.addIngredient(ingr);
-        r2.addIngredient(ingr);
+        Ingredients carrot = new Ingredients("Carrot");
+        IngredientInRecipe ingr1 = new IngredientInRecipe(carrot);
+        ingr1.setQuantity(100);
+        ingr1.setUnit(Unit.GRAM);
+
+        IngredientInRecipe ingr2 = new IngredientInRecipe(carrot);
+        ingr2.setQuantity(100);
+        ingr2.setUnit(Unit.GRAM);
+
+        r1.addIngredient(ingr1);
+        r2.addIngredient(ingr2);
 
         assertEquals(r1, r2);
 

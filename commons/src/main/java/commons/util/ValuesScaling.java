@@ -89,7 +89,8 @@ public class ValuesScaling {
      * @param scaleFactor
      * @return
      */
-    public static List<IngredientInRecipe> scaleRecipeIngredients(Recipes recipe, double scaleFactor) {
+    public static List<IngredientInRecipe> scaleRecipeIngredients(Recipes recipe,
+                                                                  double scaleFactor) {
         return recipe.getIngredients()
                 .stream()
                 .map(ingredient -> {

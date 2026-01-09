@@ -17,8 +17,7 @@ class KCALTest {
     @Test
     void calculator_Gram() {
         Ingredients sugar = new Ingredients("Sugar", 387, 0.0, 100.0, 387.0);
-        IngredientInRecipe ingredientUse = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        ingredientUse.setIngredient(sugar);
+        IngredientInRecipe ingredientUse = new IngredientInRecipe(sugar);
         ingredientUse.setQuantity(200);
         ingredientUse.setUnit(Unit.GRAM);
 
@@ -29,8 +28,7 @@ class KCALTest {
     @Test
     void calculator_Gram2() {
         Ingredients tomato = new Ingredients("Tomato", 19, 0.9, 3.9, 19.0);
-        IngredientInRecipe ingredientUse = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        ingredientUse.setIngredient(tomato);
+        IngredientInRecipe ingredientUse = new IngredientInRecipe(tomato);
         ingredientUse.setQuantity(300);
         ingredientUse.setUnit(Unit.GRAM);
 
@@ -41,8 +39,7 @@ class KCALTest {
     @Test
     void calculator_Gram3() {
         Ingredients cheese = new Ingredients("Cheese", 400, 25.0, 1.3, 400.0);
-        IngredientInRecipe ingredientUse = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        ingredientUse.setIngredient(cheese);
+        IngredientInRecipe ingredientUse = new IngredientInRecipe(cheese);
         ingredientUse.setQuantity(500);
         ingredientUse.setUnit(Unit.GRAM);
 
@@ -53,8 +50,7 @@ class KCALTest {
     @Test
     void calculator_Gram4() {
         Ingredients pasta = new Ingredients("Pasta", 141, 5.0, 75.0, 141.0);
-        IngredientInRecipe ingredientUse = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        ingredientUse.setIngredient(pasta);
+        IngredientInRecipe ingredientUse = new IngredientInRecipe(pasta);
         ingredientUse.setQuantity(125);
         ingredientUse.setUnit(Unit.GRAM);
 
@@ -65,9 +61,8 @@ class KCALTest {
     @Test
     void calculator_Cup() {
         Ingredients flour = new Ingredients("Flour", 364, 10.0, 76.0, 364.0);
-        IngredientInRecipe ingredientUse = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
+        IngredientInRecipe ingredientUse = new IngredientInRecipe(flour);
         ingredientUse.setUnit(Unit.CUP);
-        ingredientUse.setIngredient(flour);
         ingredientUse.setQuantity(2);
 
         int kcal = calc.calculator(ingredientUse);
@@ -77,8 +72,7 @@ class KCALTest {
     @Test
     void calculator_Teaspoon() {
         Ingredients salt = new Ingredients("Salt", 0, 0.0, 0.0, 0.0);
-        IngredientInRecipe ingredientUse = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        ingredientUse.setIngredient(salt);
+        IngredientInRecipe ingredientUse = new IngredientInRecipe(salt);
         ingredientUse.setQuantity(3);
         ingredientUse.setUnit(Unit.TEASPOON);
 
@@ -89,8 +83,7 @@ class KCALTest {
     @Test
     void calculator_Milliliter() {
         Ingredients water = new Ingredients("Water", 0, 0.0, 0.0, 0.0);
-        IngredientInRecipe ingredientUse = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        ingredientUse.setIngredient(water);
+        IngredientInRecipe ingredientUse = new IngredientInRecipe(water);
         ingredientUse.setQuantity(500);
         ingredientUse.setUnit(Unit.MILLILITER);
 
@@ -101,45 +94,11 @@ class KCALTest {
 
     void calculator_Milliliter2() {
         Ingredients oil = new Ingredients("Oil", 880, 0.0, 0.0, 100.0);
-        IngredientInRecipe ingredientUse = new IngredientInRecipe(ingredient.getIngredient(), newQuantity, ingredient.getUnit());
-        ingredientUse.setIngredient(oil);
+        IngredientInRecipe ingredientUse = new IngredientInRecipe(oil);
         ingredientUse.setQuantity(100);
 
         int kcal = calc.calculator(ingredientUse);
         assertEquals(880, kcal);
     }
-//        @Test
-//        void calculatorTotal () {
-//            Ingredients sugar = new Ingredients("Sugar", 387, "White sugar", Unit.GRAM);
-//            Ingredients butter = new Ingredients("Butter", 717, "Unsalted butter", Unit.GRAM);
-//
-//            IngredientInRecipe sugerUse = new IngredientInRecipe();
-//            sugerUse.setTempIngredient(sugar);
-//            sugerUse.setQuantity(100);
-//            sugerUse.setUnit(Unit.GRAM);
-//
-//            IngredientInRecipe butterUse = new IngredientInRecipe();
-//            sugerUse.setTempIngredient(butter);
-//            sugerUse.setQuantity(50);
-//            sugerUse.setUnit(Unit.GRAM);
-//
-//            Recipes recipe = new Recipes();
-//            recipe.setIngredients(List.of(sugerUse, butterUse));
-//
-//            int total = calc.calculateTotal(recipe);
-//            assertEquals(746, total);
-//        }
 
-//        @Test
-//        void convertUnknown () {
-//            Ingredients ing = new Ingredients("Test", 100, "test", null);
-//
-//            IngredientInRecipe ingredientUse = new IngredientInRecipe();
-//            ingredientUse.setTempIngredient(ing);
-//            ingredientUse.setQuantity(100);
-//            ingredientUse.setUnit(null);
-//
-//            assertThrows(IllegalArgumentException.class, () -> calc.calculator(ingredientUse));
-//        }
-//    }
 }
