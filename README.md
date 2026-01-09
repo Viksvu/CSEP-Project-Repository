@@ -3,7 +3,7 @@
 ### 1. Setup environment
 * Setup intellij with maven installed
 * Clone this repository to your local system
-* Download a JavaFX SDK
+* Download a (and unzip!) an [OpenJFX SDK](https://openjfx.io).
 ### 2. Start the server
 * First start the server with the following maven command
 * ```mvn -pl server -am spring-boot:run```
