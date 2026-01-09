@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Recipes implements Printable{
+public class Recipes implements Printable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
@@ -189,7 +189,7 @@ public class Recipes implements Printable{
      * @return the list of file content
      */
     @Override
-    public List<Object> indexing() {
+    public List<Object> indexing(){
         List<Object> list = new ArrayList<>();
         list.add(ReadmeOptions.H1);
         list.add(name);
@@ -218,5 +218,6 @@ public class Recipes implements Printable{
             list.add("No Preparation Steps provided");
         }
         return list;
+
     }
 }
