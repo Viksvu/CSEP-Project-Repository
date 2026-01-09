@@ -38,8 +38,7 @@ public class RecipeOverviewCtrl implements Initializable {
     ObservableList<IngredientInRecipe> ingredientsData;
     ObservableList<PreparationStep> preparationStepsData;
     private static final File STARREDFILE =
-            new File("C:\\Users\\Boyan\\Documents\\Foodpal" +
-                    "\\csep-team-10\\starred_recipes.txt");
+            new File("starred_recipes.txt");
     // Button someButton;
     ArrayList<Button> ingredientButtons;
 
@@ -143,6 +142,17 @@ public class RecipeOverviewCtrl implements Initializable {
         cloneRecipeNameTF.toBack();
         cloneRecipeButton.toBack();
         Scanner scanner= null;
+        if (!STARREDFILE.exists()) {
+            try {
+                File parent = STARREDFILE.getParentFile();
+                if (parent != null && !parent.exists()) {
+                    parent.mkdirs();
+                }
+                STARREDFILE.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to create starred file", e);
+            }
+        }
         try {
             scanner = new Scanner(STARREDFILE);
         } catch (FileNotFoundException e) {
