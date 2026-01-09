@@ -161,6 +161,7 @@ public class RecipeOverviewCtrl implements Initializable {
         while(scanner.hasNextLong()){
             favorites.add(scanner.nextLong());
         }
+        addStarsToRecipeListView();
     }
 
     /**
@@ -186,6 +187,25 @@ public class RecipeOverviewCtrl implements Initializable {
         if (isCloning) {
             cloneRecipeNameTF.setText(lastSelectedRecipe.getName() + " copy");
         }
+    }
+    /**
+     * Shows a star next to favorited recipes in the recipe list view
+     */
+    private void addStarsToRecipeListView() {
+        recipeListView.setCellFactory(lv -> new ListCell<>() {
+            private final Label starLabel=new Label("★");
+            @Override
+            protected void updateItem(Recipes recipe, boolean empty) {
+                super.updateItem(recipe, empty);
+                if (empty || recipe == null){
+                    setText(null);
+                    setGraphic(null);
+                }else{
+                    setText(recipe.getName());
+                    if(favorites.contains(recipe.getId())) setGraphic(starLabel);
+                }
+            }
+        });
     }
 
     /**
@@ -230,6 +250,7 @@ public class RecipeOverviewCtrl implements Initializable {
             addFavRecipeId(lastSelectedRecipe.getId());
         }else removeFavRecipeId(lastSelectedRecipe.getId());
         star.setText(star.isSelected() ? "★" : "☆");
+        recipeListView.refresh();
     }
 
     /**
