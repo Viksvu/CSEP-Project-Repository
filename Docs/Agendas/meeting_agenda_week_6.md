@@ -25,7 +25,7 @@
 5. Is the connection between Backend/Frontend going smoothly? (2 min)
 6. You guys have free time during christmas break? (1 min)
 7. What is our next focus? since required features should be done by now from the planning. (Auto-Sync, Nutrition value, Searchbar, Shopping list, Live language switch) (5 min)
-8. Decide on work distribution for after newyear week 9. (5 min)
+8. Decide on work distribution for, after newyear, week 7. (5 min)
 9. Is the GitLab planning clear to everyone? (commits/branches/merge requests). (2 min)
 10. Decide on our next milestone. (3 min)
 
