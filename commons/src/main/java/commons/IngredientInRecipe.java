@@ -102,7 +102,12 @@ public class IngredientInRecipe {
     public String toString() {
         double scaleFactor = 1.0; // we need to change this one if we want dynamic scaling
         String scaledAmount = ValuesScaling.getScaledAmount(this, scaleFactor);
-        return getIngredient().getName() + " (" + scaledAmount + ")";
+        if (getQuantity() == 1) {
+        return getIngredient().getName()
+                + " (" + scaledAmount + ")";
+    }
+        return getIngredient().getName()
+                + " (" + scaledAmount + ")";
     }
 
 
