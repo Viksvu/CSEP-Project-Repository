@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -70,6 +71,15 @@ public class ShoppingListCtrl implements Initializable {
     }
 
     /**
+     * Edit the selected ingredient
+     *
+     * @param ingredient the selected ingredient
+     */
+    public void editIngredient(IngredientInShoppingList ingredient) {
+        mainCtrl.showEditIngredient(ingredient);
+    }
+
+    /**
      * adds an ingredient from input.
      */
     public void addIngredient() {
@@ -112,7 +122,7 @@ public class ShoppingListCtrl implements Initializable {
         if (!items.isEmpty()) {
             int numIngredients = items.size();
             for (int i = 0; i < numIngredients; i++) {
-                EditButtonShoppingList editButton =
+                EditButtonShoppingList deleteButton =
                         new EditButtonShoppingList(
                                 items.get(i),
                                 "delete",
@@ -121,7 +131,19 @@ public class ShoppingListCtrl implements Initializable {
                                 this, shoppingList,
                                 EditButtonOptions.REMOVE_INGREDIENT
                         );
-                ingredientsPane.getChildren().add(editButton);
+                EditButtonShoppingList editButton =
+                        new EditButtonShoppingList(
+                                items.get(i),
+                                "edit",
+                                i,
+                                shoppingListView,
+                                this, shoppingList,
+                                EditButtonOptions.EDIT_INGREDIENT
+                        );
+                HBox buttonBox = new HBox(8); // 8 px space
+                buttonBox.setPickOnBounds(false);
+                buttonBox.getChildren().addAll(deleteButton, editButton);
+                ingredientsPane.getChildren().add(buttonBox);
             }
         }
     }

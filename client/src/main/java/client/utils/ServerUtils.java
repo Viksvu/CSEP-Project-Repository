@@ -163,6 +163,23 @@ public class ServerUtils {
                         IngredientInRecipe.class);
     }
 
+
+    /**
+     * Adds an ingredient as to a recipe
+     * @param ingredient
+     * @return
+     */
+    public IngredientInRecipe
+    editIngredientInRecipe(IngredientInRecipe ingredient, Recipes recipe) {
+        Long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).queryParam("id", recipeId)
+                .path("api/recipeingredient/edit")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(ingredient, APPLICATION_JSON),
+                        IngredientInRecipe.class);
+    }
+
     /**
      * Deletes an ingredient from a recipe
      * @param ingredient
@@ -209,6 +226,27 @@ public class ServerUtils {
                 .target(SERVER)
                 .queryParam("recipeId", recipeId)
                 .path("api/prep-step/add")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(step, APPLICATION_JSON),
+                        PreparationStep.class);
+    }
+
+    /**
+     * edit a preparationStep in a recipe
+     * @param step PreparationStep to edit
+     * @param recipe Recipe in which it will be edited
+     * @param index the index of the prep-step in recipe.
+     * @return The PreparationStep if successful
+     */
+    public PreparationStep editPreparationStepFromRecipe(PreparationStep step,
+                                                         Recipes recipe,
+                                                         int index){
+        Long recipeId = recipe.getId();
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .queryParam("recipeId", recipeId)
+                .queryParam("index", index)
+                .path("api/prep-step/edit")
                 .request(APPLICATION_JSON)
                 .post(Entity.entity(step, APPLICATION_JSON),
                         PreparationStep.class);

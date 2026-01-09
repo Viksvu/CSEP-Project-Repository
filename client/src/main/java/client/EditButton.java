@@ -61,6 +61,17 @@ public class EditButton<K> extends Button {
                 sleep();
                 ctrl.refresh();
             }
+            if (this.option.equals(EditButtonOptions.EDIT_INGREDIENT)
+                    && object instanceof IngredientInRecipe ingredient) {
+                ctrl.editIngredient(ingredient, recipe);
+                ctrl.refresh();
+            }
+            if (this.option.equals(EditButtonOptions.EDIT_STEP)
+                    && object instanceof PreparationStep step) {
+                ctrl.editPreparationStep(step);
+                ctrl.refresh();
+            }
+
         });
     }
 
