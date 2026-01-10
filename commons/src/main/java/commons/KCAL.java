@@ -19,7 +19,6 @@ public class KCAL {
         return (int) Math.round((grams / 100.0) * kcalPer100g);
 
     }
-
     /**
      *
      * calculates total kcal in recipe
@@ -33,6 +32,7 @@ public class KCAL {
                 .mapToInt(this::calculator)
                 .sum();
     }
+
 
     /**
      *

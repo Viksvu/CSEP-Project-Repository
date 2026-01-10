@@ -5,12 +5,9 @@ import commons.Ingredients;
 import commons.Recipes;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import server.database.IngredientInRecipeRepository;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -40,14 +37,12 @@ public class IngredientsInRecipeServiceTest {
         Ingredients ingredient1 = new Ingredients("Eggs", 150,
                 0.0, 1.0, 13.0);
 
-        IngredientInRecipe iir1 = new IngredientInRecipe();
-        iir1.setIngredient(ingredient1);
+        IngredientInRecipe iir1 = new IngredientInRecipe(ingredient1);
         iir1.setRecipes(recipe1);
         iir1.setQuantity(2);
         iir1.setUnit(commons.Unit.PIECE);
 
-        IngredientInRecipe iir2 = new IngredientInRecipe();
-        iir2.setIngredient(ingredient1);
+        IngredientInRecipe iir2 = new IngredientInRecipe(ingredient1);
         iir2.setRecipes(recipe2);
         iir2.setQuantity(3);
         iir2.setUnit(commons.Unit.PIECE);

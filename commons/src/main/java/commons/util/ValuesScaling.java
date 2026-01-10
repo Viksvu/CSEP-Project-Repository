@@ -1,13 +1,17 @@
 package commons.util;
 
 import commons.IngredientInRecipe;
+import commons.Recipes;
 import commons.Unit;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ValuesScaling {
 
     /**
      *
-     *This scales the amount from 1000g to 1kg and vice versa
+     * This scales the amount from 1000g to 1kg and vice versa
      *
      * @param ingredient
      * @param scaleFactor
@@ -24,22 +28,22 @@ public class ValuesScaling {
 
         double scaledQuantity = quantity * scaleFactor;
 
-        if (unit == Unit.GRAM && scaledQuantity >= 1000){
+        if (unit == Unit.GRAM && scaledQuantity >= 1000) {
             return format(scaledQuantity / 1000) + " " + Unit.KILOGRAM.toString()
                     .replaceAll("/s", "");
         }
 
-        if (unit == Unit.MILLILITER && scaledQuantity >= 1000){
+        if (unit == Unit.MILLILITER && scaledQuantity >= 1000) {
             return format(scaledQuantity / 1000) + " " + Unit.LITER.toString()
                     .replaceAll("/s", "");
         }
 
-        if (unit == Unit.KILOGRAM && scaledQuantity < 1){
+        if (unit == Unit.KILOGRAM && scaledQuantity < 1) {
             return format(scaledQuantity * 1000) + " " + Unit.GRAM.toString()
                     .replaceAll("/s", "");
         }
 
-        if (unit == Unit.LITER && scaledQuantity < 1){
+        if (unit == Unit.LITER && scaledQuantity < 1) {
             return format(scaledQuantity * 1000) + " " + Unit.MILLILITER.toString()
                     .replaceAll("/s", "");
         }
@@ -76,4 +80,26 @@ public class ValuesScaling {
             return String.format("%.2f", value);
         }
     }
+
+    /**
+     *
+     * scales the ingredients in a recipe by a given factor
+     *
+     * @param recipe
+     * @param scaleFactor
+     * @return
+     */
+    public static List<IngredientInRecipe> scaleRecipeIngredients(Recipes recipe,
+                                                                  double scaleFactor) {
+        return recipe.getIngredients()
+                .stream()
+                .map(ingredient -> {
+                    IngredientInRecipe cloned = ingredient.cloneIngredientInRecipe();
+
+                    cloned.setQuantity((int) Math.round(cloned.getQuantity() * scaleFactor));
+                    return cloned;
+                })
+                .collect(Collectors.toList());
+    }
 }
+
