@@ -7,6 +7,8 @@ import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
@@ -23,6 +25,14 @@ public class AddRecipeCtrl implements Initializable {
     @FXML
     private TextField nameField;
 
+    @FXML
+    private Button addRecipeOkButton;
+
+    @FXML
+    private Button addRecipeCancelButton;
+
+    @FXML
+    private Label addRecipeLabel;
 
     /**
      * Constructor
@@ -38,7 +48,9 @@ public class AddRecipeCtrl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //In case we have initialisation steps in the future
+        addRecipeOkButton.setText(resourceBundle.getString("addRecipe.ok"));
+        addRecipeCancelButton.setText(resourceBundle.getString("addRecipe.cancel"));
+        addRecipeLabel.setText(resourceBundle.getString("addRecipe.label"));
     }
 
     /**
@@ -60,7 +72,8 @@ public class AddRecipeCtrl implements Initializable {
     public void add() {
         String recipeName = nameField.getText();
         try {
-            ArrayList<Recipes> currRecipes = (ArrayList<Recipes>) server.getRecipes();
+            ArrayList<Recipes> currRecipes =
+                    (ArrayList<Recipes>) server.getRecipes();
             for (int i=0;i<currRecipes.size();i++){
                 if(currRecipes.get(i).getName().equals(recipeName)){
                     return;

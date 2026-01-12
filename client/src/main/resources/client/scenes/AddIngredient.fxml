@@ -7,20 +7,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="254.0" prefWidth="362.0" style="-fx-background-color: lightgreen;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddIngredientCtrl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="254.0" prefWidth="362.0" style="-fx-background-color: lightgreen;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddIngredientCtrl">
    <children>
-      <Label layoutX="33.0" layoutY="77.0" text="Ingredient Name:">
+      <Label fx:id="addIngredientLabel" layoutX="33.0" layoutY="77.0" text="%addIngredient.nameLabel">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font>
       </Label>
       <TextField fx:id="nameField" layoutX="151.0" layoutY="74.0" />
-      <Label layoutX="21.0" layoutY="164.0" text="Quantity:" />
+      <Label fx:id="addIngredientQuantityLabel" layoutX="21.0" layoutY="164.0" text="%addIngredient.quantity" />
       <TextField fx:id="quantityField" layoutX="75.0" layoutY="159.0" prefHeight="26.0" prefWidth="57.0" />
-      <Label layoutX="156.0" layoutY="164.0" text="Unit:" />
+      <Label fx:id="addIngredientUnitLabel" layoutX="156.0" layoutY="164.0" text="%addIngredient.unit" />
       <ChoiceBox fx:id="unitBox" layoutX="190.0" layoutY="159.0" prefWidth="150.0" />
-      <Button layoutX="20.0" layoutY="215.0" mnemonicParsing="false" onAction="#cancel" style="-fx-background-color: lightpink;" text="Cancel" />
-      <Button layoutX="289.0" layoutY="215.0" mnemonicParsing="false" onAction="#add" style="-fx-background-color: lightblue;" text="OK" />
+      <Button fx:id="addIngredientCancelButton" layoutX="20.0" layoutY="215.0" mnemonicParsing="false" onAction="#cancel" style="-fx-background-color: lightpink;" text="%addIngredient.cancel" />
+      <Button fx:id="addIngredientOkButton" layoutX="289.0" layoutY="215.0" mnemonicParsing="false" onAction="#add" style="-fx-background-color: lightblue;" text="%addIngredient.ok" />
       <Label fx:id="errorLabel" layoutX="88.0" layoutY="24.0" prefHeight="26.0" prefWidth="195.0">
          <font>
             <Font name="Comic Sans MS" size="12.0" />

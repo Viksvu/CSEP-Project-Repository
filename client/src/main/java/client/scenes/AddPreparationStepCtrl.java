@@ -6,6 +6,7 @@ import commons.PreparationStep;
 import commons.Recipes;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -24,6 +25,15 @@ public class AddPreparationStepCtrl implements Initializable {
 
     @FXML
     private Label errorLabel;
+
+    @FXML
+    private Label addPrepStepLable;
+
+    @FXML
+    private Button addPrepStepCancel;
+
+    @FXML
+    private Button addPrepStepOk;
 
     /**
      * Constructor
@@ -44,6 +54,9 @@ public class AddPreparationStepCtrl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        addPrepStepLable.setText(resourceBundle.getString("addPrepStep.label"));
+        addPrepStepCancel.setText(resourceBundle.getString("addPrepStep.cancel"));
+        addPrepStepOk.setText(resourceBundle.getString("addPrepStep.ok"));
         errorLabel.setText("");
         errorLabel.setVisible(false);
     }

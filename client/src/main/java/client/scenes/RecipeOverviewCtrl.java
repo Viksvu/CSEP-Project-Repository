@@ -92,6 +92,18 @@ public class RecipeOverviewCtrl implements Initializable {
     @FXML
     private Button cloneRecipeButton;
 
+    @FXML
+    private Button shoppingListButon;
+
+    @FXML
+    private Button cloneButton;
+
+    @FXML
+    private Button refreshButton;
+
+    @FXML
+    private Label mainTitle;
+
     private boolean isCloning;
 
     private FilteredList<Recipes> filteredRecipes;
@@ -128,6 +140,14 @@ public class RecipeOverviewCtrl implements Initializable {
         //recipeListView.setItems(recipeObservableList);
         //recipeListView.setEditable(true);
         favorites=new HashSet<>();
+        mainTitle.setText(resourceBundle.getString("title"));
+        shoppingListButon.setText(resourceBundle.getString("shoppingList"));
+        addToShop.setText(resourceBundle.getString("shop"));
+        refreshButton.setText(resourceBundle.getString("refresh"));
+        cloneButton.setText(resourceBundle.getString("clone"));
+        cloneRecipeButton.setText(resourceBundle.getString("clone.ok"));
+        cloneRecipeNameLabel.setText(resourceBundle.getString("clone.newRecipeName"));
+
         searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 clearSearch();
@@ -222,7 +242,9 @@ public class RecipeOverviewCtrl implements Initializable {
      * Refreshes the recipes on the client
      */
     private void refreshRecipes() {
+
         recipeData.setAll(server.getRecipes());
+
         recipeListView.setItems(sortedRecipes);
 
         applyPredicates();

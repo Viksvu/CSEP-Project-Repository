@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
@@ -31,7 +32,20 @@ public class ShoppingListCtrl implements Initializable {
     @FXML
     private Label totalItemsLabel;
 
+    @FXML
+    private Label shoppingListLabel;
 
+    @FXML
+    private Button shoppingListBackButton;
+
+    @FXML
+    private Button shoppingListAddRecipeButton;
+
+    @FXML
+    private Button shoppingListAddIngredients;
+
+    @FXML
+    private Button shoppingListClearButton;
 
     @FXML
     private AnchorPane ingredientsPane;
@@ -52,6 +66,11 @@ public class ShoppingListCtrl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         shoppingListView.setItems(items);
+        shoppingListLabel.setText(resourceBundle.getString("shoppingList.label"));
+        shoppingListAddIngredients.setText(resourceBundle.getString("shoppingList.addIngredient"));
+        shoppingListAddRecipeButton.setText(resourceBundle.getString("shoppingList.addRecipe"));
+        shoppingListBackButton.setText(resourceBundle.getString("shoppingList.back"));
+        shoppingListClearButton.setText(resourceBundle.getString("shoppingList.clear"));
     }
 
     /**

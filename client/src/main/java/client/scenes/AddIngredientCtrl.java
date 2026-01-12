@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -40,6 +41,21 @@ public class AddIngredientCtrl implements Initializable {
     @FXML
     private Label errorLabel;
 
+    @FXML
+    private Label addIngredientLabel;
+
+    @FXML
+    private Label addIngredientQuantityLabel;
+
+    @FXML
+    private Label addIngredientUnitLabel;
+
+    @FXML
+    private Button addIngredientCancelButton;
+
+    @FXML
+    private Button addIngredientOkButton;
+
     /**
      * Constructor
      *
@@ -61,11 +77,15 @@ public class AddIngredientCtrl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        addIngredientLabel.setText(resourceBundle.getString("addIngredient.nameLabel"));
+        addIngredientQuantityLabel.setText(resourceBundle.getString("addIngredient.quantity"));
+        addIngredientUnitLabel.setText(resourceBundle.getString("addIngredient.unit"));
+        addIngredientCancelButton.setText(resourceBundle.getString("addIngredient.cancel"));
+        addIngredientOkButton.setText(resourceBundle.getString("addIngredient.ok"));
         unitBox.setItems(FXCollections.observableArrayList(Unit.values()));
         errorLabel.setText("");
         errorLabel.setVisible(false);
     }
-
     /**
      * Cancel just clears the fields and
      * shows back the overview field

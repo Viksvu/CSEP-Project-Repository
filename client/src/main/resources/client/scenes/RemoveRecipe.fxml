@@ -6,20 +6,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="202.0" prefWidth="271.0" style="-fx-background-color: lightpink;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.RemoveRecipeCtrl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="202.0" prefWidth="271.0" style="-fx-background-color: lightpink;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.RemoveRecipeCtrl">
    <children>
-      <Label layoutX="14.0" layoutY="20.0" prefHeight="27.0" prefWidth="282.0" text="Which recipe do you want to remove?">
+      <Label fx:id="removeRecipeLabel" layoutX="14.0" layoutY="20.0" prefHeight="27.0" prefWidth="282.0" text="%removeRecipe.label">
          <font>
             <Font name="Comic Sans MS" size="14.0" />
          </font>
       </Label>
       <ChoiceBox fx:id="choiceBox" layoutX="44.0" layoutY="88.0" prefHeight="26.0" prefWidth="183.0" />
-      <Button layoutX="201.0" layoutY="163.0" mnemonicParsing="false" onAction="#confirmRemoveRecipe" text="Remove">
+      <Button fx:id="removeRecipeRemove" layoutX="201.0" layoutY="163.0" mnemonicParsing="false" onAction="#confirmRemoveRecipe" text="%removeRecipe.remove">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="14.0" layoutY="163.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Button fx:id="removeRecipeCancel" layoutX="14.0" layoutY="163.0" mnemonicParsing="false" onAction="#cancel" text="%removeRecipe.cancel" />
    </children>
 </AnchorPane>
