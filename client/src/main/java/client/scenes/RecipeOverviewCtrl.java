@@ -207,6 +207,7 @@ public class RecipeOverviewCtrl implements Initializable {
         if (isCloning) {
             cloneRecipeNameTF.setText(lastSelectedRecipe.getName() + " copy");
         }
+        recipeListView.refresh();
     }
     /**
      * Shows a star next to favorited recipes in the recipe list view
@@ -527,7 +528,12 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void okClone() {
         if (cloneRecipeNameTF.getText().isEmpty()) {
-            // Show the error scene here
+            return;
+        }
+        for(int i=0;i<recipeData.size();i++){
+            if(recipeData.get(i).getName().equals(cloneRecipeNameTF.getText())){
+                return;
+            }
         }
         server.cloneRecipe(lastSelectedRecipe, cloneRecipeNameTF.getText());
         refreshRecipes();
@@ -571,6 +577,7 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void applyPredicates(){
         filteredRecipes.setPredicate(searchFilter.and(favFilter));
+        recipeListView.refresh();
     }
     /**
      * Updates the ingredients section
