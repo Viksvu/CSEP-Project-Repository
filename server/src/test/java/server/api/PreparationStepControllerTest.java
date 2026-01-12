@@ -115,7 +115,6 @@ class PreparationStepControllerTest {
     }
 
     @Test
-    @Transactional
     public void addNullRecipePreparationStep() throws Exception {
         String name = "VeryCoolPreparationStep";
 
@@ -123,6 +122,153 @@ class PreparationStepControllerTest {
 
         this.mvc.perform(post("/api/prep-step/add")
                         .queryParam("recipeId", "-1")
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    public void deletePreparationStep() throws Exception {
+        String name = "VeryCoolPreparationStep";
+
+        PreparationStep ps = new PreparationStep(name);
+
+        this.recipe.addPreparationStep(ps);
+        this.recipe = this.recipeService.addRecipe(this.recipe);
+
+        this.mvc.perform(post("/api/prep-step/delete")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        this.recipe = this.recipeService.getRecipeById(this.recipe.getId());
+        List<PreparationStep> list = this.recipe.getPreparationSteps();
+        assertTrue(list.isEmpty());
+    }
+
+    @Test
+    public void deleteEmptyPreparationStep() throws Exception {
+        String name = "";
+
+        PreparationStep ps = new PreparationStep(name);
+
+        this.mvc.perform(post("/api/prep-step/delete")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deleteNullRecipePreparationStep() throws Exception {
+        String name = "VeryCoolPreparationStep";
+
+        PreparationStep ps = new PreparationStep(name);
+
+        this.mvc.perform(post("/api/prep-step/delete")
+                        .queryParam("recipeId", "-1")
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    public void editPreparationStep() throws Exception {
+        String name = "InitName";
+        String newName = "NewName";
+
+        PreparationStep ps = new PreparationStep(name);
+        this.recipe.addPreparationStep(ps);
+        this.recipe = this.recipeService.addRecipe(this.recipe);
+
+        ps.setDescription(newName);
+
+        this.mvc.perform(post("/api/prep-step/edit")
+                .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                .queryParam("index", "0")
+                .content(this.objectMapper.writeValueAsString(ps))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        this.recipe = this.recipeService.getRecipeById(this.recipe.getId());
+        List<PreparationStep> list = this.recipe.getPreparationSteps();
+        assertEquals(newName, list.getFirst().getDescription());
+    }
+
+    @Test
+    public void editEmptyPreparationStep() throws Exception {
+        String name = "InitName";
+        String newName = "";
+
+        PreparationStep ps = new PreparationStep(name);
+        this.recipe.addPreparationStep(ps);
+        this.recipe = this.recipeService.addRecipe(this.recipe);
+
+        ps.setDescription(newName);
+
+        this.mvc.perform(post("/api/prep-step/edit")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                        .queryParam("index", "0")
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void editNullRecipePreparationStep() throws Exception {
+        String name = "InitName";
+        String newName = "NewName";
+
+        PreparationStep ps = new PreparationStep(name);
+        this.recipe.addPreparationStep(ps);
+        this.recipe = this.recipeService.addRecipe(this.recipe);
+
+        ps.setDescription(newName);
+
+        this.mvc.perform(post("/api/prep-step/edit")
+                        .queryParam("recipeId", "-1")
+                        .queryParam("index", "0")
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void editPreparationStepNegativeIndex() throws Exception {
+        String name = "InitName";
+        String newName = "NewName";
+
+        PreparationStep ps = new PreparationStep(name);
+        this.recipe.addPreparationStep(ps);
+        this.recipe = this.recipeService.addRecipe(this.recipe);
+
+        ps.setDescription(newName);
+
+        this.mvc.perform(post("/api/prep-step/edit")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                        .queryParam("index", "-1")
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void editPreparationStepNotExistingIndex() throws Exception {
+        String name = "InitName";
+        String newName = "NewName";
+
+        PreparationStep ps = new PreparationStep(name);
+        this.recipe.addPreparationStep(ps);
+        this.recipe = this.recipeService.addRecipe(this.recipe);
+
+        ps.setDescription(newName);
+
+        this.mvc.perform(post("/api/prep-step/edit")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                        .queryParam("index", "1")
                         .content(this.objectMapper.writeValueAsString(ps))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
