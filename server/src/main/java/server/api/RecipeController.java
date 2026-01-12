@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -49,9 +48,6 @@ public class RecipeController {
      */
     @PostMapping("/add")
     public ResponseEntity<Recipes> add(@RequestBody Recipes recipe) {
-        if (recipe == null)
-            return ResponseEntity.badRequest().build();
-
         String name = recipe.getName();
         if (!isValidName(name))
             return ResponseEntity.badRequest().build();
@@ -67,10 +63,7 @@ public class RecipeController {
      */
     @PostMapping("/delete")
     public ResponseEntity<Recipes> remove(@RequestBody Recipes recipe) {
-        if (recipe == null)
-            return ResponseEntity.badRequest().build();
-
-        if (recipe.getId() == 0) {
+        if (recipe.getId() == null) {
             return ResponseEntity.badRequest().build();
         }
         recipeService.deleteRecipe(recipe.getId());
@@ -87,8 +80,6 @@ public class RecipeController {
     @PostMapping("/rename")
     public ResponseEntity<String> rename
     (@RequestParam Long id, @RequestBody String name) {
-        if (!isValidName(name))
-            return ResponseEntity.badRequest().build();
         Recipes recipe;
         try {
             recipe = recipeService.getRecipeById(id);
@@ -102,15 +93,14 @@ public class RecipeController {
 
     /**
      * Clones a given recipe
-     * @param recipe
-     * @return
+     * @param recipe recipe to clone
+     * @param newName name of cloned recipe
+     * @return the cloned recipe
      */
     @PostMapping("/clone")
     public ResponseEntity<Recipes> cloneRecipe(@RequestBody Recipes recipe,
                                                @RequestParam String newName)
     {
-        if (recipe == null)
-            return ResponseEntity.badRequest().build();
         if (!getAll().contains(recipe))
             return ResponseEntity.badRequest().build();
         Recipes retRecipe = recipe.cloneRecipes(newName);
@@ -127,12 +117,5 @@ public class RecipeController {
      */
     private boolean isValidName(String name) {
         return name != null && !name.isEmpty();
-    }
-
-    static class RecipeComparator implements Comparator<Recipes> {
-        @Override
-        public int compare(Recipes o1, Recipes o2) {
-            return Long.compare(o1.getId(), o2.getId());
-        }
     }
 }

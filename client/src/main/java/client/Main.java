@@ -21,13 +21,17 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.HashMap;
+import java.util.Map;
 
 import client.scenes.*;
 import client.utils.ServerUtils;
 import com.google.inject.Injector;
 
 import javafx.application.Application;
+import javafx.scene.Parent;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 public class Main extends Application {
 
@@ -60,46 +64,56 @@ public class Main extends Application {
 		ResourceBundle bundle = ResourceBundle
 				.getBundle("languageBundles.messages", locale);
 
-		var overview = FXML.load
-                (RecipeOverviewCtrl.class, bundle,
-                        "client", "scenes", "RecipeOverview.fxml");
-		var add = FXML.load
-                (AddRecipeCtrl.class, bundle,
-                        "client", "scenes", "AddRecipe.fxml");
-        var remove = FXML.load
-                (RemoveRecipeCtrl.class, bundle,
-                        "client", "scenes", "RemoveRecipe.fxml");
-        var addIngredient = FXML.load
-                (AddIngredientCtrl.class, bundle,
-                        "client", "scenes", "AddIngredient.fxml");
-        var shoppingList = FXML.load
-                (ShoppingListCtrl.class, bundle,
-                        "client", "scenes", "ShoppingList.fxml");
-        var addRecipeIngredients = FXML.load
-                (AddRecipeIngredientsCtrl.class, bundle,
-                        "client", "scenes",
-                        "AddRecipeIngredientsOverview.fxml");
-		var overviewList= FXML.load(OverviewListCtrl.class, bundle,
-				"client", "scenes", "OverviewList.fxml");
-		//var editIngredient= FXML.load(EditIngredientCtrl.class,
-		//"client", "scenes", "EditIngredientCtrl.fxml");
+		Map<String, Pair<?, Parent>> scenes = new HashMap<>();
 
-		var addRecipePreparationStep = FXML.load
-				(AddPreparationStepCtrl.class, bundle,
+		scenes.put("overview",
+				FXML.load(RecipeOverviewCtrl.class,
+						"client", "scenes", "RecipeOverview.fxml"));
+
+		scenes.put("addRecipe",
+				FXML.load(AddRecipeCtrl.class,
+						"client", "scenes", "AddRecipe.fxml"));
+
+		scenes.put("removeRecipe",
+				FXML.load(RemoveRecipeCtrl.class,
+						"client", "scenes", "RemoveRecipe.fxml"));
+
+		scenes.put("addIngredient",
+				FXML.load(AddIngredientCtrl.class,
+						"client", "scenes", "AddIngredient.fxml"));
+
+		scenes.put("shoppingList",
+				FXML.load(ShoppingListCtrl.class,
+						"client", "scenes", "ShoppingList.fxml"));
+
+		scenes.put("addRecipeIngredients",
+				FXML.load(AddRecipeIngredientsCtrl.class,
 						"client", "scenes",
-						"AddPreparationStep.fxml");
+						"AddRecipeIngredientsOverview.fxml"));
+
+		scenes.put("overviewList",
+				FXML.load(OverviewListCtrl.class,
+						"client", "scenes", "OverviewList.fxml"));
+
+		scenes.put("editIngredient",
+				FXML.load(EditIngredientCtrl.class,
+						"client", "scenes", "EditIngredient.fxml"));
+
+		scenes.put("addPreparationStep",
+				FXML.load(AddPreparationStepCtrl.class,
+						"client", "scenes",
+						"AddPreparationStep.fxml"));
+		scenes.put("editPreparationStep",
+				FXML.load(AddPreparationStepCtrl.class,
+						"client", "scenes",
+						"EditPreparationStep.fxml"));
+
 
 		var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+
 		mainCtrl.initialize(
                 primaryStage,
-                overview,
-                add,
-                remove,
-                addIngredient,
-                shoppingList,
-                addRecipeIngredients,
-				overviewList
-				,addRecipePreparationStep
+                scenes
 		);
 	}
 }

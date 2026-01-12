@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.util.List;
@@ -188,7 +189,12 @@ public class OverviewListCtrl implements Initializable {
                                 this, shoppingList,
                                 EditButtonOptions.EDIT_INGREDIENT
                         );
-                overviewListPane.getChildren().add(deleteButton);
+                HBox buttonBox = new HBox(8); // 8 px space
+                buttonBox.setPickOnBounds(false);
+                buttonBox.getChildren().addAll(deleteButton, editButton);
+                overviewListPane.getChildren().add(buttonBox);
+
+
             }
         }
     }

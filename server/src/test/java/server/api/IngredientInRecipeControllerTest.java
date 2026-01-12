@@ -3,6 +3,7 @@ package server.api;
 import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.Recipes;
+import commons.Unit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -91,8 +92,36 @@ class IngredientInRecipeControllerTest {
     }
 
     @Test
+    void editIngredientInRecipe_success() {
+        Ingredients newIngredient = new Ingredients("Onion", 0, 0.0, 0.0, 0.0);
+
+        Ingredients i = new Ingredients("Garlic", 0, 0.0, 0.0, 0.0);
+        IngredientInRecipe existing = new IngredientInRecipe(i);
+        existing.setQuantity(1);
+        existing.setUnit(Unit.GRAM);
+        existing.setId(1L);
+
+        r1.getIngredients().add(existing);
+
+        IngredientInRecipe edited = new IngredientInRecipe(newIngredient);
+        edited.setId(1L);
+        edited.setQuantity(5);
+        edited.setUnit(Unit.TABLE_SPOON);
+
+        ResponseEntity<IngredientInRecipe> response = ic.edit(r1.getId(), edited);
+        assertEquals(OK, response.getStatusCode());
+
+        IngredientInRecipe updated = r1.getIngredients().get(0);
+        assertEquals(newIngredient, updated.getIngredient());
+        assertEquals(5, updated.getQuantity());
+        assertEquals(Unit.TABLE_SPOON, updated.getUnit());
+    }
+
+
+    @Test
     void deleteInvalidRecipe() {
         ResponseEntity<IngredientInRecipe> response = ic.delete( -2L, iR);
         assertEquals(BAD_REQUEST, response.getStatusCode());
     }
+
 }

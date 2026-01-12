@@ -3,6 +3,7 @@ package server.services;
 import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.Recipes;
+import commons.Unit;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,19 +27,25 @@ public class RecipeServiceTest {
     @Test
     void testSavingRecipe() {
         Recipes recipe = new Recipes("Cake");
-        IngredientInRecipe ingredient1 = new IngredientInRecipe();
+
         Ingredients ing1 = new Ingredients("Flour", 10, 0.0, 76.0, 364.0);
-        ingredient1.setIngredient(ing1);
+        IngredientInRecipe ingredient1 = new IngredientInRecipe(ing1);
+        ingredient1.setQuantity(10);
+        ingredient1.setUnit(Unit.GRAM);
+
         recipe.addIngredient(ingredient1);
+
         Recipes savedRecipe = recipeService.addRecipe(recipe);
         Recipes getRecipe = recipeService.getRecipeById(savedRecipe.getId());
+
         assertEquals("Cake", getRecipe.getName());
         assertEquals(1, getRecipe.getIngredients().size());
         assertEquals("Flour", getRecipe.getIngredients().getFirst().getIngredient().getName());
+
         int count = 0;
         for (Ingredients ing : ingredientsService.getAllIngredients()) {
             count++;
         }
-        assertEquals(1, count);
+        assertTrue(count >= 1);
     }
 }

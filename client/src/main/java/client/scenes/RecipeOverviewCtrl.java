@@ -20,9 +20,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
+import java.io.*;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class RecipeOverviewCtrl implements Initializable {
 
@@ -31,8 +34,11 @@ public class RecipeOverviewCtrl implements Initializable {
     private  ShoppingList shoppingList;
     ObservableList<Recipes> recipeData;
     ObservableList<Recipes> data1;
+    HashSet<Long> favorites;
     ObservableList<IngredientInRecipe> ingredientsData;
     ObservableList<PreparationStep> preparationStepsData;
+    private static final File STARREDFILE =
+            new File("starred_recipes.txt");
     // Button someButton;
     ArrayList<Button> ingredientButtons;
 
@@ -42,6 +48,7 @@ public class RecipeOverviewCtrl implements Initializable {
 
     @FXML
     public TextField searchField;
+
 
     @FXML
     private SplitPane splitPaneRefreshButton;
@@ -61,7 +68,10 @@ public class RecipeOverviewCtrl implements Initializable {
     private AnchorPane ingredientsPane;
     @FXML
     private Button addIngredientButton;
-
+    @FXML
+    private ToggleButton star;
+    @FXML
+    private ToggleButton favSort;
     @FXML
     private AnchorPane preparationStepsPane;
     @FXML
@@ -99,6 +109,9 @@ public class RecipeOverviewCtrl implements Initializable {
     private FilteredList<Recipes> filteredRecipes;
     private SortedList<Recipes> sortedRecipes;
     private Recipes lastSelectedRecipe;
+    private Predicate<Recipes> searchFilter=(Recipes r)->true;
+    private Predicate<Recipes> favFilter=
+            (Recipes r)->true;
 
     /**
      * Recipe overview controller constructor.
@@ -126,6 +139,7 @@ public class RecipeOverviewCtrl implements Initializable {
         // will also add to the ListView of Recipes
         //recipeListView.setItems(recipeObservableList);
         //recipeListView.setEditable(true);
+        favorites=new HashSet<>();
         mainTitle.setText(resourceBundle.getString("title"));
         shoppingListButon.setText(resourceBundle.getString("shoppingList"));
         addToShop.setText(resourceBundle.getString("shop"));
@@ -142,10 +156,32 @@ public class RecipeOverviewCtrl implements Initializable {
         recipeData = FXCollections.observableArrayList();
         data1 = FXCollections.observableArrayList();
         this.filteredRecipes = new FilteredList<>(recipeData);
+      //  filteredRecipes.setPredicate(searchFilter);
         this.sortedRecipes = new SortedList<>(filteredRecipes);
         cloneRecipeNameLabel.toBack();
         cloneRecipeNameTF.toBack();
         cloneRecipeButton.toBack();
+        Scanner scanner= null;
+        if (!STARREDFILE.exists()) {
+            try {
+                File parent = STARREDFILE.getParentFile();
+                if (parent != null && !parent.exists()) {
+                    parent.mkdirs();
+                }
+                STARREDFILE.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to create starred file", e);
+            }
+        }
+        try {
+            scanner = new Scanner(STARREDFILE);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        while(scanner.hasNextLong()){
+            favorites.add(scanner.nextLong());
+        }
+        addStarsToRecipeListView();
     }
 
     /**
@@ -158,6 +194,13 @@ public class RecipeOverviewCtrl implements Initializable {
         if (getSelectedRecipe() != null) {
             lastSelectedRecipe = getSelectedRecipe();
         }
+        if(lastSelectedRecipe!=null && favorites.contains(lastSelectedRecipe.getId())) {
+            star.setSelected(true);
+            star.setText("★");
+        }else{
+            star.setSelected(false);
+            star.setText("☆");
+        }
         if(!server.recipeExists(lastSelectedRecipe)) lastSelectedRecipe=null;
         refreshIngredients(lastSelectedRecipe);
         refreshPreparationSteps(lastSelectedRecipe);
@@ -165,8 +208,35 @@ public class RecipeOverviewCtrl implements Initializable {
             cloneRecipeNameTF.setText(lastSelectedRecipe.getName() + " copy");
         }
     }
+    /**
+     * Shows a star next to favorited recipes in the recipe list view
+     */
+    private void addStarsToRecipeListView() {
+        recipeListView.setCellFactory(lv -> new ListCell<>() {
+            private final Label starLabel=new Label("★");
+            @Override
+            protected void updateItem(Recipes recipe, boolean empty) {
+                super.updateItem(recipe, empty);
+                if (empty || recipe == null){
+                    setText(null);
+                    setGraphic(null);
+                }else{
+                    setText(recipe.getName());
+                    if(favorites.contains(recipe.getId())) setGraphic(starLabel);
+                }
+            }
+        });
+    }
 
-
+    /**
+     * Apply the favorite filter
+     */
+    public void applyFav(){
+        if(favSort.isSelected()) {
+            favFilter=(Recipes a)->favorites.contains(a.getId());
+        }else favFilter=(Recipes a)->true;
+        applyPredicates();
+    }
 
     /**
      * Refreshes the recipes on the client
@@ -177,8 +247,83 @@ public class RecipeOverviewCtrl implements Initializable {
 
         recipeListView.setItems(sortedRecipes);
 
+        applyPredicates();
+
     }
 
+    /**
+     * Checks if a recipe is favorited
+     * @param id the id of the recipe
+     * @return if the recipe is favorited
+     */
+    public boolean isRecipeFavorited(Long id){
+        return favorites.contains(id);
+    }
+
+    /**
+     * when the favorite toggle button is clicked
+     */
+    public void starToggle(){
+        if(lastSelectedRecipe==null) {
+            star.setSelected(!star.isSelected());
+            return;
+        }
+        if(star.isSelected()) {
+            addFavRecipeId(lastSelectedRecipe.getId());
+        }else removeFavRecipeId(lastSelectedRecipe.getId());
+        star.setText(star.isSelected() ? "★" : "☆");
+        recipeListView.refresh();
+    }
+
+    /**
+     * Add a recipe to favorites
+     * @param id the id of the recipe to be added
+     */
+    public void addFavRecipeId(Long id) {
+        favorites.add(id);
+        try (PrintWriter writer =
+                     new PrintWriter(new FileWriter(STARREDFILE, true))) {
+
+            writer.println(id);
+
+        } catch (IOException e) {
+            System.out.println("6767");
+        }
+    }
+
+    /**
+     * Remove a recipe to favorites
+     * @param idToRemove the id of the recipe to be removed
+     */
+    public void removeFavRecipeId(Long idToRemove) {
+        favorites.remove(idToRemove);
+        if (!STARREDFILE.exists()) {
+            return;
+        }
+        List<String> remainingLines = new ArrayList<>();
+
+        try (Scanner scanner = new Scanner(STARREDFILE)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (!line.equals(idToRemove.toString())) {
+                    remainingLines.add(line);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("676767");
+            return;
+        }
+
+        try (PrintWriter writer =
+                     new PrintWriter(new FileWriter(STARREDFILE, false))) {
+
+            for (String line : remainingLines) {
+                writer.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("676");
+        }
+    }
     /**
      * Refreshes the ingredients from the current selected currentRecipe
      * @param currentRecipe current selected currentRecipe
@@ -204,6 +349,7 @@ public class RecipeOverviewCtrl implements Initializable {
         List<PreparationStep> steps = Collections.emptyList();
         if (currentRecipe != null) {
             steps = server.getPreparationSteps(currentRecipe);
+            currentRecipe.setPreparationSteps(steps);
         }
         if (steps == null) steps = Collections.emptyList();
         preparationStepsData = FXCollections.observableArrayList(steps);
@@ -219,10 +365,11 @@ public class RecipeOverviewCtrl implements Initializable {
         ingredientsPane.getChildren().addAll(ingredientListView);
         ingredientsPane.getChildren().add(addIngredientButton);
         ingredientsPane.getChildren().add(addToShop);
+        ingredientsPane.getChildren().add(star);
         if (!ingredientsData.isEmpty()) {
             int numIngredients = ingredientsData.size();
             for (int i = 0; i < numIngredients; i++) {
-                EditButton<IngredientInRecipe> editButton =
+                EditButton<IngredientInRecipe> editButton1 =
                         new EditButton<>(
                                 ingredientsData.get(i),
                                 "delete",
@@ -233,9 +380,23 @@ public class RecipeOverviewCtrl implements Initializable {
                                 this,
                                 EditButtonOptions.REMOVE_INGREDIENT
                         );
+                EditButton<IngredientInRecipe> editButton2 =
+                        new EditButton<>(
+                                ingredientsData.get(i),
+                                "edit",
+                                i,
+                                ingredientListView,
+                                server,
+                                lastSelectedRecipe,
+                                this,
+                                EditButtonOptions.EDIT_INGREDIENT
+                        );
                 // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
 
-                ingredientsPane.getChildren().add(editButton);
+                HBox buttonBox = new HBox(8); // 8 px space
+                buttonBox.setPickOnBounds(false);
+                buttonBox.getChildren().addAll(editButton1, editButton2);
+                ingredientsPane.getChildren().add(buttonBox);
             }
         }
     }
@@ -250,7 +411,7 @@ public class RecipeOverviewCtrl implements Initializable {
         if (!preparationStepsData.isEmpty()) {
             int numIngredients = preparationStepsData.size();
             for (int i = 0; i < numIngredients; i++) {
-                EditButton<PreparationStep> editButton =
+                EditButton<PreparationStep> editButton1 =
                         new EditButton<>(
                                 preparationStepsData.get(i),
                                 "delete",
@@ -261,9 +422,23 @@ public class RecipeOverviewCtrl implements Initializable {
                                 this,
                                 EditButtonOptions.REMOVE_STEP
                         );
+                EditButton<PreparationStep> editButton2 =
+                        new EditButton<>(
+                                preparationStepsData.get(i),
+                                "edit",
+                                i,
+                                preparationsListView,
+                                server,
+                                lastSelectedRecipe,
+                                this,
+                                EditButtonOptions.EDIT_STEP
+                        );
                 // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
 
-                preparationStepsPane.getChildren().add(editButton);
+                HBox buttonBox = new HBox(8); // 8 px space
+                buttonBox.setPickOnBounds(false);
+                buttonBox.getChildren().addAll(editButton1, editButton2);
+                preparationStepsPane.getChildren().add(buttonBox);
             }
         }
     }
@@ -318,6 +493,15 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void addPreparationStep() {
         mainCtrl.showAddPreparationStep(lastSelectedRecipe);
+    }
+
+    /**
+     * edits a certain preparation step.
+     * @param preparationStep
+     */
+    public void editPreparationStep(PreparationStep preparationStep){
+        refresh();
+        mainCtrl.showEditPreparationStep(lastSelectedRecipe, preparationStep);
     }
 
     /**
@@ -383,6 +567,12 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
     /**
+     * Apply the predicates to the sorted list
+     */
+    public void applyPredicates(){
+        filteredRecipes.setPredicate(searchFilter.and(favFilter));
+    }
+    /**
      * Updates the ingredients section
      *
      * @param recipes the selected recipe will be
@@ -420,12 +610,13 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void applySearchFilter(String text){
         if(text.isEmpty()){
-            filteredRecipes.setPredicate(recipes -> true);
+            searchFilter=recipes -> true;
+            applyPredicates();
             return;
         }
         text=text.toLowerCase();
         final String[] texts=text.split("\\s+");
-        filteredRecipes.setPredicate(recipes -> {
+        searchFilter = recipes -> {
             boolean finalcheck=true;
             for(int i1=0;i1<texts.length;i1++) {
                 boolean checkIfContains=false;
@@ -448,7 +639,8 @@ public class RecipeOverviewCtrl implements Initializable {
                 finalcheck=finalcheck&&checkIfContains;
             }
             return finalcheck;
-        });
+        };
+        applyPredicates();
     }
 
     /**
@@ -596,5 +788,14 @@ public class RecipeOverviewCtrl implements Initializable {
                 okClone();
             }
         }
+    }
+
+    /**
+     * Edit the selected ingredient
+     *
+     * @param ingredient the selected ingredient
+     */
+    public void editIngredient(IngredientInRecipe ingredient, Recipes recipe) {
+        mainCtrl.showEditIngredient(ingredient, recipe);
     }
 }

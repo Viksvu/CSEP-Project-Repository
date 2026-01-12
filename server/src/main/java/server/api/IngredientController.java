@@ -88,6 +88,7 @@ public class IngredientController {
         return name != null && !name.isEmpty();
     }
 
+    @Deprecated
     static class IngredientComparator implements Comparator<Ingredient> {
         @Override
         public int compare(Ingredient o1, Ingredient o2) {

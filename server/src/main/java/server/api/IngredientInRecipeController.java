@@ -1,7 +1,9 @@
 package server.api;
 
 import commons.IngredientInRecipe;
+import commons.Ingredients;
 import commons.Recipes;
+import commons.Unit;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
@@ -61,6 +63,39 @@ public class IngredientInRecipeController {
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(ingredient);
     }
+
+
+    /**
+     * Add an ingredient to a recipe
+     * @param id id of the recipe
+     * @param ingredient ingredient to add to the recipe
+     * @return added ingredient
+     */
+    @PostMapping("/edit")
+    public ResponseEntity<IngredientInRecipe> edit(
+            @RequestParam Long id,
+            @RequestBody IngredientInRecipe ingredient) {
+        if (ingredient == null) return ResponseEntity.badRequest().build();
+        Recipes recipe;
+        try {
+            recipe = recipeService.getRecipeById(id);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        Ingredients ingr=ingredient.getIngredient();
+        int quantity= ingredient.getQuantity();
+        Unit unit=ingredient.getUnit();
+        for(IngredientInRecipe ingredientInRecipe:recipe.getIngredients()){
+            if(ingredientInRecipe.getId().equals(ingredient.getId())){
+                ingredientInRecipe.setIngredient(ingr);
+                ingredientInRecipe.setQuantity(quantity);
+                ingredientInRecipe.setUnit(unit);
+            }
+        }
+        recipeService.addRecipe(recipe);
+        return ResponseEntity.ok(ingredient);
+    }
+
 
     /**
      * Delete an ingredient from a recipe

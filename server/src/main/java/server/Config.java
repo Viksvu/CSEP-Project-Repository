@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Config {
 
+    @Deprecated
     @Bean
     public Random getRandom() {
         return new Random();
