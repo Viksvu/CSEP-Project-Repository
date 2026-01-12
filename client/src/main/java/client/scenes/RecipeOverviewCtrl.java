@@ -187,6 +187,7 @@ public class RecipeOverviewCtrl implements Initializable {
         if (isCloning) {
             cloneRecipeNameTF.setText(lastSelectedRecipe.getName() + " copy");
         }
+        recipeListView.refresh();
     }
     /**
      * Shows a star next to favorited recipes in the recipe list view
