@@ -1,9 +1,7 @@
 package server.api;
 
-
 import commons.PreparationStep;
 import commons.Recipes;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
@@ -13,8 +11,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/prep-step")
 public class PreparationStepController {
-    @Autowired
-    public RecipeService recipeService;
+
+    public final RecipeService recipeService;
+
+    /**
+     * Constructor for PreparationStepController
+     * @param recipeService spring-injected recipe service
+     */
+    public PreparationStepController(RecipeService recipeService) {
+        this.recipeService = recipeService;
+    }
 
     /**
      * Lists the preparation steps of a recipe
