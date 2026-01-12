@@ -22,10 +22,12 @@ public class PreparationStepController {
      * @return a List of all the preparation steps from the database.
      */
     @GetMapping("/list")
-    public List<PreparationStep> getPreparationSteps(@RequestParam Long recipeId) {
-        Recipes recipe = recipeService.getRecipeById(recipeId);
-        if (recipe == null) return null;
-        return recipe.getPreparationSteps();
+    public ResponseEntity<List<PreparationStep>> getPreparationSteps(@RequestParam Long recipeId) {
+        Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
+        if (recipe == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(recipe.getPreparationSteps());
     }
 
     /**
@@ -39,10 +41,10 @@ public class PreparationStepController {
     public ResponseEntity<PreparationStep> addPreparationStep(
             @RequestParam Long recipeId,
             @RequestBody PreparationStep preparationStep) {
-        if (isEmptyOrNull(recipeId) ||  isEmptyOrNull(preparationStep)) {
+        if (isEmptyOrNull(preparationStep)) {
             return ResponseEntity.badRequest().build();
         }
-        Recipes recipe = recipeService.getRecipeById(recipeId);
+        Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
         if (recipe == null) return ResponseEntity.notFound().build();
         recipe.addPreparationStep(preparationStep);
         recipeService.addRecipe(recipe);
