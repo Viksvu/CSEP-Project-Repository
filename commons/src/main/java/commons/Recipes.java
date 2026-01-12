@@ -128,6 +128,7 @@ public class Recipes implements Printable {
      * @param preparationStep to check for
      * @return a boolean for contains or not contains
      */
+    @Deprecated
     public boolean containsPreparationStep(PreparationStep preparationStep) {
         return preparationSteps.contains(preparationStep);
     }

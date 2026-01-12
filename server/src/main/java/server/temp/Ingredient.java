@@ -3,6 +3,7 @@
  */
 package server.temp;
 
+@Deprecated
 public class Ingredient {
     private int id;
     private String name;

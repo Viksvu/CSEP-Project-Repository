@@ -65,6 +65,17 @@ public class RecipeService {
     }
 
     /**
+     * Retrieves a recipe by its ID.
+     * Returns null if the recipe doesn't exist
+     * @param recipeId The ID of the recipe to retrieve.
+     * @return The recipe with the specified ID.
+     */
+    public Recipes getRecipeByIdSafe(Long recipeId) {
+        return recipeRepository.findById(recipeId)
+                .orElse(null);
+    }
+
+    /**
      * Deletes a recipe by its ID.
      * @param recipeId The ID of the recipe to delete.
      */

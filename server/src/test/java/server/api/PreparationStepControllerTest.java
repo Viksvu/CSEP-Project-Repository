@@ -1,116 +1,276 @@
 package server.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.PreparationStep;
 import commons.Recipes;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import server.services.TempRecipeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import server.Main;
+import server.services.RecipeService;
 
+import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Disabled // TODO: Needs to be implemented with new recipe service
+@AutoConfigureMockMvc
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.MOCK,
+        classes = Main.class)
+@TestPropertySource(
+        locations = "classpath:application-junit.properties")
 class PreparationStepControllerTest {
 
-    private PreparationStepController preparationStepController;
-    private Recipes r1;
-    private Recipes r2;
-    private Recipes r3;
-    private PreparationStep ps1;
-    private PreparationStep ps2;
-    private PreparationStep ps3;
-    private TempRecipeService tc;
+    @Autowired
+    private MockMvc mvc;
+
+    @Autowired
+    private RecipeService recipeService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private Recipes recipe;
 
     @BeforeEach
-    void setUp() {
-//        tc = TempRecipeService.get();
-//        preparationStepController = new PreparationStepController();
-//        r1 = new Recipes("Pizza");
-//        r2 = new Recipes("Pasta");
-//        r3 = new Recipes("Lasagne");
-//        ps1 = new PreparationStep("First step.");
-//        ps2 = new PreparationStep("Second step.");
-//        ps3 = new PreparationStep("Third step.");
-//        r1.addPreparationStep(ps1);
-//        r1.addPreparationStep(ps2);
-//        tc.addRecipe(r1);
-//        tc.addRecipe(r2);
-//        tc.addRecipe(r3);
+    public void setup() {
+        if (this.recipe == null) {
+            this.recipe = new Recipes("Test Recipe");
+        }
+        this.recipe.getPreparationSteps().clear();
+        this.recipe = this.recipeService.addRecipe(this.recipe);
     }
 
     @Test
-    void getPreparationSteps() {
-        List<PreparationStep> steps = preparationStepController.getPreparationSteps(r1.getId());
-        List<PreparationStep> expected = List.of(ps1, ps2);
+    public void testList() throws Exception {
+        String desc1 = "TestRecipeStep1";
+        String desc2 = "TestRecipeStep2";
 
-        assertEquals(expected, steps);
+        PreparationStep step1 = new PreparationStep(desc1);
+        PreparationStep step2 = new PreparationStep(desc2);
+
+        this.recipe.addPreparationStep(step1);
+        this.recipe.addPreparationStep(step2);
+
+        this.recipeService.addRecipe(this.recipe);
+
+        MvcResult result = mvc.perform(get("/api/prep-step/list")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId())))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+
+        PreparationStep[] list = this.objectMapper.readValue(result.getResponse().getContentAsString(), PreparationStep[].class);
+        assertTrue(Arrays.stream(list).anyMatch(r -> r.getDescription().equals(desc1)));
+        assertTrue(Arrays.stream(list).anyMatch(r -> r.getDescription().equals(desc2)));
     }
 
     @Test
-    void addPreparationStepToNullRecipe() {
-        ResponseEntity<PreparationStep> response =
-                preparationStepController.addPreparationStep(-1L, ps1);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    public void testListNullRecipeId() throws Exception {
+        this.mvc.perform(get("/api/prep-step/list")
+                .queryParam("recipeId", "-1"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    void addNullPreparationStep() {
-        ResponseEntity<PreparationStep> response =
-                preparationStepController.addPreparationStep(r3.getId(), null);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    @Transactional
+    public void addPreparationStep() throws Exception {
+        String name = "VeryCoolPreparationStep";
+
+        PreparationStep ps = new PreparationStep(name);
+
+        this.mvc.perform(post("/api/prep-step/add")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                .content(this.objectMapper.writeValueAsString(ps))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        this.recipe = this.recipeService.getRecipeById(this.recipe.getId());
+        List<PreparationStep> list = this.recipe.getPreparationSteps();
+        assertEquals(name, list.getFirst().getDescription());
     }
 
     @Test
-    void addPreparationStep() {
-        List<PreparationStep> steps = preparationStepController.getPreparationSteps(r1.getId());
-        ResponseEntity<PreparationStep>  response =
-                preparationStepController.addPreparationStep(r1.getId(), ps3);
-        r1.addPreparationStep(ps3);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(steps, preparationStepController.getPreparationSteps(r1.getId()));
-    }
-    @Test
-    void deletePreparationStepFromNullRecipe() {
-        ResponseEntity<PreparationStep> response
-                = preparationStepController.deletePreparationStep(-1L, ps1);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    public void addEmptyPreparationStep() throws Exception {
+        String name = "";
+
+        PreparationStep ps = new PreparationStep(name);
+
+        this.mvc.perform(post("/api/prep-step/add")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    void editPreparationStepSuccessfully() {
-        // given
-        PreparationStep updatedStep = new PreparationStep("Updated first step.");
+    public void addNullRecipePreparationStep() throws Exception {
+        String name = "VeryCoolPreparationStep";
 
-        // sanity check before edit
-        assertEquals(
-                "First step.",
-                preparationStepController
-                        .getPreparationSteps(r1.getId())
-                        .get(0)
-                        .getDescription()
-        );
+        PreparationStep ps = new PreparationStep(name);
 
-        // when
-        ResponseEntity<PreparationStep> response =
-                preparationStepController.editPreparationStep(
-                        r1.getId(),
-                        0,
-                        updatedStep
-                );
-
-        // then
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(
-                "Updated first step.",
-                preparationStepController
-                        .getPreparationSteps(r1.getId())
-                        .get(0)
-                        .getDescription()
-        );
+        this.mvc.perform(post("/api/prep-step/add")
+                        .queryParam("recipeId", "-1")
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
+    @Test
+    @Transactional
+    public void deletePreparationStep() throws Exception {
+        String name = "VeryCoolPreparationStep";
+
+        PreparationStep ps = new PreparationStep(name);
+
+        this.recipe.addPreparationStep(ps);
+        this.recipe = this.recipeService.addRecipe(this.recipe);
+
+        this.mvc.perform(post("/api/prep-step/delete")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        this.recipe = this.recipeService.getRecipeById(this.recipe.getId());
+        List<PreparationStep> list = this.recipe.getPreparationSteps();
+        assertTrue(list.isEmpty());
+    }
+
+    @Test
+    public void deleteEmptyPreparationStep() throws Exception {
+        String name = "";
+
+        PreparationStep ps = new PreparationStep(name);
+
+        this.mvc.perform(post("/api/prep-step/delete")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deleteNullRecipePreparationStep() throws Exception {
+        String name = "VeryCoolPreparationStep";
+
+        PreparationStep ps = new PreparationStep(name);
+
+        this.mvc.perform(post("/api/prep-step/delete")
+                        .queryParam("recipeId", "-1")
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    public void editPreparationStep() throws Exception {
+        String name = "InitName";
+        String newName = "NewName";
+
+        PreparationStep ps = new PreparationStep(name);
+        this.recipe.addPreparationStep(ps);
+        this.recipe = this.recipeService.addRecipe(this.recipe);
+
+        ps.setDescription(newName);
+
+        this.mvc.perform(post("/api/prep-step/edit")
+                .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                .queryParam("index", "0")
+                .content(this.objectMapper.writeValueAsString(ps))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        this.recipe = this.recipeService.getRecipeById(this.recipe.getId());
+        List<PreparationStep> list = this.recipe.getPreparationSteps();
+        assertEquals(newName, list.getFirst().getDescription());
+    }
+
+    @Test
+    public void editEmptyPreparationStep() throws Exception {
+        String name = "InitName";
+        String newName = "";
+
+        PreparationStep ps = new PreparationStep(name);
+        this.recipe.addPreparationStep(ps);
+        this.recipe = this.recipeService.addRecipe(this.recipe);
+
+        ps.setDescription(newName);
+
+        this.mvc.perform(post("/api/prep-step/edit")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                        .queryParam("index", "0")
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void editNullRecipePreparationStep() throws Exception {
+        String name = "InitName";
+        String newName = "NewName";
+
+        PreparationStep ps = new PreparationStep(name);
+        this.recipe.addPreparationStep(ps);
+        this.recipe = this.recipeService.addRecipe(this.recipe);
+
+        ps.setDescription(newName);
+
+        this.mvc.perform(post("/api/prep-step/edit")
+                        .queryParam("recipeId", "-1")
+                        .queryParam("index", "0")
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void editPreparationStepNegativeIndex() throws Exception {
+        String name = "InitName";
+        String newName = "NewName";
+
+        PreparationStep ps = new PreparationStep(name);
+        this.recipe.addPreparationStep(ps);
+        this.recipe = this.recipeService.addRecipe(this.recipe);
+
+        ps.setDescription(newName);
+
+        this.mvc.perform(post("/api/prep-step/edit")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                        .queryParam("index", "-1")
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void editPreparationStepNotExistingIndex() throws Exception {
+        String name = "InitName";
+        String newName = "NewName";
+
+        PreparationStep ps = new PreparationStep(name);
+        this.recipe.addPreparationStep(ps);
+        this.recipe = this.recipeService.addRecipe(this.recipe);
+
+        ps.setDescription(newName);
+
+        this.mvc.perform(post("/api/prep-step/edit")
+                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
+                        .queryParam("index", "1")
+                        .content(this.objectMapper.writeValueAsString(ps))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }

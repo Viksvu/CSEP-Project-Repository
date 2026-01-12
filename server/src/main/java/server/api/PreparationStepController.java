@@ -1,9 +1,7 @@
 package server.api;
 
-
 import commons.PreparationStep;
 import commons.Recipes;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
@@ -13,8 +11,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/prep-step")
 public class PreparationStepController {
-    @Autowired
-    public RecipeService recipeService;
+
+    public final RecipeService recipeService;
+
+    /**
+     * Constructor for PreparationStepController
+     * @param recipeService spring-injected recipe service
+     */
+    public PreparationStepController(RecipeService recipeService) {
+        this.recipeService = recipeService;
+    }
 
     /**
      * Lists the preparation steps of a recipe
@@ -22,10 +28,13 @@ public class PreparationStepController {
      * @return a List of all the preparation steps from the database.
      */
     @GetMapping("/list")
-    public List<PreparationStep> getPreparationSteps(@RequestParam Long recipeId) {
-        Recipes recipe = recipeService.getRecipeById(recipeId);
-        if (recipe == null) return null;
-        return recipe.getPreparationSteps();
+    public ResponseEntity<List<PreparationStep>> getPreparationSteps(
+            @RequestParam Long recipeId) {
+        Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
+        if (recipe == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(recipe.getPreparationSteps());
     }
 
     /**
@@ -39,11 +48,13 @@ public class PreparationStepController {
     public ResponseEntity<PreparationStep> addPreparationStep(
             @RequestParam Long recipeId,
             @RequestBody PreparationStep preparationStep) {
-        if (isEmptyOrNull(recipeId) ||  isEmptyOrNull(preparationStep)) {
+        if (isEmpty(preparationStep)) {
             return ResponseEntity.badRequest().build();
         }
-        Recipes recipe = recipeService.getRecipeById(recipeId);
-        if (recipe == null) return ResponseEntity.notFound().build();
+        Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
+        if (recipe == null) {
+            return ResponseEntity.notFound().build();
+        }
         recipe.addPreparationStep(preparationStep);
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(preparationStep);
@@ -61,12 +72,21 @@ public class PreparationStepController {
             @RequestParam Long recipeId,
             @RequestParam int index,
             @RequestBody PreparationStep preparationStep) {
-        if (isEmptyOrNull(recipeId) ||  isEmptyOrNull(preparationStep)) {
+        if (isEmpty(preparationStep) || index < 0) {
             return ResponseEntity.badRequest().build();
         }
-        Recipes recipe = recipeService.getRecipeById(recipeId);
-        if (recipe == null) return ResponseEntity.notFound().build();
-        recipe.getPreparationSteps().get(index).setDescription(preparationStep.getDescription());
+
+        Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
+        if (recipe == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<PreparationStep> steps = recipe.getPreparationSteps();
+        if (index >= steps.size()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        steps.get(index).setDescription(preparationStep.getDescription());
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(preparationStep);
     }
@@ -83,30 +103,24 @@ public class PreparationStepController {
             @RequestParam Long recipeId,
             @RequestBody PreparationStep preparationStep
     ) {
-        if (isEmptyOrNull(recipeId) ||  isEmptyOrNull(preparationStep)) {
+        if (isEmpty(preparationStep)) {
             return ResponseEntity.badRequest().build();
         }
-        Recipes recipe = recipeService.getRecipeById(recipeId);
-        if (recipe == null) return ResponseEntity.badRequest().build();
+        Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
+        if (recipe == null) {
+            return ResponseEntity.notFound().build();
+        }
         recipe.removePreparationStep(preparationStep);
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(preparationStep);
     }
 
     /**
-     * For known objects: Preparation Step and Recipes and for
-     * Strings, checks if any parameters are null or empty.
-     * @param o Object to check for null parameters
-     * @return a boolean determining whether it is null
+     * Check if a preparation step is null or empty
+     * @param ps PreparationStep to check
+     * @return true if null or empty
      */
-    private static boolean isEmptyOrNull(Object o) {
-        return switch (o) {
-            case null -> true;
-            case String s -> s.isEmpty();
-            case PreparationStep preparationStep ->
-                    preparationStep.getDescription().isEmpty();
-            case Recipes recipes -> recipes.getName().isEmpty();
-            default -> false;
-        };
+    private boolean isEmpty(PreparationStep ps) {
+        return ps.getDescription().isEmpty();
     }
 }
