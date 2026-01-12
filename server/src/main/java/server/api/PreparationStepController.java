@@ -22,7 +22,8 @@ public class PreparationStepController {
      * @return a List of all the preparation steps from the database.
      */
     @GetMapping("/list")
-    public ResponseEntity<List<PreparationStep>> getPreparationSteps(@RequestParam Long recipeId) {
+    public ResponseEntity<List<PreparationStep>> getPreparationSteps(
+            @RequestParam Long recipeId) {
         Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
         if (recipe == null) {
             return ResponseEntity.badRequest().build();
@@ -45,7 +46,9 @@ public class PreparationStepController {
             return ResponseEntity.badRequest().build();
         }
         Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
-        if (recipe == null) return ResponseEntity.notFound().build();
+        if (recipe == null) {
+            return ResponseEntity.notFound().build();
+        }
         recipe.addPreparationStep(preparationStep);
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(preparationStep);
@@ -63,12 +66,21 @@ public class PreparationStepController {
             @RequestParam Long recipeId,
             @RequestParam int index,
             @RequestBody PreparationStep preparationStep) {
-        if (isEmpty(preparationStep)) {
+        if (isEmpty(preparationStep) || index < 0) {
             return ResponseEntity.badRequest().build();
         }
+
         Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
-        if (recipe == null) return ResponseEntity.notFound().build();
-        recipe.getPreparationSteps().get(index).setDescription(preparationStep.getDescription());
+        if (recipe == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<PreparationStep> steps = recipe.getPreparationSteps();
+        if (index >= steps.size()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        steps.get(index).setDescription(preparationStep.getDescription());
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(preparationStep);
     }
@@ -89,7 +101,9 @@ public class PreparationStepController {
             return ResponseEntity.badRequest().build();
         }
         Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
-        if (recipe == null) return ResponseEntity.notFound().build();
+        if (recipe == null) {
+            return ResponseEntity.notFound().build();
+        }
         recipe.removePreparationStep(preparationStep);
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(preparationStep);
