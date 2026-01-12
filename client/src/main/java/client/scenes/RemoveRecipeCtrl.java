@@ -6,7 +6,9 @@ import commons.Recipes;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
@@ -18,6 +20,15 @@ public class RemoveRecipeCtrl implements Initializable {
 
     @FXML
     private ChoiceBox<Recipes> choiceBox;
+
+    @FXML
+    private Label removeRecipeLabel;
+
+    @FXML
+    private Button removeRecipeRemove;
+
+    @FXML
+    private Button removeRecipeCancel;
 
     /**
      * A constructor for remove
@@ -62,6 +73,9 @@ public class RemoveRecipeCtrl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        removeRecipeLabel.setText(resourceBundle.getString("removeRecipe.label"));
+        removeRecipeCancel.setText(resourceBundle.getString("removeRecipe.cancel"));
+        removeRecipeRemove.setText(resourceBundle.getString("removeRecipe.remove"));
         try {
             setup();
         } catch (NullPointerException e) {
