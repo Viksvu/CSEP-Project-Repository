@@ -507,6 +507,22 @@ public class RecipeOverviewCtrl implements Initializable {
     public void okClone() {
         if (cloneRecipeNameTF.getText().isEmpty()) {
             // Show the error scene here
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Invalid name");
+            alert.setHeaderText(null);
+            alert.setContentText("Name is empty!");
+            alert.showAndWait();
+            return;
+        }
+        for(int i=0;i<recipeData.size();i++){
+            if(recipeData.get(i).getName().equals(cloneRecipeNameTF.getText())){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Invalid name");
+                alert.setHeaderText(null);
+                alert.setContentText("Name is already taken!");
+                alert.showAndWait();
+                return;
+            }
         }
         server.cloneRecipe(lastSelectedRecipe, cloneRecipeNameTF.getText());
         refreshRecipes();
@@ -550,6 +566,7 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void applyPredicates(){
         filteredRecipes.setPredicate(searchFilter.and(favFilter));
+        recipeListView.refresh();
     }
     /**
      * Updates the ingredients section
