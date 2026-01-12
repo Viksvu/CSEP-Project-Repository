@@ -41,7 +41,7 @@ public class PreparationStepController {
     public ResponseEntity<PreparationStep> addPreparationStep(
             @RequestParam Long recipeId,
             @RequestBody PreparationStep preparationStep) {
-        if (isEmptyOrNull(preparationStep)) {
+        if (isEmpty(preparationStep)) {
             return ResponseEntity.badRequest().build();
         }
         Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
@@ -63,10 +63,10 @@ public class PreparationStepController {
             @RequestParam Long recipeId,
             @RequestParam int index,
             @RequestBody PreparationStep preparationStep) {
-        if (isEmptyOrNull(recipeId) ||  isEmptyOrNull(preparationStep)) {
+        if (isEmpty(preparationStep)) {
             return ResponseEntity.badRequest().build();
         }
-        Recipes recipe = recipeService.getRecipeById(recipeId);
+        Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
         if (recipe == null) return ResponseEntity.notFound().build();
         recipe.getPreparationSteps().get(index).setDescription(preparationStep.getDescription());
         recipeService.addRecipe(recipe);
@@ -85,30 +85,22 @@ public class PreparationStepController {
             @RequestParam Long recipeId,
             @RequestBody PreparationStep preparationStep
     ) {
-        if (isEmptyOrNull(recipeId) ||  isEmptyOrNull(preparationStep)) {
+        if (isEmpty(preparationStep)) {
             return ResponseEntity.badRequest().build();
         }
-        Recipes recipe = recipeService.getRecipeById(recipeId);
-        if (recipe == null) return ResponseEntity.badRequest().build();
+        Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
+        if (recipe == null) return ResponseEntity.notFound().build();
         recipe.removePreparationStep(preparationStep);
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(preparationStep);
     }
 
     /**
-     * For known objects: Preparation Step and Recipes and for
-     * Strings, checks if any parameters are null or empty.
-     * @param o Object to check for null parameters
-     * @return a boolean determining whether it is null
+     * Check if a preparation step is null or empty
+     * @param ps PreparationStep to check
+     * @return true if null or empty
      */
-    private static boolean isEmptyOrNull(Object o) {
-        return switch (o) {
-            case null -> true;
-            case String s -> s.isEmpty();
-            case PreparationStep preparationStep ->
-                    preparationStep.getDescription().isEmpty();
-            case Recipes recipes -> recipes.getName().isEmpty();
-            default -> false;
-        };
+    private boolean isEmpty(PreparationStep ps) {
+        return ps.getDescription().isEmpty();
     }
 }
