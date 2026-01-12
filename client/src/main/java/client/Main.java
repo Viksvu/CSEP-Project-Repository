@@ -67,44 +67,44 @@ public class Main extends Application {
 		Map<String, Pair<?, Parent>> scenes = new HashMap<>();
 
 		scenes.put("overview",
-				FXML.load(RecipeOverviewCtrl.class,
+				FXML.load(RecipeOverviewCtrl.class, bundle,
 						"client", "scenes", "RecipeOverview.fxml"));
 
 		scenes.put("addRecipe",
-				FXML.load(AddRecipeCtrl.class,
+				FXML.load(AddRecipeCtrl.class, bundle,
 						"client", "scenes", "AddRecipe.fxml"));
 
 		scenes.put("removeRecipe",
-				FXML.load(RemoveRecipeCtrl.class,
+				FXML.load(RemoveRecipeCtrl.class, bundle,
 						"client", "scenes", "RemoveRecipe.fxml"));
 
 		scenes.put("addIngredient",
-				FXML.load(AddIngredientCtrl.class,
+				FXML.load(AddIngredientCtrl.class, bundle,
 						"client", "scenes", "AddIngredient.fxml"));
 
 		scenes.put("shoppingList",
-				FXML.load(ShoppingListCtrl.class,
+				FXML.load(ShoppingListCtrl.class, bundle,
 						"client", "scenes", "ShoppingList.fxml"));
 
 		scenes.put("addRecipeIngredients",
-				FXML.load(AddRecipeIngredientsCtrl.class,
+				FXML.load(AddRecipeIngredientsCtrl.class, bundle,
 						"client", "scenes",
 						"AddRecipeIngredientsOverview.fxml"));
 
 		scenes.put("overviewList",
-				FXML.load(OverviewListCtrl.class,
+				FXML.load(OverviewListCtrl.class, bundle,
 						"client", "scenes", "OverviewList.fxml"));
 
 		scenes.put("editIngredient",
-				FXML.load(EditIngredientCtrl.class,
+				FXML.load(EditIngredientCtrl.class, bundle,
 						"client", "scenes", "EditIngredient.fxml"));
 
 		scenes.put("addPreparationStep",
-				FXML.load(AddPreparationStepCtrl.class,
+				FXML.load(AddPreparationStepCtrl.class, bundle,
 						"client", "scenes",
 						"AddPreparationStep.fxml"));
 		scenes.put("editPreparationStep",
-				FXML.load(AddPreparationStepCtrl.class,
+				FXML.load(AddPreparationStepCtrl.class, bundle,
 						"client", "scenes",
 						"EditPreparationStep.fxml"));
 

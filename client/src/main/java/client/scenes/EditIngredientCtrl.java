@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -42,11 +43,33 @@ public class EditIngredientCtrl implements Initializable {
     @FXML
     private Label errorLabel;
 
+    @FXML
+    private Label editIngredientLabel;
+
+    @FXML
+    private Label editIngredientQuantity;
+
+    @FXML
+    private Label editIngredientUnit;
+
+    @FXML
+    private Button editIngredientCancelButton;
+
+    @FXML
+    private Button editIngredientChangeButton;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         unitBox.setItems(FXCollections.observableArrayList(Unit.values()));
         errorLabel.setText("");
         errorLabel.setVisible(false);
+        editIngredientLabel.setText(resourceBundle.getString("editIngredient.label"));
+        editIngredientQuantity.setText(resourceBundle.getString("editIngredient.quantity"));
+        editIngredientUnit.setText(resourceBundle.getString("editIngredient.unit"));
+        editIngredientCancelButton.setText(resourceBundle.getString("editIngredient.cancel"));
+        editIngredientChangeButton.setText(resourceBundle.getString("editIngredient.change"));
+
+
     }
 
     /**

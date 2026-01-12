@@ -56,21 +56,6 @@ public class AddIngredientCtrl implements Initializable {
     @FXML
     private Button addIngredientOkButton;
 
-    @FXML
-    private Label editIngredientLabel;
-
-    @FXML
-    private Label editIngredientQuantity;
-
-    @FXML
-    private Label editIngredientUnit;
-
-    @FXML
-    private Button editIngredientCancelButton;
-
-    @FXML
-    private Button editIngredientChangeButton;
-
     /**
      * Constructor
      *
