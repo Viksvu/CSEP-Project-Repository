@@ -402,12 +402,12 @@ public class MainCtrl {
 
     private void refreshCurrentRecipeContent(long id) {
         Platform.runLater(() -> {
-            overview.refreshIfCurrent(id);
+            overviewCtrl.refreshIfCurrent(id);
         });
     }
     private void refreshCurrentRecipeTitle(long id) {
         Platform.runLater(() -> {
-            overview.refreshIfCurrent(id);
+
         });
     }
     private void refreshListOfRecipes() {

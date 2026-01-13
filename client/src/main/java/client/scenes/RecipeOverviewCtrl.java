@@ -796,7 +796,6 @@ public class RecipeOverviewCtrl implements Initializable {
             }
         }
     }
-
     /**
      * Edit the selected ingredient
      *
@@ -805,4 +804,17 @@ public class RecipeOverviewCtrl implements Initializable {
     public void editIngredient(IngredientInRecipe ingredient, Recipes recipe) {
         mainCtrl.showEditIngredient(ingredient, recipe);
     }
+
+    public void refreshIfCurrent(long id){
+        Recipes selected=getSelectedRecipe();
+        if(selected!=null && selected.getId()==id){
+            refreshIngredients(getSelectedRecipe());
+            refreshPreparationSteps(getSelectedRecipe());
+        }
+    }
+
+    public void refreshRecipeList(){
+
+    }
+
 }
