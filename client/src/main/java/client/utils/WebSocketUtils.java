@@ -14,13 +14,10 @@ public class WebSocketUtils {
     /**
      * Constructor for a web socket
      * api controller
-     * @param messageHandler the handler of web
-     *                       sockets messages
      */
-    public WebSocketUtils(Consumer<String> messageHandler){
-        this.messageHandler=messageHandler;
-    }
+    public WebSocketUtils(){
 
+    }
 
     /**
      * Setter for session handler

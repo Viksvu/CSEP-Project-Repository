@@ -386,6 +386,10 @@ public class MainCtrl {
         editIngredientCtrl.provideRecipe(recipe);
     }
 
+    /**
+     * Handles incoming web socket message
+     * @param message
+     */
     private void handleWebSocketMessage(String message) {
         long id = Long.parseLong(message.split(":")[1]);
         if (message.startsWith("RECIPE_CONTENT_UPDATED")) {
@@ -399,20 +403,37 @@ public class MainCtrl {
         }
     }
 
-
+    /**
+     * Refreshes current recipe content
+     * @param id
+     */
     private void refreshCurrentRecipeContent(long id) {
         Platform.runLater(() -> {
             overviewCtrl.refreshIfCurrent(id);
         });
     }
+
+    /**
+     * Refreshes recipe titles
+     * @param id
+     */
     private void refreshCurrentRecipeTitle(long id) {
         Platform.runLater(() -> {
         });
     }
+
+    /**
+     * Refreshes the list of recipes
+     */
     private void refreshListOfRecipes() {
         Platform.runLater(() -> {
         });
     }
+
+    /**
+     * Sends to ws client endpoint what to subscribe to right now
+     * @param id the id of the recipe to subscribe
+     */
     public void sendToWSEndpoint(long id){
         webSocketUtils.send("VIEW_UPDATE:"+id);
     }
