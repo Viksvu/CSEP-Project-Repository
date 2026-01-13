@@ -247,6 +247,7 @@ public class MainCtrl {
         saveRecipeCtrl.provideRecipe(recipesToSave);
         primaryStage.setTitle("Saving Recipe");
         primaryStage.setScene(saveRecipe);
+        saveRecipe.setOnKeyPressed(k->saveRecipeCtrl.onKeyPressed(k));
     }
 
 

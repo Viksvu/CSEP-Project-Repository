@@ -10,7 +10,7 @@ public class Printer {
      * Downloads the object into a readme file
      * @param thing to print
      */
-    public static void print(Printable thing) throws IOException {
+    public static void print(Printable thing, String filename) throws IOException {
         StringBuilder text = new StringBuilder();
         // This is the text that will finally be stored in a file
         List<Object> contents = thing.indexing();
@@ -48,9 +48,9 @@ public class Printer {
             }
         }
         String fileText = text.toString();
-        FileWriter fw = new FileWriter("test.md");
+        FileWriter fw = new FileWriter(filename+".md");
         BufferedWriter bw = new BufferedWriter(fw);
-        bw.write(text.toString().trim());
+        bw.write(fileText.trim());
         bw.flush();
     }
 
