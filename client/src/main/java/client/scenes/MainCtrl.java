@@ -17,6 +17,8 @@ package client.scenes;
 
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
+import client.utils.WebSocketUtils;
+import com.google.inject.Inject;
 import commons.PreparationStep;
 import commons.Recipes;
 import javafx.collections.FXCollections;
@@ -79,6 +81,18 @@ public class MainCtrl {
     private FilteredList<Recipes> filteredRecipes;
     private SortedList<Recipes> sortedRecipes;
     private ShoppingList shoppingList = new ShoppingList();
+    private WebSocketUtils webSocketUtils;
+
+    /**
+     * Injects the websocket utils
+     * to the main ctrl and runs it
+     * @param webSocketUtils
+     */
+    @Inject
+    public MainCtrl(WebSocketUtils webSocketUtils){
+        this.webSocketUtils=webSocketUtils;
+        this.webSocketUtils.connect();
+    }
 
     /**
      * Initializes the main control
@@ -365,13 +379,12 @@ public class MainCtrl {
      * Displays the ingredient editing scene
      * @param ingredient the ingredient to edit
      */
-    public void showEditIngredient(IngredientInRecipe ingredient, Recipes recipe){
+    public void showEditIngredient(IngredientInRecipe ingredient, Recipes recipe) {
         editIngredientCtrl.previousSceneSetter(primaryStage.getScene());
         editIngredientCtrl.setIngredient(ingredient);
         primaryStage.setScene(editIngredient);
         primaryStage.setTitle("Editing ingredient from: " + recipe.toString());
         editIngredientCtrl.provideRecipe(recipe);
     }
-
 
 }
