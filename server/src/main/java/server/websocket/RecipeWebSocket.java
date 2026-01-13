@@ -14,6 +14,8 @@ public class RecipeWebSocket {
     // Keep track of all connected clients
     private static final Set<Session> sessions =
             ConcurrentHashMap.newKeySet();
+    private static final ConcurrentHashMap<Session, Long> currentRecipe =
+            new ConcurrentHashMap<>();
 
     /**
      * On open of the session
@@ -42,8 +44,12 @@ public class RecipeWebSocket {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        // For now, just log incoming messages (subscriptions later)
         System.out.println("Received WS message: " + message);
+
+        if(message.startsWith("VIEW_RECIPE:")){
+            long recipeId=Long.parseLong(message.split(":")[1]);
+            currentRecipe.put(session, recipeId);
+        }
     }
 
     /**

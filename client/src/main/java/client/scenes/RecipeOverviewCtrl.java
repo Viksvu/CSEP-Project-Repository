@@ -202,6 +202,7 @@ public class RecipeOverviewCtrl implements Initializable {
             star.setText("☆");
         }
         if(!server.recipeExists(lastSelectedRecipe)) lastSelectedRecipe=null;
+        mainCtrl.sendToWSEndpoint(lastSelectedRecipe.getId());
         refreshIngredients(lastSelectedRecipe);
         refreshPreparationSteps(lastSelectedRecipe);
         if (isCloning) {

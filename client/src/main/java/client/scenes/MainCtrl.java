@@ -407,16 +407,15 @@ public class MainCtrl {
     }
     private void refreshCurrentRecipeTitle(long id) {
         Platform.runLater(() -> {
-
         });
     }
     private void refreshListOfRecipes() {
         Platform.runLater(() -> {
-
         });
     }
-
-
+    public void sendToWSEndpoint(long id){
+        webSocketUtils.send("VIEW_UPDATE:"+id);
+    }
 
 
 
