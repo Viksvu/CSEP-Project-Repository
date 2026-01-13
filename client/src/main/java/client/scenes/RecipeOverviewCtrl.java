@@ -869,6 +869,9 @@ public class RecipeOverviewCtrl implements Initializable {
             if (isCloning) {
                 okClone();
             }
+            else {
+                searchInit();
+            }
         }
     }
     /**
