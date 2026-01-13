@@ -41,8 +41,6 @@
             <version>2.1.5</version>
         </dependency>
 
-
-
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
