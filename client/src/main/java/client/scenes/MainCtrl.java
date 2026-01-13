@@ -96,6 +96,13 @@ public class MainCtrl {
     }
 
     /**
+     * No arg constructor for test.
+     */
+    public MainCtrl(){
+
+    }
+
+    /**
      * Initializes the main control
      * and give access to all the other controllers
      *
