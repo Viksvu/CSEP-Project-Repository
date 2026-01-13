@@ -21,6 +21,15 @@ public class WebSocketUtils {
         this.messageHandler=messageHandler;
     }
 
+
+    /**
+     * Setter for session handler
+     * @param messageHandler the handler.
+     */
+    public void setMessageHandler(Consumer<String> messageHandler) {
+        this.messageHandler = messageHandler;
+    }
+
     /**
      * connects to server via given
      * URL

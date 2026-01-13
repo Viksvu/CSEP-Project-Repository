@@ -91,6 +91,7 @@ public class MainCtrl {
     @Inject
     public MainCtrl(WebSocketUtils webSocketUtils){
         this.webSocketUtils=webSocketUtils;
+        this.webSocketUtils.setMessageHandler(this::handleWebSocketMessage);
         this.webSocketUtils.connect();
     }
 
@@ -233,7 +234,6 @@ public class MainCtrl {
         primaryStage.setScene(addIngredient);
         addIngredientCtrl.provideRecipe(recipe);
         addIngredientCtrl.previousSceneSetter(this.overview);
-
     }
 
     /**
@@ -320,7 +320,6 @@ public class MainCtrl {
     /**
      * Shows the add recipe ingredients to
      * shopping list overview.
-     *
      */
     public void showAddRecipeIngredientsOverview() {
 
@@ -386,5 +385,39 @@ public class MainCtrl {
         primaryStage.setTitle("Editing ingredient from: " + recipe.toString());
         editIngredientCtrl.provideRecipe(recipe);
     }
+
+    private void handleWebSocketMessage(String message) {
+        long id = Long.parseLong(message.split(":")[1]);
+        if (message.startsWith("RECIPE_CONTENT_UPDATED")) {
+            refreshCurrentRecipeContent(id);
+        }
+        else if (message.startsWith("RECIPE_TITLE_UPDATED")) {
+            refreshCurrentRecipeTitle(id);
+        }
+        else if(message.startsWith("RECIPE_DELETED")){
+            refreshCurrentRecipeTitle(id);
+        }
+    }
+
+
+    private void refreshCurrentRecipeContent(long id) {
+        Platform.runLater(() -> {
+            overview.refreshIfCurrent(id);
+        });
+    }
+    private void refreshCurrentRecipeTitle(long id) {
+        Platform.runLater(() -> {
+            overview.refreshIfCurrent(id);
+        });
+    }
+    private void refreshListOfRecipes() {
+        Platform.runLater(() -> {
+
+        });
+    }
+
+
+
+
 
 }
