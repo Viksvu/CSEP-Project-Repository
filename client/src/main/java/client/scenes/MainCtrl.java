@@ -68,6 +68,9 @@ public class MainCtrl {
     private EditPreparationStepCtrl editPreparationStepCtrl;
     private Scene editPreparationStep;
 
+    private SaveRecipeCtrl saveRecipeCtrl;
+    private Scene saveRecipe;
+
     // This observable list stores the names of all the recipes.
     // <String> might want to be replaced by <Recipe> in
     // the future while also then looking at all its usages.
@@ -132,6 +135,10 @@ public class MainCtrl {
         Pair<?, Parent> addIngredientPair = sceneMap.get("addIngredient");
         this.addIngredientCtrl = (AddIngredientCtrl) addIngredientPair.getKey();
         this.addIngredient = new Scene(addIngredientPair.getValue());
+
+        Pair<?, Parent> saveRecipePair = sceneMap.get("saveRecipe");
+        this.saveRecipeCtrl = (SaveRecipeCtrl) saveRecipePair.getKey();
+        this.saveRecipe = new Scene(saveRecipePair.getValue());
 
 
         Pair<?, Parent> shoppingListPair = sceneMap.get("shoppingList");
@@ -233,6 +240,14 @@ public class MainCtrl {
         primaryStage.setScene(addIngredient);
     }
 
+    /**
+     * Sets the save recipe scene as the primary scene
+     */
+    public void showSaveRecipe(Recipes recipesToSave) {
+        saveRecipeCtrl.provideRecipe(recipesToSave);
+        primaryStage.setTitle("Saving Recipe");
+        primaryStage.setScene(saveRecipe);
+    }
 
 
     /**

@@ -904,10 +904,8 @@ public class RecipeOverviewCtrl implements Initializable {
      * Downloads the lastSelectedRecipe
      */
     public void downloadRecipe() {
-        try {
-            Printer.print(lastSelectedRecipe);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (lastSelectedRecipe != null) {
+            mainCtrl.showSaveRecipe(lastSelectedRecipe);
         }
     }
 }
