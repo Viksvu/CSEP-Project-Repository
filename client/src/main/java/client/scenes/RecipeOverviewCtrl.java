@@ -193,6 +193,7 @@ public class RecipeOverviewCtrl implements Initializable {
         refreshRecipes();
         if (getSelectedRecipe() != null) {
             lastSelectedRecipe = getSelectedRecipe();
+            mainCtrl.sendToWSEndpoint(lastSelectedRecipe.getId());
         }
         if(lastSelectedRecipe!=null && favorites.contains(lastSelectedRecipe.getId())) {
             star.setSelected(true);
@@ -202,6 +203,7 @@ public class RecipeOverviewCtrl implements Initializable {
             star.setText("☆");
         }
         if(!server.recipeExists(lastSelectedRecipe)) lastSelectedRecipe=null;
+
         refreshIngredients(lastSelectedRecipe);
         refreshPreparationSteps(lastSelectedRecipe);
         if (isCloning) {
@@ -796,7 +798,6 @@ public class RecipeOverviewCtrl implements Initializable {
             }
         }
     }
-
     /**
      * Edit the selected ingredient
      *
@@ -805,4 +806,24 @@ public class RecipeOverviewCtrl implements Initializable {
     public void editIngredient(IngredientInRecipe ingredient, Recipes recipe) {
         mainCtrl.showEditIngredient(ingredient, recipe);
     }
+
+    /**
+     * Refreshes current recipe content
+     * @param id
+     */
+    public void refreshIfCurrent(long id){
+        Recipes selected=getSelectedRecipe();
+        if(selected!=null && selected.getId()==id){
+            refreshIngredients(getSelectedRecipe());
+            refreshPreparationSteps(getSelectedRecipe());
+        }
+    }
+
+    /**
+     * Refreshes side recipe list from a web message
+     */
+    public void refreshRecipeList(){
+
+    }
+
 }

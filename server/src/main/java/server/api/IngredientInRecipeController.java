@@ -7,6 +7,7 @@ import commons.Unit;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
+import server.websocket.RecipeWebSocket;
 
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class IngredientInRecipeController {
         }
         recipe.addIngredient(ingredient);
         recipeService.addRecipe(recipe);
+        RecipeWebSocket.notifyRecipeUpdated(recipe.getId());
         return ResponseEntity.ok(ingredient);
     }
 
@@ -93,6 +95,7 @@ public class IngredientInRecipeController {
             }
         }
         recipeService.addRecipe(recipe);
+        RecipeWebSocket.notifyRecipeUpdated(recipe.getId());
         return ResponseEntity.ok(ingredient);
     }
 

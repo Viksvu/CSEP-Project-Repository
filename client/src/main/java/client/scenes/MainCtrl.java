@@ -17,6 +17,8 @@ package client.scenes;
 
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
+import client.utils.WebSocketUtils;
+import com.google.inject.Inject;
 import commons.PreparationStep;
 import commons.Recipes;
 import javafx.collections.FXCollections;
@@ -79,6 +81,26 @@ public class MainCtrl {
     private FilteredList<Recipes> filteredRecipes;
     private SortedList<Recipes> sortedRecipes;
     private ShoppingList shoppingList = new ShoppingList();
+    private WebSocketUtils webSocketUtils;
+
+    /**
+     * Injects the websocket utils
+     * to the main ctrl and runs it
+     * @param webSocketUtils
+     */
+    @Inject
+    public MainCtrl(WebSocketUtils webSocketUtils){
+        this.webSocketUtils=webSocketUtils;
+        this.webSocketUtils.setMessageHandler(this::handleWebSocketMessage);
+        this.webSocketUtils.connect();
+    }
+
+    /**
+     * No arg constructor for test.
+     */
+    public MainCtrl(){
+
+    }
 
     /**
      * Initializes the main control
@@ -219,7 +241,6 @@ public class MainCtrl {
         primaryStage.setScene(addIngredient);
         addIngredientCtrl.provideRecipe(recipe);
         addIngredientCtrl.previousSceneSetter(this.overview);
-
     }
 
     /**
@@ -306,7 +327,6 @@ public class MainCtrl {
     /**
      * Shows the add recipe ingredients to
      * shopping list overview.
-     *
      */
     public void showAddRecipeIngredientsOverview() {
 
@@ -365,13 +385,66 @@ public class MainCtrl {
      * Displays the ingredient editing scene
      * @param ingredient the ingredient to edit
      */
-    public void showEditIngredient(IngredientInRecipe ingredient, Recipes recipe){
+    public void showEditIngredient(IngredientInRecipe ingredient, Recipes recipe) {
         editIngredientCtrl.previousSceneSetter(primaryStage.getScene());
         editIngredientCtrl.setIngredient(ingredient);
         primaryStage.setScene(editIngredient);
         primaryStage.setTitle("Editing ingredient from: " + recipe.toString());
         editIngredientCtrl.provideRecipe(recipe);
     }
+
+    /**
+     * Handles incoming web socket message
+     * @param message
+     */
+    private void handleWebSocketMessage(String message) {
+        long id = Long.parseLong(message.split(":")[1]);
+        if (message.startsWith("RECIPE_CONTENT_UPDATED")) {
+            refreshCurrentRecipeContent(id);
+        }
+        else if (message.startsWith("RECIPE_TITLE_UPDATED")) {
+            refreshCurrentRecipeTitle(id);
+        }
+        else if(message.startsWith("RECIPE_DELETED")){
+            refreshCurrentRecipeTitle(id);
+        }
+    }
+
+    /**
+     * Refreshes current recipe content
+     * @param id
+     */
+    private void refreshCurrentRecipeContent(long id) {
+        Platform.runLater(() -> {
+            overviewCtrl.refreshIfCurrent(id);
+        });
+    }
+
+    /**
+     * Refreshes recipe titles
+     * @param id
+     */
+    private void refreshCurrentRecipeTitle(long id) {
+        Platform.runLater(() -> {
+        });
+    }
+
+    /**
+     * Refreshes the list of recipes
+     */
+    private void refreshListOfRecipes() {
+        Platform.runLater(() -> {
+        });
+    }
+
+    /**
+     * Sends to ws client endpoint what to subscribe to right now
+     * @param id the id of the recipe to subscribe
+     */
+    public void sendToWSEndpoint(long id){
+        webSocketUtils.send("VIEW_UPDATE:"+id);
+    }
+
 
 
 }
