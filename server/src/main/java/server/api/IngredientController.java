@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Ingredients;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.temp.Ingredient;
@@ -47,13 +48,10 @@ public class IngredientController {
      */
     @PostMapping("/add")
     public ResponseEntity<Ingredients>
-    add(@RequestBody Ingredients ingredient) {
+    add(@RequestBody @Valid Ingredients ingredient) {
         if (ingredient == null)
             return ResponseEntity.badRequest().build();
 
-        String name = ingredient.getName();
-        if (!isValidName(name))
-            return ResponseEntity.badRequest().build();
         Ingredients savedIngredient = ingredientsService
                 .addIngredient(ingredient);
         return ResponseEntity.ok(savedIngredient);
@@ -67,25 +65,12 @@ public class IngredientController {
      */
     @PostMapping("/delete")
     public ResponseEntity<Ingredients> remove
-    (@RequestBody Ingredients ingredient) {
-        if (ingredient == null)
-            return ResponseEntity.badRequest().build();
-
+    (@RequestBody @Valid Ingredients ingredient) {
         if (ingredient.getId() == null || ingredient.getId() == -1) {
             return ResponseEntity.badRequest().build();
         }
         ingredientsService.deleteIngredient(ingredient.getId());
         return ResponseEntity.ok(ingredient);
-    }
-
-    /**
-     * Check if an ingredient name is valid
-     *
-     * @param name ingredients name
-     * @return true if valid
-     */
-    private boolean isValidName(String name) {
-        return name != null && !name.isEmpty();
     }
 
     @Deprecated

@@ -1,6 +1,7 @@
 package commons;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,6 +13,7 @@ public class Ingredients {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Ingredient name must not be blank")
     private String name;
     private int kcalPer100g;
     private String ingredient;
