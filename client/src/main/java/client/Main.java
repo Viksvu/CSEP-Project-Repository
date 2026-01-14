@@ -108,7 +108,7 @@ public class Main extends Application {
 						"client", "scenes",
 						"EditPreparationStep.fxml"));
         scenes.put("saveRecipe",
-                FXML.load(SaveRecipeCtrl.class,
+                FXML.load(SaveRecipeCtrl.class, bundle,
                         "client", "scenes", "SaveRecipe.fxml"));
 
 
