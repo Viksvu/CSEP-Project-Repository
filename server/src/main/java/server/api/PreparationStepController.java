@@ -2,6 +2,7 @@ package server.api;
 
 import commons.PreparationStep;
 import commons.Recipes;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
@@ -47,10 +48,7 @@ public class PreparationStepController {
     @PostMapping("/add")
     public ResponseEntity<PreparationStep> addPreparationStep(
             @RequestParam Long recipeId,
-            @RequestBody PreparationStep preparationStep) {
-        if (isEmpty(preparationStep)) {
-            return ResponseEntity.badRequest().build();
-        }
+            @RequestBody @Valid PreparationStep preparationStep) {
         Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
         if (recipe == null) {
             return ResponseEntity.notFound().build();
@@ -71,8 +69,8 @@ public class PreparationStepController {
     public ResponseEntity<PreparationStep> editPreparationStep(
             @RequestParam Long recipeId,
             @RequestParam int index,
-            @RequestBody PreparationStep preparationStep) {
-        if (isEmpty(preparationStep) || index < 0) {
+            @RequestBody @Valid PreparationStep preparationStep) {
+        if (index < 0) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -101,11 +99,8 @@ public class PreparationStepController {
     @PostMapping("/delete")
     public ResponseEntity<PreparationStep> deletePreparationStep(
             @RequestParam Long recipeId,
-            @RequestBody PreparationStep preparationStep
+            @RequestBody @Valid PreparationStep preparationStep
     ) {
-        if (isEmpty(preparationStep)) {
-            return ResponseEntity.badRequest().build();
-        }
         Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
         if (recipe == null) {
             return ResponseEntity.notFound().build();
@@ -113,14 +108,5 @@ public class PreparationStepController {
         recipe.removePreparationStep(preparationStep);
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(preparationStep);
-    }
-
-    /**
-     * Check if a preparation step is null or empty
-     * @param ps PreparationStep to check
-     * @return true if null or empty
-     */
-    private boolean isEmpty(PreparationStep ps) {
-        return ps.getDescription().isEmpty();
     }
 }

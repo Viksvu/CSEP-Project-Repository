@@ -1,11 +1,13 @@
 package commons;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.Objects;
 
 @Embeddable
 public class PreparationStep {
+    @NotBlank(message = "PreparationStep description cannot be blank")
     private String description;
 
     /**
