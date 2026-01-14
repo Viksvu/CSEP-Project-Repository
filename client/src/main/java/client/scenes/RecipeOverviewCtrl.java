@@ -21,6 +21,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.OverrunStyle;
+
 
 import java.io.*;
 import java.net.URL;
@@ -380,87 +382,88 @@ public class RecipeOverviewCtrl implements Initializable {
      * Adds an edit button next to the name of the ingredient
      */
     public void addEditButtonToIngredient() {
-        ingredientsPane.getChildren().clear();
-        ingredientsPane.getChildren().addAll(ingredientListView);
-        ingredientsPane.getChildren().add(addIngredientButton);
-        ingredientsPane.getChildren().add(addToShop);
-        ingredientsPane.getChildren().add(star);
-        if (!ingredientsData.isEmpty()) {
-            int numIngredients = ingredientsData.size();
-            for (int i = 0; i < numIngredients; i++) {
-                EditButton<IngredientInRecipe> editButton1 =
-                        new EditButton<>(
-                                ingredientsData.get(i),
-                                "delete",
-                                i,
-                                ingredientListView,
-                                server,
-                                lastSelectedRecipe,
-                                this,
-                                EditButtonOptions.REMOVE_INGREDIENT
-                        );
-                EditButton<IngredientInRecipe> editButton2 =
-                        new EditButton<>(
-                                ingredientsData.get(i),
-                                "edit",
-                                i,
-                                ingredientListView,
-                                server,
-                                lastSelectedRecipe,
-                                this,
-                                EditButtonOptions.EDIT_INGREDIENT
-                        );
-                // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
+        ingredientListView.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(IngredientInRecipe ingredient, boolean empty){
+                super.updateItem(ingredient, empty);
+                if (empty || ingredient == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    EditButton<IngredientInRecipe> deleteButton =
+                            new EditButton<>(ingredient,"delete",getIndex(),
+                                    ingredientListView,server,lastSelectedRecipe,
+                                    RecipeOverviewCtrl.this,EditButtonOptions.REMOVE_INGREDIENT);
+                    EditButton<IngredientInRecipe> editButton =
+                            new EditButton<>(
+                                    ingredient,"edit",getIndex(),ingredientListView,
+                                    server,lastSelectedRecipe,RecipeOverviewCtrl.this,
+                                    EditButtonOptions.EDIT_INGREDIENT);
 
-                HBox buttonBox = new HBox(8); // 8 px space
-                buttonBox.setPickOnBounds(false);
-                buttonBox.getChildren().addAll(editButton1, editButton2);
-                ingredientsPane.getChildren().add(buttonBox);
+                    HBox row=new HBox(8,deleteButton,editButton);
+                    row.setPickOnBounds(false);
+                    setText(ingredient.toString());
+                    setGraphic(row);
+
+                 //   setContentDisplay(ContentDisplay.RIGHT);
+                    setGraphicTextGap(-80);
+                    setTextOverrun(OverrunStyle.ELLIPSIS);
+                }
             }
-        }
+        });
     }
+
 
     /**
      * Adds an edit button next to the name of the ingredient
      */
     public void addDeleteButtonToPreparationStep() {
-        preparationStepsPane.getChildren().clear();
-        preparationStepsPane.getChildren().addAll(preparationsListView);
-        preparationStepsPane.getChildren().add(addPreparationStepButton);
-        if (!preparationStepsData.isEmpty()) {
-            int numIngredients = preparationStepsData.size();
-            for (int i = 0; i < numIngredients; i++) {
-                EditButton<PreparationStep> editButton1 =
-                        new EditButton<>(
-                                preparationStepsData.get(i),
-                                "delete",
-                                i,
-                                preparationsListView,
-                                server,
-                                lastSelectedRecipe,
-                                this,
-                                EditButtonOptions.REMOVE_STEP
-                        );
-                EditButton<PreparationStep> editButton2 =
-                        new EditButton<>(
-                                preparationStepsData.get(i),
-                                "edit",
-                                i,
-                                preparationsListView,
-                                server,
-                                lastSelectedRecipe,
-                                this,
-                                EditButtonOptions.EDIT_STEP
-                        );
-                // TO DO: REPLACE EDIT TEXT WITH PENCIL ICON
+        preparationsListView.setCellFactory(lv -> new ListCell<>() {
 
-                HBox buttonBox = new HBox(8); // 8 px space
-                buttonBox.setPickOnBounds(false);
-                buttonBox.getChildren().addAll(editButton1, editButton2);
-                preparationStepsPane.getChildren().add(buttonBox);
+            @Override
+            protected void updateItem(PreparationStep step, boolean empty) {
+                super.updateItem(step, empty);
+
+                if (empty || step == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    EditButton<PreparationStep> deleteButton =
+                            new EditButton<>(
+                                    step,
+                                    "delete",
+                                    getIndex(),
+                                    preparationsListView,
+                                    server,
+                                    lastSelectedRecipe,
+                                    RecipeOverviewCtrl.this,
+                                    EditButtonOptions.REMOVE_STEP
+                            );
+
+                    EditButton<PreparationStep> editButton =
+                            new EditButton<>(
+                                    step,
+                                    "edit",
+                                    getIndex(),
+                                    preparationsListView,
+                                    server,
+                                    lastSelectedRecipe,
+                                    RecipeOverviewCtrl.this,
+                                    EditButtonOptions.EDIT_STEP
+                            );
+
+                    HBox row = new HBox(8, deleteButton, editButton);
+                    row.setPickOnBounds(false);
+
+                    setText(step.getDescription());
+                    setGraphic(row);
+                    setGraphicTextGap(-100);
+                    setTextOverrun(OverrunStyle.ELLIPSIS);
+                }
             }
-        }
+        });
     }
+
 
     /**
      * Shows the scene of "add recipe"

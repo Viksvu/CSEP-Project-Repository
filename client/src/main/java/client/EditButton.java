@@ -9,11 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
 public class EditButton<K> extends Button {
-    private final K object;
-    private final int index;
-    private final ListView<K> parent;
+    final private K object;
+    final private int index;
+    final private ListView<K> parent;
     private ServerUtils server;
-    private final Recipes recipe;
+    final private Recipes recipe;
     private RecipeOverviewCtrl ctrl;
     private EditButtonOptions option;
 
@@ -36,13 +36,11 @@ public class EditButton<K> extends Button {
         this.ctrl=ctrl;
         this.option=option;
         double containerHeight = parent.getLayoutBounds().getHeight();
-        super.setTranslateY(containerHeight*index/7.0);
         super.setTranslateX(
                 8 * parent.getItems().get(index).toString().length()
         );
         editIngredientInRecipe();
     }
-
 
     /**
      * Actually allows to edit by creating a new
