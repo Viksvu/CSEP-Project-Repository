@@ -243,6 +243,24 @@ public class RecipeOverviewCtrl implements Initializable {
      * Refreshes the recipes on the client
      */
     private void refreshRecipes() {
+        List<Recipes> updatedRecipes = server.getRecipes();
+        List<Recipes> currentRecipes = recipeData;
+        List<Recipes> missingRecipes=currentRecipes.stream()
+                .filter(recipe -> !updatedRecipes.contains(recipe))
+                .filter(recipe -> favorites.contains(recipe.getId()))
+                .toList();
+
+        for(int i=0;i<missingRecipes.size();i++){
+            removeFavRecipeId(missingRecipes.get(i).getId());
+        }
+        if(!missingRecipes.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Favorite removed");
+            alert.setHeaderText(null);
+            alert.setContentText("A favorited recipe was deleted " +
+                    "and removed from your favorites.");
+            alert.showAndWait();
+        }
 
         recipeData.setAll(server.getRecipes());
 

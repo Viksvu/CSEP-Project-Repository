@@ -192,24 +192,6 @@ public class MainCtrl {
     }
 
     /**
-     * To remove the recipe from favorites
-     * @param removed the id of the removed recipe
-     */
-    public void onRecipeRemoved(Long removed){
-        if(overviewCtrl.isRecipeFavorited(removed)) {
-            overviewCtrl.removeFavRecipeId(removed);
-            Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Favorite removed");
-                alert.setHeaderText(null);
-                alert.setContentText("A favorited recipe was deleted " +
-                        "and removed from your favorites.");
-                alert.showAndWait();
-            });
-        }
-    }
-
-    /**
      * Sets the add ingredient scene as the primary scene
      *
      * @param recipe to which the ingredient is being added
