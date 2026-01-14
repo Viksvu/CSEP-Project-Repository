@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.EditButton;
 import client.EditButtonOptions;
+import client.commonsClient.LanguageObject;
 import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -15,7 +16,10 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -104,6 +108,9 @@ public class RecipeOverviewCtrl implements Initializable {
     @FXML
     private Label mainTitle;
 
+    @FXML
+    private ComboBox<LanguageObject> languageDropDown;
+
     private boolean isCloning;
 
     private FilteredList<Recipes> filteredRecipes;
@@ -140,6 +147,7 @@ public class RecipeOverviewCtrl implements Initializable {
         //recipeListView.setItems(recipeObservableList);
         //recipeListView.setEditable(true);
         favorites=new HashSet<>();
+        setLanguageDropDown();
         mainTitle.setText(resourceBundle.getString("title"));
         shoppingListButon.setText(resourceBundle.getString("shoppingList"));
         addToShop.setText(resourceBundle.getString("shop"));
@@ -182,6 +190,43 @@ public class RecipeOverviewCtrl implements Initializable {
             favorites.add(scanner.nextLong());
         }
         addStarsToRecipeListView();
+    }
+
+    /**
+     * This method is responsible for rendering the Language Drop Down Menu
+     */
+    public void setLanguageDropDown() {
+        languageDropDown.getItems().addAll(
+                new LanguageObject(
+                        Locale.forLanguageTag("en"),
+                        new Image(getClass().getResourceAsStream("/icons/en.png"))),
+                new LanguageObject(
+                        Locale.forLanguageTag("es"),
+                        new Image(getClass().getResourceAsStream("/icons/es.png"))),
+                new LanguageObject(
+                        Locale.forLanguageTag("nl"),
+                        new Image(getClass().getResourceAsStream("/icons/nl.png"))),
+                new LanguageObject(
+                        Locale.forLanguageTag("de"),
+                        new Image(getClass().getResourceAsStream("/icons/de.png")))
+        );
+        languageDropDown.setCellFactory(cell -> new ListCell<>() {
+            @Override
+            protected void updateItem(LanguageObject languageObject, boolean empty) {
+                super.updateItem(languageObject, empty);
+                if (empty || languageObject == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    ImageView imageView = new ImageView(languageObject.getFlag());
+                    imageView.setFitHeight(16);
+                    imageView.setFitWidth(24);
+                    setGraphic(imageView);
+                    setAlignment(Pos.CENTER);
+                }
+            }
+        });
+        languageDropDown.setButtonCell(languageDropDown.getCellFactory().call(null));
     }
 
     /**
