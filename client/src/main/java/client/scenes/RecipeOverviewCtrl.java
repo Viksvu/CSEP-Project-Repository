@@ -28,6 +28,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class RecipeOverviewCtrl implements Initializable {
 
@@ -247,11 +248,14 @@ public class RecipeOverviewCtrl implements Initializable {
     private void refreshRecipes() {
         List<Recipes> updatedRecipes = server.getRecipes();
         List<Recipes> currentRecipes = recipeData;
-        List<Recipes> missingRecipes=currentRecipes.stream()
-                .filter(recipe -> !updatedRecipes.contains(recipe))
+        Set<Long> updatedRecipeIds = updatedRecipes.stream()
+                .map(Recipes::getId)
+                .collect(Collectors.toSet());
+
+        List<Recipes> missingRecipes = currentRecipes.stream()
+                .filter(recipe -> !updatedRecipeIds.contains(recipe.getId()))
                 .filter(recipe -> favorites.contains(recipe.getId()))
                 .toList();
-
         for(int i=0;i<missingRecipes.size();i++){
             removeFavRecipeId(missingRecipes.get(i).getId());
         }
