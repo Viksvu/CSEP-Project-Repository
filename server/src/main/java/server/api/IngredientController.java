@@ -4,11 +4,9 @@ import commons.Ingredients;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.temp.Ingredient;
 import server.services.IngredientsService;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -71,13 +69,5 @@ public class IngredientController {
         }
         ingredientsService.deleteIngredient(ingredient.getId());
         return ResponseEntity.ok(ingredient);
-    }
-
-    @Deprecated
-    static class IngredientComparator implements Comparator<Ingredient> {
-        @Override
-        public int compare(Ingredient o1, Ingredient o2) {
-            return Integer.compare(o1.getId(), o2.getId());
-        }
     }
 }
