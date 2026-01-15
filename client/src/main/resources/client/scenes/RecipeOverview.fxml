@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
@@ -23,6 +24,7 @@
                         <Button fx:id="refreshButton" layoutX="525.0" layoutY="8.0" mnemonicParsing="false" onAction="#refresh" text="%refresh" />
 
                         <Label fx:id="mainTitle" layoutX="277.0" layoutY="15.0" text="%title" />
+                  <ComboBox fx:id="languageDropDown" layoutX="14.0" layoutY="6.0" prefHeight="26.0" prefWidth="67.0" />
                     </children>
                 </AnchorPane>
 
