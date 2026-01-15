@@ -107,6 +107,9 @@ public class Main extends Application {
 				FXML.load(AddPreparationStepCtrl.class, bundle,
 						"client", "scenes",
 						"EditPreparationStep.fxml"));
+        scenes.put("saveRecipe",
+                FXML.load(SaveRecipeCtrl.class, bundle,
+                        "client", "scenes", "SaveRecipe.fxml"));
 
 
 		var mainCtrl = INJECTOR.getInstance(MainCtrl.class);

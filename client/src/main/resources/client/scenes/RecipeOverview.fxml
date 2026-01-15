@@ -22,6 +22,7 @@
 
                         <Label fx:id="mainTitle" layoutX="277.0" layoutY="15.0" text="%title" />
                   <ComboBox fx:id="languageDropDown" layoutX="14.0" layoutY="6.0" prefHeight="26.0" prefWidth="67.0" />
+                  <Button layoutX="98.0" layoutY="6.0" mnemonicParsing="false" onAction="#downloadRecipe" text="Download" />
                     </children>
                 </AnchorPane>
 

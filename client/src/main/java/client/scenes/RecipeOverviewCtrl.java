@@ -6,10 +6,7 @@ import client.commonsClient.LanguageObject;
 import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.IngredientInRecipe;
-import commons.Ingredients;
-import commons.PreparationStep;
-import commons.Recipes;
+import commons.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -872,6 +869,9 @@ public class RecipeOverviewCtrl implements Initializable {
             if (isCloning) {
                 okClone();
             }
+            else {
+                searchInit();
+            }
         }
     }
     /**
@@ -902,4 +902,13 @@ public class RecipeOverviewCtrl implements Initializable {
 
     }
 
+
+    /**
+     * Downloads the lastSelectedRecipe
+     */
+    public void downloadRecipe() {
+        if (lastSelectedRecipe != null) {
+            mainCtrl.showSaveRecipe(lastSelectedRecipe);
+        }
+    }
 }
