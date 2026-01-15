@@ -52,8 +52,6 @@ public class RecipeOverviewCtrl implements Initializable {
 
     @FXML
     public TextField searchField;
-
-
     @FXML
     private SplitPane splitPaneRefreshButton;
     @FXML
@@ -155,6 +153,7 @@ public class RecipeOverviewCtrl implements Initializable {
         cloneButton.setText(resourceBundle.getString("clone"));
         cloneRecipeButton.setText(resourceBundle.getString("clone.ok"));
         cloneRecipeNameLabel.setText(resourceBundle.getString("clone.newRecipeName"));
+        favSort.setText(resourceBundle.getString("favourites"));
 
         searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
@@ -227,6 +226,13 @@ public class RecipeOverviewCtrl implements Initializable {
             }
         });
         languageDropDown.setButtonCell(languageDropDown.getCellFactory().call(null));
+        languageDropDown.getSelectionModel().selectFirst();
+        languageDropDown.valueProperty().addListener((obs, oldLang, newLang) -> {
+            if (newLang != null) {
+                Locale.setDefault(newLang.getLocale());
+//                TODO: Reload UI with new bundle
+            }
+        });
     }
 
     /**

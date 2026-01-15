@@ -52,7 +52,7 @@
                                     <Font size="10.0" />
                                  </font>
                               </Button>
-                              <ToggleButton fx:id="favSort" layoutX="-2.0" layoutY="40.0" mnemonicParsing="false" onAction="#applyFav" text="Favorites" />
+                              <ToggleButton fx:id="favSort" layoutX="-2.0" layoutY="40.0" mnemonicParsing="false" onAction="#applyFav" text="%favourites" />
                                     </children>
                                 </AnchorPane>
 
