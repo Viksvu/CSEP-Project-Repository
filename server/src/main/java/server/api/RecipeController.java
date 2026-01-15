@@ -1,6 +1,8 @@
 package server.api;
 
 import commons.Recipes;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
@@ -47,10 +49,7 @@ public class RecipeController {
      * @return ok if added, bad request if something went wrong
      */
     @PostMapping("/add")
-    public ResponseEntity<Recipes> add(@RequestBody Recipes recipe) {
-        String name = recipe.getName();
-        if (!isValidName(name))
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<Recipes> add(@RequestBody @Valid Recipes recipe) {
         Recipes savedRecipe = recipeService.addRecipe(recipe);
         return ResponseEntity.ok(savedRecipe);
     }
@@ -79,11 +78,9 @@ public class RecipeController {
      */
     @PostMapping("/rename")
     public ResponseEntity<String> rename
-    (@RequestParam Long id, @RequestBody String name) {
-        Recipes recipe;
-        try {
-            recipe = recipeService.getRecipeById(id);
-        } catch (RuntimeException e) {
+    (@RequestParam Long id, @RequestBody @NotBlank String name) {
+        Recipes recipe = recipeService.getRecipeByIdSafe(id);
+        if (recipe == null) {
             return ResponseEntity.badRequest().build();
         }
         recipe.setName(name);
@@ -99,7 +96,7 @@ public class RecipeController {
      */
     @PostMapping("/clone")
     public ResponseEntity<Recipes> cloneRecipe(@RequestBody Recipes recipe,
-                                               @RequestParam String newName)
+                                               @RequestParam @NotBlank String newName)
     {
         if (!getAll().contains(recipe))
             return ResponseEntity.badRequest().build();
@@ -107,15 +104,5 @@ public class RecipeController {
         retRecipe.setRecipeOnIngredients();
         recipeService.addRecipe(retRecipe);
         return ResponseEntity.ok(retRecipe);
-    }
-
-    /**
-     * Check if a recipe name is valid
-     *
-     * @param name recipes name
-     * @return true if valid
-     */
-    private boolean isValidName(String name) {
-        return name != null && !name.isEmpty();
     }
 }

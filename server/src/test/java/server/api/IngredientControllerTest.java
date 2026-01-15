@@ -15,19 +15,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import server.services.IngredientsService;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @WebMvcTest(IngredientController.class)
 @Import(IngredientControllerTest.MockConfig.class)
@@ -93,31 +90,5 @@ public class IngredientControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(i1))).andReturn();
         assertEquals(400, result.getResponse().getStatus());
-    }
-
-    @Test
-    public void checkNullIngredientName() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        assertFalse(isValidName(null));
-    }
-
-    @Test
-    public void checkEmptyIngredientName() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        assertFalse(isValidName(""));
-    }
-
-    @Test
-    public void checkGoodIngredientName() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        assertTrue(isValidName("Spaghetti"));
-    }
-
-    /**
-     * Get the private method isValidName for testing
-     * @param name input for isValidName method of IngredientController
-     * @return true, if valid name
-     */
-    private boolean isValidName(String name) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = ic.getClass().getDeclaredMethod("isValidName", String.class);
-        m.setAccessible(true);
-        return (boolean) m.invoke(ic, name);
     }
 }

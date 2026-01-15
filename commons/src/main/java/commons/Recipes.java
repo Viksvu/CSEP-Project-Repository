@@ -2,6 +2,7 @@ package commons;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Recipes implements Printable {
     private List<IngredientInRecipe> ingredients;
     @ElementCollection
     private List<PreparationStep> preparationSteps;
+    @NotBlank(message = "Recipe name cannot be blank")
     private String name;
 
     /**
