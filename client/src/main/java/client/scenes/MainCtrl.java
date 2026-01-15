@@ -21,6 +21,7 @@ import client.utils.WebSocketUtils;
 import com.google.inject.Inject;
 import commons.PreparationStep;
 import commons.Recipes;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
