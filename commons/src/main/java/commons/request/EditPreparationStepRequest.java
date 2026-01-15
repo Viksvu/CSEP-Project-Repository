@@ -5,6 +5,11 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * @param recipeId id of recipe to edit preparation step from
+ * @param index index of preparation step in preparation step list
+ * @param preparationStep edited preparation step
+ */
 public record EditPreparationStepRequest(
         @NotNull(
                 message = "recipe id cannot be null"

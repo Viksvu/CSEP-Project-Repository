@@ -4,6 +4,10 @@ import commons.PreparationStep;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
+/**]
+ * @param recipeId id of recipe to add preparation step to
+ * @param preparationStep preparation step to add
+ */
 public record AddPreparationStepRequest(
         @NotNull(
                 message = "recipe id cannot be null"
