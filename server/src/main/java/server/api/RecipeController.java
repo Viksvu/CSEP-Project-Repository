@@ -1,8 +1,9 @@
 package server.api;
 
 import commons.Recipes;
+import commons.request.CloneRecipeRequest;
+import commons.request.RenameRecipeRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
@@ -71,36 +72,32 @@ public class RecipeController {
 
     /**
      * Rename a recipe
-     *
-     * @param id   id of recipe to rename
-     * @param name new name for the recipe
+     * @param request request with required information
      * @return newly set name
      */
     @PostMapping("/rename")
-    public ResponseEntity<String> rename
-    (@RequestParam Long id, @RequestBody @NotBlank String name) {
-        Recipes recipe = recipeService.getRecipeByIdSafe(id);
+    public ResponseEntity<String> rename(
+            @RequestBody @Valid RenameRecipeRequest request) {
+        Recipes recipe = recipeService.getRecipeByIdSafe(request.recipeId());
         if (recipe == null) {
             return ResponseEntity.badRequest().build();
         }
-        recipe.setName(name);
+        recipe.setName(request.newName());
         recipeService.addRecipe(recipe);
-        return ResponseEntity.ok(name);
+        return ResponseEntity.ok(request.newName());
     }
 
     /**
      * Clones a given recipe
-     * @param recipe recipe to clone
-     * @param newName name of cloned recipe
+     * @param request request with required information
      * @return the cloned recipe
      */
     @PostMapping("/clone")
-    public ResponseEntity<Recipes> cloneRecipe(@RequestBody Recipes recipe,
-                                               @RequestParam @NotBlank String newName)
-    {
-        if (!getAll().contains(recipe))
+    public ResponseEntity<Recipes> cloneRecipe(
+            @RequestBody @Valid CloneRecipeRequest request) {
+        if (!getAll().contains(request.recipe()))
             return ResponseEntity.badRequest().build();
-        Recipes retRecipe = recipe.cloneRecipes(newName);
+        Recipes retRecipe = request.recipe().cloneRecipes(request.newName());
         retRecipe.setRecipeOnIngredients();
         recipeService.addRecipe(retRecipe);
         return ResponseEntity.ok(retRecipe);
