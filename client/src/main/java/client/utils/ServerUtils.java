@@ -24,6 +24,7 @@ import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.PreparationStep;
 import commons.Recipes;
+import commons.request.CloneRecipeRequest;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.ProcessingException;
@@ -78,12 +79,13 @@ public class ServerUtils {
      * @return the recipe if cloned successfully
      */
     public Recipes cloneRecipe(Recipes recipe, String newName) {
+        CloneRecipeRequest request = new CloneRecipeRequest(recipe, newName);
+
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
-                .queryParam("newName", newName)
                 .path("api/recipe/clone")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
+                .post(Entity.entity(request, APPLICATION_JSON), Recipes.class);
     }
 
     public List<Ingredients> getIngredientsFromDatabase() {
