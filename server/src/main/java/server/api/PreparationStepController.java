@@ -5,8 +5,8 @@ import commons.Recipes;
 import commons.request.AddPreparationStepRequest;
 import commons.request.DeletePreparationStepRequest;
 import commons.request.EditPreparationStepRequest;
-import commons.request.ListPreparationStepRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
@@ -29,13 +29,13 @@ public class PreparationStepController {
 
     /**
      * Lists the preparation steps of a recipe
-     * @param request request with required information
+     * @param recipeId id of recipe to fetch preparation steps for
      * @return a List of all the preparation steps from the database.
      */
     @GetMapping("/list")
     public ResponseEntity<List<PreparationStep>> getPreparationSteps(
-            @RequestBody @Valid ListPreparationStepRequest request) {
-        Recipes recipe = recipeService.getRecipeByIdSafe(request.recipeId());
+            @RequestBody @NotNull Long recipeId) {
+        Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
         if (recipe == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -79,7 +79,8 @@ public class PreparationStepController {
             return ResponseEntity.notFound().build();
         }
 
-        steps.get(request.index()).setDescription(request.preparationStep().getDescription());
+        steps.get(request.index()).setDescription(
+                request.preparationStep().getDescription());
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(request.preparationStep());
     }
