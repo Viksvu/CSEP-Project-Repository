@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 /**
+ * Clone a recipe
  * @param recipe recipe to clone
  * @param newName name of cloned recipe
  */

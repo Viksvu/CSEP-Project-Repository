@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 /**
+ * Edit an ingredient in a recipe
  * @param recipeId id of recipe where to edit ingredient from
  * @param ingredient edited ingredient
  */

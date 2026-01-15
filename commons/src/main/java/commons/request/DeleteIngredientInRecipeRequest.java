@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 /**
+ * Delete an ingredient from a recipe
  * @param recipeId id of recipe to delete ingredient from
  * @param ingredient ingredient to delete
  */

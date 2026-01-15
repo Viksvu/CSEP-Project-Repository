@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 /**
+ * Delete a preparation step from a recipe
  * @param recipeId id of recipe to delete preparation step from
  * @param preparationStep preparation step to delete
  */

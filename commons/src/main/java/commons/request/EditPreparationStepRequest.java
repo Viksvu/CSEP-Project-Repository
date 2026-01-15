@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 /**
+ * Edit a preparation step in an ingredient
  * @param recipeId id of recipe to edit preparation step from
  * @param index index of preparation step in preparation step list
  * @param preparationStep edited preparation step
