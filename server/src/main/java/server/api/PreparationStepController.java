@@ -34,7 +34,7 @@ public class PreparationStepController {
      */
     @GetMapping("/list")
     public ResponseEntity<List<PreparationStep>> getPreparationSteps(
-            @RequestBody @NotNull Long recipeId) {
+            @RequestParam @NotNull Long recipeId) {
         Recipes recipe = recipeService.getRecipeByIdSafe(recipeId);
         if (recipe == null) {
             return ResponseEntity.badRequest().build();
