@@ -118,7 +118,16 @@ public class MainCtrl {
             Map<String, Pair<?, Parent>> sceneMap
     ) {
         this.primaryStage = primaryStage;
+        getAllScenes(sceneMap);
+        showOverview();
+        primaryStage.show();
+    }
 
+    /**
+     * Initialises all scenes based on the sceneMap provided
+     * @param sceneMap  map containing scenes and controllers
+     */
+    public void getAllScenes(Map<String, Pair<?, Parent>> sceneMap) {
         Pair<?, Parent> overviewPair = sceneMap.get("overview");
         this.overviewCtrl = (RecipeOverviewCtrl) overviewPair.getKey();
         this.overview = new Scene(overviewPair.getValue());
@@ -186,11 +195,7 @@ public class MainCtrl {
 
         this.recipeObservableList = FXCollections.observableArrayList();
         this.addIngredientCtrl.provideShoppingList(this.shoppingList);
-
-        showOverview();
-        primaryStage.show();
     }
-
 
     /**
      * Sets the recipe-overview scene as the primary scene
