@@ -19,10 +19,7 @@ import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.PreparationStep;
 import commons.Recipes;
-import commons.request.AddPreparationStepRequest;
-import commons.request.CloneRecipeRequest;
-import commons.request.DeletePreparationStepRequest;
-import commons.request.EditPreparationStepRequest;
+import commons.request.*;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -159,11 +156,13 @@ public class ServerUtils {
     public IngredientInRecipe
     addIngredientToRecipe(IngredientInRecipe ingredient, Recipes recipe) {
         Long recipeId = recipe.getId();
+        AddIngredientInRecipeRequest request =
+                new AddIngredientInRecipeRequest(recipeId, ingredient);
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).queryParam("id", recipeId)
+                .target(SERVER)
                 .path("api/recipeingredient/add")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(ingredient, APPLICATION_JSON),
+                .post(Entity.entity(request, APPLICATION_JSON),
                         IngredientInRecipe.class);
     }
 
@@ -176,11 +175,13 @@ public class ServerUtils {
     public IngredientInRecipe
     editIngredientInRecipe(IngredientInRecipe ingredient, Recipes recipe) {
         Long recipeId = recipe.getId();
+        EditIngredientInRecipeRequest request =
+                new EditIngredientInRecipeRequest(recipeId, ingredient);
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).queryParam("id", recipeId)
+                .target(SERVER)
                 .path("api/recipeingredient/edit")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(ingredient, APPLICATION_JSON),
+                .post(Entity.entity(request, APPLICATION_JSON),
                         IngredientInRecipe.class);
     }
 
@@ -194,11 +195,13 @@ public class ServerUtils {
     removeIngredientFromRecipe(IngredientInRecipe ingredient,
                                                          Recipes recipe) {
         Long recipeId = recipe.getId();
+        DeleteIngredientInRecipeRequest request =
+                new DeleteIngredientInRecipeRequest(recipeId, ingredient);
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).queryParam("id", recipeId)
+                .target(SERVER)
                 .path("api/recipeingredient/delete")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(ingredient, APPLICATION_JSON),
+                .post(Entity.entity(request, APPLICATION_JSON),
                         IngredientInRecipe.class);
     }
 
