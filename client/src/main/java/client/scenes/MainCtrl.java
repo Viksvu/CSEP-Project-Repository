@@ -39,6 +39,7 @@ import java.util.Map;
 public class MainCtrl {
 
     private Stage primaryStage;
+
     private Scene overview;
     private RecipeOverviewCtrl overviewCtrl;
 
@@ -189,6 +190,7 @@ public class MainCtrl {
         showOverview();
         primaryStage.show();
     }
+
 
     /**
      * Sets the recipe-overview scene as the primary scene
