@@ -25,11 +25,9 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import commons.IngredientInRecipe;
-import javafx.application.Platform;
 
 
 import java.util.Map;
