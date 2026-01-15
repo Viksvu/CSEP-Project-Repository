@@ -6,7 +6,6 @@ import commons.Recipes;
 import commons.request.AddPreparationStepRequest;
 import commons.request.DeletePreparationStepRequest;
 import commons.request.EditPreparationStepRequest;
-import commons.request.ListPreparationStepRequest;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -73,10 +72,8 @@ class PreparationStepControllerTest {
 
         this.recipeService.addRecipe(this.recipe);
 
-        ListPreparationStepRequest request = new ListPreparationStepRequest(this.recipe.getId());
         MvcResult result = mvc.perform(get("/api/prep-step/list")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)))
+                        .queryParam("recipeId", this.recipe.getId().toString()))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
 
@@ -87,10 +84,8 @@ class PreparationStepControllerTest {
 
     @Test
     public void testListNullRecipeId() throws Exception {
-        ListPreparationStepRequest request = new ListPreparationStepRequest(-1L);
         this.mvc.perform(get("/api/prep-step/list")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)))
+                    .queryParam("recipeId", "-1"))
                 .andExpect(status().isBadRequest());
     }
 
