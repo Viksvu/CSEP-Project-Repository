@@ -15,22 +15,24 @@
  */
 package client.utils;
 
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
-
-import java.net.ConnectException;
-import java.util.List;
-
 import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.PreparationStep;
 import commons.Recipes;
+import commons.request.AddPreparationStepRequest;
 import commons.request.CloneRecipeRequest;
-import org.glassfish.jersey.client.ClientConfig;
-
+import commons.request.DeletePreparationStepRequest;
+import commons.request.EditPreparationStepRequest;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
+import org.glassfish.jersey.client.ClientConfig;
+
+import java.net.ConnectException;
+import java.util.List;
+
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
 
@@ -224,12 +226,13 @@ public class ServerUtils {
     public PreparationStep addPreparationStepToRecipe(PreparationStep step,
                                                       Recipes recipe) {
         Long recipeId = recipe.getId();
+        AddPreparationStepRequest request =
+                new AddPreparationStepRequest(recipeId, step);
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
-                .queryParam("recipeId", recipeId)
                 .path("api/prep-step/add")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(step, APPLICATION_JSON),
+                .post(Entity.entity(request, APPLICATION_JSON),
                         PreparationStep.class);
     }
 
@@ -244,13 +247,13 @@ public class ServerUtils {
                                                          Recipes recipe,
                                                          int index){
         Long recipeId = recipe.getId();
+        EditPreparationStepRequest request =
+                new EditPreparationStepRequest(recipeId, index, step);
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
-                .queryParam("recipeId", recipeId)
-                .queryParam("index", index)
                 .path("api/prep-step/edit")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(step, APPLICATION_JSON),
+                .post(Entity.entity(request, APPLICATION_JSON),
                         PreparationStep.class);
     }
 
@@ -263,12 +266,13 @@ public class ServerUtils {
     public PreparationStep deletePreparationStepToRecipe(PreparationStep step,
                                                          Recipes recipe) {
         Long recipeId = recipe.getId();
+        DeletePreparationStepRequest request =
+                new DeletePreparationStepRequest(recipeId, step);
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
-                .queryParam("recipeId", recipeId)
                 .path("api/prep-step/delete")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(step, APPLICATION_JSON),
+                .post(Entity.entity(request, APPLICATION_JSON),
                         PreparationStep.class);
     }
 
