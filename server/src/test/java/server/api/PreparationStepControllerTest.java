@@ -3,6 +3,10 @@ package server.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.PreparationStep;
 import commons.Recipes;
+import commons.request.AddPreparationStepRequest;
+import commons.request.DeletePreparationStepRequest;
+import commons.request.EditPreparationStepRequest;
+import commons.request.ListPreparationStepRequest;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,8 +73,10 @@ class PreparationStepControllerTest {
 
         this.recipeService.addRecipe(this.recipe);
 
+        ListPreparationStepRequest request = new ListPreparationStepRequest(this.recipe.getId());
         MvcResult result = mvc.perform(get("/api/prep-step/list")
-                        .queryParam("recipeId", String.valueOf(this.recipe.getId())))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
 
@@ -81,8 +87,10 @@ class PreparationStepControllerTest {
 
     @Test
     public void testListNullRecipeId() throws Exception {
+        ListPreparationStepRequest request = new ListPreparationStepRequest(-1L);
         this.mvc.perform(get("/api/prep-step/list")
-                .queryParam("recipeId", "-1"))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -93,10 +101,10 @@ class PreparationStepControllerTest {
 
         PreparationStep ps = new PreparationStep(name);
 
+        AddPreparationStepRequest request = new AddPreparationStepRequest(this.recipe.getId(), ps);
         this.mvc.perform(post("/api/prep-step/add")
-                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
-                .content(this.objectMapper.writeValueAsString(ps))
-                .contentType(MediaType.APPLICATION_JSON))
+                    .content(this.objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
 
         this.recipe = this.recipeService.getRecipeById(this.recipe.getId());
@@ -110,9 +118,9 @@ class PreparationStepControllerTest {
 
         PreparationStep ps = new PreparationStep(name);
 
+        AddPreparationStepRequest request = new AddPreparationStepRequest(this.recipe.getId(), ps);
         this.mvc.perform(post("/api/prep-step/add")
-                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
-                        .content(this.objectMapper.writeValueAsString(ps))
+                        .content(this.objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
@@ -123,9 +131,9 @@ class PreparationStepControllerTest {
 
         PreparationStep ps = new PreparationStep(name);
 
+        AddPreparationStepRequest request = new AddPreparationStepRequest(-1L, ps);
         this.mvc.perform(post("/api/prep-step/add")
-                        .queryParam("recipeId", "-1")
-                        .content(this.objectMapper.writeValueAsString(ps))
+                        .content(this.objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -140,9 +148,9 @@ class PreparationStepControllerTest {
         this.recipe.addPreparationStep(ps);
         this.recipe = this.recipeService.addRecipe(this.recipe);
 
+        DeletePreparationStepRequest request = new DeletePreparationStepRequest(this.recipe.getId(), ps);
         this.mvc.perform(post("/api/prep-step/delete")
-                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
-                        .content(this.objectMapper.writeValueAsString(ps))
+                        .content(this.objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
 
@@ -157,9 +165,9 @@ class PreparationStepControllerTest {
 
         PreparationStep ps = new PreparationStep(name);
 
+        DeletePreparationStepRequest request = new DeletePreparationStepRequest(this.recipe.getId(), ps);
         this.mvc.perform(post("/api/prep-step/delete")
-                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
-                        .content(this.objectMapper.writeValueAsString(ps))
+                        .content(this.objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
@@ -170,9 +178,9 @@ class PreparationStepControllerTest {
 
         PreparationStep ps = new PreparationStep(name);
 
+        DeletePreparationStepRequest request = new DeletePreparationStepRequest(-1L, ps);
         this.mvc.perform(post("/api/prep-step/delete")
-                        .queryParam("recipeId", "-1")
-                        .content(this.objectMapper.writeValueAsString(ps))
+                        .content(this.objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -189,10 +197,9 @@ class PreparationStepControllerTest {
 
         ps.setDescription(newName);
 
+        EditPreparationStepRequest request = new EditPreparationStepRequest(this.recipe.getId(), 0, ps);
         this.mvc.perform(post("/api/prep-step/edit")
-                .queryParam("recipeId", String.valueOf(this.recipe.getId()))
-                .queryParam("index", "0")
-                .content(this.objectMapper.writeValueAsString(ps))
+                .content(this.objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
 
@@ -212,10 +219,9 @@ class PreparationStepControllerTest {
 
         ps.setDescription(newName);
 
+        EditPreparationStepRequest request = new EditPreparationStepRequest(this.recipe.getId(), 0, ps);
         this.mvc.perform(post("/api/prep-step/edit")
-                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
-                        .queryParam("index", "0")
-                        .content(this.objectMapper.writeValueAsString(ps))
+                        .content(this.objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
@@ -231,10 +237,9 @@ class PreparationStepControllerTest {
 
         ps.setDescription(newName);
 
+        EditPreparationStepRequest request = new EditPreparationStepRequest(-1L, 0, ps);
         this.mvc.perform(post("/api/prep-step/edit")
-                        .queryParam("recipeId", "-1")
-                        .queryParam("index", "0")
-                        .content(this.objectMapper.writeValueAsString(ps))
+                        .content(this.objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -250,10 +255,9 @@ class PreparationStepControllerTest {
 
         ps.setDescription(newName);
 
+        EditPreparationStepRequest request = new EditPreparationStepRequest(this.recipe.getId(), -1, ps);
         this.mvc.perform(post("/api/prep-step/edit")
-                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
-                        .queryParam("index", "-1")
-                        .content(this.objectMapper.writeValueAsString(ps))
+                        .content(this.objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
@@ -269,10 +273,9 @@ class PreparationStepControllerTest {
 
         ps.setDescription(newName);
 
+        EditPreparationStepRequest request = new EditPreparationStepRequest(this.recipe.getId(), 1, ps);
         this.mvc.perform(post("/api/prep-step/edit")
-                        .queryParam("recipeId", String.valueOf(this.recipe.getId()))
-                        .queryParam("index", "1")
-                        .content(this.objectMapper.writeValueAsString(ps))
+                        .content(this.objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
