@@ -10,6 +10,7 @@ import commons.request.DeleteIngredientInRecipeRequest;
 import commons.request.EditIngredientInRecipeRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,6 +21,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import server.services.RecipeService;
+import server.websocket.RecipeWebSocket;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
@@ -54,13 +57,14 @@ public class IngredientInRecipeControllerTest {
     private Recipes recipe;
     private Ingredients ingredient;
     private IngredientInRecipe ingredientInRecipe;
+    private Unit unit;
 
     @BeforeEach
     public void setup() {
         Mockito.reset(recipeService);
         controller = new IngredientInRecipeController(recipeService);
         ingredient = new Ingredients("Salt", 10, 0.0, 0.0, 0.0);
-        Unit unit = Unit.GRAM;
+        unit = Unit.GRAM;
         ingredientInRecipe = new IngredientInRecipe(ingredient, 5, unit);
         recipe = new Recipes();
         recipe.setId(1L);
@@ -136,6 +140,77 @@ public class IngredientInRecipeControllerTest {
 
         verify(recipeService).getRecipeByIdSafe(recipeId);
         verify(recipeService,never()).addRecipe(any());
+    }
+    @Test
+    public void editSuccessUpdatesMatchingIngredientAndNotifies() throws Exception {
+        Long recipeId=21L;
+        recipe.setId(recipeId);
+
+        IngredientInRecipe nonMatching=new IngredientInRecipe();
+        nonMatching.setId(1L);
+        nonMatching.setIngredient(new Ingredients("Pepper",1,0.0,0.0,0.0));
+        nonMatching.setQuantity(1);
+        nonMatching.setUnit(unit);
+
+        IngredientInRecipe matching=new IngredientInRecipe();
+        matching.setId(676L);
+        matching.setIngredient(new Ingredients("Old",1,0.0,0.0,0.0));
+        matching.setQuantity(1);
+        matching.setUnit(unit);
+
+        recipe.getIngredients().clear();
+        recipe.addIngredient(nonMatching);
+        recipe.addIngredient(matching);
+
+        Ingredients newIngredient=new Ingredients("NewIngredient",2,0.0,0.0,0.0);
+        IngredientInRecipe edited=new IngredientInRecipe();
+        edited.setId(676L);
+        edited.setIngredient(newIngredient);
+        edited.setQuantity(123);
+        edited.setUnit(unit);
+
+        when(recipeService.getRecipeByIdSafe(recipeId)).thenReturn(recipe);
+
+        EditIngredientInRecipeRequest req=
+                new EditIngredientInRecipeRequest(recipeId,edited);
+
+        try (MockedStatic<RecipeWebSocket> ws=Mockito.mockStatic(RecipeWebSocket.class)) {
+            MvcResult result=mockMvc.perform(post("/api/recipeingredient/edit")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(req)))
+                    .andReturn();
+
+            assertEquals(200,result.getResponse().getStatus());
+
+            assertEquals("Pepper",nonMatching.getIngredient().getName());
+            assertEquals(1,nonMatching.getQuantity());
+
+            assertEquals("NewIngredient",matching.getIngredient().getName());
+            assertEquals(123,matching.getQuantity());
+            assertEquals(unit,matching.getUnit());
+
+            verify(recipeService).addRecipe(eq(recipe));
+            ws.verify(() -> RecipeWebSocket.notifyRecipeUpdated(recipeId));
+        }
+    }
+    @Test
+    public void deleteWhenRecipeNullReturnsBadRequest() throws Exception {
+        Long recipeId=30L;
+
+        when(recipeService.getRecipeByIdSafe(recipeId)).thenReturn(null);
+
+        DeleteIngredientInRecipeRequest request=
+                new DeleteIngredientInRecipeRequest(recipeId,ingredientInRecipe);
+
+        MvcResult result = mockMvc.perform(post("/api/recipeingredient/delete")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andReturn();
+
+        assertEquals(400,result.getResponse().getStatus());
+
+        verify(recipeService).getRecipeByIdSafe(recipeId);
+        verify(recipeService, never()).addRecipe(any());
     }
     @Test
     public void deleteSuccessRemovesIngredient() throws Exception {
