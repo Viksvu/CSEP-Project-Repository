@@ -121,7 +121,7 @@ public class IngredientInRecipe {
     //Need to decide if only ingredient name should be shown or also quantity
     @Override
     public String toString() {
-        double scaleFactor = 1.0; // we need to change this one if we want dynamic scaling
+        double scaleFactor = ValuesScaling.getScaleFactor();
         String scaledAmount = ValuesScaling.getScaledAmount(this, scaleFactor);
         if (getQuantity() == 1) {
         return getIngredient().getName()

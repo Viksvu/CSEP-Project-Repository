@@ -101,5 +101,30 @@ public class ValuesScaling {
                 })
                 .collect(Collectors.toList());
     }
+
+
+    private static double scaleFactor = 1.0;
+
+    /**
+     *
+     * Sets the global scale factor for value scaling.
+     *
+     * @param factor
+     */
+    public static void setScaleFactor(double factor) {
+        if (factor > 0) {
+            scaleFactor = factor;
+        }
+    }
+
+    /**
+     *
+     * Gets the current global scale factor for value scaling.
+     *
+     * @return
+     */
+    public static double getScaleFactor() {
+        return scaleFactor;
+    }
 }
 
