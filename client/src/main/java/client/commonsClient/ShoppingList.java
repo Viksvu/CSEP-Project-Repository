@@ -1,6 +1,8 @@
 package client.commonsClient;
 
 import commons.IngredientInRecipe;
+import commons.Printable;
+import commons.ReadmeOptions;
 import commons.Recipes;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.nio.file.Paths;
 import java.io.IOException;
 
 
-public class ShoppingList {
+public class ShoppingList implements Printable {
     /// The list containing the full shopping list ingredients.
     private final List<IngredientInShoppingList> shoppingList;
 
@@ -189,6 +191,20 @@ public class ShoppingList {
     }
 
 
-
-
+    /**
+     * Returns the indexed list of all things in the Shopping list
+     * @return
+     */
+    @Override
+    public List<Object> indexing() {
+        List<Object> ret = new ArrayList<>();
+        ret.add(ReadmeOptions.H1);
+        ret.add("My Shopping List");
+        ret.add(ReadmeOptions.BULLET);
+        for (IngredientInShoppingList ingredient : shoppingList) {
+            ret.add(ingredient.toString());
+        }
+        ret.add(ReadmeOptions.END_BULLET);
+        return ret;
+    }
 }
