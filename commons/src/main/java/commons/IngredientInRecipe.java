@@ -49,6 +49,18 @@ public class IngredientInRecipe {
     }
 
     /**
+     * constructor for testing
+     * @param ingredient the ingredient
+     * @param quantity the quantity
+     * @param unit the unit
+     */
+    public IngredientInRecipe(Ingredients ingredient, int quantity, Unit unit) {
+        this.ingredient = ingredient;
+        this.quantity = quantity;
+        this.unit = unit;
+    }
+
+    /**
      * Clones "this" by cloning all the attributes
      * @return the clone
      */
