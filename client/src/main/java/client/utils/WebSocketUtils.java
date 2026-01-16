@@ -1,96 +1,35 @@
 package client.utils;
 
-import jakarta.websocket.*;
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
-import java.net.URI;
-import java.util.function.Consumer;
-
-@ClientEndpoint
+@Component
 public class WebSocketUtils {
 
-    private Session session;
-    private Consumer<String> messageHandler;
+    private WebSocketSession session;
+    private final WebSocketMessageHandler handler;
 
-    /**
-     * Constructor for a web socket
-     * api controller
-     */
-    public WebSocketUtils(){
-
+    public WebSocketUtils(WebSocketMessageHandler handler) {
+        this.handler = handler;
     }
 
-    /**
-     * Setter for session handler
-     * @param messageHandler the handler.
-     */
-    public void setMessageHandler(Consumer<String> messageHandler) {
-        this.messageHandler = messageHandler;
+    public void connect() {
+        StandardWebSocketClient client = new StandardWebSocketClient();
+        client.doHandshake(handler, "ws://localhost:8080/ws");
     }
 
-    /**
-     * connects to server via given
-     * URL
-     */
-    public void connect(){
-        try {
-            WebSocketContainer container =
-                    ContainerProvider.getWebSocketContainer();
-
-            container.connectToServer(
-                    this,
-                    URI.create("ws://localhost:8080/ws")
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Runs on open of the web
-     * socket
-     * @param session the active
-     *                session
-     */
-    @OnOpen
-    public void opOpen(Session session){
+    public void setSession(WebSocketSession session) {
         this.session = session;
-        System.out.println("WebSocket connected");
     }
-
-    /**
-     * How messages are handled
-     * from the server
-     * @param message the message from server
-     */
-    @OnMessage
-    public void onMessage(String message){
-        System.out.println("WebSocket message: " + message);
-        messageHandler.accept(message);
-    }
-
-    /**
-     * What happens on close.
-     * Session is set to null
-     * @param session the session with server.
-     */
-    @OnClose
-    public void onClose(Session session) {
-        this.session = null;
-        System.out.println("WebSocket disconnected");
-    }
-
-    /**
-     * Send what we are currently
-     * subscribed too.
-     * @param message the sub messages
-     */
-    public void send(String message) {
+        public void send(String message) {
         if (session != null && session.isOpen()) {
-            session.getAsyncRemote().sendText(message);
+            try {
+                session.sendMessage(new TextMessage(message));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-
-
-
-
 }
