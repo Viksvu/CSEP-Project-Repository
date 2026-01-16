@@ -6,6 +6,11 @@ import java.util.List;
 
 public class MacroCalc {
 
+    /**
+     * Calculates the total fat content of a list of ingredients.
+     * @param ingredients
+     * @return
+     */
     public static double totalFat(List<IngredientInRecipe> ingredients) {
         return ingredients.stream()
                 .mapToDouble(i ->
@@ -14,6 +19,11 @@ public class MacroCalc {
                 .sum();
     }
 
+    /**
+     * Calculates the total fat content of a list of ingredients.
+     * @param ingredients
+     * @return
+     */
     public static double totalCarbs(List<IngredientInRecipe> ingredients) {
         return ingredients.stream()
                 .mapToDouble(i ->
@@ -22,6 +32,11 @@ public class MacroCalc {
                 .sum();
     }
 
+    /**
+     * Calculates the total protein content of a list of ingredients.
+     * @param ingredients
+     * @return
+     */
     public static double totalProtein(List<IngredientInRecipe> ingredients) {
         return ingredients.stream()
                 .mapToDouble(i ->

@@ -9,6 +9,12 @@ import java.util.stream.Collectors;
 
 public class RecipeScaler {
 
+    /**
+     * Scales the ingredients of a recipe by a given factor.
+     * @param recipe
+     * @param scaleFactor
+     * @return
+     */
     public static List<IngredientInRecipe> scaleIngredients(
             Recipes recipe, double scaleFactor) {
 
