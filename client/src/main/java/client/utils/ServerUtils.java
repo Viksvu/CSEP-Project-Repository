@@ -68,6 +68,20 @@ public class ServerUtils {
     }
 
     /**
+     * Renames a recipe
+     * @param recipe to rename
+     * @return the recipe if renamed successfully
+     */
+    public String renameRecipe(Recipes recipe, String newName) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .queryParam("id", recipe.getId())
+                .path("api/recipe/rename")
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(newName, APPLICATION_JSON), String.class);
+    }
+
+    /**
      * Clones a recipe from the database
      * @param recipe to be cloned
      * @return the recipe if cloned successfully
