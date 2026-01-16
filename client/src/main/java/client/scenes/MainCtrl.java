@@ -20,6 +20,7 @@ import client.commonsClient.ShoppingList;
 import client.utils.WebSocketUtils;
 import com.google.inject.Inject;
 import commons.PreparationStep;
+import commons.Printable;
 import commons.Recipes;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -243,9 +244,17 @@ public class MainCtrl {
     /**
      * Sets the save recipe scene as the primary scene
      */
-    public void showSaveRecipe(Recipes recipesToSave) {
-        saveRecipeCtrl.provideRecipe(recipesToSave);
-        primaryStage.setTitle("Saving Recipe");
+    public void showSaveRecipe(Printable thing) {
+        saveRecipeCtrl.provideThing(thing);
+        if (thing instanceof Recipes){
+            primaryStage.setTitle("Saving Recipe");
+        }
+        else if (thing instanceof ShoppingList) {
+            primaryStage.setTitle("Saving Shopping List");
+        }
+        else {
+            primaryStage.setTitle("Saving");
+        }
         primaryStage.setScene(saveRecipe);
         saveRecipe.setOnKeyPressed(k->saveRecipeCtrl.onKeyPressed(k));
     }
