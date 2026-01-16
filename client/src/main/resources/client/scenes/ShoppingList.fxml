@@ -11,14 +11,17 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ShoppingListCtrl">
+<StackPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ShoppingListCtrl">
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
       
           <top>
               <ToolBar>
                   <Label fx:id="shoppingListLabel" text="%shoppingList.label" />
-                  <Pane HBox.hgrow="ALWAYS" />
+                  <Pane HBox.hgrow="ALWAYS">
+                  <children>
+                     <Button fx:id="downloadShoppingListButton" layoutX="14.0" mnemonicParsing="false" onAction="#downloadShoppingList" />
+                  </children></Pane>
                   <Button fx:id="shoppingListBackButton" onAction="#goBack" text="%shoppingList.back" />
               </ToolBar>
           </top>
