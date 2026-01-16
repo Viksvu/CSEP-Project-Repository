@@ -1,6 +1,8 @@
 package server.api;
 
 import commons.Ingredients;
+import commons.request.AddIngredientRequest;
+import commons.request.DeleteIngredientRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,33 +43,30 @@ public class IngredientController {
      * Add an ingredient
      * For creating a new ingredient ID, initialize Ingredient with id = -1
      *
-     * @param ingredient ingredient to add
+     * @param request request with ingredient to add
      * @return ok if added, bad request if something went wrong
      */
     @PostMapping("/add")
     public ResponseEntity<Ingredients>
-    add(@RequestBody @Valid Ingredients ingredient) {
-        if (ingredient == null)
-            return ResponseEntity.badRequest().build();
-
+    add(@RequestBody @Valid AddIngredientRequest request) {
         Ingredients savedIngredient = ingredientsService
-                .addIngredient(ingredient);
+                .addIngredient(request.ingredient());
         return ResponseEntity.ok(savedIngredient);
     }
 
     /**
      * Delete an ingredient
      *
-     * @param ingredient ingredient to delete
+     * @param request request with ingredient to delete
      * @return ok if deleted, bad request if something went wrong
      */
     @PostMapping("/delete")
     public ResponseEntity<Ingredients> remove
-    (@RequestBody @Valid Ingredients ingredient) {
-        if (ingredient.getId() == null || ingredient.getId() == -1) {
+    (@RequestBody @Valid DeleteIngredientRequest request) {
+        if (request.ingredient().getId() == null || request.ingredient().getId() == -1) {
             return ResponseEntity.badRequest().build();
         }
-        ingredientsService.deleteIngredient(ingredient.getId());
-        return ResponseEntity.ok(ingredient);
+        ingredientsService.deleteIngredient(request.ingredient().getId());
+        return ResponseEntity.ok(request.ingredient());
     }
 }

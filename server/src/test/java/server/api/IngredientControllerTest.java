@@ -2,6 +2,7 @@ package server.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Ingredients;
+import commons.request.AddIngredientRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -74,7 +75,9 @@ public class IngredientControllerTest {
         when(ingredientsService.addIngredient(any())).thenReturn(i1);
         MvcResult result = mockMvc.perform(post("/api/ingredient/add")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(i1))).andReturn();
+                        .content(objectMapper.writeValueAsString(
+                                new AddIngredientRequest(i1))))
+                .andReturn();
         String json = result.getResponse().getContentAsString();
         Ingredients response = objectMapper.readValue(json, Ingredients.class);
         assertEquals(response.getId(), i1.getId());
@@ -88,7 +91,9 @@ public class IngredientControllerTest {
         when(ingredientsService.addIngredient(any())).thenReturn(i1);
         MvcResult result = mockMvc.perform(post("/api/ingredient/add")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(i1))).andReturn();
+                .content(objectMapper.writeValueAsString(
+                        new AddIngredientRequest(i1))))
+                .andReturn();
         assertEquals(400, result.getResponse().getStatus());
     }
 }
