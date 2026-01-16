@@ -104,6 +104,9 @@ public class RecipeOverviewCtrl implements Initializable {
     private Button refreshButton;
 
     @FXML
+    private Button renameRecipeButton;
+
+    @FXML
     private Label mainTitle;
 
     @FXML
@@ -192,6 +195,12 @@ public class RecipeOverviewCtrl implements Initializable {
             favorites.add(scanner.nextLong());
         }
         addStarsToRecipeListView();
+        ImageView iv = new ImageView(new Image(
+                new File("src/main/resources/pictures/img.png")
+                        .toURI().toString()));
+        iv.setFitHeight(20);
+        iv.setFitWidth(20);
+        renameRecipeButton.setGraphic(iv);
     }
 
     /**
