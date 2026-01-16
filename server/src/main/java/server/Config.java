@@ -19,13 +19,25 @@ import java.util.Random;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 @Configuration
+@Profile("!test")
 public class Config {
 
     @Deprecated
     @Bean
     public Random getRandom() {
         return new Random();
+    }
+
+    /**
+     * Server endpoint exporter
+     * @return
+     */
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
     }
 }
