@@ -86,10 +86,10 @@ public class RecipeOverviewCtrl implements Initializable {
     private Button addToShop;
 
     @FXML
-    private TextField cloneRecipeNameTF;
+    private TextField recipeNameTF;
 
     @FXML
-    private Label cloneRecipeNameLabel;
+    private Label recipeNameLabel;
 
     @FXML
     private Button cloneRecipeButton;
@@ -102,6 +102,9 @@ public class RecipeOverviewCtrl implements Initializable {
 
     @FXML
     private Button refreshButton;
+
+    @FXML
+    private Button renameRecipeButton;
 
     @FXML
     private Label mainTitle;
@@ -118,6 +121,8 @@ public class RecipeOverviewCtrl implements Initializable {
     private Predicate<Recipes> favFilter=
             (Recipes r)->true;
 
+    private boolean isRenaming;
+
     /**
      * Recipe overview controller constructor.
      *
@@ -131,6 +136,7 @@ public class RecipeOverviewCtrl implements Initializable {
         this.server = server;
         this.ingredientsData = FXCollections.observableArrayList();
         this.isCloning = false;
+        this.isRenaming = false;
         ingredientButtons = new ArrayList<>();
     }
 
@@ -152,7 +158,7 @@ public class RecipeOverviewCtrl implements Initializable {
         refreshButton.setText(resourceBundle.getString("refresh"));
         cloneButton.setText(resourceBundle.getString("clone"));
         cloneRecipeButton.setText(resourceBundle.getString("clone.ok"));
-        cloneRecipeNameLabel.setText(resourceBundle.getString("clone.newRecipeName"));
+        recipeNameLabel.setText(resourceBundle.getString("clone.newRecipeName"));
         favSort.setText(resourceBundle.getString("favourites"));
 
         searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
@@ -165,8 +171,8 @@ public class RecipeOverviewCtrl implements Initializable {
         this.filteredRecipes = new FilteredList<>(recipeData);
       //  filteredRecipes.setPredicate(searchFilter);
         this.sortedRecipes = new SortedList<>(filteredRecipes);
-        cloneRecipeNameLabel.toBack();
-        cloneRecipeNameTF.toBack();
+        recipeNameLabel.toBack();
+        recipeNameTF.toBack();
         cloneRecipeButton.toBack();
         Scanner scanner= null;
         if (!STARREDFILE.exists()) {
@@ -189,6 +195,12 @@ public class RecipeOverviewCtrl implements Initializable {
             favorites.add(scanner.nextLong());
         }
         addStarsToRecipeListView();
+        ImageView iv = new ImageView(new Image(
+                new File("src/main/resources/pictures/img.png")
+                        .toURI().toString()));
+        iv.setFitHeight(20);
+        iv.setFitWidth(20);
+        renameRecipeButton.setGraphic(iv);
     }
 
     /**
@@ -258,7 +270,7 @@ public class RecipeOverviewCtrl implements Initializable {
         refreshIngredients(lastSelectedRecipe);
         refreshPreparationSteps(lastSelectedRecipe);
         if (isCloning) {
-            cloneRecipeNameTF.setText(lastSelectedRecipe.getName() + " copy");
+            recipeNameTF.setText(lastSelectedRecipe.getName() + " copy");
         }
         recipeListView.refresh();
     }
@@ -581,7 +593,24 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
     /**
-     * Shows the text field for entering the new recipe name
+     * Shows the text field for entering the new recipe name (renamed)
+     */
+    public void renameRecipe() {
+        if (lastSelectedRecipe == null) {
+            // Show the error scene
+        }
+        else {
+            isRenaming = true;
+            recipeNameLabel.toFront();
+            recipeNameTF.toFront();
+            recipeNameTF.setText(lastSelectedRecipe.getName());
+            recipeNameTF.setEditable(true);
+            cloneRecipeButton.toFront();
+        }
+    }
+
+    /**
+     * Shows the text field for entering the new recipe name (cloned)
      */
     public void cloneRecipe() {
         if (lastSelectedRecipe == null) {
@@ -589,10 +618,10 @@ public class RecipeOverviewCtrl implements Initializable {
         }
         else {
             isCloning = true;
-            cloneRecipeNameLabel.toFront();
-            cloneRecipeNameTF.toFront();
-            cloneRecipeNameTF.setText(lastSelectedRecipe.getName() + " copy");
-            cloneRecipeNameTF.setEditable(true);
+            recipeNameLabel.toFront();
+            recipeNameTF.toFront();
+            recipeNameTF.setText(lastSelectedRecipe.getName() + " copy");
+            recipeNameTF.setEditable(true);
             cloneRecipeButton.toFront();
         }
     }
@@ -601,23 +630,41 @@ public class RecipeOverviewCtrl implements Initializable {
      * Calls the clone recipe method of the server
      * and clones the last selected recipe
      */
-    public void okClone() {
-        if (cloneRecipeNameTF.getText().isEmpty()) {
+    public void okRecipe() {
+        if (recipeNameTF.getText().isEmpty()) {
             return;
         }
-        for(int i=0;i<recipeData.size();i++){
-            if(recipeData.get(i).getName().equals(cloneRecipeNameTF.getText())){
-                return;
+        if (isCloning){
+            for (int i = 0; i < recipeData.size(); i++) {
+                if (recipeData.get(i).getName().equals(recipeNameTF.getText())) {
+                    return;
+                }
+            }
+            server.cloneRecipe(lastSelectedRecipe, recipeNameTF.getText());
+            refreshRecipes();
+            refreshIngredients(lastSelectedRecipe);
+            refreshPreparationSteps(lastSelectedRecipe);
+            recipeNameTF.toBack();
+            recipeNameLabel.toBack();
+            cloneRecipeButton.toBack();
+            isCloning = false;
+        }
+        else if (isRenaming){
+            for (int i = 0; i < recipeData.size(); i++) {
+                if (!lastSelectedRecipe.getName().equals(recipeNameTF.getText())
+                        && (recipeData.get(i).getName().equals(recipeNameTF.getText()))) {
+                    return;
+                }
+                server.renameRecipe(lastSelectedRecipe, recipeNameTF.getText());
+                refreshRecipes();
+                refreshIngredients(lastSelectedRecipe);
+                refreshPreparationSteps(lastSelectedRecipe);
+                recipeNameTF.toBack();
+                recipeNameLabel.toBack();
+                cloneRecipeButton.toBack();
+                isRenaming = false;
             }
         }
-        server.cloneRecipe(lastSelectedRecipe, cloneRecipeNameTF.getText());
-        refreshRecipes();
-        refreshIngredients(lastSelectedRecipe);
-        refreshPreparationSteps(lastSelectedRecipe);
-        cloneRecipeNameTF.toBack();
-        cloneRecipeNameLabel.toBack();
-        cloneRecipeButton.toBack();
-        isCloning = false;
     }
 
     /**
@@ -866,8 +913,8 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void keyPressed(KeyEvent keyEvent) {
         if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.ENTER) {
-            if (isCloning) {
-                okClone();
+            if (isCloning || isRenaming) {
+                okRecipe();
             }
             else {
                 searchInit();

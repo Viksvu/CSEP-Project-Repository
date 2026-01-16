@@ -2,6 +2,8 @@ package server.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Ingredients;
+import commons.request.AddIngredientRequest;
+import commons.request.DeleteIngredientRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,8 +23,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -74,7 +75,9 @@ public class IngredientControllerTest {
         when(ingredientsService.addIngredient(any())).thenReturn(i1);
         MvcResult result = mockMvc.perform(post("/api/ingredient/add")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(i1))).andReturn();
+                        .content(objectMapper.writeValueAsString(
+                                new AddIngredientRequest(i1))))
+                .andReturn();
         String json = result.getResponse().getContentAsString();
         Ingredients response = objectMapper.readValue(json, Ingredients.class);
         assertEquals(response.getId(), i1.getId());
@@ -88,7 +91,76 @@ public class IngredientControllerTest {
         when(ingredientsService.addIngredient(any())).thenReturn(i1);
         MvcResult result = mockMvc.perform(post("/api/ingredient/add")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(i1))).andReturn();
+                .content(objectMapper.writeValueAsString(
+                        new AddIngredientRequest(i1))))
+                .andReturn();
         assertEquals(400, result.getResponse().getStatus());
+    }
+    @Test
+    public void getAllReturnsIngredients() throws Exception {
+        when(ingredientsService.getAllIngredients()).thenReturn(List.of(i1,i2));
+
+        MvcResult result=mockMvc.perform(get("/api/ingredient/list"))
+                .andReturn();
+
+        assertEquals(200,result.getResponse().getStatus());
+
+        String json=result.getResponse().getContentAsString();
+        List<Ingredients> responseList =
+                Arrays.asList(objectMapper.readValue(json,Ingredients[].class));
+
+        assertEquals(2,responseList.size());
+        assertEquals(i1.getName(),responseList.get(0).getName());
+        assertEquals(i2.getName(),responseList.get(1).getName());
+
+        verify(ingredientsService).getAllIngredients();
+    }
+
+    @Test
+    public void deleteIngredientIdNullReturnsBadRequest() throws Exception {
+        i1.setId(null);
+
+        MvcResult result=mockMvc.perform(post("/api/ingredient/delete")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(
+                                new DeleteIngredientRequest(i1))))
+                .andReturn();
+
+        assertEquals(400,result.getResponse().getStatus());
+        verify(ingredientsService,never()).deleteIngredient(any());
+    }
+
+    @Test
+    public void deleteIngredientIdMinusOneReturnsBadRequest() throws Exception {
+        i1.setId(-1L);
+
+        MvcResult result = mockMvc.perform(post("/api/ingredient/delete")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(
+                                new DeleteIngredientRequest(i1))))
+                .andReturn();
+
+        assertEquals(400,result.getResponse().getStatus());
+        verify(ingredientsService,never()).deleteIngredient(any());
+    }
+
+    @Test
+    public void deleteIngredientValidIdReturnsOkAndDeletes() throws Exception {
+        i1.setId(5L);
+
+        MvcResult result=mockMvc.perform(post("/api/ingredient/delete")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(
+                                new DeleteIngredientRequest(i1))))
+                .andReturn();
+
+        assertEquals(200,result.getResponse().getStatus());
+        String json=result.getResponse().getContentAsString();
+        Ingredients response=objectMapper.readValue(json, Ingredients.class);
+
+        assertEquals(i1.getId(),response.getId());
+        assertEquals(i1.getName(),response.getName());
+
+        verify(ingredientsService).deleteIngredient(5L);
     }
 }
