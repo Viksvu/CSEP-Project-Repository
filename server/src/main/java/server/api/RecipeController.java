@@ -1,8 +1,11 @@
 package server.api;
 
 import commons.Recipes;
+import commons.request.AddRecipeRequest;
+import commons.request.CloneRecipeRequest;
+import commons.request.DeleteRecipeRequest;
+import commons.request.RenameRecipeRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
@@ -43,64 +46,60 @@ public class RecipeController {
 
     /**
      * Add a recipe
-     * For creating a new recipe ID, initialize Recipe with id = -1
-     *
-     * @param recipe recipe to add
-     * @return ok if added, bad request if something went wrong
+     * @param request request with recipe to add
+     * @return newly saved recipe
      */
     @PostMapping("/add")
-    public ResponseEntity<Recipes> add(@RequestBody @Valid Recipes recipe) {
-        Recipes savedRecipe = recipeService.addRecipe(recipe);
+    public ResponseEntity<Recipes> add(
+            @RequestBody @Valid AddRecipeRequest request) {
+        Recipes savedRecipe = recipeService.addRecipe(request.recipe());
         return ResponseEntity.ok(savedRecipe);
     }
 
     /**
      * Delete a recipe
      *
-     * @param recipe recipe to delete
+     * @param request request with recipe to delete
      * @return ok if deleted, bad request if something went wrong
      */
     @PostMapping("/delete")
-    public ResponseEntity<Recipes> remove(@RequestBody Recipes recipe) {
-        if (recipe.getId() == null) {
+    public ResponseEntity<Recipes> remove(
+            @RequestBody @Valid DeleteRecipeRequest request) {
+        if (request.recipe().getId() == null) {
             return ResponseEntity.badRequest().build();
         }
-        recipeService.deleteRecipe(recipe.getId());
-        return ResponseEntity.ok(recipe);
+        recipeService.deleteRecipe(request.recipe().getId());
+        return ResponseEntity.ok(request.recipe());
     }
 
     /**
      * Rename a recipe
-     *
-     * @param id   id of recipe to rename
-     * @param name new name for the recipe
+     * @param request request with required information
      * @return newly set name
      */
     @PostMapping("/rename")
-    public ResponseEntity<String> rename
-    (@RequestParam Long id, @RequestBody @NotBlank String name) {
-        Recipes recipe = recipeService.getRecipeByIdSafe(id);
+    public ResponseEntity<String> rename(
+            @RequestBody @Valid RenameRecipeRequest request) {
+        Recipes recipe = recipeService.getRecipeByIdSafe(request.recipeId());
         if (recipe == null) {
             return ResponseEntity.badRequest().build();
         }
-        recipe.setName(name);
+        recipe.setName(request.newName());
         recipeService.addRecipe(recipe);
-        return ResponseEntity.ok(name);
+        return ResponseEntity.ok(request.newName());
     }
 
     /**
      * Clones a given recipe
-     * @param recipe recipe to clone
-     * @param newName name of cloned recipe
+     * @param request request with required information
      * @return the cloned recipe
      */
     @PostMapping("/clone")
-    public ResponseEntity<Recipes> cloneRecipe(@RequestBody Recipes recipe,
-                                               @RequestParam @NotBlank String newName)
-    {
-        if (!getAll().contains(recipe))
+    public ResponseEntity<Recipes> cloneRecipe(
+            @RequestBody @Valid CloneRecipeRequest request) {
+        if (!getAll().contains(request.recipe()))
             return ResponseEntity.badRequest().build();
-        Recipes retRecipe = recipe.cloneRecipes(newName);
+        Recipes retRecipe = request.recipe().cloneRecipes(request.newName());
         retRecipe.setRecipeOnIngredients();
         recipeService.addRecipe(retRecipe);
         return ResponseEntity.ok(retRecipe);

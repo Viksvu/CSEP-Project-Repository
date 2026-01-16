@@ -15,24 +15,24 @@
  */
 package client.utils;
 
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
-
-import java.net.ConnectException;
-import java.util.List;
-
 import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.PreparationStep;
 import commons.Recipes;
-import org.glassfish.jersey.client.ClientConfig;
-
+import commons.request.*;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
+import org.glassfish.jersey.client.ClientConfig;
+
+import java.net.ConnectException;
+import java.util.List;
+
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
-
 	private static final String SERVER = System.getenv("SERVER_URL") == null
             ? "http://localhost:8080/"
             : System.getenv("SERVER_URL");
@@ -42,10 +42,10 @@ public class ServerUtils {
      * @return the list
      */
     public List<Recipes> getRecipes() {
-		return ClientBuilder.newClient(new ClientConfig()) //
-				.target(SERVER).path("api/recipe/list") //
-				.request(APPLICATION_JSON) //
-				.get(new GenericType<List<Recipes>>() {});
+        return sendGetRequest(
+                new GenericType<List<Recipes>>() {},
+                "api/recipe/list"
+        );
 	}
 
     /**
@@ -53,11 +53,8 @@ public class ServerUtils {
      * @return the recipe if added successfully
      */
 	public Recipes addRecipe(Recipes recipe) {
-		return ClientBuilder.newClient(new ClientConfig()) //
-				.target(SERVER).path("api/recipe/add") //
-				.request(APPLICATION_JSON) //
-				.post(Entity
-                        .entity(recipe, APPLICATION_JSON), Recipes.class);
+        AddRecipeRequest request = new AddRecipeRequest(recipe);
+        return sendPostRequest(request, Recipes.class);
 	}
 
     /**
@@ -66,10 +63,8 @@ public class ServerUtils {
      * @return the recipe if removed successfully
      */
     public Recipes removeRecipe(Recipes recipe) {
-       return ClientBuilder.newClient(new ClientConfig())
-               .target(SERVER).path("api/recipe/delete")
-               .request(APPLICATION_JSON)
-               .post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
+        DeleteRecipeRequest request = new DeleteRecipeRequest(recipe);
+        return sendPostRequest(request, Recipes.class);
     }
 
     /**
@@ -92,33 +87,32 @@ public class ServerUtils {
      * @return the recipe if cloned successfully
      */
     public Recipes cloneRecipe(Recipes recipe, String newName) {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .queryParam("newName", newName)
-                .path("api/recipe/clone")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
+        CloneRecipeRequest request = new CloneRecipeRequest(recipe, newName);
+
+        return sendPostRequest(request, Recipes.class);
     }
 
+    /**
+     * Get all ingredients from database
+     * @return list of all ingredients in database
+     */
     public List<Ingredients> getIngredientsFromDatabase() {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/ingredient/list")
-                .request(APPLICATION_JSON)
-                .get(new GenericType<List<Ingredients>>(){});
+        return sendGetRequest(
+                new GenericType<List<Ingredients>>(){},
+                "api/ingredient/list"
+        );
     }
+
     /**
      * Adds an ingredient to the ingredients database
      * if it does not already exist
      * @param ingredient to be added
-     * @return
+     * @return newly added ingredient
      */
     public Ingredients addIngredientToDatabase(Ingredients ingredient) {
         if (!getIngredientsFromDatabase().contains(ingredient)){
-            return ClientBuilder.newClient(new ClientConfig())
-                    .target(SERVER).path("api/ingredient/add")
-                    .request(APPLICATION_JSON) //
-                    .post(Entity.entity(ingredient, APPLICATION_JSON),
-                            Ingredients.class);
+            AddIngredientRequest request = new AddIngredientRequest(ingredient);
+            return sendPostRequest(request, Ingredients.class);
         }
         else return ingredient;
     }
@@ -129,13 +123,11 @@ public class ServerUtils {
      * @return a list with all ingredients in a recipe
      */
     public List<IngredientInRecipe> getIngredientsInRecipe(Recipes recipe) {
-        return ClientBuilder
-                .newClient(new ClientConfig())
-                .target(SERVER)
-                .queryParam("id", recipe.getId())
-                .path("api/recipeingredient/get")
-                .request(APPLICATION_JSON)
-                .get(new GenericType<List<IngredientInRecipe>>(){});
+        return sendGetRequest(
+                new GenericType<List<IngredientInRecipe>>(){},
+                "api/recipeingredient/get",
+                new QueryParam("id", recipe.getId())
+        );
     }
 
     /**
@@ -148,13 +140,11 @@ public class ServerUtils {
             return false;
         }
         try {
-            ClientBuilder
-                    .newClient(new ClientConfig())
-                    .target(SERVER)
-                    .queryParam("id", recipe.getId())
-                    .path("api/recipeingredient/get")
-                    .request(APPLICATION_JSON)
-                    .get(new GenericType<List<IngredientInRecipe>>(){});
+            sendGetRequest(
+                    new GenericType<List<IngredientInRecipe>>(){},
+                    "api/recipeingredient/get",
+                    new QueryParam("id", recipe.getId())
+            );
             return true;
         }catch(jakarta.ws.rs.WebApplicationException e) {
             return false;
@@ -163,53 +153,47 @@ public class ServerUtils {
 
     /**
      * Adds an ingredient as to a recipe
-     * @param ingredient
-     * @return
+     * @param ingredient ingredient to add
+     * @return newly added ingredient
      */
     public IngredientInRecipe
     addIngredientToRecipe(IngredientInRecipe ingredient, Recipes recipe) {
         Long recipeId = recipe.getId();
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).queryParam("id", recipeId)
-                .path("api/recipeingredient/add")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(ingredient, APPLICATION_JSON),
-                        IngredientInRecipe.class);
+        AddIngredientInRecipeRequest request =
+                new AddIngredientInRecipeRequest(recipeId, ingredient);
+
+        return sendPostRequest(request, IngredientInRecipe.class);
     }
 
 
     /**
      * Adds an ingredient as to a recipe
-     * @param ingredient
-     * @return
+     * @param ingredient ingredient to add
+     * @return newly added ingredient
      */
     public IngredientInRecipe
     editIngredientInRecipe(IngredientInRecipe ingredient, Recipes recipe) {
         Long recipeId = recipe.getId();
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).queryParam("id", recipeId)
-                .path("api/recipeingredient/edit")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(ingredient, APPLICATION_JSON),
-                        IngredientInRecipe.class);
+        EditIngredientInRecipeRequest request =
+                new EditIngredientInRecipeRequest(recipeId, ingredient);
+
+        return sendPostRequest(request, IngredientInRecipe.class);
     }
 
     /**
      * Deletes an ingredient from a recipe
-     * @param ingredient
-     * @param recipe
-     * @return
+     * @param ingredient ingredient to delete
+     * @param recipe recipe to delete from
+     * @return deleted ingredient
      */
     public IngredientInRecipe
     removeIngredientFromRecipe(IngredientInRecipe ingredient,
                                                          Recipes recipe) {
         Long recipeId = recipe.getId();
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).queryParam("id", recipeId)
-                .path("api/recipeingredient/delete")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(ingredient, APPLICATION_JSON),
-                        IngredientInRecipe.class);
+        DeleteIngredientInRecipeRequest request =
+                new DeleteIngredientInRecipeRequest(recipeId, ingredient);
+
+        return sendPostRequest(request, IngredientInRecipe.class);
     }
 
     /**
@@ -219,12 +203,10 @@ public class ServerUtils {
      */
     public List<PreparationStep> getPreparationSteps(Recipes recipe) {
         Long recipeId = recipe.getId();
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .queryParam("recipeId", recipeId)
-                .path("api/prep-step/list")
-                .request(APPLICATION_JSON)
-                .get(new GenericType<List<PreparationStep>>() {});
+        return sendGetRequest(
+                new GenericType<List<PreparationStep>>() {},
+                "api/prep-step/list",
+                new QueryParam("recipeId", recipeId));
     }
 
     /**
@@ -236,13 +218,10 @@ public class ServerUtils {
     public PreparationStep addPreparationStepToRecipe(PreparationStep step,
                                                       Recipes recipe) {
         Long recipeId = recipe.getId();
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .queryParam("recipeId", recipeId)
-                .path("api/prep-step/add")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(step, APPLICATION_JSON),
-                        PreparationStep.class);
+        AddPreparationStepRequest request =
+                new AddPreparationStepRequest(recipeId, step);
+
+        return sendPostRequest(request, PreparationStep.class);
     }
 
     /**
@@ -256,14 +235,10 @@ public class ServerUtils {
                                                          Recipes recipe,
                                                          int index){
         Long recipeId = recipe.getId();
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .queryParam("recipeId", recipeId)
-                .queryParam("index", index)
-                .path("api/prep-step/edit")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(step, APPLICATION_JSON),
-                        PreparationStep.class);
+        EditPreparationStepRequest request =
+                new EditPreparationStepRequest(recipeId, index, step);
+
+        return sendPostRequest(request, PreparationStep.class);
     }
 
     /**
@@ -275,25 +250,69 @@ public class ServerUtils {
     public PreparationStep deletePreparationStepToRecipe(PreparationStep step,
                                                          Recipes recipe) {
         Long recipeId = recipe.getId();
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .queryParam("recipeId", recipeId)
-                .path("api/prep-step/delete")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(step, APPLICATION_JSON),
-                        PreparationStep.class);
+        DeletePreparationStepRequest request =
+                new DeletePreparationStepRequest(recipeId, step);
+
+        return sendPostRequest(request, PreparationStep.class);
     }
 
+    /**
+     * Get a web target with the server url already in it
+     * @return WebTarget for api usage
+     */
+    private WebTarget getBasicWebTarget() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER);
+    }
+
+    /**
+     * Send an update request
+     * @param postRequest request to send
+     * @param responseType answer type to retrieve
+     * @return Object of type responseType
+     * @param <B> UpdateRequest class
+     * @param <A> Response type
+     */
+    private <B extends PostRequest,A> A sendPostRequest(
+            B postRequest,
+            Class<A> responseType) {
+        return getBasicWebTarget()
+                .path(postRequest.serverPath())
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(postRequest, APPLICATION_JSON),
+                        responseType);
+    }
+
+    /**
+     * Send a get request
+     * @param responseType type of result
+     * @param path path on server
+     * @param params query param(s)
+     * @return result with type specified
+     * @param <A> result object type
+     */
+    private <A> A sendGetRequest(
+            GenericType<A> responseType,
+            String path, QueryParam... params) {
+        WebTarget target = getBasicWebTarget()
+                .path(path);
+
+        for (QueryParam param : params) {
+            target = target.queryParam(param.key(), param.value());
+        }
+
+        return target.request(APPLICATION_JSON)
+                .get(responseType);
+    }
 
 	/**
-     * temp
-     * @return
+     * Check if the server is available
+     * @return true if available
      */
     public boolean isServerAvailable() {
 		try {
-			ClientBuilder.newClient(new ClientConfig()) //
-					.target(SERVER) //
-					.request(APPLICATION_JSON) //
+			getBasicWebTarget()
+					.request(APPLICATION_JSON)
 					.get();
 		} catch (ProcessingException e) {
 			if (e.getCause() instanceof ConnectException) {
