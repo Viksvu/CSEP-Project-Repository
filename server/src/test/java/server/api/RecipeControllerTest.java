@@ -2,6 +2,8 @@ package server.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Recipes;
+import commons.request.CloneRecipeRequest;
+import commons.request.RenameRecipeRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -145,10 +147,11 @@ public class RecipeControllerTest {
         assertNotNull(id);
 
         String newName = "VeryCoolName";
+        RenameRecipeRequest request = new RenameRecipeRequest(id, newName);
+
         this.mvc.perform(post("/api/recipe/rename")
-                        .queryParam("id", String.valueOf(id))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(newName))
+                        .content(this.objectMapper.writeValueAsString(request)))
                 .andExpect(status().is2xxSuccessful());
 
         r = this.recipeService.getRecipeById(id);
@@ -165,10 +168,11 @@ public class RecipeControllerTest {
         assertNotNull(id);
 
         String newName = "";
+        RenameRecipeRequest request = new RenameRecipeRequest(id, newName);
+
         this.mvc.perform(post("/api/recipe/rename")
-                        .queryParam("id", String.valueOf(id))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(newName))
+                        .content(this.objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -176,10 +180,10 @@ public class RecipeControllerTest {
     public void testRenameInvalidID() throws Exception {
         Long id = -1L;
         String newName = "VeryCoolName";
+        RenameRecipeRequest request = new RenameRecipeRequest(id, newName);
         this.mvc.perform(post("/api/recipe/rename")
-                        .queryParam("id", String.valueOf(id))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(newName))
+                        .content(this.objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -190,10 +194,11 @@ public class RecipeControllerTest {
 
         String newName = "ClonedRecipe";
 
+        CloneRecipeRequest request = new CloneRecipeRequest(r, newName);
+
         MvcResult result = this.mvc.perform(post("/api/recipe/clone")
-                .queryParam("newName", newName)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsString(r)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(this.objectMapper.writeValueAsString(request)))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
 
@@ -212,10 +217,11 @@ public class RecipeControllerTest {
 
         String newName = "ClonedRecipe";
 
+        CloneRecipeRequest request = new CloneRecipeRequest(r, newName);
+
         this.mvc.perform(post("/api/recipe/clone")
-                        .queryParam("newName", newName)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(this.objectMapper.writeValueAsString(r)))
+                        .content(this.objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
     }

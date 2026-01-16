@@ -3,6 +3,8 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import commons.util.ValuesScaling;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -16,8 +18,15 @@ public class IngredientInRecipe {
     @ManyToOne(optional = false)
     private Ingredients ingredient;
 
+    @Min(
+        value = 0,
+        message = "cannot add negative quantity"
+    )
     private int quantity;
 
+    @NotNull(
+        message = "unit cannot be null"
+    )
     @Enumerated(EnumType.STRING)
     private Unit unit;
 

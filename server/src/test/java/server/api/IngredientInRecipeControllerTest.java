@@ -4,6 +4,9 @@ import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.Recipes;
 import commons.Unit;
+import commons.request.AddIngredientInRecipeRequest;
+import commons.request.DeleteIngredientInRecipeRequest;
+import commons.request.EditIngredientInRecipeRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -48,7 +51,8 @@ class IngredientInRecipeControllerTest {
 
     @Test
     void add() {
-        ResponseEntity<IngredientInRecipe> response = ic.add(r1.getId(), iR);
+        AddIngredientInRecipeRequest request = new AddIngredientInRecipeRequest(r1.getId(), iR);
+        ResponseEntity<IngredientInRecipe> response = ic.add(request);
         assertEquals(OK, response.getStatusCode());
 
         ResponseEntity<List<IngredientInRecipe>> response2 = ic.get(r1.getId());
@@ -60,22 +64,26 @@ class IngredientInRecipeControllerTest {
 
     @Test
     void addNull() {
-        ResponseEntity<IngredientInRecipe> response = ic.add(r1.getId(), null);
+        AddIngredientInRecipeRequest request = new AddIngredientInRecipeRequest(r1.getId(), null);
+        ResponseEntity<IngredientInRecipe> response = ic.add(request);
         assertEquals(BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     void addInvalidRecipe() {
-        ResponseEntity<IngredientInRecipe> response = ic.add(-2L, iR);
+        AddIngredientInRecipeRequest request = new AddIngredientInRecipeRequest(-2L, iR);
+        ResponseEntity<IngredientInRecipe> response = ic.add(request);
         assertEquals(BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     void delete() {
-        ResponseEntity<IngredientInRecipe> response = ic.add(r1.getId(), iR);
+        AddIngredientInRecipeRequest request = new AddIngredientInRecipeRequest(r1.getId(), iR);
+        ResponseEntity<IngredientInRecipe> response = ic.add(request);
         assertEquals(OK, response.getStatusCode());
 
-        response = ic.delete(r1.getId(), iR);
+        DeleteIngredientInRecipeRequest request2 = new DeleteIngredientInRecipeRequest(r1.getId(), iR);
+        response = ic.delete(request2);
         assertEquals(OK, response.getStatusCode());
 
         ResponseEntity<List<IngredientInRecipe>> response2 = ic.get(r1.getId());
@@ -87,7 +95,8 @@ class IngredientInRecipeControllerTest {
 
     @Test
     void deleteNull() {
-        ResponseEntity<IngredientInRecipe> response = ic.delete(r1.getId(), null);
+        DeleteIngredientInRecipeRequest request = new DeleteIngredientInRecipeRequest(r1.getId(), null);
+        ResponseEntity<IngredientInRecipe> response = ic.delete(request);
         assertEquals(BAD_REQUEST, response.getStatusCode());
     }
 
@@ -108,7 +117,8 @@ class IngredientInRecipeControllerTest {
         edited.setQuantity(5);
         edited.setUnit(Unit.TABLE_SPOON);
 
-        ResponseEntity<IngredientInRecipe> response = ic.edit(r1.getId(), edited);
+        EditIngredientInRecipeRequest request = new EditIngredientInRecipeRequest(r1.getId(), edited);
+        ResponseEntity<IngredientInRecipe> response = ic.edit(request);
         assertEquals(OK, response.getStatusCode());
 
         IngredientInRecipe updated = r1.getIngredients().get(0);
@@ -120,7 +130,8 @@ class IngredientInRecipeControllerTest {
 
     @Test
     void deleteInvalidRecipe() {
-        ResponseEntity<IngredientInRecipe> response = ic.delete( -2L, iR);
+        DeleteIngredientInRecipeRequest request = new DeleteIngredientInRecipeRequest(-2L, iR);
+        ResponseEntity<IngredientInRecipe> response = ic.delete(request);
         assertEquals(BAD_REQUEST, response.getStatusCode());
     }
 

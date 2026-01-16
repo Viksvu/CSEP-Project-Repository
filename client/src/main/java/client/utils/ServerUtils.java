@@ -15,21 +15,21 @@
  */
 package client.utils;
 
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
-
-import java.net.ConnectException;
-import java.util.List;
-
 import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.PreparationStep;
 import commons.Recipes;
-import org.glassfish.jersey.client.ClientConfig;
-
+import commons.request.*;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
+import org.glassfish.jersey.client.ClientConfig;
+
+import java.net.ConnectException;
+import java.util.List;
+
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
 
@@ -78,12 +78,13 @@ public class ServerUtils {
      * @return the recipe if cloned successfully
      */
     public Recipes cloneRecipe(Recipes recipe, String newName) {
+        CloneRecipeRequest request = new CloneRecipeRequest(recipe, newName);
+
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
-                .queryParam("newName", newName)
                 .path("api/recipe/clone")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
+                .post(Entity.entity(request, APPLICATION_JSON), Recipes.class);
     }
 
     public List<Ingredients> getIngredientsFromDatabase() {
@@ -155,11 +156,13 @@ public class ServerUtils {
     public IngredientInRecipe
     addIngredientToRecipe(IngredientInRecipe ingredient, Recipes recipe) {
         Long recipeId = recipe.getId();
+        AddIngredientInRecipeRequest request =
+                new AddIngredientInRecipeRequest(recipeId, ingredient);
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).queryParam("id", recipeId)
+                .target(SERVER)
                 .path("api/recipeingredient/add")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(ingredient, APPLICATION_JSON),
+                .post(Entity.entity(request, APPLICATION_JSON),
                         IngredientInRecipe.class);
     }
 
@@ -172,11 +175,13 @@ public class ServerUtils {
     public IngredientInRecipe
     editIngredientInRecipe(IngredientInRecipe ingredient, Recipes recipe) {
         Long recipeId = recipe.getId();
+        EditIngredientInRecipeRequest request =
+                new EditIngredientInRecipeRequest(recipeId, ingredient);
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).queryParam("id", recipeId)
+                .target(SERVER)
                 .path("api/recipeingredient/edit")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(ingredient, APPLICATION_JSON),
+                .post(Entity.entity(request, APPLICATION_JSON),
                         IngredientInRecipe.class);
     }
 
@@ -190,11 +195,13 @@ public class ServerUtils {
     removeIngredientFromRecipe(IngredientInRecipe ingredient,
                                                          Recipes recipe) {
         Long recipeId = recipe.getId();
+        DeleteIngredientInRecipeRequest request =
+                new DeleteIngredientInRecipeRequest(recipeId, ingredient);
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).queryParam("id", recipeId)
+                .target(SERVER)
                 .path("api/recipeingredient/delete")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(ingredient, APPLICATION_JSON),
+                .post(Entity.entity(request, APPLICATION_JSON),
                         IngredientInRecipe.class);
     }
 
@@ -222,12 +229,13 @@ public class ServerUtils {
     public PreparationStep addPreparationStepToRecipe(PreparationStep step,
                                                       Recipes recipe) {
         Long recipeId = recipe.getId();
+        AddPreparationStepRequest request =
+                new AddPreparationStepRequest(recipeId, step);
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
-                .queryParam("recipeId", recipeId)
                 .path("api/prep-step/add")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(step, APPLICATION_JSON),
+                .post(Entity.entity(request, APPLICATION_JSON),
                         PreparationStep.class);
     }
 
@@ -242,13 +250,13 @@ public class ServerUtils {
                                                          Recipes recipe,
                                                          int index){
         Long recipeId = recipe.getId();
+        EditPreparationStepRequest request =
+                new EditPreparationStepRequest(recipeId, index, step);
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
-                .queryParam("recipeId", recipeId)
-                .queryParam("index", index)
                 .path("api/prep-step/edit")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(step, APPLICATION_JSON),
+                .post(Entity.entity(request, APPLICATION_JSON),
                         PreparationStep.class);
     }
 
@@ -261,12 +269,13 @@ public class ServerUtils {
     public PreparationStep deletePreparationStepToRecipe(PreparationStep step,
                                                          Recipes recipe) {
         Long recipeId = recipe.getId();
+        DeletePreparationStepRequest request =
+                new DeletePreparationStepRequest(recipeId, step);
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
-                .queryParam("recipeId", recipeId)
                 .path("api/prep-step/delete")
                 .request(APPLICATION_JSON)
-                .post(Entity.entity(step, APPLICATION_JSON),
+                .post(Entity.entity(request, APPLICATION_JSON),
                         PreparationStep.class);
     }
 
