@@ -124,6 +124,7 @@ public class ShoppingList implements Printable {
      *
      * @return the readable string.
      */
+    @Deprecated
     public String printableShoppingList() {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -148,6 +149,7 @@ public class ShoppingList implements Printable {
      *
      * @return the string of the said format.
      */
+    @Deprecated
     public String printableOverviewList() {
         StringBuilder stringBuilder = new StringBuilder();
         for (IngredientInShoppingList ingredient : shoppingList) {
@@ -165,6 +167,7 @@ public class ShoppingList implements Printable {
      *
      * @param filePath the file path, where to save.
      */
+    @Deprecated
     public void saveToFile(String filePath) {
         String content =
                 printableShoppingList();
