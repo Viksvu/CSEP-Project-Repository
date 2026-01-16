@@ -32,12 +32,4 @@ public class Config {
         return new Random();
     }
 
-    /**
-     * Server endpoint exporter
-     * @return
-     */
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
 }
