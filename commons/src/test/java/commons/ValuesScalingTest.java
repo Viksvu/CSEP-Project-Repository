@@ -108,4 +108,42 @@ class ValuesScalingTest {
         assertEquals(800, scaledIngredients.get(1).getQuantity());
         assertEquals(3, scaledIngredients.get(2).getQuantity());
     }
+
+    @Test
+    void scaleRecipeIngredients_scalesQuantitiesCorrectly() {
+        Ingredients flour = new Ingredients("Flour");
+        Ingredients sugar = new Ingredients("Sugar");
+
+        IngredientInRecipe i1 = new IngredientInRecipe(flour);
+        i1.setQuantity(100);
+        i1.setUnit(Unit.GRAM);
+
+        IngredientInRecipe i2 = new IngredientInRecipe(sugar);
+        i2.setQuantity(200);
+        i2.setUnit(Unit.GRAM);
+
+        Recipes recipe = new Recipes("Cake");
+        recipe.setIngredients(List.of(i1, i2));
+
+        double scaleFactor = 1.5;
+
+        List<IngredientInRecipe> scaled =
+                ValuesScaling.scaleRecipeIngredients(recipe, scaleFactor);
+
+        assertEquals(150, scaled.get(0).getQuantity());
+        assertEquals(300, scaled.get(1).getQuantity());
+
+        assertEquals(100, i1.getQuantity());
+        assertEquals(200, i2.getQuantity());
+    }
+
+    @Test
+    void setScaleFactor_onlyAcceptsPositiveValues() {
+        ValuesScaling.setScaleFactor(2.0);
+
+        ValuesScaling.setScaleFactor(-1.0);
+
+        assertEquals(2.0, ValuesScaling.getScaleFactor());
+    }
 }
+
