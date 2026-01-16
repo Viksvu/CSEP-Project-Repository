@@ -646,7 +646,7 @@ public class RecipeOverviewCtrl implements Initializable {
                         && (recipeData.get(i).getName().equals(recipeNameTF.getText()))) {
                     return;
                 }
-                server.cloneRecipe(lastSelectedRecipe, recipeNameTF.getText());
+                server.renameRecipe(lastSelectedRecipe, recipeNameTF.getText());
                 refreshRecipes();
                 refreshIngredients(lastSelectedRecipe);
                 refreshPreparationSteps(lastSelectedRecipe);
