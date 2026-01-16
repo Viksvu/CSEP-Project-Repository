@@ -621,7 +621,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * Calls the clone recipe method of the server
      * and clones the last selected recipe
      */
-    public void okClone() {
+    public void okRecipe() {
         if (recipeNameTF.getText().isEmpty()) {
             return;
         }
@@ -904,8 +904,8 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void keyPressed(KeyEvent keyEvent) {
         if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.ENTER) {
-            if (isCloning) {
-                okClone();
+            if (isCloning || isRenaming) {
+                okRecipe();
             }
             else {
                 searchInit();
