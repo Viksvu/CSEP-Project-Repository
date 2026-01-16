@@ -101,5 +101,18 @@ public class ValuesScaling {
                 })
                 .collect(Collectors.toList());
     }
+
+
+    private static double scaleFactor = 1.0;
+
+    public static void setScaleFactor(double factor) {
+        if (factor > 0) {
+            scaleFactor = factor;
+        }
+    }
+
+    public static double getScaleFactor() {
+        return scaleFactor;
+    }
 }
 
