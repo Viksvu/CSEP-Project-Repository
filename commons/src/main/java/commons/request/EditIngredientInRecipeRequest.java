@@ -16,4 +16,9 @@ public record EditIngredientInRecipeRequest(
     Long recipeId,
     @Valid
     IngredientInRecipe ingredient
-) {}
+) implements PostRequest {
+    @Override
+    public String serverPath() {
+        return "api/recipeingredient/edit";
+    }
+}

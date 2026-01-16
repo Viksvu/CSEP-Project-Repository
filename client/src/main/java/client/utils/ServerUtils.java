@@ -23,6 +23,7 @@ import commons.request.*;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -42,10 +43,10 @@ public class ServerUtils {
      * @return the list
      */
     public List<Recipes> getRecipes() {
-		return ClientBuilder.newClient(new ClientConfig()) //
-				.target(SERVER).path("api/recipe/list") //
-				.request(APPLICATION_JSON) //
-				.get(new GenericType<List<Recipes>>() {});
+        return sendGetRequest(
+                new GenericType<List<Recipes>>() {},
+                "api/recipe/list"
+        );
 	}
 
     /**
@@ -80,18 +81,14 @@ public class ServerUtils {
     public Recipes cloneRecipe(Recipes recipe, String newName) {
         CloneRecipeRequest request = new CloneRecipeRequest(recipe, newName);
 
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .path("api/recipe/clone")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(request, APPLICATION_JSON), Recipes.class);
+        return sendPostRequest(request, Recipes.class);
     }
 
     public List<Ingredients> getIngredientsFromDatabase() {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/ingredient/list")
-                .request(APPLICATION_JSON)
-                .get(new GenericType<List<Ingredients>>(){});
+        return sendGetRequest(
+                new GenericType<List<Ingredients>>(){},
+                "api/ingredient/list"
+        );
     }
     /**
      * Adds an ingredient to the ingredients database
@@ -116,13 +113,11 @@ public class ServerUtils {
      * @return a list with all ingredients in a recipe
      */
     public List<IngredientInRecipe> getIngredientsInRecipe(Recipes recipe) {
-        return ClientBuilder
-                .newClient(new ClientConfig())
-                .target(SERVER)
-                .queryParam("id", recipe.getId())
-                .path("api/recipeingredient/get")
-                .request(APPLICATION_JSON)
-                .get(new GenericType<List<IngredientInRecipe>>(){});
+        return sendGetRequest(
+                new GenericType<List<IngredientInRecipe>>(){},
+                "api/recipeingredient/get",
+                new QueryParam("id", recipe.getId())
+        );
     }
 
     /**
@@ -135,13 +130,11 @@ public class ServerUtils {
             return false;
         }
         try {
-            ClientBuilder
-                    .newClient(new ClientConfig())
-                    .target(SERVER)
-                    .queryParam("id", recipe.getId())
-                    .path("api/recipeingredient/get")
-                    .request(APPLICATION_JSON)
-                    .get(new GenericType<List<IngredientInRecipe>>(){});
+            sendGetRequest(
+                    new GenericType<List<IngredientInRecipe>>(){},
+                    "api/recipeingredient/get",
+                    new QueryParam("id", recipe.getId())
+            );
             return true;
         }catch(jakarta.ws.rs.WebApplicationException e) {
             return false;
@@ -158,12 +151,8 @@ public class ServerUtils {
         Long recipeId = recipe.getId();
         AddIngredientInRecipeRequest request =
                 new AddIngredientInRecipeRequest(recipeId, ingredient);
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .path("api/recipeingredient/add")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(request, APPLICATION_JSON),
-                        IngredientInRecipe.class);
+
+        return sendPostRequest(request, IngredientInRecipe.class);
     }
 
 
@@ -177,12 +166,8 @@ public class ServerUtils {
         Long recipeId = recipe.getId();
         EditIngredientInRecipeRequest request =
                 new EditIngredientInRecipeRequest(recipeId, ingredient);
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .path("api/recipeingredient/edit")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(request, APPLICATION_JSON),
-                        IngredientInRecipe.class);
+
+        return sendPostRequest(request, IngredientInRecipe.class);
     }
 
     /**
@@ -197,12 +182,8 @@ public class ServerUtils {
         Long recipeId = recipe.getId();
         DeleteIngredientInRecipeRequest request =
                 new DeleteIngredientInRecipeRequest(recipeId, ingredient);
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .path("api/recipeingredient/delete")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(request, APPLICATION_JSON),
-                        IngredientInRecipe.class);
+
+        return sendPostRequest(request, IngredientInRecipe.class);
     }
 
     /**
@@ -212,12 +193,10 @@ public class ServerUtils {
      */
     public List<PreparationStep> getPreparationSteps(Recipes recipe) {
         Long recipeId = recipe.getId();
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .queryParam("recipeId", recipeId)
-                .path("api/prep-step/list")
-                .request(APPLICATION_JSON)
-                .get(new GenericType<List<PreparationStep>>() {});
+        return sendGetRequest(
+                new GenericType<List<PreparationStep>>() {},
+                "api/prep-step/list",
+                new QueryParam("recipeId", recipeId));
     }
 
     /**
@@ -231,12 +210,8 @@ public class ServerUtils {
         Long recipeId = recipe.getId();
         AddPreparationStepRequest request =
                 new AddPreparationStepRequest(recipeId, step);
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .path("api/prep-step/add")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(request, APPLICATION_JSON),
-                        PreparationStep.class);
+
+        return sendPostRequest(request, PreparationStep.class);
     }
 
     /**
@@ -252,12 +227,8 @@ public class ServerUtils {
         Long recipeId = recipe.getId();
         EditPreparationStepRequest request =
                 new EditPreparationStepRequest(recipeId, index, step);
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .path("api/prep-step/edit")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(request, APPLICATION_JSON),
-                        PreparationStep.class);
+
+        return sendPostRequest(request, PreparationStep.class);
     }
 
     /**
@@ -271,14 +242,58 @@ public class ServerUtils {
         Long recipeId = recipe.getId();
         DeletePreparationStepRequest request =
                 new DeletePreparationStepRequest(recipeId, step);
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .path("api/prep-step/delete")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(request, APPLICATION_JSON),
-                        PreparationStep.class);
+
+        return sendPostRequest(request, PreparationStep.class);
     }
 
+    /**
+     * Get a web target with the server url already in it
+     * @return WebTarget for api usage
+     */
+    private WebTarget getBasicWebTarget() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER);
+    }
+
+    /**
+     * Send an update request
+     * @param postRequest request to send
+     * @param responseType answer type to retrieve
+     * @return Object of type responseType
+     * @param <B> UpdateRequest class
+     * @param <A> Response type
+     */
+    private <B extends PostRequest,A> A sendPostRequest(
+            B postRequest,
+            Class<A> responseType) {
+        return getBasicWebTarget()
+                .path(postRequest.serverPath())
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(postRequest, APPLICATION_JSON),
+                        responseType);
+    }
+
+    /**
+     * Send a get request
+     * @param responseType type of result
+     * @param path path on server
+     * @param params query param(s)
+     * @return result with type specified
+     * @param <A> result object type
+     */
+    private <A> A sendGetRequest(
+            GenericType<A> responseType,
+            String path, QueryParam... params) {
+        WebTarget target = getBasicWebTarget()
+                .path(path);
+
+        for (QueryParam param : params) {
+            target = target.queryParam(param.key(), param.value());
+        }
+
+        return target.request(APPLICATION_JSON)
+                .get(responseType);
+    }
 
 	/**
      * temp
@@ -286,9 +301,8 @@ public class ServerUtils {
      */
     public boolean isServerAvailable() {
 		try {
-			ClientBuilder.newClient(new ClientConfig()) //
-					.target(SERVER) //
-					.request(APPLICATION_JSON) //
+			getBasicWebTarget()
+					.request(APPLICATION_JSON)
 					.get();
 		} catch (ProcessingException e) {
 			if (e.getCause() instanceof ConnectException) {

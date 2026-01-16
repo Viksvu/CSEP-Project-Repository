@@ -23,4 +23,9 @@ public record EditPreparationStepRequest(
         int index,
         @Valid
         PreparationStep preparationStep
-) {}
+) implements PostRequest {
+        @Override
+        public String serverPath() {
+                return "api/prep-step/edit";
+        }
+}

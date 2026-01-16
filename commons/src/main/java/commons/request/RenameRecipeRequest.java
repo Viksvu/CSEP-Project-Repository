@@ -17,4 +17,9 @@ public record RenameRecipeRequest(
                 message = "New name cannot be blank"
         )
         String newName
-) {}
+) implements PostRequest {
+        @Override
+        public String serverPath() {
+                return "api/recipe/rename";
+        }
+}
