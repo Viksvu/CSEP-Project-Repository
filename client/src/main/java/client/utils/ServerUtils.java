@@ -33,7 +33,6 @@ import java.util.List;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
-
 	private static final String SERVER = System.getenv("SERVER_URL") == null
             ? "http://localhost:8080/"
             : System.getenv("SERVER_URL");
@@ -84,17 +83,22 @@ public class ServerUtils {
         return sendPostRequest(request, Recipes.class);
     }
 
+    /**
+     * Get all ingredients from database
+     * @return list of all ingredients in database
+     */
     public List<Ingredients> getIngredientsFromDatabase() {
         return sendGetRequest(
                 new GenericType<List<Ingredients>>(){},
                 "api/ingredient/list"
         );
     }
+
     /**
      * Adds an ingredient to the ingredients database
      * if it does not already exist
      * @param ingredient to be added
-     * @return
+     * @return newly added ingredient
      */
     public Ingredients addIngredientToDatabase(Ingredients ingredient) {
         if (!getIngredientsFromDatabase().contains(ingredient)){
@@ -143,8 +147,8 @@ public class ServerUtils {
 
     /**
      * Adds an ingredient as to a recipe
-     * @param ingredient
-     * @return
+     * @param ingredient ingredient to add
+     * @return newly added ingredient
      */
     public IngredientInRecipe
     addIngredientToRecipe(IngredientInRecipe ingredient, Recipes recipe) {
@@ -158,8 +162,8 @@ public class ServerUtils {
 
     /**
      * Adds an ingredient as to a recipe
-     * @param ingredient
-     * @return
+     * @param ingredient ingredient to add
+     * @return newly added ingredient
      */
     public IngredientInRecipe
     editIngredientInRecipe(IngredientInRecipe ingredient, Recipes recipe) {
@@ -172,9 +176,9 @@ public class ServerUtils {
 
     /**
      * Deletes an ingredient from a recipe
-     * @param ingredient
-     * @param recipe
-     * @return
+     * @param ingredient ingredient to delete
+     * @param recipe recipe to delete from
+     * @return deleted ingredient
      */
     public IngredientInRecipe
     removeIngredientFromRecipe(IngredientInRecipe ingredient,
@@ -296,8 +300,8 @@ public class ServerUtils {
     }
 
 	/**
-     * temp
-     * @return
+     * Check if the server is available
+     * @return true if available
      */
     public boolean isServerAvailable() {
 		try {
