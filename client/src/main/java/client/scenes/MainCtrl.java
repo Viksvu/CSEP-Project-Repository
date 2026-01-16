@@ -17,6 +17,7 @@ package client.scenes;
 
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
+import client.utils.WebSocketMessageHandler;
 import client.utils.WebSocketUtils;
 import com.google.inject.Inject;
 import commons.PreparationStep;
@@ -86,17 +87,19 @@ public class MainCtrl {
     private ShoppingList shoppingList = new ShoppingList();
     private WebSocketUtils webSocketUtils;
 
-//    /**
-//     * Injects the websocket utils
-//     * to the main ctrl and runs it
-//     * @param webSocketUtils
-//     */
-//    @Inject
-//    public MainCtrl(WebSocketUtils webSocketUtils){
-//        this.webSocketUtils=webSocketUtils;
-//        this.webSocketUtils.setMessageHandler(this::handleWebSocketMessage);
-//        this.webSocketUtils.connect();
-//    }
+    /**
+     * Injects the websocket utils
+     * to the main ctrl and runs it
+     * @param webSocketUtils
+     */
+    @Inject
+    public MainCtrl(WebSocketUtils webSocketUtils,
+                    WebSocketMessageHandler handler) {
+        this.webSocketUtils = webSocketUtils;
+        this.webSocketUtils.setHandler(handler);
+        this.webSocketUtils.connect();
+    }
+
 
     /**
      * No arg constructor for test.

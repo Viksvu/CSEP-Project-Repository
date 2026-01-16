@@ -9,22 +9,21 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 public class WebSocketUtils {
 
     private WebSocketSession session;
-    private final WebSocketMessageHandler handler;
+    private WebSocketMessageHandler handler;
 
-    /**
-     * Makes a new webSocket Utils
-     * @param handler
-     */
-    public WebSocketUtils(WebSocketMessageHandler handler) {
-        this.handler = handler;
-    }
+
 
     /**
      * Connect to the server endpoint
      */
     public void connect() {
+        handler.setClient(this);
         StandardWebSocketClient client = new StandardWebSocketClient();
         client.doHandshake(handler, "ws://localhost:8080/ws");
+    }
+
+    public void setHandler(WebSocketMessageHandler handler) {
+        this.handler = handler;
     }
 
     /**
