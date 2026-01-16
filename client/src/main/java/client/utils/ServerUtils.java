@@ -53,11 +53,8 @@ public class ServerUtils {
      * @return the recipe if added successfully
      */
 	public Recipes addRecipe(Recipes recipe) {
-		return ClientBuilder.newClient(new ClientConfig()) //
-				.target(SERVER).path("api/recipe/add") //
-				.request(APPLICATION_JSON) //
-				.post(Entity
-                        .entity(recipe, APPLICATION_JSON), Recipes.class);
+        AddRecipeRequest request = new AddRecipeRequest(recipe);
+        return sendPostRequest(request, Recipes.class);
 	}
 
     /**
@@ -66,10 +63,8 @@ public class ServerUtils {
      * @return the recipe if removed successfully
      */
     public Recipes removeRecipe(Recipes recipe) {
-       return ClientBuilder.newClient(new ClientConfig())
-               .target(SERVER).path("api/recipe/delete")
-               .request(APPLICATION_JSON)
-               .post(Entity.entity(recipe, APPLICATION_JSON), Recipes.class);
+        DeleteRecipeRequest request = new DeleteRecipeRequest(recipe);
+        return sendPostRequest(request, Recipes.class);
     }
 
     /**
@@ -102,11 +97,8 @@ public class ServerUtils {
      */
     public Ingredients addIngredientToDatabase(Ingredients ingredient) {
         if (!getIngredientsFromDatabase().contains(ingredient)){
-            return ClientBuilder.newClient(new ClientConfig())
-                    .target(SERVER).path("api/ingredient/add")
-                    .request(APPLICATION_JSON) //
-                    .post(Entity.entity(ingredient, APPLICATION_JSON),
-                            Ingredients.class);
+            AddIngredientRequest request = new AddIngredientRequest(ingredient);
+            return sendPostRequest(request, Ingredients.class);
         }
         else return ingredient;
     }
