@@ -196,7 +196,7 @@ public class ShoppingList implements Printable {
 
     /**
      * Returns the indexed list of all things in the Shopping list
-     * @return
+     * @return the list of everything to print/download
      */
     @Override
     public List<Object> indexing() {

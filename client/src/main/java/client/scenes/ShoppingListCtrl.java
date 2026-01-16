@@ -13,6 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
@@ -50,6 +52,9 @@ public class ShoppingListCtrl implements Initializable {
     @FXML
     private AnchorPane ingredientsPane;
 
+    @FXML
+    private Button downloadShoppingListButton;
+
     /**
      * Constructor
      *
@@ -71,6 +76,11 @@ public class ShoppingListCtrl implements Initializable {
         shoppingListAddRecipeButton.setText(resourceBundle.getString("shoppingList.addRecipe"));
         shoppingListBackButton.setText(resourceBundle.getString("shoppingList.back"));
         shoppingListClearButton.setText(resourceBundle.getString("shoppingList.clear"));
+        ImageView iv = new ImageView(new Image(
+                getClass().getResourceAsStream("/pictures/save.png")));
+        iv.setFitHeight(20);
+        iv.setFitWidth(20);
+        downloadShoppingListButton.setGraphic(iv);
     }
 
     /**
@@ -165,5 +175,13 @@ public class ShoppingListCtrl implements Initializable {
                 ingredientsPane.getChildren().add(buttonBox);
             }
         }
+    }
+
+    /**
+     * Shows the saveRecipe scene. (Even if it is called saveRecipe, it
+     * is used for both, saveRecipe and saveShoppingList)
+     */
+    public void downloadShoppingList() {
+        mainCtrl.showSaveRecipe(this.shoppingList);
     }
 }

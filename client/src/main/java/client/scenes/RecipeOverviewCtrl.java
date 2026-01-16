@@ -196,8 +196,7 @@ public class RecipeOverviewCtrl implements Initializable {
         }
         addStarsToRecipeListView();
         ImageView iv = new ImageView(new Image(
-                new File("src/main/resources/pictures/img.png")
-                        .toURI().toString()));
+                getClass().getResourceAsStream("/pictures/img.png")));
         iv.setFitHeight(20);
         iv.setFitWidth(20);
         renameRecipeButton.setGraphic(iv);
