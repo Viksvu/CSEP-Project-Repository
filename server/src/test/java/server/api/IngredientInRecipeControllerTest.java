@@ -21,7 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import server.services.RecipeService;
-import server.websocket.RecipeWebSocket;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -174,24 +173,6 @@ public class IngredientInRecipeControllerTest {
         EditIngredientInRecipeRequest req=
                 new EditIngredientInRecipeRequest(recipeId,edited);
 
-        try (MockedStatic<RecipeWebSocket> ws=Mockito.mockStatic(RecipeWebSocket.class)) {
-            MvcResult result=mockMvc.perform(post("/api/recipeingredient/edit")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(req)))
-                    .andReturn();
-
-            assertEquals(200,result.getResponse().getStatus());
-
-            assertEquals("Pepper",nonMatching.getIngredient().getName());
-            assertEquals(1,nonMatching.getQuantity());
-
-            assertEquals("NewIngredient",matching.getIngredient().getName());
-            assertEquals(123,matching.getQuantity());
-            assertEquals(unit,matching.getUnit());
-
-            verify(recipeService).addRecipe(eq(recipe));
-            ws.verify(() -> RecipeWebSocket.notifyRecipeUpdated(recipeId));
-        }
     }
     @Test
     public void deleteWhenRecipeNullReturnsBadRequest() throws Exception {

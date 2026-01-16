@@ -86,17 +86,17 @@ public class MainCtrl {
     private ShoppingList shoppingList = new ShoppingList();
     private WebSocketUtils webSocketUtils;
 
-    /**
-     * Injects the websocket utils
-     * to the main ctrl and runs it
-     * @param webSocketUtils
-     */
-    @Inject
-    public MainCtrl(WebSocketUtils webSocketUtils){
-        this.webSocketUtils=webSocketUtils;
-        this.webSocketUtils.setMessageHandler(this::handleWebSocketMessage);
-        this.webSocketUtils.connect();
-    }
+//    /**
+//     * Injects the websocket utils
+//     * to the main ctrl and runs it
+//     * @param webSocketUtils
+//     */
+//    @Inject
+//    public MainCtrl(WebSocketUtils webSocketUtils){
+//        this.webSocketUtils=webSocketUtils;
+//        this.webSocketUtils.setMessageHandler(this::handleWebSocketMessage);
+//        this.webSocketUtils.connect();
+//    }
 
     /**
      * No arg constructor for test.

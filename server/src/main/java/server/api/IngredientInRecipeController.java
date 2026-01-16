@@ -11,8 +11,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
-import server.websocket.RecipeWebSocket;
-
 import java.util.List;
 
 @RestController
@@ -61,7 +59,6 @@ public class IngredientInRecipeController {
         }
         recipe.addIngredient(request.ingredient());
         recipeService.addRecipe(recipe);
-        RecipeWebSocket.notifyRecipeUpdated(recipe.getId());
         return ResponseEntity.ok(request.ingredient());
     }
 
@@ -91,7 +88,6 @@ public class IngredientInRecipeController {
             ingredientInRecipe.setUnit(unit);
         }
         recipeService.addRecipe(recipe);
-        RecipeWebSocket.notifyRecipeUpdated(recipe.getId());
         return ResponseEntity.ok(request.ingredient());
     }
 
