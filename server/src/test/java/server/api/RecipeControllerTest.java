@@ -2,7 +2,9 @@ package server.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Recipes;
+import commons.request.AddRecipeRequest;
 import commons.request.CloneRecipeRequest;
+import commons.request.DeleteRecipeRequest;
 import commons.request.RenameRecipeRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,9 +68,10 @@ public class RecipeControllerTest {
         Recipes t1 = new Recipes("TestRecipeAdd");
 
         // Check add
+        AddRecipeRequest request = new AddRecipeRequest(t1);
         MvcResult result = this.mvc.perform(post("/api/recipe/add")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsString(t1)))
+                .content(this.objectMapper.writeValueAsString(request)))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
 
@@ -80,9 +83,10 @@ public class RecipeControllerTest {
         assertNotNull(f1);
 
         // Then delete
+        DeleteRecipeRequest request2 = new DeleteRecipeRequest(r1);
         result = this.mvc.perform(post("/api/recipe/delete")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(this.objectMapper.writeValueAsString(r1)))
+                        .content(this.objectMapper.writeValueAsString(request2)))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
         Recipes r2 = this.objectMapper.readValue(result.getResponse().getContentAsString(), Recipes.class);
@@ -104,9 +108,10 @@ public class RecipeControllerTest {
     public void testAddInvalidName() throws Exception {
         Recipes t1 = new Recipes("");
 
+        AddRecipeRequest request = new AddRecipeRequest(t1);
         this.mvc.perform(post("/api/recipe/add")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(t1)))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -114,9 +119,10 @@ public class RecipeControllerTest {
     public void testAddNullName() throws Exception {
         Recipes t1 = new Recipes(null);
 
+        AddRecipeRequest request = new AddRecipeRequest(t1);
         this.mvc.perform(post("/api/recipe/add")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(t1)))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -132,9 +138,10 @@ public class RecipeControllerTest {
     public void testDeleteInvalidId() throws Exception {
         Recipes t1 = new Recipes("TestDeleteNull");
 
+        DeleteRecipeRequest request = new DeleteRecipeRequest(t1);
         this.mvc.perform(post("/api/recipe/delete")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(this.objectMapper.writeValueAsString(t1)))
+                        .content(this.objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
 

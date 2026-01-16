@@ -18,4 +18,9 @@ public record CloneRecipeRequest(
             message = "New recipe name cannot be blank"
     )
     String newName
-) {}
+) implements PostRequest {
+    @Override
+    public String serverPath() {
+        return "api/recipe/clone";
+    }
+}

@@ -16,4 +16,9 @@ public record AddPreparationStepRequest(
         Long recipeId,
         @Valid
         PreparationStep preparationStep
-) {}
+) implements PostRequest {
+        @Override
+        public String serverPath() {
+                return "api/prep-step/add";
+        }
+}
