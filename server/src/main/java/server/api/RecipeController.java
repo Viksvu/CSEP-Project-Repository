@@ -1,7 +1,9 @@
 package server.api;
 
 import commons.Recipes;
+import commons.request.AddRecipeRequest;
 import commons.request.CloneRecipeRequest;
+import commons.request.DeleteRecipeRequest;
 import commons.request.RenameRecipeRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -44,30 +46,30 @@ public class RecipeController {
 
     /**
      * Add a recipe
-     * For creating a new recipe ID, initialize Recipe with id = -1
-     *
-     * @param recipe recipe to add
-     * @return ok if added, bad request if something went wrong
+     * @param request request with recipe to add
+     * @return newly saved recipe
      */
     @PostMapping("/add")
-    public ResponseEntity<Recipes> add(@RequestBody @Valid Recipes recipe) {
-        Recipes savedRecipe = recipeService.addRecipe(recipe);
+    public ResponseEntity<Recipes> add(
+            @RequestBody @Valid AddRecipeRequest request) {
+        Recipes savedRecipe = recipeService.addRecipe(request.recipe());
         return ResponseEntity.ok(savedRecipe);
     }
 
     /**
      * Delete a recipe
      *
-     * @param recipe recipe to delete
+     * @param request request with recipe to delete
      * @return ok if deleted, bad request if something went wrong
      */
     @PostMapping("/delete")
-    public ResponseEntity<Recipes> remove(@RequestBody Recipes recipe) {
-        if (recipe.getId() == null) {
+    public ResponseEntity<Recipes> remove(
+            @RequestBody @Valid DeleteRecipeRequest request) {
+        if (request.recipe().getId() == null) {
             return ResponseEntity.badRequest().build();
         }
-        recipeService.deleteRecipe(recipe.getId());
-        return ResponseEntity.ok(recipe);
+        recipeService.deleteRecipe(request.recipe().getId());
+        return ResponseEntity.ok(request.recipe());
     }
 
     /**
