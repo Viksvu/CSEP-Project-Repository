@@ -41,7 +41,11 @@ public class RecipeWebSocketHandler extends TextWebSocketHandler {
         System.out.println("WS disconnected: " + session.getId());
     }
 
-    /** Notify all clients */
+    /**
+     * Noticies
+     * all subscribed clients
+     * @param recipeId
+     */
     public void notifyRecipeUpdated(long recipeId) {
         TextMessage msg = new TextMessage("RECIPE_UPDATED:" + recipeId);
 

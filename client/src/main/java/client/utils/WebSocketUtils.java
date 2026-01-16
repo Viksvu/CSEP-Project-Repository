@@ -11,19 +11,36 @@ public class WebSocketUtils {
     private WebSocketSession session;
     private final WebSocketMessageHandler handler;
 
+    /**
+     * Makes a new webSocket Utils
+     * @param handler
+     */
     public WebSocketUtils(WebSocketMessageHandler handler) {
         this.handler = handler;
     }
 
+    /**
+     * Connect to the server endpoint
+     */
     public void connect() {
         StandardWebSocketClient client = new StandardWebSocketClient();
         client.doHandshake(handler, "ws://localhost:8080/ws");
     }
 
+    /**
+     * Set the current session
+     *
+     * @param session
+     */
     public void setSession(WebSocketSession session) {
         this.session = session;
     }
-        public void send(String message) {
+
+    /**
+     * Send a message to the endpoint
+      * @param message
+     */
+    public void send(String message) {
         if (session != null && session.isOpen()) {
             try {
                 session.sendMessage(new TextMessage(message));

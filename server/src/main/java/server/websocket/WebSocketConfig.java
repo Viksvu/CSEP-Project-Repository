@@ -11,6 +11,10 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     private final RecipeWebSocketHandler handler;
 
+    /**
+     * Makes a new config
+     * @param handler
+     */
     public WebSocketConfig(RecipeWebSocketHandler handler) {
         this.handler = handler;
     }
