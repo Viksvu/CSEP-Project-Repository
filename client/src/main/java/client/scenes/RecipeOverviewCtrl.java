@@ -1033,7 +1033,7 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void downloadRecipe() {
         if (lastSelectedRecipe != null) {
-            mainCtrl.showSaveRecipe(lastSelectedRecipe);
+            mainCtrl.showSaveRecipe(lastSelectedRecipe, this);
         }
     }
 }
