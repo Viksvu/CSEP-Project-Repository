@@ -18,6 +18,7 @@ package client.scenes;
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import client.utils.WebSocketUtils;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.google.inject.Inject;
 import commons.PreparationStep;
 import commons.Printable;
@@ -128,6 +129,8 @@ public class MainCtrl {
         Pair<?, Parent> addPair = sceneMap.get("addRecipe");
         this.addCtrl = (AddRecipeCtrl) addPair.getKey();
         this.add = new Scene(addPair.getValue());
+        this.add.getRoot().setId("addRecipe");
+
 
         Pair<?, Parent> removePair = sceneMap.get("removeRecipe");
         this.removeCtrl = (RemoveRecipeCtrl) removePair.getKey();
@@ -406,11 +409,11 @@ public class MainCtrl {
     private void handleWebSocketMessage(String message) {
         long id = Long.parseLong(message.split(":")[1]);
         if (message.startsWith("RECIPE_UPDATED")) {
-            System.out.println("edit");
-//            refreshCurrentRecipeContent(id);
+            refreshCurrentRecipeContent(id);
+            refreshRecipeTitles(id);
         }
         else if(message.startsWith("RECIPE_DELETED")){
-            System.out.println("update");
+            refreshRecipeTitles(id);
         }
     }
 
@@ -428,25 +431,28 @@ public class MainCtrl {
      * Refreshes recipe titles
      * @param id
      */
-    private void refreshCurrentRecipeTitle(long id) {
-        Platform.runLater(() -> {
-        });
-    }
+    private void refreshRecipeTitles(long id) {
 
-    /**
-     * Refreshes the list of recipes
-     */
-    private void refreshListOfRecipes() {
         Platform.runLater(() -> {
-        });
-    }
+            overviewCtrl.refreshRecipeList();
+            if(primaryStage.getScene()
+                    .getRoot().getId()!=null){
+            if(primaryStage.getScene()
+                    .getRoot().getId().equals("overview")) {
+                overviewCtrl.refreshRecipeList();
+            }
+            else if(primaryStage.getScene()
+                    .getRoot().getId().equals("addRecipe")){
+            }
+        }});
 
+    }
     /**
      * Sends to ws client endpoint what to subscribe to right now
      * @param id the id of the recipe to subscribe
      */
     public void sendToWSEndpoint(long id){
-        webSocketUtils.send("VIEW_UPDATE:"+id);
+        webSocketUtils.send("VIEW_RECIPE:"+id);
     }
 
 

@@ -51,11 +51,11 @@ public class RecipeWebSocketHandler extends TextWebSocketHandler {
 
         for (WebSocketSession session : sessions) {
              Long currId=currentRecipe.get(session);
-            if (session.isOpen() && currId==recipeId) {
+            if (currId!=null && session.isOpen() && currId==recipeId) {
                 try {
                     session.sendMessage(msg);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println("WebSocket notification failed");
                 }
             }
         }
@@ -72,11 +72,11 @@ public class RecipeWebSocketHandler extends TextWebSocketHandler {
 
         for (WebSocketSession session : sessions) {
             Long currId=currentRecipe.get(session);
-            if (session.isOpen() && currId==recipeId) {
+            if (currId!=null && session.isOpen() && currId==recipeId) {
                 try {
                     session.sendMessage(msg);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println("WebSocket notification failed");
                 }
             }
         }

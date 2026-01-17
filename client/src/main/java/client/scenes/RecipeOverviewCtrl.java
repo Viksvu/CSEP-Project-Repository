@@ -945,7 +945,8 @@ public class RecipeOverviewCtrl implements Initializable {
      * Refreshes side recipe list from a web message
      */
     public void refreshRecipeList(){
-
+        refreshRecipes();
+        recipeListView.refresh();
     }
 
 
