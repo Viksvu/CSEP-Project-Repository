@@ -59,9 +59,9 @@ public class Printer {
 
     /**
      * Downloads the object into a readme file with the file as an input
-     * @param thing
-     * @param file
-     * @throws IOException
+     * @param thing to download
+     * @param file to save to
+     * @throws IOException if an output (save) exception is thrown
      */
     public static void print(Printable thing, File file) throws IOException {
         StringBuilder text = new StringBuilder();
