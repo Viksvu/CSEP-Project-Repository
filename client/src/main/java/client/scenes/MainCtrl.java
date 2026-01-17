@@ -17,7 +17,6 @@ package client.scenes;
 
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
-import client.utils.WebSocketMessageHandler;
 import client.utils.WebSocketUtils;
 import com.google.inject.Inject;
 import commons.PreparationStep;
@@ -93,11 +92,9 @@ public class MainCtrl {
      * @param webSocketUtils
      */
     @Inject
-    public MainCtrl(WebSocketUtils webSocketUtils,
-                    WebSocketMessageHandler handler) {
+    public MainCtrl(WebSocketUtils webSocketUtils) {
         this.webSocketUtils = webSocketUtils;
-        this.webSocketUtils.setHandler(handler);
-        this.webSocketUtils.connect();
+        this.webSocketUtils.connect(this::handleWebSocketMessage);
     }
 
 
