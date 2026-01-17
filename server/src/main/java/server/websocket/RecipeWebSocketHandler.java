@@ -50,7 +50,8 @@ public class RecipeWebSocketHandler extends TextWebSocketHandler {
         TextMessage msg = new TextMessage("RECIPE_UPDATED:" + recipeId);
 
         for (WebSocketSession session : sessions) {
-            if (session.isOpen()) {
+             Long currId=currentRecipe.get(session);
+            if (session.isOpen() && currId==recipeId) {
                 try {
                     session.sendMessage(msg);
                 } catch (Exception e) {
@@ -59,4 +60,28 @@ public class RecipeWebSocketHandler extends TextWebSocketHandler {
             }
         }
     }
+
+
+    /**
+     * Noticies
+     * all subscribed clients
+     * @param recipeId
+     */
+    public void notifyRecipeDeleted(long recipeId) {
+        TextMessage msg = new TextMessage("RECIPE_DELETED:" + recipeId);
+
+        for (WebSocketSession session : sessions) {
+            Long currId=currentRecipe.get(session);
+            if (session.isOpen() && currId==recipeId) {
+                try {
+                    session.sendMessage(msg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+
 }

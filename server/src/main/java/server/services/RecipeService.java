@@ -18,16 +18,18 @@ import org.springframework.stereotype.Service;
 public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final IngredientsRepository ingredientsRepository;
-
+    private RecipeSocketService recipeSocketService;
     /**
      * Constructor for RecipeService.
      * Serves as dependency injection for RecipeRepository.
      * @param recipeRepository The repository for recipes.
      */
     public RecipeService(RecipeRepository recipeRepository,
-                         IngredientsRepository ingredientsRepository) {
+                         IngredientsRepository ingredientsRepository,
+                         RecipeSocketService recipeSocketService) {
         this.recipeRepository = recipeRepository;
         this.ingredientsRepository = ingredientsRepository;
+        this.recipeSocketService=recipeSocketService;
     }
 
     /**
@@ -42,7 +44,9 @@ public class RecipeService {
                 ingredientsRepository.save(ingredient.getIngredient());
             }
         }
-        return recipeRepository.save(recipe);
+        Recipes ret= recipeRepository.save(recipe);
+        recipeSocketService.recipeUpdated(ret.getId());
+        return ret;
     }
 
     /**
@@ -80,6 +84,7 @@ public class RecipeService {
      * @param recipeId The ID of the recipe to delete.
      */
     public void deleteRecipe(Long recipeId) {
+        recipeSocketService.recipeDeleted(recipeId);
         recipeRepository.deleteById(recipeId);
     }
 
