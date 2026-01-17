@@ -405,14 +405,12 @@ public class MainCtrl {
      */
     private void handleWebSocketMessage(String message) {
         long id = Long.parseLong(message.split(":")[1]);
-        if (message.startsWith("RECIPE_CONTENT_UPDATED")) {
-            refreshCurrentRecipeContent(id);
-        }
-        else if (message.startsWith("RECIPE_TITLE_UPDATED")) {
-            refreshCurrentRecipeTitle(id);
+        if (message.startsWith("RECIPE_UPDATED")) {
+            System.out.println("edit");
+//            refreshCurrentRecipeContent(id);
         }
         else if(message.startsWith("RECIPE_DELETED")){
-            refreshCurrentRecipeTitle(id);
+            System.out.println("update");
         }
     }
 

@@ -1,5 +1,6 @@
 package client.utils;
 
+import javafx.application.Platform;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -47,7 +48,7 @@ public class WebSocketUtils extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) {
         Consumer<String> collector = this.messageCollector;
         if (collector != null) {
-            collector.accept(message.getPayload());
+            Platform.runLater(() -> collector.accept(message.getPayload()));
         }
     }
 

@@ -34,6 +34,6 @@ public class RecipeSocketService {
      * @param recipeId
      */
     public void recipeDeleted(long recipeId){
-        socketHandler.notifyRecipeDeleted(recipeID);
+        socketHandler.notifyRecipeDeleted(recipeId);
     }
 }
