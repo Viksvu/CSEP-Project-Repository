@@ -135,6 +135,8 @@ public class MainCtrl {
         Pair<?, Parent> removePair = sceneMap.get("removeRecipe");
         this.removeCtrl = (RemoveRecipeCtrl) removePair.getKey();
         this.remove = new Scene(removePair.getValue());
+        this.remove.getRoot().setId("removeRecipe");
+
 
         Pair<?, Parent> addIngredientPair = sceneMap.get("addIngredient");
         this.addIngredientCtrl = (AddIngredientCtrl) addIngredientPair.getKey();
@@ -432,19 +434,17 @@ public class MainCtrl {
      * @param id
      */
     private void refreshRecipeTitles(long id) {
-
         Platform.runLater(() -> {
-            overviewCtrl.refreshRecipeList();
-            if(primaryStage.getScene()
-                    .getRoot().getId()!=null){
             if(primaryStage.getScene()
                     .getRoot().getId().equals("overview")) {
                 overviewCtrl.refreshRecipeList();
+                System.out.println("Recipe list refreshed.");
             }
             else if(primaryStage.getScene()
-                    .getRoot().getId().equals("addRecipe")){
+                    .getRoot().getId().equals("deleteRecipe")){
+
             }
-        }});
+        });
 
     }
     /**

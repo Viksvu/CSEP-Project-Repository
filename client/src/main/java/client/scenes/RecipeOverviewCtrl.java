@@ -934,10 +934,10 @@ public class RecipeOverviewCtrl implements Initializable {
      * @param id
      */
     public void refreshIfCurrent(long id){
-        Recipes selected=getSelectedRecipe();
-        if(selected!=null && selected.getId()==id){
-            refreshIngredients(getSelectedRecipe());
-            refreshPreparationSteps(getSelectedRecipe());
+        getSelectedRecipe();
+        if(lastSelectedRecipe!=null && lastSelectedRecipe.getId()==id){
+            refreshIngredients(lastSelectedRecipe);
+            refreshPreparationSteps(lastSelectedRecipe);
         }
     }
 
@@ -946,7 +946,6 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void refreshRecipeList(){
         refreshRecipes();
-        recipeListView.refresh();
     }
 
 
