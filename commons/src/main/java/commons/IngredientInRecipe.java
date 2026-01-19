@@ -3,6 +3,8 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import commons.util.ValuesScaling;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -16,8 +18,15 @@ public class IngredientInRecipe {
     @ManyToOne(optional = false)
     private Ingredients ingredient;
 
+    @Min(
+        value = 0,
+        message = "cannot add negative quantity"
+    )
     private int quantity;
 
+    @NotNull(
+        message = "unit cannot be null"
+    )
     @Enumerated(EnumType.STRING)
     private Unit unit;
 
@@ -37,6 +46,18 @@ public class IngredientInRecipe {
      */
     public IngredientInRecipe(Ingredients ingredient) {
         this.ingredient = ingredient;
+    }
+
+    /**
+     * constructor for testing
+     * @param ingredient the ingredient
+     * @param quantity the quantity
+     * @param unit the unit
+     */
+    public IngredientInRecipe(Ingredients ingredient, int quantity, Unit unit) {
+        this.ingredient = ingredient;
+        this.quantity = quantity;
+        this.unit = unit;
     }
 
     /**
@@ -100,7 +121,7 @@ public class IngredientInRecipe {
     //Need to decide if only ingredient name should be shown or also quantity
     @Override
     public String toString() {
-        double scaleFactor = 1.0; // we need to change this one if we want dynamic scaling
+        double scaleFactor = ValuesScaling.getScaleFactor();
         String scaledAmount = ValuesScaling.getScaledAmount(this, scaleFactor);
         if (getQuantity() == 1) {
         return getIngredient().getName()

@@ -5,20 +5,25 @@ import commons.Ingredients;
 import commons.Recipes;
 import commons.Unit;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+import server.Main;
 
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Test class for RecipeService to verify saving recipes along with their ingredients.
  */
-@SpringBootTest
 @Transactional
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.MOCK,
+        classes = Main.class)
 @ActiveProfiles("test")
-
+@TestPropertySource(
+        locations = "classpath:application-junit.properties")
 public class RecipeServiceTest {
     @Autowired
     RecipeService recipeService;

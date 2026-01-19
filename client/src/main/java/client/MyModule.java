@@ -16,6 +16,7 @@
 package client;
 
 import client.scenes.*;
+import client.utils.WebSocketUtils;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -33,5 +34,6 @@ public class MyModule implements Module {
         binder.bind(OverviewListCtrl.class).in(Scopes.SINGLETON);
         binder.bind(EditIngredientCtrl.class).in(Scopes.SINGLETON);
         binder.bind(EditPreparationStepCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(WebSocketUtils.class).in(Scopes.SINGLETON);
     }
 }

@@ -1,96 +1,59 @@
 package client.utils;
 
-import jakarta.websocket.*;
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.*;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.net.URI;
 import java.util.function.Consumer;
 
-@ClientEndpoint
-public class WebSocketUtils {
+@Component
+public class WebSocketUtils extends TextWebSocketHandler {
 
-    private Session session;
-    private Consumer<String> messageHandler;
+    private volatile WebSocketSession session;
+    private volatile Consumer<String> messageCollector;
 
     /**
-     * Constructor for a web socket
-     * api controller
+     * Connect to the WebSocket endpoint
      */
-    public WebSocketUtils(){
+    public void connect(Consumer<String> messageCollector) {
+        this.messageCollector = messageCollector;
 
+        StandardWebSocketClient client = new StandardWebSocketClient();
+        client.doHandshake(this, "ws://localhost:8080/ws");
     }
 
     /**
-     * Setter for session handler
-     * @param messageHandler the handler.
+     * Send a message to the server
      */
-    public void setMessageHandler(Consumer<String> messageHandler) {
-        this.messageHandler = messageHandler;
-    }
-
-    /**
-     * connects to server via given
-     * URL
-     */
-    public void connect(){
-        try {
-            WebSocketContainer container =
-                    ContainerProvider.getWebSocketContainer();
-
-            container.connectToServer(
-                    this,
-                    URI.create("ws://localhost:8080/ws")
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void send(String message) {
+        WebSocketSession s = this.session;
+        if (s != null && s.isOpen()) {
+            try {
+                s.sendMessage(new TextMessage(message));
+            } catch (Exception e) {
+                throw new IllegalStateException("Failed to send WebSocket message", e);
+            }
         }
     }
 
-    /**
-     * Runs on open of the web
-     * socket
-     * @param session the active
-     *                session
-     */
-    @OnOpen
-    public void opOpen(Session session){
+    @Override
+    public void afterConnectionEstablished(WebSocketSession session) {
         this.session = session;
         System.out.println("WebSocket connected");
     }
 
-    /**
-     * How messages are handled
-     * from the server
-     * @param message the message from server
-     */
-    @OnMessage
-    public void onMessage(String message){
-        System.out.println("WebSocket message: " + message);
-        messageHandler.accept(message);
-    }
-
-    /**
-     * What happens on close.
-     * Session is set to null
-     * @param session the session with server.
-     */
-    @OnClose
-    public void onClose(Session session) {
-        this.session = null;
-        System.out.println("WebSocket disconnected");
-    }
-
-    /**
-     * Send what we are currently
-     * subscribed too.
-     * @param message the sub messages
-     */
-    public void send(String message) {
-        if (session != null && session.isOpen()) {
-            session.getAsyncRemote().sendText(message);
+    @Override
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) {
+        Consumer<String> collector = this.messageCollector;
+        if (collector != null) {
+             collector.accept(message.getPayload());
         }
     }
 
-
-
-
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+        this.session = null;
+        System.out.println("WebSocket disconnected");
+    }
 }

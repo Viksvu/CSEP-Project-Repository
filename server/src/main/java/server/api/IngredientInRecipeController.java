@@ -4,11 +4,13 @@ import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.Recipes;
 import commons.Unit;
+import commons.request.AddIngredientInRecipeRequest;
+import commons.request.DeleteIngredientInRecipeRequest;
+import commons.request.EditIngredientInRecipeRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
-import server.websocket.RecipeWebSocket;
-
 import java.util.List;
 
 @RestController
@@ -44,82 +46,67 @@ public class IngredientInRecipeController {
 
     /**
      * Add an ingredient to a recipe
-     * @param id id of the recipe
-     * @param ingredient ingredient to add to the recipe
+     * @param request information about what to add
      * @return added ingredient
      */
     @PostMapping("/add")
     public ResponseEntity<IngredientInRecipe> add(
-            @RequestParam Long id,
-            @RequestBody IngredientInRecipe ingredient) {
-        if (ingredient == null) return ResponseEntity.badRequest().build();
-
-        Recipes recipe;
-        try {
-            recipe = recipeService.getRecipeById(id);
-        } catch (RuntimeException e) {
+            @RequestBody @Valid AddIngredientInRecipeRequest request) {
+        Recipes recipe = this.recipeService
+                .getRecipeByIdSafe(request.recipeId());
+        if (recipe == null) {
             return ResponseEntity.badRequest().build();
         }
-        recipe.addIngredient(ingredient);
+        recipe.addIngredient(request.ingredient());
         recipeService.addRecipe(recipe);
-        RecipeWebSocket.notifyRecipeUpdated(recipe.getId());
-        return ResponseEntity.ok(ingredient);
+        return ResponseEntity.ok(request.ingredient());
     }
 
 
     /**
      * Add an ingredient to a recipe
-     * @param id id of the recipe
-     * @param ingredient ingredient to add to the recipe
+     * @param request information about what to edit to what
      * @return added ingredient
      */
     @PostMapping("/edit")
     public ResponseEntity<IngredientInRecipe> edit(
-            @RequestParam Long id,
-            @RequestBody IngredientInRecipe ingredient) {
-        if (ingredient == null) return ResponseEntity.badRequest().build();
-        Recipes recipe;
-        try {
-            recipe = recipeService.getRecipeById(id);
-        } catch (RuntimeException e) {
+            @RequestBody @Valid EditIngredientInRecipeRequest request) {
+        Recipes recipe = this.recipeService
+                .getRecipeByIdSafe(request.recipeId());
+        if (recipe == null) {
             return ResponseEntity.badRequest().build();
         }
-        Ingredients ingr=ingredient.getIngredient();
-        int quantity= ingredient.getQuantity();
-        Unit unit=ingredient.getUnit();
-        for(IngredientInRecipe ingredientInRecipe:recipe.getIngredients()){
-            if(ingredientInRecipe.getId().equals(ingredient.getId())){
-                ingredientInRecipe.setIngredient(ingr);
-                ingredientInRecipe.setQuantity(quantity);
-                ingredientInRecipe.setUnit(unit);
-            }
+        Ingredients ingredient = request.ingredient().getIngredient();
+        int quantity = request.ingredient().getQuantity();
+        Unit unit = request.ingredient().getUnit();
+
+        for (IngredientInRecipe ingredientInRecipe : recipe.getIngredients()) {
+            if (!ingredientInRecipe.getId()
+                    .equals(request.ingredient().getId())) continue;
+            ingredientInRecipe.setIngredient(ingredient);
+            ingredientInRecipe.setQuantity(quantity);
+            ingredientInRecipe.setUnit(unit);
         }
         recipeService.addRecipe(recipe);
-        RecipeWebSocket.notifyRecipeUpdated(recipe.getId());
-        return ResponseEntity.ok(ingredient);
+        return ResponseEntity.ok(request.ingredient());
     }
 
 
     /**
      * Delete an ingredient from a recipe
-     * @param id id of recipe
-     * @param ingredient ingredient to delete
+     * @param request with all needed information
      * @return deleted ingredient
      */
     @PostMapping("/delete")
     public ResponseEntity<IngredientInRecipe> delete(
-            @RequestParam Long id,
-            @RequestBody IngredientInRecipe ingredient) {
-        if (ingredient == null) return ResponseEntity.badRequest().build();
-
-        Recipes recipe;
-        try {
-            recipe = recipeService.getRecipeById(id);
-        } catch (RuntimeException e) {
+            @RequestBody @Valid DeleteIngredientInRecipeRequest request) {
+        Recipes recipe = this.recipeService
+                .getRecipeByIdSafe(request.recipeId());
+        if (recipe == null) {
             return ResponseEntity.badRequest().build();
         }
-        recipe.removeIngredient(ingredient);
+        recipe.removeIngredient(request.ingredient());
         recipeService.addRecipe(recipe);
-        return ResponseEntity.ok(ingredient);
+        return ResponseEntity.ok(request.ingredient());
     }
 }
