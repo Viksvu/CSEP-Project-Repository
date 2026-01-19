@@ -442,6 +442,13 @@ public class MainCtrl {
         Platform.runLater(() -> {
             overviewCtrl.refreshIfCurrent(id);
             overviewCtrl.refreshRecipeName(id);
+            Notifications.create()
+                    .title("Recipe updated")
+                    .text("The recipe has been changed")
+                    .position(Pos.BOTTOM_RIGHT)
+                    .hideAfter(Duration.seconds(2))
+                    .showInformation();
+            
         });
     }
 
@@ -460,6 +467,7 @@ public class MainCtrl {
                 if (primaryStage.getScene()
                         .getRoot().getId().equals("overview")) {
                     overviewCtrl.removeRecipeFromListView(id);
+
                 } else if (primaryStage.getScene()
                         .getRoot().getId().equals("removeRecipe")) {
                     removeCtrl.removeRecipeFromListView(id);
@@ -468,6 +476,12 @@ public class MainCtrl {
                         .getRoot().getId().equals("addRepIngrs")){
                     addRecipeIngredientsCtrl.removeRecipeFromListView(id);
                 }
+                Notifications.create()
+                        .title("Recipe deleted")
+                        .text("A recipe has been deleted")
+                        .position(Pos.BOTTOM_RIGHT)
+                        .hideAfter(Duration.seconds(2))
+                        .showInformation();
             }
         });
     }
