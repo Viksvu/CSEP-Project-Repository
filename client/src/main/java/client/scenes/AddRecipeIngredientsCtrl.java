@@ -20,7 +20,7 @@ public class AddRecipeIngredientsCtrl implements Initializable {
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
     private ShoppingList shoppingList;
-
+    private ObservableList<Recipes> data;
     @FXML
     private ChoiceBox<Recipes> choiceBox;
 
@@ -64,7 +64,8 @@ public class AddRecipeIngredientsCtrl implements Initializable {
      * @param data
      */
     public void setChoiceBox(ObservableList<Recipes> data) {
-        choiceBox.setItems(data);
+        this.data=data;
+        choiceBox.setItems(this.data);
     }
 
     /**
@@ -98,6 +99,43 @@ public class AddRecipeIngredientsCtrl implements Initializable {
                 cancel();
         }
     }
+    /**
+     * If propagated
+     * from another client
+     * the choice box
+     * losses a removed recipe value
+     * @param id the recipe id
+     */
+    public void removeRecipeFromListView(long id){
+        for(Recipes recipe:data){
+            if(recipe.getId()==id){
+                data.remove(recipe);
+                break;
+            }
+        }
+    }
+
+    /**
+     * If propagated
+     * from another client
+     * the choice box is added
+     * with a new recipe in the db
+     * @param id the recipe id
+     */
+    public void addRecipeToListView(long id){
+        Recipes recipeNew=server.getRecipe(id);
+        boolean found=false;
+        for(Recipes recipe:data){
+            if(recipe.getId()==id){
+                found=true;
+                break;
+            }
+        }
+        if(!found){
+            data.add(recipeNew);
+        }
+    }
+
 
 
 }
