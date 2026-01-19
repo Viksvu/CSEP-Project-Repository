@@ -117,7 +117,6 @@ public class RecipeOverviewCtrl implements Initializable {
     private Predicate<Recipes> searchFilter=(Recipes r)->true;
     private Predicate<Recipes> favFilter=
             (Recipes r)->true;
-
     /**
      * Recipe overview controller constructor.
      *
@@ -229,8 +228,10 @@ public class RecipeOverviewCtrl implements Initializable {
         languageDropDown.getSelectionModel().selectFirst();
         languageDropDown.valueProperty().addListener((obs, oldLang, newLang) -> {
             if (newLang != null) {
-                Locale.setDefault(newLang.getLocale());
-//                TODO: Reload UI with new bundle
+                Locale locale = newLang.getLocale();
+                ResourceBundle bundle = ResourceBundle
+                        .getBundle("languageBundles.messages", locale);
+                mainCtrl.updateLanguage(bundle);
             }
         });
     }
@@ -692,7 +693,7 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void applySearchFilter(String text){
         if(text.isEmpty()){
-            searchFilter=recipes -> true;
+            searchFilter =recipes -> true;
             applyPredicates();
             return;
         }

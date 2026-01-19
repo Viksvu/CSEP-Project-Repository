@@ -33,7 +33,9 @@ import javafx.util.Pair;
 import commons.IngredientInRecipe;
 
 
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 
 public class MainCtrl {
@@ -198,6 +200,14 @@ public class MainCtrl {
     }
 
     /**
+     * dynamically update scene objects to new language
+     * @param bundle language bundle to change to
+     */
+    public void updateLanguage(ResourceBundle bundle) {
+        //TODO update all controllers
+    }
+
+    /**
      * Sets the recipe-overview scene as the primary scene
      */
     public void showOverview() {
@@ -333,11 +343,9 @@ public class MainCtrl {
      * shopping list overview.
      */
     public void showAddRecipeIngredientsOverview() {
-
         primaryStage.setTitle("Add recipe ingredients");
         primaryStage.setScene(addRecipeIngredients);
         addRecipeIngredientsCtrl.setChoiceBox(overviewCtrl.getRecipeData());
-
     }
 
     /**
