@@ -118,6 +118,18 @@ public class ServerUtils {
     }
 
     /**
+     * Get a recipe by its id
+     * @param recipeId id of the recipe
+     * @return the recipe
+     */
+    public Recipes getRecipe(long recipeId) {
+        return sendGetRequest(
+                new GenericType<Recipes>() {},
+                "api/recipe/get",
+                new QueryParam("id", recipeId)
+        );
+    }
+    /**
      * Adds an ingredient to the recipe
      * @param recipe to add the ingredient to
      * @return a list with all ingredients in a recipe

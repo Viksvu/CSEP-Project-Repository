@@ -934,7 +934,6 @@ public class RecipeOverviewCtrl implements Initializable {
      * @param id
      */
     public void refreshIfCurrent(long id){
-        getSelectedRecipe();
         if(lastSelectedRecipe!=null && lastSelectedRecipe.getId()==id){
             refreshIngredients(lastSelectedRecipe);
             refreshPreparationSteps(lastSelectedRecipe);
@@ -942,12 +941,50 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
     /**
-     * Refreshes side recipe list from a web message
+     * Refreshes recipe name
      */
-    public void refreshRecipeList(){
-        refreshRecipes();
+    public void refreshRecipeName(long id){
+        Recipes recipeNew=server.getRecipe(id);
+        for(Recipes recipe:recipeData){
+            if(recipe.getId()==id){
+                recipe.setName(recipeNew.getName());
+            }
+        }
+        recipeListView.refresh();
     }
 
+
+    /**
+     * add recipe to list view
+     */
+    public void addRecipeToListView(long id){
+        Recipes recipeNew=server.getRecipe(id);
+        boolean found=false;
+        for(Recipes recipe:recipeData){
+            if(recipe.getId()==id){
+                found=true;
+                break;
+            }
+        }
+        if(!found){
+            recipeData.add(recipeNew);
+            recipeListView.refresh();
+        }
+    }
+
+
+    /**
+     * add recipe to list view
+     */
+    public void removeRecipeFromListView(long id){
+        for(Recipes recipe:recipeData){
+            if(recipe.getId()==id){
+               recipeData.remove(recipe);
+                break;
+            }
+        }
+        recipeListView.refresh();
+    }
 
     /**
      * Downloads the lastSelectedRecipe

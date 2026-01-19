@@ -18,7 +18,6 @@ package client.scenes;
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import client.utils.WebSocketUtils;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.google.inject.Inject;
 import commons.PreparationStep;
 import commons.Printable;
@@ -90,6 +89,7 @@ public class MainCtrl {
     /**
      * Injects the websocket utils
      * to the main ctrl and runs it
+     *
      * @param webSocketUtils
      */
     @Inject
@@ -102,7 +102,7 @@ public class MainCtrl {
     /**
      * No arg constructor for test.
      */
-    public MainCtrl(){
+    public MainCtrl() {
 
     }
 
@@ -111,8 +111,8 @@ public class MainCtrl {
      * and give access to all the other controllers
      *
      * @param primaryStage the main stage.
-     * @param sceneMap a map with all the
-     *                 controller, parent pairs
+     * @param sceneMap     a map with all the
+     *                     controller, parent pairs
      */
     public void initialize(
             Stage primaryStage,
@@ -251,22 +251,21 @@ public class MainCtrl {
      */
     public void showSaveRecipe(Printable thing) {
         saveRecipeCtrl.provideThing(thing);
-        if (thing instanceof Recipes){
+        if (thing instanceof Recipes) {
             primaryStage.setTitle("Saving Recipe");
-        }
-        else if (thing instanceof ShoppingList) {
+        } else if (thing instanceof ShoppingList) {
             primaryStage.setTitle("Saving Shopping List");
-        }
-        else {
+        } else {
             primaryStage.setTitle("Saving");
         }
         primaryStage.setScene(saveRecipe);
-        saveRecipe.setOnKeyPressed(k->saveRecipeCtrl.onKeyPressed(k));
+        saveRecipe.setOnKeyPressed(k -> saveRecipeCtrl.onKeyPressed(k));
     }
 
 
     /**
      * Sets the add preparation step scene as the primary scene
+     *
      * @param recipe current recipe
      */
     public void showAddPreparationStep(Recipes recipe) {
@@ -278,6 +277,7 @@ public class MainCtrl {
 
     /**
      * Sets the edit preparation step scene as the primary scene
+     *
      * @param recipe current recipe
      */
     public void showEditPreparationStep(Recipes recipe, PreparationStep preparationStep) {
@@ -324,7 +324,6 @@ public class MainCtrl {
     }
 
 
-
     /**
      * Show shopping list scene.
      */
@@ -349,24 +348,25 @@ public class MainCtrl {
 
     /**
      * Displays overview list from the recipe
+     *
      * @param recipe the recipe.
      */
     public void showOverviewList(Recipes recipe) {
         overviewListCtrl.previousSceneSetter(primaryStage.getScene());
-        primaryStage.setTitle("Adding from \""+recipe.getName()+"\"" +
+        primaryStage.setTitle("Adding from \"" + recipe.getName() + "\"" +
                 " recipe");
         primaryStage.setScene(overviewList);
         overviewListCtrl.clear();
 
         overviewListCtrl.addIngredients(recipe.getIngredients()
-        , recipe);
+                , recipe);
         overviewListCtrl.refresh();
     }
 
     /**
      * Displays overview without overwrite
      */
-    public void showOverviewList(){
+    public void showOverviewList() {
         overviewListCtrl.refresh();
         primaryStage.setScene(overviewList);
     }
@@ -385,6 +385,7 @@ public class MainCtrl {
 
     /**
      * Displays the ingredient editing scene
+     *
      * @param ingredient the ingredient to edit
      */
     public void showEditIngredient(IngredientInShoppingList ingredient) {
@@ -392,8 +393,10 @@ public class MainCtrl {
         editIngredientCtrl.setIngredient(ingredient);
         primaryStage.setScene(editIngredient);
     }
+
     /**
      * Displays the ingredient editing scene
+     *
      * @param ingredient the ingredient to edit
      */
     public void showEditIngredient(IngredientInRecipe ingredient, Recipes recipe) {
@@ -406,55 +409,90 @@ public class MainCtrl {
 
     /**
      * Handles incoming web socket message
+     *
      * @param message
      */
     private void handleWebSocketMessage(String message) {
         long id = Long.parseLong(message.split(":")[1]);
+
         if (message.startsWith("RECIPE_UPDATED")) {
-            refreshCurrentRecipeContent(id);
-            refreshRecipeTitles(id);
-        }
-        else if(message.startsWith("RECIPE_DELETED")){
-            refreshRecipeTitles(id);
+            if (primaryStage.getScene()
+                    .getRoot().getId()!=null && primaryStage.getScene()
+                    .getRoot().getId().equals("overview")) {
+                refreshCurrentRecipeContent(id);
+            }
+        } else if (message.startsWith("RECIPE_DELETED")) {
+            deleteRecipeFromListViews(id);
+        } else if (message.startsWith("RECIPE_ADDED")) {
+            addRecipeToListViews(id);
         }
     }
 
     /**
      * Refreshes current recipe content
+     *
      * @param id
      */
     private void refreshCurrentRecipeContent(long id) {
         Platform.runLater(() -> {
             overviewCtrl.refreshIfCurrent(id);
+            overviewCtrl.refreshRecipeName(id);
         });
     }
 
     /**
-     * Refreshes recipe titles
+     * deletes the recipe
+     * with the id
+     * that is sent from the websocket
+     * in the correct scene
+     *
      * @param id
      */
-    private void refreshRecipeTitles(long id) {
+    public void deleteRecipeFromListViews(long id) {
         Platform.runLater(() -> {
             if(primaryStage.getScene()
-                    .getRoot().getId().equals("overview")) {
-                overviewCtrl.refreshRecipeList();
-                System.out.println("Recipe list refreshed.");
-            }
-            else if(primaryStage.getScene()
-                    .getRoot().getId().equals("deleteRecipe")){
-
+                    .getRoot().getId()!=null) {
+                if (primaryStage.getScene()
+                        .getRoot().getId().equals("overview")) {
+                    overviewCtrl.removeRecipeFromListView(id);
+                } else if (primaryStage.getScene()
+                        .getRoot().getId().equals("deleteRecipe")) {
+                }
             }
         });
-
     }
+
+    /**
+     * adds the recipe
+     * with the id
+     * that is sent from the websocket
+     * in the correct scene
+     *
+     * @param id
+     */
+    public void addRecipeToListViews(long id) {
+        Platform.runLater(() -> {
+                    if(primaryStage.getScene()
+                            .getRoot().getId()!=null) {
+                        if (primaryStage.getScene()
+                                .getRoot().getId().equals("overview")) {
+                            overviewCtrl.addRecipeToListView(id);
+                        } else if (primaryStage.getScene()
+                                .getRoot().getId().equals("deleteRecipe")) {
+                        }
+                    }
+        });
+    }
+
+
     /**
      * Sends to ws client endpoint what to subscribe to right now
+     *
      * @param id the id of the recipe to subscribe
      */
-    public void sendToWSEndpoint(long id){
-        webSocketUtils.send("VIEW_RECIPE:"+id);
+    public void sendToWSEndpoint(long id) {
+        webSocketUtils.send("VIEW_RECIPE:" + id);
     }
-
 
 
 }
