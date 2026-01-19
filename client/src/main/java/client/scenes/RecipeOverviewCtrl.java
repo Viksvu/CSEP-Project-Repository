@@ -306,9 +306,26 @@ public class RecipeOverviewCtrl implements Initializable {
     /**
      * Refreshes the recipes on the client
      */
-    private void refreshRecipes() {
+    public void refreshRecipes() {
         List<Recipes> updatedRecipes = server.getRecipes();
+
+        handleMissingFavoriteRecipes(updatedRecipes);
+
+        recipeData.setAll(server.getRecipes());
+        recipeListView.setItems(sortedRecipes);
+        applyPredicates();
+    }
+
+    /**
+     * Handles the favorite recipe
+     * logic
+     * (I split into two methods because
+     * I need this logic separate for APS)
+     * @param updatedRecipes
+     */
+    public void handleMissingFavoriteRecipes(List<Recipes> updatedRecipes) {
         List<Recipes> currentRecipes = recipeData;
+
         Set<Long> updatedRecipeIds = updatedRecipes.stream()
                 .map(Recipes::getId)
                 .collect(Collectors.toSet());
@@ -317,25 +334,23 @@ public class RecipeOverviewCtrl implements Initializable {
                 .filter(recipe -> !updatedRecipeIds.contains(recipe.getId()))
                 .filter(recipe -> favorites.contains(recipe.getId()))
                 .toList();
-        for(int i=0;i<missingRecipes.size();i++){
+
+        for (int i = 0; i < missingRecipes.size(); i++) {
             removeFavRecipeId(missingRecipes.get(i).getId());
         }
-        if(!missingRecipes.isEmpty()) {
+
+        if (!missingRecipes.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Favorite removed");
             alert.setHeaderText(null);
-            alert.setContentText("A favorited recipe was deleted " +
-                    "and removed from your favorites.");
+            alert.setContentText(
+                    "A favorited recipe was deleted and removed from your favorites."
+            );
             alert.showAndWait();
         }
-
-        recipeData.setAll(server.getRecipes());
-
-        recipeListView.setItems(sortedRecipes);
-
-        applyPredicates();
-
     }
+
+
 
     /**
      * Checks if a recipe is favorited
@@ -979,11 +994,17 @@ public class RecipeOverviewCtrl implements Initializable {
     public void removeRecipeFromListView(long id){
         for(Recipes recipe:recipeData){
             if(recipe.getId()==id){
-               recipeData.remove(recipe);
+                ObservableList<Recipes> snapshot =
+                        FXCollections.observableArrayList(recipeData);
+                snapshot.remove(recipe);
+                handleMissingFavoriteRecipes(snapshot);
+                recipeData.remove(recipe);
                 break;
             }
         }
+
         recipeListView.refresh();
+
     }
 
     /**

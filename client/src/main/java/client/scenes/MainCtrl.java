@@ -448,7 +448,7 @@ public class MainCtrl {
                     .position(Pos.BOTTOM_RIGHT)
                     .hideAfter(Duration.seconds(2))
                     .showInformation();
-            
+
         });
     }
 
