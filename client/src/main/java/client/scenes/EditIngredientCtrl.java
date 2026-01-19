@@ -63,13 +63,18 @@ public class EditIngredientCtrl implements Initializable {
         unitBox.setItems(FXCollections.observableArrayList(Unit.values()));
         errorLabel.setText("");
         errorLabel.setVisible(false);
+    }
+
+    /**
+     * Updates the UI elements to the new selected language.
+     * @param resourceBundle the resource bundle corresponding to the new language.
+     */
+    public void updateLanguage(ResourceBundle resourceBundle) {
         editIngredientLabel.setText(resourceBundle.getString("editIngredient.label"));
         editIngredientQuantity.setText(resourceBundle.getString("editIngredient.quantity"));
         editIngredientUnit.setText(resourceBundle.getString("editIngredient.unit"));
         editIngredientCancelButton.setText(resourceBundle.getString("editIngredient.cancel"));
         editIngredientChangeButton.setText(resourceBundle.getString("editIngredient.change"));
-
-
     }
 
     /**

@@ -211,6 +211,14 @@ public class MainCtrl {
      */
     public void updateLanguage(ResourceBundle bundle) {
         //TODO update all controllers
+        this.overviewCtrl.updateLanguage(bundle);
+        this.shoppingListCtrl.updateLanguage(bundle);
+        this.removeCtrl.updateLanguage(bundle);
+        this.editIngredientCtrl.updateLanguage(bundle);
+        this.addRecipeIngredientsCtrl.updateLanguage(bundle);
+        this.addCtrl.updateLanguage(bundle);
+        this.addPreparationStepCtrl.updateLanguage(bundle);
+        this.addIngredientCtrl.updateLanguage(bundle);
     }
 
     /**

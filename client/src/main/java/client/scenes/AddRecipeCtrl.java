@@ -48,6 +48,13 @@ public class AddRecipeCtrl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
+    /**
+     * Updates the UI elements to the new selected language.
+     * @param resourceBundle the resource bundle corresponding to the new language.
+     */
+    public void updateLanguage(ResourceBundle resourceBundle) {
         addRecipeOkButton.setText(resourceBundle.getString("addRecipe.ok"));
         addRecipeCancelButton.setText(resourceBundle.getString("addRecipe.cancel"));
         addRecipeLabel.setText(resourceBundle.getString("addRecipe.label"));

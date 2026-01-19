@@ -71,16 +71,22 @@ public class ShoppingListCtrl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         shoppingListView.setItems(items);
-        shoppingListLabel.setText(resourceBundle.getString("shoppingList.label"));
-        shoppingListAddIngredients.setText(resourceBundle.getString("shoppingList.addIngredient"));
-        shoppingListAddRecipeButton.setText(resourceBundle.getString("shoppingList.addRecipe"));
-        shoppingListBackButton.setText(resourceBundle.getString("shoppingList.back"));
-        shoppingListClearButton.setText(resourceBundle.getString("shoppingList.clear"));
         ImageView iv = new ImageView(new Image(
                 getClass().getResourceAsStream("/pictures/save.png")));
         iv.setFitHeight(20);
         iv.setFitWidth(20);
         downloadShoppingListButton.setGraphic(iv);
+    }
+    /**
+     * Updates the UI elements to the new selected language.
+     * @param resourceBundle the resource bundle corresponding to the new language.
+     */
+    public void updateLanguage(ResourceBundle resourceBundle) {
+        shoppingListLabel.setText(resourceBundle.getString("shoppingList.label"));
+        shoppingListAddIngredients.setText(resourceBundle.getString("shoppingList.addIngredient"));
+        shoppingListAddRecipeButton.setText(resourceBundle.getString("shoppingList.addRecipe"));
+        shoppingListBackButton.setText(resourceBundle.getString("shoppingList.back"));
+        shoppingListClearButton.setText(resourceBundle.getString("shoppingList.clear"));
     }
 
     /**

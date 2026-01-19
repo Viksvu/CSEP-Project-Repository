@@ -110,6 +110,9 @@ public class RecipeOverviewCtrl implements Initializable {
     private Label mainTitle;
 
     @FXML
+    private Button downloadRecipeButton;
+
+    @FXML
     private ComboBox<LanguageObject> languageDropDown;
 
     private boolean isCloning;
@@ -152,15 +155,6 @@ public class RecipeOverviewCtrl implements Initializable {
         //recipeListView.setEditable(true);
         favorites=new HashSet<>();
         setLanguageDropDown();
-        mainTitle.setText(resourceBundle.getString("title"));
-        shoppingListButon.setText(resourceBundle.getString("shoppingList"));
-        addToShop.setText(resourceBundle.getString("shop"));
-        refreshButton.setText(resourceBundle.getString("refresh"));
-        cloneButton.setText(resourceBundle.getString("clone"));
-        cloneRecipeButton.setText(resourceBundle.getString("clone.ok"));
-        recipeNameLabel.setText(resourceBundle.getString("clone.newRecipeName"));
-        favSort.setText(resourceBundle.getString("favourites"));
-
         searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 clearSearch();
@@ -246,6 +240,22 @@ public class RecipeOverviewCtrl implements Initializable {
                 mainCtrl.updateLanguage(bundle);
             }
         });
+    }
+
+    /**
+     * Updates the UI elements to the new selected language.
+     * @param resourceBundle the resource bundle corresponding to the new language.
+     */
+    public void updateLanguage(ResourceBundle resourceBundle) {
+        mainTitle.setText(resourceBundle.getString("title"));
+        shoppingListButon.setText(resourceBundle.getString("shoppingList"));
+        addToShop.setText(resourceBundle.getString("shop"));
+        refreshButton.setText(resourceBundle.getString("refresh"));
+        cloneButton.setText(resourceBundle.getString("clone"));
+        cloneRecipeButton.setText(resourceBundle.getString("clone.ok"));
+        recipeNameLabel.setText(resourceBundle.getString("clone.newRecipeName"));
+        favSort.setText(resourceBundle.getString("favourites"));
+        downloadRecipeButton.setText(resourceBundle.getString("download"));
     }
 
     /**

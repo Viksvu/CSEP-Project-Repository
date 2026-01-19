@@ -67,12 +67,6 @@ public class Main extends Application {
 				.getBundle("languageBundles.messages", locale);
         this.primaryStage = primaryStage;
         getScenes(bundle);
-//		var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-
-//		mainCtrl.initialize(
-//                primaryStage,
-//                getScenes(bundle)
-//		);
 	}
 
     /**
@@ -135,8 +129,6 @@ public class Main extends Application {
                     primaryStage,
                     scenes
             );
-        } else {
-            //TODO update stage root node
         }
     }
 }
