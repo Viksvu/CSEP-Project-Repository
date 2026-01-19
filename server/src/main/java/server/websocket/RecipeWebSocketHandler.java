@@ -43,7 +43,10 @@ public class RecipeWebSocketHandler extends TextWebSocketHandler {
 
     /**
      * Noticies
-     * all subscribed clients
+     * all subscribed clients,
+     * which are currently viewing
+     * the recipe, about
+     * a change in the recipe content
      * @param recipeId
      */
     public void notifyRecipeUpdated(long recipeId) {
@@ -72,7 +75,29 @@ public class RecipeWebSocketHandler extends TextWebSocketHandler {
 
         for (WebSocketSession session : sessions) {
             Long currId=currentRecipe.get(session);
-            if (currId!=null && session.isOpen() && currId==recipeId) {
+            if (session.isOpen()) {
+                try {
+                    session.sendMessage(msg);
+                } catch (Exception e) {
+                    System.out.println("WebSocket notification failed");
+                }
+            }
+        }
+    }
+
+
+
+    /**
+     * Noticies
+     * all subscribed clients
+     * @param recipeId
+     */
+    public void notifyRecipeAdded(long recipeId) {
+        TextMessage msg = new TextMessage("RECIPE_ADDED:" + recipeId);
+
+        for (WebSocketSession session : sessions) {
+            Long currId=currentRecipe.get(session);
+            if (session.isOpen()) {
                 try {
                     session.sendMessage(msg);
                 } catch (Exception e) {

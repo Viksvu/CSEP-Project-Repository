@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.services.RecipeService;
+import server.services.RecipeSocketService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +18,17 @@ import java.util.List;
 @RequestMapping("/api/recipe")
 public class RecipeController {
     RecipeService recipeService;
+    RecipeSocketService recipeSocketService;
 
     /**
      * Public constructor for RecipeController
      * Springboot handles the dependency injection for the recipe service
      * @param recipeService service used for crud operations on recipes
      */
-    public RecipeController(RecipeService recipeService) {
+    public RecipeController(RecipeService recipeService,
+                            RecipeSocketService recipeSocketService) {
         this.recipeService = recipeService;
+        this.recipeSocketService=recipeSocketService;
     }
 
     /**
@@ -44,6 +48,25 @@ public class RecipeController {
         return allRecipes;
     }
 
+
+    /**
+     * Returns needed recipe to the client
+     *
+     * @return the recipe
+     */
+    @GetMapping("/get")
+    public ResponseEntity<Recipes> get(@RequestParam Long id) {
+        if (id == 0) return ResponseEntity.badRequest().build();
+        Recipes recipe;
+        try {
+            recipe = recipeService.getRecipeById(id);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(recipe);
+    }
+
+
     /**
      * Add a recipe
      * @param request request with recipe to add
@@ -53,6 +76,7 @@ public class RecipeController {
     public ResponseEntity<Recipes> add(
             @RequestBody @Valid AddRecipeRequest request) {
         Recipes savedRecipe = recipeService.addRecipe(request.recipe());
+        recipeSocketService.recipeAdded(savedRecipe.getId());
         return ResponseEntity.ok(savedRecipe);
     }
 
@@ -102,6 +126,7 @@ public class RecipeController {
         Recipes retRecipe = request.recipe().cloneRecipes(request.newName());
         retRecipe.setRecipeOnIngredients();
         recipeService.addRecipe(retRecipe);
+        recipeSocketService.recipeAdded(retRecipe.getId());
         return ResponseEntity.ok(retRecipe);
     }
 }

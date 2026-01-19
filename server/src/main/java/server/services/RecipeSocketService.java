@@ -36,4 +36,14 @@ public class RecipeSocketService {
     public void recipeDeleted(long recipeId){
         socketHandler.notifyRecipeDeleted(recipeId);
     }
+
+
+    /**
+     * notifier to socket
+     * that the list view may hav
+     * @param recipeId
+     */
+    public void recipeAdded(long recipeId){
+        socketHandler.notifyRecipeAdded(recipeId);
+    }
 }
