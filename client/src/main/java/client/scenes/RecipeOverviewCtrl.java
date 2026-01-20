@@ -202,7 +202,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * favorited by double-clicking on them
      */
     public void doubleClickToFavorite(){
-        recipeListView.setOnMouseClicked(event -> {
+        recipeListView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (event.getClickCount()==2) {
                 Recipes selected=recipeListView
                         .getSelectionModel()
