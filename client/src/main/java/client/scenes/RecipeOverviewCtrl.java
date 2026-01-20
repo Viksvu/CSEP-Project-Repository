@@ -115,6 +115,8 @@ public class RecipeOverviewCtrl implements Initializable {
     @FXML
     private ComboBox<LanguageObject> languageDropDown;
 
+    @FXML
+    private AnchorPane topAnchorPane;
     private boolean isCloning;
 
     private FilteredList<Recipes> filteredRecipes;
