@@ -121,19 +121,19 @@ public class RemoveRecipeCtrl implements Initializable {
      * with a new recipe in the db
      * @param id the recipe id
      */
-    public void addRecipeToListView(long id){
-        Recipes recipeNew=server.getRecipe(id);
-        boolean found=false;
-        for(Recipes recipe:data){
-            if(recipe.getId()==id){
-                found=true;
-                break;
+    public void addRecipeToListView(long id) {
+        Recipes recipeNew = server.getRecipe(id);
+        for (int i = 0; i < data.size(); i++) {
+            Recipes recipe = data.get(i);
+            if (recipe.getId() == id) {
+                recipe.setName(recipeNew.getName());
+                data.set(i, recipe);
+                return;
             }
         }
-        if(!found){
-            data.add(recipeNew);
-        }
+        data.add(recipeNew);
     }
+
 
 
 }

@@ -955,36 +955,23 @@ public class RecipeOverviewCtrl implements Initializable {
         }
     }
 
-    /**
-     * Refreshes recipe name
-     */
-    public void refreshRecipeName(long id){
-        Recipes recipeNew=server.getRecipe(id);
-        for(Recipes recipe:recipeData){
-            if(recipe.getId()==id){
-                recipe.setName(recipeNew.getName());
-            }
-        }
-        recipeListView.refresh();
-    }
-
 
     /**
      * add recipe to list view
      */
-    public void addRecipeToListView(long id){
-        Recipes recipeNew=server.getRecipe(id);
-        boolean found=false;
-        for(Recipes recipe:recipeData){
-            if(recipe.getId()==id){
-                found=true;
-                break;
+    public void addRecipeToListView(long id) {
+        Recipes recipeNew = server.getRecipe(id);
+
+        for (int i = 0; i < recipeData.size(); i++) {
+            Recipes recipe = recipeData.get(i);
+
+            if (recipe.getId() == id) {
+                recipe.setName(recipeNew.getName());
+                recipeData.set(i, recipe);
+                return;
             }
         }
-        if(!found){
-            recipeData.add(recipeNew);
-            recipeListView.refresh();
-        }
+        recipeData.add(recipeNew);
     }
 
 
