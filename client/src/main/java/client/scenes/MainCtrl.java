@@ -441,9 +441,8 @@ public class MainCtrl {
     private void refreshCurrentRecipeContent(long id) {
         Platform.runLater(() -> {
             overviewCtrl.refreshIfCurrent(id);
-            overviewCtrl.refreshRecipeName(id);
             Notifications.create()
-                    .title("Recipe updated")
+                    .title("Recipe content updated")
                     .text("The recipe has been changed")
                     .position(Pos.BOTTOM_RIGHT)
                     .hideAfter(Duration.seconds(2))
