@@ -194,6 +194,28 @@ public class RecipeOverviewCtrl implements Initializable {
         iv.setFitHeight(20);
         iv.setFitWidth(20);
         renameRecipeButton.setGraphic(iv);
+        doubleClickToFavorite();
+    }
+
+    /**
+     * Method to be called in initialise, allows for recipes to be
+     * favorited by double-clicking on them
+     */
+    public void doubleClickToFavorite(){
+        recipeListView.setOnMouseClicked(event -> {
+            if (event.getClickCount()==2) {
+                Recipes selected=recipeListView
+                        .getSelectionModel()
+                        .getSelectedItem();
+                if (selected==null) return;
+                Long id=selected.getId();
+                if (favorites.contains(id)) removeFavRecipeId(id);
+                else addFavRecipeId(id);
+                star.setSelected(favorites.contains(id));
+                star.setText(star.isSelected() ? "★" : "☆");
+                recipeListView.refresh();
+            }
+        });
     }
 
     /**
@@ -681,6 +703,7 @@ public class RecipeOverviewCtrl implements Initializable {
                         && (recipeData.get(i).getName().equals(recipeNameTF.getText()))) {
                     return;
                 }
+            }
                 server.renameRecipe(lastSelectedRecipe, recipeNameTF.getText());
                 refreshRecipes();
                 refreshIngredients(lastSelectedRecipe);
@@ -689,7 +712,6 @@ public class RecipeOverviewCtrl implements Initializable {
                 recipeNameLabel.toBack();
                 cloneRecipeButton.toBack();
                 isRenaming = false;
-            }
         }
     }
 
