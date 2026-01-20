@@ -27,11 +27,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.util.Pair;
 import commons.IngredientInRecipe;
+import org.controlsfx.control.Notifications;
 
 
 import java.util.Map;
@@ -352,15 +355,17 @@ public class MainCtrl {
      * @param recipe the recipe.
      */
     public void showOverviewList(Recipes recipe) {
-        overviewListCtrl.previousSceneSetter(primaryStage.getScene());
-        primaryStage.setTitle("Adding from \"" + recipe.getName() + "\"" +
-                " recipe");
-        primaryStage.setScene(overviewList);
-        overviewListCtrl.clear();
+        if (recipe != null) {
+            overviewListCtrl.previousSceneSetter(primaryStage.getScene());
+            primaryStage.setTitle("Adding from \"" + recipe.getName() + "\"" +
+                    " recipe");
+            primaryStage.setScene(overviewList);
+            overviewListCtrl.clear();
 
-        overviewListCtrl.addIngredients(recipe.getIngredients()
-                , recipe);
-        overviewListCtrl.refresh();
+            overviewListCtrl.addIngredients(recipe.getIngredients()
+                    , recipe);
+            overviewListCtrl.refresh();
+        }
     }
 
     /**
@@ -436,7 +441,13 @@ public class MainCtrl {
     private void refreshCurrentRecipeContent(long id) {
         Platform.runLater(() -> {
             overviewCtrl.refreshIfCurrent(id);
-            overviewCtrl.refreshRecipeName(id);
+            Notifications.create()
+                    .title("Recipe content updated")
+                    .text("The recipe has been changed")
+                    .position(Pos.BOTTOM_RIGHT)
+                    .hideAfter(Duration.seconds(2))
+                    .showInformation();
+
         });
     }
 
@@ -455,9 +466,21 @@ public class MainCtrl {
                 if (primaryStage.getScene()
                         .getRoot().getId().equals("overview")) {
                     overviewCtrl.removeRecipeFromListView(id);
+
                 } else if (primaryStage.getScene()
-                        .getRoot().getId().equals("deleteRecipe")) {
+                        .getRoot().getId().equals("removeRecipe")) {
+                    removeCtrl.removeRecipeFromListView(id);
                 }
+                else if(primaryStage.getScene()
+                        .getRoot().getId().equals("addRepIngrs")){
+                    addRecipeIngredientsCtrl.removeRecipeFromListView(id);
+                }
+                Notifications.create()
+                        .title("Recipe deleted")
+                        .text("A recipe has been deleted")
+                        .position(Pos.BOTTOM_RIGHT)
+                        .hideAfter(Duration.seconds(2))
+                        .showInformation();
             }
         });
     }
@@ -478,7 +501,12 @@ public class MainCtrl {
                                 .getRoot().getId().equals("overview")) {
                             overviewCtrl.addRecipeToListView(id);
                         } else if (primaryStage.getScene()
-                                .getRoot().getId().equals("deleteRecipe")) {
+                                .getRoot().getId().equals("removeRecipe")) {
+                            removeCtrl.addRecipeToListView(id);
+                        }
+                        else if(primaryStage.getScene()
+                                .getRoot().getId().equals("addRepIngrs")){
+                            addRecipeIngredientsCtrl.addRecipeToListView(id);
                         }
                     }
         });

@@ -4,6 +4,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Recipes;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -17,7 +18,7 @@ import java.util.ResourceBundle;
 public class RemoveRecipeCtrl implements Initializable {
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
-
+    private ObservableList<Recipes> data;
     @FXML
     private ChoiceBox<Recipes> choiceBox;
 
@@ -65,8 +66,8 @@ public class RemoveRecipeCtrl implements Initializable {
      */
     public void setup() {
         var serverRecipes = server.getRecipes();
-        var data = FXCollections.observableArrayList(serverRecipes);
-        choiceBox.setItems(data);
+        this.data = FXCollections.observableArrayList(serverRecipes);
+        choiceBox.setItems(this.data);
     }
 
 
@@ -96,4 +97,43 @@ public class RemoveRecipeCtrl implements Initializable {
                 cancel();
         }
     }
+
+    /**
+     * If propagated
+     * from another client
+     * the choice box
+     * losses a removed recipe value
+     * @param id the recipe id
+     */
+    public void removeRecipeFromListView(long id){
+            for(Recipes recipe:data){
+                if(recipe.getId()==id){
+                    data.remove(recipe);
+                    break;
+                }
+            }
+    }
+
+    /**
+     * If propagated
+     * from another client
+     * the choice box is added
+     * with a new recipe in the db
+     * @param id the recipe id
+     */
+    public void addRecipeToListView(long id) {
+        Recipes recipeNew = server.getRecipe(id);
+        for (int i = 0; i < data.size(); i++) {
+            Recipes recipe = data.get(i);
+            if (recipe.getId() == id) {
+                recipe.setName(recipeNew.getName());
+                data.set(i, recipe);
+                return;
+            }
+        }
+        data.add(recipeNew);
+    }
+
+
+
 }
