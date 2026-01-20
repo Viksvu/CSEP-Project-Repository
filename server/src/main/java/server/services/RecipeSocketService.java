@@ -40,7 +40,8 @@ public class RecipeSocketService {
 
     /**
      * notifier to socket
-     * that the list view may hav
+     * that the list view needs
+     * to add a recipe
      * @param recipeId
      */
     public void recipeAdded(long recipeId){

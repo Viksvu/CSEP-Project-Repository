@@ -109,6 +109,7 @@ public class RecipeController {
             return ResponseEntity.badRequest().build();
         }
         recipe.setName(request.newName());
+        recipeSocketService.recipeAdded(recipe.getId());
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(request.newName());
     }
