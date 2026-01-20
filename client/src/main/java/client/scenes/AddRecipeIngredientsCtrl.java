@@ -47,6 +47,13 @@ public class AddRecipeIngredientsCtrl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
+    /**
+     * Updates the UI elements to the new selected language.
+     * @param resourceBundle the resource bundle corresponding to the new language.
+     */
+    public void updateLanguage(ResourceBundle resourceBundle) {
         arioLabel.setText(resourceBundle.getString("ario.label"));
         arioCancelButton.setText(resourceBundle.getString("ario.cancel"));
         arioOkButton.setText(resourceBundle.getString("ario.ok"));

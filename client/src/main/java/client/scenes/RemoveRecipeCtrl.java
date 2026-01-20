@@ -73,14 +73,21 @@ public class RemoveRecipeCtrl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        removeRecipeLabel.setText(resourceBundle.getString("removeRecipe.label"));
-        removeRecipeCancel.setText(resourceBundle.getString("removeRecipe.cancel"));
-        removeRecipeRemove.setText(resourceBundle.getString("removeRecipe.remove"));
         try {
             setup();
         } catch (NullPointerException e) {
             mainCtrl.showOverview();
         }
+    }
+
+    /**
+     * Updates the UI elements to the new selected language.
+     * @param resourceBundle the resource bundle corresponding to the new language.
+     */
+    public void updateLanguage(ResourceBundle resourceBundle) {
+        removeRecipeLabel.setText(resourceBundle.getString("removeRecipe.label"));
+        removeRecipeCancel.setText(resourceBundle.getString("removeRecipe.cancel"));
+        removeRecipeRemove.setText(resourceBundle.getString("removeRecipe.remove"));
     }
 
     /**

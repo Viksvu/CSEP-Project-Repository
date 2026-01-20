@@ -37,12 +37,15 @@ import commons.IngredientInRecipe;
 import org.controlsfx.control.Notifications;
 
 
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 
 public class MainCtrl {
 
     private Stage primaryStage;
+
     private Scene overview;
     private RecipeOverviewCtrl overviewCtrl;
 
@@ -122,7 +125,16 @@ public class MainCtrl {
             Map<String, Pair<?, Parent>> sceneMap
     ) {
         this.primaryStage = primaryStage;
+        getAllScenes(sceneMap);
+        showOverview();
+        primaryStage.show();
+    }
 
+    /**
+     * Initialises all scenes based on the sceneMap provided
+     * @param sceneMap  map containing scenes and controllers
+     */
+    public void getAllScenes(Map<String, Pair<?, Parent>> sceneMap) {
         Pair<?, Parent> overviewPair = sceneMap.get("overview");
         this.overviewCtrl = (RecipeOverviewCtrl) overviewPair.getKey();
         this.overview = new Scene(overviewPair.getValue());
@@ -194,9 +206,22 @@ public class MainCtrl {
 
         this.recipeObservableList = FXCollections.observableArrayList();
         this.addIngredientCtrl.provideShoppingList(this.shoppingList);
+    }
 
-        showOverview();
-        primaryStage.show();
+    /**
+     * dynamically update scene objects to new language
+     * @param bundle language bundle to change to
+     */
+    public void updateLanguage(ResourceBundle bundle) {
+        //TODO update all controllers
+        this.overviewCtrl.updateLanguage(bundle);
+        this.shoppingListCtrl.updateLanguage(bundle);
+        this.removeCtrl.updateLanguage(bundle);
+        this.editIngredientCtrl.updateLanguage(bundle);
+        this.addRecipeIngredientsCtrl.updateLanguage(bundle);
+        this.addCtrl.updateLanguage(bundle);
+        this.addPreparationStepCtrl.updateLanguage(bundle);
+        this.addIngredientCtrl.updateLanguage(bundle);
     }
 
     /**
@@ -342,11 +367,9 @@ public class MainCtrl {
      * shopping list overview.
      */
     public void showAddRecipeIngredientsOverview() {
-
         primaryStage.setTitle("Add recipe ingredients");
         primaryStage.setScene(addRecipeIngredients);
         addRecipeIngredientsCtrl.setChoiceBox(overviewCtrl.getRecipeData());
-
     }
 
     /**

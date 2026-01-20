@@ -77,15 +77,23 @@ public class AddIngredientCtrl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        unitBox.setItems(FXCollections.observableArrayList(Unit.values()));
+        errorLabel.setText("");
+        errorLabel.setVisible(false);
+    }
+
+    /**
+     * Updates the UI elements to the new selected language.
+     * @param resourceBundle the resource bundle corresponding to the new language.
+     */
+    public void updateLanguage(ResourceBundle resourceBundle) {
         addIngredientLabel.setText(resourceBundle.getString("addIngredient.nameLabel"));
         addIngredientQuantityLabel.setText(resourceBundle.getString("addIngredient.quantity"));
         addIngredientUnitLabel.setText(resourceBundle.getString("addIngredient.unit"));
         addIngredientCancelButton.setText(resourceBundle.getString("addIngredient.cancel"));
         addIngredientOkButton.setText(resourceBundle.getString("addIngredient.ok"));
-        unitBox.setItems(FXCollections.observableArrayList(Unit.values()));
-        errorLabel.setText("");
-        errorLabel.setVisible(false);
     }
+
     /**
      * Cancel just clears the fields and
      * shows back the overview field

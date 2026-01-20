@@ -61,10 +61,17 @@ public class OverviewListCtrl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        overviewListLabel.setText(resourceBundle.getString("overviewList.label"));
-        overviewListAddButton.setText(resourceBundle.getString("overviewList.add"));
         items.clear();
         overviewListView.setItems(items);
+    }
+
+    /**
+     * Updates the UI elements to the new selected language.
+     * @param resourceBundle the resource bundle corresponding to the new language.
+     */
+    public void updateLanguage(ResourceBundle resourceBundle) {
+        overviewListLabel.setText(resourceBundle.getString("overviewList.label"));
+        overviewListAddButton.setText(resourceBundle.getString("overviewList.add"));
     }
 
     /**

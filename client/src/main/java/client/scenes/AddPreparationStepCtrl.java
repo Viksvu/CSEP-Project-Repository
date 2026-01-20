@@ -54,11 +54,18 @@ public class AddPreparationStepCtrl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        errorLabel.setText("");
+        errorLabel.setVisible(false);
+    }
+
+    /**
+     * Updates the UI elements to the new selected language.
+     * @param resourceBundle the resource bundle corresponding to the new language.
+     */
+    public void updateLanguage(ResourceBundle resourceBundle) {
         addPrepStepLable.setText(resourceBundle.getString("addPrepStep.label"));
         addPrepStepCancel.setText(resourceBundle.getString("addPrepStep.cancel"));
         addPrepStepOk.setText(resourceBundle.getString("addPrepStep.ok"));
-        errorLabel.setText("");
-        errorLabel.setVisible(false);
     }
 
     /**
