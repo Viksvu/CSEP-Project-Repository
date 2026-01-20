@@ -73,12 +73,8 @@ public class ServerUtils {
      * @return the recipe if renamed successfully
      */
     public String renameRecipe(Recipes recipe, String newName) {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .queryParam("id", recipe.getId())
-                .path("api/recipe/rename")
-                .request(APPLICATION_JSON)
-                .post(Entity.entity(newName, APPLICATION_JSON), String.class);
+        RenameRecipeRequest request = new RenameRecipeRequest(recipe.getId(), newName);
+        return sendPostRequest(request, String.class);
     }
 
     /**
