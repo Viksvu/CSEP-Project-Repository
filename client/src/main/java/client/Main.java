@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 import java.util.HashMap;
 import java.util.Map;
 
+import client.commonsClient.ClientConfig;
 import client.scenes.*;
 import client.utils.ServerUtils;
 import com.google.inject.Injector;
@@ -62,7 +63,8 @@ public class Main extends Application {
 			System.err.println(msg);
 			return;
 		}
-		Locale locale = Locale.forLanguageTag("en");
+		Locale locale = Locale.forLanguageTag(INJECTOR
+                .getInstance(ClientConfig.class).getLocale());
 		ResourceBundle bundle = ResourceBundle
 				.getBundle("languageBundles.messages", locale);
         this.primaryStage = primaryStage;

@@ -15,6 +15,8 @@
  */
 package client.scenes;
 
+import client.commonsClient.ClientConfig;
+import client.commonsClient.ConfigWriter;
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import client.utils.WebSocketUtils;
@@ -94,6 +96,8 @@ public class MainCtrl {
     private ShoppingList shoppingList = new ShoppingList();
     private WebSocketUtils webSocketUtils;
 
+    private ClientConfig clientConfig;
+
     /**
      * Injects the websocket utils
      * to the main ctrl and runs it
@@ -101,9 +105,10 @@ public class MainCtrl {
      * @param webSocketUtils
      */
     @Inject
-    public MainCtrl(WebSocketUtils webSocketUtils) {
+    public MainCtrl(WebSocketUtils webSocketUtils, ClientConfig clientConfig) {
         this.webSocketUtils = webSocketUtils;
         this.webSocketUtils.connect(this::handleWebSocketMessage);
+        this.clientConfig = clientConfig;
     }
 
 
@@ -224,6 +229,9 @@ public class MainCtrl {
         this.addCtrl.updateLanguage(bundle);
         this.addPreparationStepCtrl.updateLanguage(bundle);
         this.addIngredientCtrl.updateLanguage(bundle);
+        ClientConfig newConfig = new ClientConfig(clientConfig
+                .getServerIp(), bundle.getLocale().toLanguageTag());
+        ConfigWriter.write(newConfig);
     }
 
     /**
