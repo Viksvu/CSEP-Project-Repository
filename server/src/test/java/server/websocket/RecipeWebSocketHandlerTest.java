@@ -55,6 +55,16 @@ class RecipeWebSocketHandlerTest {
     }
 
     @Test
+    void handleTextMessage_empty() throws Exception {
+        handler.afterConnectionEstablished(session1);
+
+        handler.handleTextMessage(
+                session1,
+                new TextMessage("")
+        );
+    }
+
+    @Test
     void notifyRecipeUpdated_onlyNotifiesSessionsViewingThatRecipe() throws Exception {
         handler.afterConnectionEstablished(session1);
         handler.afterConnectionEstablished(session2);
