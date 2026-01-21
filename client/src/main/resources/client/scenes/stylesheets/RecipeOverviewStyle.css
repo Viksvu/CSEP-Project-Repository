@@ -33,16 +33,46 @@
 }
 .recipe_list_pane {
     -fx-background-color: navajowhite;
-    -fx-content-display: text-only;
+}
+.ingredient_list_pane {
+    -fx-background-color: plum;
+}
+.ingredient_list_pane .list-cell {
+    -fx-background-color: plum;
+}
+.ingredient_list_pane .list-cell:hover {
+    -fx-background-color: orchid;
+}
+.prepstep_list_pane {
+    -fx-background-color: aquamarine;
+}
+.prepstep_list_pane .list-cell {
+    -fx-background-color: aquamarine;
 }
 
-.list-cell {
+.prepstep_list_pane .list-cell:hover {
+    -fx-background-color: cyan;
+}
+
+.recipe_list_pane .list-cell {
     -fx-background-color: navajowhite;
 }
 
-.list-cell:hover {
+.recipe_list_pane .list-cell:hover {
     -fx-background-color: orange;
 }
-.list-cell:focused {
+.recipe_list_pane .list-cell:focused {
     -fx-text-fill: darkgreen;
 }
+
+.recipe_list_pane .text-field {
+    -fx-background-color: gold;
+    -fx-text-fill: white;
+}
+
+.recipe_list_pane .text-field:hover, .recipe_list_pane .text-field:focused {
+    -fx-translate-y: -2px;
+    -fx-translate-x: 1px;
+    -fx-effect: dropshadow(gaussian, orange, 10, 0, -2, 1);
+}
+

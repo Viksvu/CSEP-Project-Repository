@@ -39,12 +39,12 @@
                                         <Button layoutX="148.0" layoutY="19.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchInit" prefHeight="38.0" prefWidth="54.0" text="🔍" />
                               <TextField fx:id="recipeNameTF" layoutX="25.0" layoutY="387.0" prefHeight="26.0" prefWidth="114.0" AnchorPane.bottomAnchor="89.79999999999998" />
                               <Label fx:id="recipeNameLabel" layoutX="38.0" layoutY="356.0" text="%clone.newRecipeName" AnchorPane.bottomAnchor="129.6" />
-                              <Button fx:id="cloneRecipeButton" layoutX="166.0" layoutY="387.0" mnemonicParsing="false" onAction="#okRecipe" prefHeight="26.0" prefWidth="27.0" text="%clone.ok" AnchorPane.bottomAnchor="89.79999999999998">
+                              <Button fx:id="cloneRecipeButton" layoutX="166.0" layoutY="387.0" mnemonicParsing="false" onAction="#okRecipe" prefHeight="27.0" prefWidth="31.0" text="%clone.ok" AnchorPane.bottomAnchor="90.0">
                                  <font>
                                     <Font size="10.0" />
                                  </font>
                               </Button>
-                              <ToggleButton fx:id="favSort" layoutX="70.0" layoutY="62.0" mnemonicParsing="false" onAction="#applyFav" text="%favourites" />
+                              <ToggleButton fx:id="favSort" layoutX="70.0" layoutY="62.0" mnemonicParsing="false" onAction="#applyFav" styleClass="button" text="%favourites" />
                                           <Button layoutX="32.0" layoutY="447.0" mnemonicParsing="false" onAction="#addRecipe" prefHeight="30.0" prefWidth="27.0" styleClass="plus_button" text="+" AnchorPane.bottomAnchor="25.79999999999999" AnchorPane.leftAnchor="32.0" />
                                           <Button layoutX="166.0" layoutY="447.0" mnemonicParsing="false" onAction="#removeRecipe" prefHeight="30.0" prefWidth="27.0" styleClass="minus_button" text="-" AnchorPane.bottomAnchor="25.79999999999999" AnchorPane.rightAnchor="25.200000000000006" />
                               <Button fx:id="renameRecipeButton" layoutX="87.0" layoutY="464.0" mnemonicParsing="false" onAction="#renameRecipe" AnchorPane.bottomAnchor="13.599999999999987" />
@@ -57,18 +57,18 @@
                                         <SplitPane dividerPositions="0.5" layoutX="175.0" layoutY="77.0" orientation="VERTICAL" prefHeight="353.6" prefWidth="416.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <items>
 
-                                                <AnchorPane fx:id="ingredientsPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                <AnchorPane fx:id="ingredientsPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="ingredient_list_pane">
                                                     <children>
-                                                        <ListView fx:id="ingredientListView" layoutX="66.0" layoutY="14.0" prefHeight="173.6" prefWidth="414.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                          <ToggleButton fx:id="star" layoutX="463.0" layoutY="83.0" mnemonicParsing="false" onAction="#starToggle" text="☆" AnchorPane.rightAnchor="25.799999999999955" />
+                                                        <ListView fx:id="ingredientListView" layoutX="66.0" layoutY="14.0" prefHeight="173.6" prefWidth="414.4" styleClass="ingredient_list_pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <ToggleButton fx:id="star" layoutX="463.0" layoutY="83.0" mnemonicParsing="false" onAction="#starToggle" styleClass="button" text="☆" AnchorPane.rightAnchor="25.799999999999955" />
                                                         <Button fx:id="addIngredientButton" layoutX="463.0" layoutY="183.0" mnemonicParsing="false" onAction="#addIngredient" prefHeight="30.0" prefWidth="27.0" styleClass="plus_button" text="+" AnchorPane.bottomAnchor="34.6" AnchorPane.rightAnchor="26.599999999999955" />
                                           <Button fx:id="addToShop" layoutX="451.0" layoutY="14.0" mnemonicParsing="false" onAction="#addToOverViewIngredients" text="%shop" AnchorPane.rightAnchor="13.799999999999955" AnchorPane.topAnchor="14.0" />
                                                     </children>
                                                 </AnchorPane>
 
-                                                <AnchorPane fx:id="preparationStepsPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                <AnchorPane fx:id="preparationStepsPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="prepstep_list_pane">
                                                     <children>
-                                                        <ListView fx:id="preparationsListView" layoutX="62.0" prefHeight="172.8" prefWidth="414.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                        <ListView fx:id="preparationsListView" layoutX="62.0" prefHeight="172.8" prefWidth="414.4" styleClass="prepstep_list_pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 
                                                         <Button fx:id="addPreparationStepButton" layoutX="458.0" layoutY="202.0" mnemonicParsing="false" onAction="#addPreparationStep" prefHeight="30.0" prefWidth="27.0" styleClass="plus_button" text="+" AnchorPane.bottomAnchor="14.79999999999999" AnchorPane.rightAnchor="31.599999999999955" />
                                                     </children>
