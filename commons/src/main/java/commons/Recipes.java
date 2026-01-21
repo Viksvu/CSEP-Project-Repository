@@ -1,6 +1,7 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import commons.util.EqualsUtil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -168,11 +169,13 @@ public class Recipes implements Printable {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recipes recipes = (Recipes) o;
-        return Objects.equals(ingredients, recipes.ingredients)
-                && Objects.equals(preparationSteps, recipes.preparationSteps) &&
-                Objects.equals(name, recipes.name);
+        return Objects.equals(id, recipes.getId())
+                && EqualsUtil.equalsPersistentSafe(ingredients, recipes.ingredients)
+                && EqualsUtil.equalsPersistentSafe(preparationSteps, recipes.preparationSteps)
+                && Objects.equals(name, recipes.name);
     }
 
     @Override
