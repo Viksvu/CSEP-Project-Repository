@@ -154,7 +154,7 @@ public class RecipeOverviewCtrl implements Initializable {
         //recipeListView.setItems(recipeObservableList);
         //recipeListView.setEditable(true);
         favorites=new HashSet<>();
-        setLanguageDropDown();
+        setLanguageDropDown(resourceBundle);
         searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 clearSearch();
@@ -199,7 +199,7 @@ public class RecipeOverviewCtrl implements Initializable {
     /**
      * This method is responsible for rendering the Language Drop Down Menu
      */
-    public void setLanguageDropDown() {
+    public void setLanguageDropDown(ResourceBundle resourceBundle) {
         languageDropDown.getItems().addAll(
                 new LanguageObject(
                         Locale.forLanguageTag("en"),
