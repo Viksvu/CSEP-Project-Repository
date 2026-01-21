@@ -55,7 +55,8 @@ public class RecipeController {
      * @return the recipe
      */
     @GetMapping("/get")
-    public ResponseEntity<Recipes> get(@RequestParam Long id) throws RecipeService.RecipeNotFoundException {
+    public ResponseEntity<Recipes> get(
+            @RequestParam Long id) throws RecipeService.RecipeNotFoundException {
         if (id == 0) return ResponseEntity.badRequest().build();
         Recipes recipe = recipeService.getRecipeById(id);
         return ResponseEntity.ok(recipe);

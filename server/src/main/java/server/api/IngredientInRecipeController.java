@@ -58,8 +58,8 @@ public class IngredientInRecipeController {
             return ResponseEntity.badRequest().build();
         }
         recipe.addIngredient(request.ingredient());
-        recipeService.addRecipe(recipe);
-        return ResponseEntity.ok(request.ingredient());
+        Recipes r = recipeService.addRecipe(recipe);
+        return ResponseEntity.ok(r.getIngredients().getLast());
     }
 
 
