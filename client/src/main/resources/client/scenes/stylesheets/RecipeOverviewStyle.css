@@ -1,5 +1,5 @@
 @font-face {
-    src: url("fonts/Poppins/Poppins-Regular.ttf");
+    src: url("fonts/Poppins/Poppins-ExtraBold.ttf");
     font-family: "Poppins";
 }
 .root {
@@ -9,16 +9,18 @@
 }
 
 .button {
-    -fx-background-color: lightblue;
-    -fx-border-radius: 80%;
+    -fx-background-color: ivory;
+    -fx-border-radius: 5%;
     -fx-font-family: "Poppins";
     -fx-font-size: 12px;
     -fx-text-fill: black;
     -fx-font-weight: 600;
+    -fx-border-width: 1px;
+    -fx-border-color: grey;
 }
 .button:hover {
     -fx-translate-y: -2px;
-    -fx-effect: dropshadow(gaussian, blue, 10, 0, -2, 1);
+    -fx-effect: dropshadow(gaussian, lightgrey, 10, 0, -2, 1);
 }
 
 .plus_button {
@@ -31,49 +33,52 @@
     -fx-background-color: lightpink;
 }
 .minus_button:hover {
-    -fx-effect: dropshadow(gaussian, red, 10, 0, -2, 1);
+    -fx-effect: dropshadow(gaussian, lightgrey, 10, 0, -2, 1);
 }
 .recipe_list_pane {
-    -fx-background-color: navajowhite;
+    -fx-background-color: ivory;
 }
 .ingredient_list_pane {
-    -fx-background-color: plum;
+    -fx-background-color: ivory;
 }
 .ingredient_list_pane .list-cell {
-    -fx-background-color: plum;
+    -fx-background-color: ivory;
 }
 .ingredient_list_pane .list-cell:hover {
-    -fx-background-color: orchid;
+    -fx-background-color: grey;
 }
 .prepstep_list_pane {
-    -fx-background-color: aquamarine;
+    -fx-background-color: ivory;
 }
 .prepstep_list_pane .list-cell {
-    -fx-background-color: aquamarine;
+    -fx-background-color: ivory;
 }
 
 .prepstep_list_pane .list-cell:hover {
-    -fx-background-color: cyan;
+    -fx-background-color: grey;
 }
 
 .recipe_list_pane .list-cell {
-    -fx-background-color: navajowhite;
+    -fx-background-color: ivory;
 }
 
 .recipe_list_pane .list-cell:hover {
-    -fx-background-color: orange;
+    -fx-background-color: lightgrey;
 }
 .recipe_list_pane .list-cell:focused {
-    -fx-text-fill: darkgreen;
+    -fx-text-fill: darkblue;
 }
 
 .recipe_list_pane .text-field {
-    -fx-background-color: gold;
+    -fx-background-color: ivory;
     -fx-text-fill: white;
+    -fx-border-width: 1px;
+    -fx-border-color: grey;
 }
 
 .recipe_list_pane .text-field:hover, .recipe_list_pane .text-field:focused {
     -fx-translate-y: -2px;
     -fx-translate-x: 1px;
     -fx-effect: dropshadow(gaussian, orange, 10, 0, -2, 1);
+    -fx-background-color: lightgrey00;
 }

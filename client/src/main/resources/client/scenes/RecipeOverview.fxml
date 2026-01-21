@@ -34,7 +34,7 @@
 
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="recipe_list_pane">
                                     <children>
-                                        <ListView fx:id="recipeListView" editable="true" layoutY="94.4" onMouseClicked="#recipeClicked" prefHeight="409.0" prefWidth="218.0" styleClass="recipe_list_pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="94.0" />
+                                        <ListView fx:id="recipeListView" editable="true" layoutY="94.4" onMouseClicked="#recipeClicked" prefHeight="330.0" prefWidth="218.0" styleClass="recipe_list_pane" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="94.0" />
                                         <TextField fx:id="searchField" layoutX="18.0" layoutY="19.0" prefHeight="38.0" prefWidth="126.0" />
                                         <Button layoutX="148.0" layoutY="19.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchInit" prefHeight="38.0" prefWidth="54.0" text="🔍" />
                               <TextField fx:id="recipeNameTF" layoutX="25.0" layoutY="387.0" prefHeight="26.0" prefWidth="114.0" AnchorPane.bottomAnchor="89.79999999999998" />
