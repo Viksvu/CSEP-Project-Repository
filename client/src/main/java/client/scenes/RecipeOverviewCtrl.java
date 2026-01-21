@@ -201,7 +201,7 @@ public class RecipeOverviewCtrl implements Initializable {
         Font.loadFont(
                 getClass().getResourceAsStream("/client/" +
                         "scenes/stylesheets/fonts/" +
-                        "Patrick_Hand/Patrick-Hand-Regular.ttf"),
+                        "Poppins/Poppins-Regular.ttf"),
                 12
         );
     }

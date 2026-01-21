@@ -1,21 +1,23 @@
 @font-face {
-    src: url("fonts/Patrick_Hand/PatrickHand-Regular.ttf");
+    src: url("fonts/Poppins/Poppins-Regular.ttf");
+    font-family: "Poppins";
 }
 .root {
-    -fx-font-family: "Patrick Hand";
-    -fx-font-size: 14px;
+    -fx-font-family: "Poppins";
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
 }
 
 .button {
     -fx-background-color: lightblue;
     -fx-border-radius: 80%;
-    -fx-font-family: "Patrick Hand";
-    -fx-font-size: 13px;
+    -fx-font-family: "Poppins";
+    -fx-font-size: 12px;
     -fx-text-fill: black;
+    -fx-font-weight: 600;
 }
 .button:hover {
     -fx-translate-y: -2px;
-    -fx-translate-x: 1px;
     -fx-effect: dropshadow(gaussian, blue, 10, 0, -2, 1);
 }
 

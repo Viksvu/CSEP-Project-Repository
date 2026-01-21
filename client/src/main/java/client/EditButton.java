@@ -37,7 +37,7 @@ public class EditButton<K> extends Button {
         this.option=option;
         double containerHeight = parent.getLayoutBounds().getHeight();
         super.setTranslateX(
-                8 * parent.getItems().get(index).toString().length()
+                9 * parent.getItems().get(index).toString().length()
         );
         editIngredientInRecipe();
     }
