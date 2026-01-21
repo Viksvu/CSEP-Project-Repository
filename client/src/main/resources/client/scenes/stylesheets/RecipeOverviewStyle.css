@@ -1,0 +1,48 @@
+@font-face {
+    src: url("fonts/Patrick_Hand/PatrickHand-Regular.ttf");
+}
+.root {
+    -fx-font-family: "Patrick Hand";
+    -fx-font-size: 14px;
+}
+
+.button {
+    -fx-background-color: lightblue;
+    -fx-border-radius: 80%;
+    -fx-font-family: "Patrick Hand";
+    -fx-font-size: 13px;
+    -fx-text-fill: black;
+}
+.button:hover {
+    -fx-translate-y: -2px;
+    -fx-translate-x: 1px;
+    -fx-effect: dropshadow(gaussian, blue, 10, 0, -2, 1);
+}
+
+.plus_button {
+    -fx-background-color: lightgreen;
+}
+.plus_button:hover {
+    -fx-effect: dropshadow(gaussian, green, 10, 0, -2, 1);
+}
+.minus_button {
+    -fx-background-color: lightpink;
+}
+.minus_button:hover {
+    -fx-effect: dropshadow(gaussian, red, 10, 0, -2, 1);
+}
+.recipe_list_pane {
+    -fx-background-color: navajowhite;
+    -fx-content-display: text-only;
+}
+
+.list-cell {
+    -fx-background-color: navajowhite;
+}
+
+.list-cell:hover {
+    -fx-background-color: orange;
+}
+.list-cell:focused {
+    -fx-text-fill: darkgreen;
+}
