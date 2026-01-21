@@ -36,8 +36,6 @@ import javafx.util.Pair;
 import commons.IngredientInRecipe;
 import org.controlsfx.control.Notifications;
 
-
-import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 

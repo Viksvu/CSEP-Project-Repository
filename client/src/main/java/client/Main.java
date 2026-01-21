@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 import java.util.HashMap;
 import java.util.Map;
 
+import client.commonsClient.ConfigLoader;
 import client.scenes.*;
 import client.utils.ServerUtils;
 import com.google.inject.Injector;
@@ -55,6 +56,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+//        ConfigLoader.loadConfig();
 		var serverUtils = INJECTOR.getInstance(ServerUtils.class);
 		if (!serverUtils.isServerAvailable()) {
 			var msg = "Server needs to be started before the client"
