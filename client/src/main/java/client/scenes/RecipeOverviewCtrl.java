@@ -231,7 +231,11 @@ public class RecipeOverviewCtrl implements Initializable {
             }
         });
         languageDropDown.setButtonCell(languageDropDown.getCellFactory().call(null));
-        languageDropDown.getSelectionModel().selectFirst();
+        for (LanguageObject languageObject : languageDropDown.getItems()) {
+            if (languageObject.getLocale().equals(resourceBundle.getLocale())) {
+                languageDropDown.getSelectionModel().select(languageObject);
+            }
+        }
         languageDropDown.valueProperty().addListener((obs, oldLang, newLang) -> {
             if (newLang != null) {
                 Locale locale = newLang.getLocale();
