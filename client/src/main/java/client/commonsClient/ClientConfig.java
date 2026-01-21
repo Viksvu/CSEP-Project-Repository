@@ -1,5 +1,7 @@
 package client.commonsClient;
 
+import jakarta.inject.Inject;
+
 /**
  * Class used to load and save client config settings
  */
@@ -17,6 +19,7 @@ public class ClientConfig {
      * @param serverIp server ip address.
      * @param locale local for the ui language.
      */
+
     public ClientConfig(String serverIp, String locale) {
         this.serverIp = serverIp;
         this.locale = locale;

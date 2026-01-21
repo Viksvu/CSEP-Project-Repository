@@ -15,17 +15,19 @@
  */
 package client.utils;
 
+import client.commonsClient.ClientConfig;
 import commons.IngredientInRecipe;
 import commons.Ingredients;
 import commons.PreparationStep;
 import commons.Recipes;
 import commons.request.*;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
-import org.glassfish.jersey.client.ClientConfig;
+
 
 import java.net.ConnectException;
 import java.util.List;
@@ -33,9 +35,12 @@ import java.util.List;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
-	private static final String SERVER = System.getenv("SERVER_URL") == null
-            ? "http://localhost:8080/"
-            : System.getenv("SERVER_URL");
+	private final ClientConfig clientConfig;
+
+    @Inject
+    public ServerUtils(ClientConfig clientConfig) {
+        this.clientConfig = clientConfig;
+    }
 
     /**
 	* Gets a list of all the recipes in the database
@@ -269,8 +274,8 @@ public class ServerUtils {
      * @return WebTarget for api usage
      */
     private WebTarget getBasicWebTarget() {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER);
+        return ClientBuilder.newClient(new org.glassfish.jersey.client.ClientConfig())
+                .target(this.clientConfig.getServerIp());
     }
 
     /**

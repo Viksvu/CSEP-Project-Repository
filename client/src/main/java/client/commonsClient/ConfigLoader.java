@@ -1,42 +1,27 @@
 package client.commonsClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Injector;
+
 import java.io.File;
+import java.nio.file.Files;
 
 /**
  * Class used to read and write to config file.
  */
 public class ConfigLoader {
     private static final ObjectMapper mapper = new ObjectMapper();
-    private static ClientConfig clientConfig;
 
     /**
      * Loads the ip and locale from the file config.json.
      */
-    public static void loadConfig() {
+    public static ClientConfig loadConfig() {
         try {
             File configFile = new File("config.json");
-            clientConfig = mapper.readValue(configFile, ClientConfig.class);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * getter for clientConfig.
-     * @return clientConfig.
-     */
-    public static ClientConfig getClientConfig() {
-        return clientConfig;
-    }
-
-    /**
-     * saves the new values of clientConfig to the file.
-     */
-    public static void save() {
-        try {
-            mapper.writeValue(new File("config.json"), clientConfig);
+            if (!configFile.exists()) {
+                Files.writeString(configFile.toPath(), mapper.writeValueAsString(new ClientConfig("http://127.0.0.1:8080/", "nl")));
+            }
+            return mapper.readValue(configFile, ClientConfig.class);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
