@@ -1,7 +1,5 @@
 package client.commonsClient;
 
-import jakarta.inject.Inject;
-
 /**
  * Class used to load and save client config settings
  */
