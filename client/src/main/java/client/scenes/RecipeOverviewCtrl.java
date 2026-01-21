@@ -115,6 +115,8 @@ public class RecipeOverviewCtrl implements Initializable {
     @FXML
     private ComboBox<LanguageObject> languageDropDown;
 
+    @FXML
+    private AnchorPane topAnchorPane;
     private boolean isCloning;
 
     private FilteredList<Recipes> filteredRecipes;
@@ -967,6 +969,15 @@ public class RecipeOverviewCtrl implements Initializable {
             else {
                 searchInit();
             }
+        } else if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.ESCAPE){
+            if (isCloning || isRenaming) {
+                recipeNameTF.clear();
+                recipeNameTF.toBack();
+                recipeNameLabel.toBack();
+                cloneRecipeButton.toBack();
+                isCloning = false;
+                isRenaming = false;
+            }
         }
     }
     /**
@@ -1033,7 +1044,7 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void downloadRecipe() {
         if (lastSelectedRecipe != null) {
-            mainCtrl.showSaveRecipe(lastSelectedRecipe);
+            mainCtrl.showSaveRecipe(lastSelectedRecipe, this);
         }
     }
 }

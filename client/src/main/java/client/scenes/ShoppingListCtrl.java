@@ -188,6 +188,6 @@ public class ShoppingListCtrl implements Initializable {
      * is used for both, saveRecipe and saveShoppingList)
      */
     public void downloadShoppingList() {
-        mainCtrl.showSaveRecipe(this.shoppingList);
+        mainCtrl.showSaveRecipe(this.shoppingList, this);
     }
 }
