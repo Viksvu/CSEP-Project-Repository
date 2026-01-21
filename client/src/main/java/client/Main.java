@@ -17,20 +17,16 @@ package client;
 
 import static com.google.inject.Guice.createInjector;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.HashMap;
 import java.util.Map;
 
 import client.commonsClient.ClientConfig;
-import client.commonsClient.ConfigLoader;
 import client.scenes.*;
 import client.utils.ServerUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Injector;
 
 import javafx.application.Application;
@@ -67,7 +63,8 @@ public class Main extends Application {
 			System.err.println(msg);
 			return;
 		}
-		Locale locale = Locale.forLanguageTag(INJECTOR.getInstance(ClientConfig.class).getLocale());
+		Locale locale = Locale.forLanguageTag(INJECTOR
+                .getInstance(ClientConfig.class).getLocale());
 		ResourceBundle bundle = ResourceBundle
 				.getBundle("languageBundles.messages", locale);
         this.primaryStage = primaryStage;

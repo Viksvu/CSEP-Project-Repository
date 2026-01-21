@@ -37,6 +37,10 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 public class ServerUtils {
 	private final ClientConfig clientConfig;
 
+    /**
+     * Public constructor for Server Utils
+     * @param clientConfig
+     */
     @Inject
     public ServerUtils(ClientConfig clientConfig) {
         this.clientConfig = clientConfig;

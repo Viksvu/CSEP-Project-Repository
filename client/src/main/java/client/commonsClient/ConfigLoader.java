@@ -1,7 +1,6 @@
 package client.commonsClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Injector;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -19,7 +18,7 @@ public class ConfigLoader {
         try {
             File configFile = new File("config.json");
             if (!configFile.exists()) {
-                Files.writeString(configFile.toPath(), mapper.writeValueAsString(new ClientConfig("http://127.0.0.1:8080/", "nl")));
+                Files.writeString(configFile.toPath(), mapper.writeValueAsString(new ClientConfig("http://127.0.0.1:8080/", "en")));
             }
             return mapper.readValue(configFile, ClientConfig.class);
         } catch (Exception e) {

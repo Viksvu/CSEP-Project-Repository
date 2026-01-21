@@ -16,6 +16,7 @@
 package client.scenes;
 
 import client.commonsClient.ClientConfig;
+import client.commonsClient.ConfigWriter;
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import client.utils.WebSocketUtils;
@@ -223,6 +224,9 @@ public class MainCtrl {
         this.addCtrl.updateLanguage(bundle);
         this.addPreparationStepCtrl.updateLanguage(bundle);
         this.addIngredientCtrl.updateLanguage(bundle);
+        ClientConfig newConfig = new ClientConfig(clientConfig
+                .getServerIp(), bundle.getLocale().toLanguageTag());
+        ConfigWriter.write(newConfig);
     }
 
     /**
