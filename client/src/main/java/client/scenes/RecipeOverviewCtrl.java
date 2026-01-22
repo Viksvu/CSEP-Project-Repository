@@ -23,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.OverrunStyle;
+import javafx.scene.text.Font;
 
 
 import java.io.*;
@@ -115,6 +116,8 @@ public class RecipeOverviewCtrl implements Initializable {
     @FXML
     private ComboBox<LanguageObject> languageDropDown;
 
+    @FXML
+    private AnchorPane topAnchorPane;
     private boolean isCloning;
 
     private FilteredList<Recipes> filteredRecipes;
@@ -154,7 +157,7 @@ public class RecipeOverviewCtrl implements Initializable {
         //recipeListView.setItems(recipeObservableList);
         //recipeListView.setEditable(true);
         favorites=new HashSet<>();
-        setLanguageDropDown();
+        setLanguageDropDown(resourceBundle);
         searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 clearSearch();
@@ -195,6 +198,12 @@ public class RecipeOverviewCtrl implements Initializable {
         iv.setFitWidth(20);
         renameRecipeButton.setGraphic(iv);
         doubleClickToFavorite();
+        Font.loadFont(
+                getClass().getResourceAsStream("/client/" +
+                        "scenes/stylesheets/fonts/" +
+                        "Poppins/Poppins-Regular.ttf"),
+                12
+        );
     }
 
     /**
@@ -221,7 +230,7 @@ public class RecipeOverviewCtrl implements Initializable {
     /**
      * This method is responsible for rendering the Language Drop Down Menu
      */
-    public void setLanguageDropDown() {
+    public void setLanguageDropDown(ResourceBundle resourceBundle) {
         languageDropDown.getItems().addAll(
                 new LanguageObject(
                         Locale.forLanguageTag("en"),
@@ -253,7 +262,11 @@ public class RecipeOverviewCtrl implements Initializable {
             }
         });
         languageDropDown.setButtonCell(languageDropDown.getCellFactory().call(null));
-        languageDropDown.getSelectionModel().selectFirst();
+        for (LanguageObject languageObject : languageDropDown.getItems()) {
+            if (languageObject.getLocale().equals(resourceBundle.getLocale())) {
+                languageDropDown.getSelectionModel().select(languageObject);
+            }
+        }
         languageDropDown.valueProperty().addListener((obs, oldLang, newLang) -> {
             if (newLang != null) {
                 Locale locale = newLang.getLocale();
@@ -583,7 +596,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * Shows the scene of "add recipe"
      */
     public void addRecipe() {
-        mainCtrl.showAdd();
+        mainCtrl.showAdd(languageDropDown.getValue().getLocale());
     }
 
     /**
@@ -967,6 +980,15 @@ public class RecipeOverviewCtrl implements Initializable {
             else {
                 searchInit();
             }
+        } else if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.ESCAPE){
+            if (isCloning || isRenaming) {
+                recipeNameTF.clear();
+                recipeNameTF.toBack();
+                recipeNameLabel.toBack();
+                cloneRecipeButton.toBack();
+                isCloning = false;
+                isRenaming = false;
+            }
         }
     }
     /**
@@ -1033,7 +1055,7 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void downloadRecipe() {
         if (lastSelectedRecipe != null) {
-            mainCtrl.showSaveRecipe(lastSelectedRecipe);
+            mainCtrl.showSaveRecipe(lastSelectedRecipe, this);
         }
     }
 }

@@ -15,21 +15,23 @@
  */
 package client.scenes;
 
+import client.commonsClient.ClientConfig;
+import client.commonsClient.ConfigWriter;
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import client.utils.WebSocketUtils;
 import com.google.inject.Inject;
-import commons.PreparationStep;
-import commons.Printable;
-import commons.Recipes;
+import commons.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -37,6 +39,8 @@ import commons.IngredientInRecipe;
 import org.controlsfx.control.Notifications;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -92,6 +96,8 @@ public class MainCtrl {
     private ShoppingList shoppingList = new ShoppingList();
     private WebSocketUtils webSocketUtils;
 
+    private ClientConfig clientConfig;
+
     /**
      * Injects the websocket utils
      * to the main ctrl and runs it
@@ -99,9 +105,10 @@ public class MainCtrl {
      * @param webSocketUtils
      */
     @Inject
-    public MainCtrl(WebSocketUtils webSocketUtils) {
+    public MainCtrl(WebSocketUtils webSocketUtils, ClientConfig clientConfig) {
         this.webSocketUtils = webSocketUtils;
         this.webSocketUtils.connect(this::handleWebSocketMessage);
+        this.clientConfig = clientConfig;
     }
 
 
@@ -222,6 +229,9 @@ public class MainCtrl {
         this.addCtrl.updateLanguage(bundle);
         this.addPreparationStepCtrl.updateLanguage(bundle);
         this.addIngredientCtrl.updateLanguage(bundle);
+        ClientConfig newConfig = new ClientConfig(clientConfig
+                .getServerIp(), bundle.getLocale().toLanguageTag());
+        ConfigWriter.write(newConfig);
     }
 
     /**
@@ -237,10 +247,11 @@ public class MainCtrl {
     /**
      * Sets the add-recipe scene as the primary scene
      */
-    public void showAdd() {
+    public void showAdd(Locale locale) {
         primaryStage.setTitle("Recipes: Adding Recipe");
         primaryStage.setScene(add);
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
+        addCtrl.setLanguage(locale);
     }
 
     /**
@@ -277,17 +288,51 @@ public class MainCtrl {
     /**
      * Sets the save recipe scene as the primary scene
      */
-    public void showSaveRecipe(Printable thing) {
-        saveRecipeCtrl.provideThing(thing);
-        if (thing instanceof Recipes) {
-            primaryStage.setTitle("Saving Recipe");
-        } else if (thing instanceof ShoppingList) {
-            primaryStage.setTitle("Saving Shopping List");
-        } else {
-            primaryStage.setTitle("Saving");
+    public void showSaveRecipe(Printable thing, Initializable control) {
+//        saveRecipeCtrl.provideThing(thing);
+//        if (thing instanceof Recipes){
+//            primaryStage.setTitle("Saving Recipe");
+//        }
+//        else if (thing instanceof ShoppingList) {
+//            primaryStage.setTitle("Saving Shopping List");
+//        }
+//        else {
+//            primaryStage.setTitle("Saving");
+//        }
+//        primaryStage.setScene(saveRecipe);
+//        saveRecipe.setOnKeyPressed(k->saveRecipeCtrl.onKeyPressed(k));
+        FileChooser fileChooser = new FileChooser();
+
+        if (thing instanceof Recipes recipes){
+            fileChooser.setTitle("Saving Recipe");
+            fileChooser.setInitialFileName(recipes.getName());
         }
-        primaryStage.setScene(saveRecipe);
-        saveRecipe.setOnKeyPressed(k -> saveRecipeCtrl.onKeyPressed(k));
+        else if (thing instanceof ShoppingList) {
+            fileChooser.setTitle("Saving Shopping List");
+            fileChooser.setInitialFileName("shopping_list");
+        }
+
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Markdown", "*.md"));
+
+        File file = fileChooser.showSaveDialog(primaryStage);
+
+        if (file != null) {
+            try {
+                Printer.print(thing, file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (control instanceof RecipeOverviewCtrl) {
+            showOverview();
+        }
+        else if (control instanceof ShoppingListCtrl) {
+            showShoppingList();
+        }
+
+
     }
 
 
