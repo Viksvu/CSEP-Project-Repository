@@ -27,7 +27,7 @@ public class Printer {
                 case ReadmeOptions.H3 -> text.append("\n### ");
                 case ReadmeOptions.BULLET -> bulletPoints = true;
                 case ReadmeOptions.END_BULLET -> bulletPoints = false;
-                case ReadmeOptions.TEXT -> text.append("\n");
+                case ReadmeOptions.TEXT -> text.append("  \n");
                 case ReadmeOptions.NUMBERING -> numbers = true;
                 case ReadmeOptions.END_NUMBERING -> {
                     numbers = false;
