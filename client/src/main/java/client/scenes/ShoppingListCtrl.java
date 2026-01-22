@@ -65,9 +65,11 @@ public class ShoppingListCtrl implements Initializable {
      * @param server   communication to server.
      */
     @Inject
-    public ShoppingListCtrl(MainCtrl mainCtrl, ServerUtils server) {
+    public ShoppingListCtrl(MainCtrl mainCtrl, ServerUtils server,
+                            ShoppingList shoppingList) {
         this.mainCtrl = mainCtrl;
         this.server = server;
+        this.shoppingList=shoppingList;
     }
 
     @Override
@@ -196,15 +198,6 @@ public class ShoppingListCtrl implements Initializable {
         ingredientsPane.getChildren().clear();
         refresh();
 
-    }
-
-    public ShoppingList getShoppingList() {
-        return shoppingList;
-    }
-
-
-    public void setShoppingList(ShoppingList shoppingList) {
-        this.shoppingList = shoppingList;
     }
 
     /**

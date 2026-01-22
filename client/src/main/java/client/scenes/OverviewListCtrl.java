@@ -54,9 +54,11 @@ public class OverviewListCtrl implements Initializable {
      * @param server   the server.
      */
     @Inject
-    public OverviewListCtrl(MainCtrl mainCtrl, ServerUtils server) {
+    public OverviewListCtrl(MainCtrl mainCtrl, ServerUtils server,
+                            ShoppingList shoppingList) {
         this.mainCtrl = mainCtrl;
         this.server = server;
+        this.shoppingList=shoppingList;
     }
 
     @Override
@@ -139,15 +141,6 @@ public class OverviewListCtrl implements Initializable {
         }
         shoppingList.addOverviewToShoppingList();
         goBack();
-    }
-
-    /**
-     * Setter for the shopping list
-     *
-     * @param shoppingList the shopping list
-     */
-    public void setShoppingList(ShoppingList shoppingList) {
-        this.shoppingList = shoppingList;
     }
 
     /**
