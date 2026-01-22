@@ -232,4 +232,34 @@ public class RecipeControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
     }
+
+    @Test
+    public void testGetRecipe() throws Exception {
+        Recipes r = new Recipes("Test Get Recipe");
+        r = this.recipeService.addRecipe(r);
+
+        MvcResult result = this.mvc.perform(get("/api/recipe/get")
+                .queryParam("id", String.valueOf(r.getId())))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+
+        String response = result.getResponse().getContentAsString();
+
+        Recipes r2 = this.objectMapper.readValue(response, Recipes.class);
+        assertEquals(r, r2);
+    }
+
+    @Test
+    public void testGetNullRecipe() throws Exception {
+        this.mvc.perform(get("/api/recipe/get")
+                        .queryParam("id", "-1L"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testGet0Recipe() throws Exception {
+        this.mvc.perform(get("/api/recipe/get")
+                        .queryParam("id", "0"))
+                .andExpect(status().isBadRequest());
+    }
 }
