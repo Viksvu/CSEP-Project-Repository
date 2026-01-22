@@ -1,8 +1,28 @@
 package commons;
 
 public enum RecipeLanguage {
-    ENGLISH,
-    DUTCH,
-    GERMAN,
-    SPANISH
+    ENGLISH{
+        @Override
+        public String toString() {
+            return "English";
+        }
+    },
+    DUTCH{
+        @Override
+        public String toString() {
+            return "Nederlands";
+        }
+    },
+    GERMAN{
+        @Override
+        public String toString() {
+            return "Deutsch";
+        }
+    },
+    SPANISH{
+        @Override
+        public String toString() {
+            return "Español";
+        }
+    }
 }
