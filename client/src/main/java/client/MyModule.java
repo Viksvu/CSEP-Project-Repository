@@ -17,6 +17,7 @@ package client;
 
 
 import client.commonsClient.ConfigHolder;
+import client.commonsClient.ShoppingList;
 import client.scenes.*;
 import client.utils.WebSocketUtils;
 import com.google.inject.Binder;
@@ -38,6 +39,7 @@ public class MyModule implements Module {
         binder.bind(EditIngredientCtrl.class).in(Scopes.SINGLETON);
         binder.bind(EditPreparationStepCtrl.class).in(Scopes.SINGLETON);
         binder.bind(WebSocketUtils.class).in(Scopes.SINGLETON);
+        binder.bind(ShoppingList.class).in(Scopes.SINGLETON);
         binder.bind(ConfigHolder.class).in(Scopes.SINGLETON);
     }
 }

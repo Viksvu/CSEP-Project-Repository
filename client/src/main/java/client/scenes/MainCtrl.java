@@ -90,7 +90,6 @@ public class MainCtrl {
     // to use after refactoring
     private FilteredList<Recipes> filteredRecipes;
     private SortedList<Recipes> sortedRecipes;
-    private ShoppingList shoppingList;
     private WebSocketUtils webSocketUtils;
 
     private ConfigHolder config;
@@ -103,11 +102,10 @@ public class MainCtrl {
      */
     @Inject
    public MainCtrl(WebSocketUtils webSocketUtils,
-                    ShoppingList shoppingList, ConfigHolder config) {
+                    ConfigHolder config) {
         this.webSocketUtils = webSocketUtils;
         this.webSocketUtils.connect(this::handleWebSocketMessage);
         this.config = config;
-        this.shoppingList = shoppingList;
     }
 
 
@@ -444,10 +442,6 @@ public class MainCtrl {
 
     public Scene getAddScene() {
         return add;
-    }
-
-    public Scene getShoppingListScene() {
-        return shoppingListScene;
     }
 
     /**
