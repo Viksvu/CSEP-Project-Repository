@@ -589,7 +589,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * Shows the scene of "add recipe"
      */
     public void addRecipe() {
-        mainCtrl.showAdd();
+        mainCtrl.showAdd(languageDropDown.getValue().getLocale());
     }
 
     /**
