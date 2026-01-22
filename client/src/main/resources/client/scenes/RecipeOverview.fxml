@@ -30,10 +30,10 @@
                             <!-- ADDED: Language filter dropdown (MenuButton + CheckMenuItems) -->
                             <MenuButton fx:id="languageFilterMenu" layoutX="401.0" layoutY="14.0" text="%languages" AnchorPane.rightAnchor="238.2" AnchorPane.topAnchor="14.0">
                                 <items>
-                                    <CheckMenuItem fx:id="filterEnglish" text="English" />
-                                    <CheckMenuItem fx:id="filterDutch" text="Dutch" />
-                                    <CheckMenuItem fx:id="filterGerman" text="German" />
-                                    <CheckMenuItem fx:id="filterSpanish" text="Spanish" />
+                                    <CheckMenuItem fx:id="filterEnglish" onAction="#applyLang" text="English" />
+                                    <CheckMenuItem fx:id="filterDutch" onAction="#applyLang" text="Dutch" />
+                                    <CheckMenuItem fx:id="filterGerman" onAction="#applyLang" text="German" />
+                                    <CheckMenuItem fx:id="filterSpanish" onAction="#applyLang" text="Spanish" />
                                 </items>
                             </MenuButton>
                     </children>

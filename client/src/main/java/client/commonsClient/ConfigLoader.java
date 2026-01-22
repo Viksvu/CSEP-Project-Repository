@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.HashSet;
 
 /**
  * Class used to read and write to config file.
@@ -18,7 +19,14 @@ public class ConfigLoader {
         try {
             File configFile = new File("config.json");
             if (!configFile.exists()) {
-                Files.writeString(configFile.toPath(), mapper.writeValueAsString(new ClientConfig("http://127.0.0.1:8080/", "en")));
+                ClientConfig defaultConfig =
+                        new ClientConfig("http://127.0.0.1:8080/", "en");
+                defaultConfig.setRecipeLanguageFilters(new HashSet<>());
+
+                Files.writeString(
+                        configFile.toPath(),
+                        mapper.writeValueAsString(defaultConfig)
+                );
             }
             return mapper.readValue(configFile, ClientConfig.class);
         } catch (Exception e) {

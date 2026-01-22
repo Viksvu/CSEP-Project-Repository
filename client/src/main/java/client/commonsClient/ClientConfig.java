@@ -1,16 +1,23 @@
 package client.commonsClient;
 
+import java.util.Set;
+import java.util.HashSet;
+
 /**
  * Class used to load and save client config settings
  */
 public class ClientConfig {
     private String serverIp;
     private String locale;
+    private Set<String> recipeLanguageFilters;
+
 
     /**
      * Empty constructor used by jackson object mapper
      */
-    public ClientConfig() {}
+    public ClientConfig() {
+        this.recipeLanguageFilters = new HashSet<>();
+    }
 
     /**
      * Public constructor for Client config.
@@ -21,6 +28,7 @@ public class ClientConfig {
     public ClientConfig(String serverIp, String locale) {
         this.serverIp = serverIp;
         this.locale = locale;
+        this.recipeLanguageFilters = new HashSet<>();
     }
 
     /**
@@ -53,5 +61,13 @@ public class ClientConfig {
      */
     public void setLocale(String locale) {
         this.locale = locale;
+    }
+
+    public Set<String> getRecipeLanguageFilters() {
+        return recipeLanguageFilters;
+    }
+
+    public void setRecipeLanguageFilters(Set<String> recipeLanguageFilters) {
+        this.recipeLanguageFilters = recipeLanguageFilters;
     }
 }
