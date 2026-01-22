@@ -17,8 +17,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.ListCell;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class ShoppingListCtrl implements Initializable {
@@ -71,14 +73,69 @@ public class ShoppingListCtrl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         shoppingListView.setItems(items);
+        Label emptyLabel = new Label(
+                "Your shopping list is empty\nAdd ingredients to get started"
+        );
+        emptyLabel.setStyle("""
+                    -fx-text-fill: gray;
+                    -fx-font-size: 14px;
+                    -fx-alignment: center;
+                """);
+
+        shoppingListView.setPlaceholder(emptyLabel);
+
+        shoppingListView.setCellFactory(lv -> new ListCell<IngredientInShoppingList>() {
+            @Override
+            protected void updateItem(IngredientInShoppingList item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item.toString()); // or item.getName()
+                    updateStyle(item);
+                }
+            }
+
+            {
+                setOnMouseClicked(event -> {
+                    if (!isEmpty()) {
+                        IngredientInShoppingList item = getItem();
+
+                        // toggle checked state
+                        item.setChecked(!item.isChecked());
+
+                        // move checked items to the bottom
+                        FXCollections.sort(items,
+                                Comparator.comparing(IngredientInShoppingList::isChecked));
+
+                        updateStyle(item);
+                        addEditButtonToIngredient();
+                    }
+                });
+
+            }
+
+            private void updateStyle(IngredientInShoppingList item) {
+                if (item.isChecked()) {
+                    setStyle("-fx-strikethrough: true; -fx-text-fill: gray;");
+                } else {
+                    setStyle("-fx-strikethrough: false; -fx-text-fill: black;");
+                }
+            }
+        });
         ImageView iv = new ImageView(new Image(
                 getClass().getResourceAsStream("/pictures/save.png")));
         iv.setFitHeight(20);
         iv.setFitWidth(20);
         downloadShoppingListButton.setGraphic(iv);
+
     }
+
     /**
      * Updates the UI elements to the new selected language.
+     *
      * @param resourceBundle the resource bundle corresponding to the new language.
      */
     public void updateLanguage(ResourceBundle resourceBundle) {
@@ -103,6 +160,8 @@ public class ShoppingListCtrl implements Initializable {
     public void refresh() {
         items.setAll(shoppingList.getShoppingList());
         addEditButtonToIngredient();
+        totalItemsLabel.setText(
+                "Total: " + shoppingList.getShoppingList().size() + " items");
     }
 
     /**
@@ -119,23 +178,23 @@ public class ShoppingListCtrl implements Initializable {
      */
     public void addIngredient() {
         mainCtrl.showAddIngredient();
-        totalItemsLabel.setText(
-                "Total: " + shoppingList.getShoppingList().size() + " items");
     }
 
     /**
      * Adds selected recipe ingredients.
      */
-    public void addRecipe(){
-       mainCtrl.showAddRecipeIngredientsOverview();
+    public void addRecipe() {
+        mainCtrl.showAddRecipeIngredientsOverview();
     }
-        /**
+
+    /**
      * Clears the full list
      */
     public void clearList() {
         shoppingList.resetShoppingList();
         shoppingListView.getItems().clear();
         ingredientsPane.getChildren().clear();
+        refresh();
 
     }
 
@@ -175,6 +234,8 @@ public class ShoppingListCtrl implements Initializable {
                                 this, shoppingList,
                                 EditButtonOptions.EDIT_INGREDIENT
                         );
+                deleteButton.setDisable(items.get(i).isChecked());
+                editButton.setDisable(items.get(i).isChecked());
                 HBox buttonBox = new HBox(8); // 8 px space
                 buttonBox.setPickOnBounds(false);
                 buttonBox.getChildren().addAll(deleteButton, editButton);
