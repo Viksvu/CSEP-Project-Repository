@@ -24,6 +24,7 @@ public class Recipes implements Printable {
     @NotBlank(message = "Recipe name cannot be blank")
     private String name;
 
+    private RecipeLanguage language;
     /**
      * Class recipes for the recipes
      *
@@ -222,5 +223,13 @@ public class Recipes implements Printable {
         }
         return list;
 
+    }
+
+    public RecipeLanguage getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(RecipeLanguage language) {
+        this.language = language;
     }
 }

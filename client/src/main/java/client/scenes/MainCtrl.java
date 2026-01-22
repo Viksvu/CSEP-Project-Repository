@@ -247,10 +247,11 @@ public class MainCtrl {
     /**
      * Sets the add-recipe scene as the primary scene
      */
-    public void showAdd() {
+    public void showAdd(Locale locale) {
         primaryStage.setTitle("Recipes: Adding Recipe");
         primaryStage.setScene(add);
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
+        addCtrl.setLanguage(locale);
     }
 
     /**
