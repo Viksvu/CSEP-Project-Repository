@@ -21,4 +21,8 @@
       </Button>
       <Button fx:id="removeRecipeCancel" layoutX="14.0" layoutY="163.0" mnemonicParsing="false" onAction="#cancel" text="%removeRecipe.cancel" />
    </children>
+    <stylesheets>
+        <URL value="@client/scenes/stylesheets/common.css" />
+        <URL value="@stylesheets/common.css" />
+    </stylesheets>
 </AnchorPane>

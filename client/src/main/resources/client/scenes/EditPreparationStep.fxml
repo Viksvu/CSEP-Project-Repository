@@ -22,4 +22,8 @@
          </font>
       </Label>
    </children>
+    <stylesheets>
+        <URL value="@client/scenes/stylesheets/common.css" />
+        <URL value="@stylesheets/common.css" />
+    </stylesheets>
 </AnchorPane>
