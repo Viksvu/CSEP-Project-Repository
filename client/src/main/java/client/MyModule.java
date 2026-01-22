@@ -15,8 +15,7 @@
  */
 package client;
 
-import client.commonsClient.ClientConfig;
-import client.commonsClient.ConfigLoader;
+import client.commonsClient.ConfigHolder;
 import client.scenes.*;
 import client.utils.WebSocketUtils;
 import com.google.inject.Binder;
@@ -27,6 +26,7 @@ public class MyModule implements Module {
 
     @Override
     public void configure(Binder binder) {
+        binder.bind(ConfigHolder.class).in(Scopes.SINGLETON);
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(AddRecipeCtrl.class).in(Scopes.SINGLETON);
         binder.bind(RecipeOverviewCtrl.class).in(Scopes.SINGLETON);
@@ -37,6 +37,5 @@ public class MyModule implements Module {
         binder.bind(EditIngredientCtrl.class).in(Scopes.SINGLETON);
         binder.bind(EditPreparationStepCtrl.class).in(Scopes.SINGLETON);
         binder.bind(WebSocketUtils.class).in(Scopes.SINGLETON);
-        binder.bind(ClientConfig.class).toInstance(ConfigLoader.loadConfig());
     }
 }

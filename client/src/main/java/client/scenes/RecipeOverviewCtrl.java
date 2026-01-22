@@ -38,7 +38,7 @@ public class RecipeOverviewCtrl implements Initializable {
     private  ShoppingList shoppingList;
     ObservableList<Recipes> recipeData;
     ObservableList<Recipes> data1;
-    private ClientConfig config;
+    private final ConfigHolder configHolder=new ConfigHolder();
     HashSet<Long> favorites;
 
     HashSet<RecipeLanguage> langFilters;
@@ -211,7 +211,6 @@ public class RecipeOverviewCtrl implements Initializable {
         while(scanner.hasNextLong()){
             favorites.add(scanner.nextLong());
         }
-        this.config = ConfigLoader.loadConfig();
         getLangs();
 
         addStarsToRecipeListView();
@@ -233,6 +232,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * Gets language filters from the config file
      */
     public void getLangs(){
+        ClientConfig config = configHolder.get();
         langFilters.clear();
         filterEnglish.setSelected(false);
         filterSpanish.setSelected(false);
@@ -436,18 +436,14 @@ public class RecipeOverviewCtrl implements Initializable {
             langFilter = r -> langFilters.contains(r.getLanguage());
         }
 
-        if (config == null) {
-            config = ConfigLoader.loadConfig();
-        }
-
-        Set<String> codes = new HashSet<>();
-        if (filterEnglish.isSelected()) codes.add("en");
-        if (filterDutch.isSelected())   codes.add("nl");
-        if (filterGerman.isSelected())  codes.add("de");
-        if (filterSpanish.isSelected()) codes.add("es");
-
-        config.setRecipeLanguageFilters(codes);
-        ConfigWriter.write(config);
+        configHolder.modify(cfg -> {
+            Set<String> codes = new HashSet<>();
+            if (filterEnglish.isSelected()) codes.add("en");
+            if (filterDutch.isSelected())   codes.add("nl");
+            if (filterGerman.isSelected())  codes.add("de");
+            if (filterSpanish.isSelected()) codes.add("es");
+            cfg.setRecipeLanguageFilters(codes);
+        });
 
         applyPredicates();
     }

@@ -7,7 +7,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 
 @Configuration
 @EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
+public class RecipeWebSocketConfig implements WebSocketConfigurer {
 
     private final RecipeWebSocketHandler handler;
 
@@ -15,7 +15,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
      * Makes a new config
      * @param handler
      */
-    public WebSocketConfig(RecipeWebSocketHandler handler) {
+    public RecipeWebSocketConfig(RecipeWebSocketHandler handler) {
         this.handler = handler;
     }
 

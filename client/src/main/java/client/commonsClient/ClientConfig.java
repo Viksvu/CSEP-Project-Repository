@@ -7,10 +7,11 @@ import java.util.HashSet;
  * Class used to load and save client config settings
  */
 public class ClientConfig {
-    private String serverIp;
-    private String locale;
+
     private Set<String> recipeLanguageFilters;
 
+    private String serverIp = "http://127.0.0.1:8080/";
+    private String locale = "en";
 
     /**
      * Empty constructor used by jackson object mapper
