@@ -117,6 +117,21 @@ public class RecipeOverviewCtrl implements Initializable {
     private ComboBox<LanguageObject> languageDropDown;
 
     @FXML
+    private CheckMenuItem filterEnglish;
+
+    @FXML
+    private CheckMenuItem filterDutch;
+
+    @FXML
+    private CheckMenuItem filterGerman;
+
+    @FXML
+    private CheckMenuItem filterSpanish;
+
+    @FXML
+    private MenuButton languageFilterMenu;
+
+    @FXML
     private AnchorPane topAnchorPane;
     private boolean isCloning;
 
@@ -228,6 +243,13 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
     /**
+     * Test class for now
+     * @return ne hash set
+     */
+    private Set<String> getSelectedLanguages() {
+        return new HashSet<>();
+    }
+    /**
      * This method is responsible for rendering the Language Drop Down Menu
      */
     public void setLanguageDropDown(ResourceBundle resourceBundle) {
@@ -284,6 +306,7 @@ public class RecipeOverviewCtrl implements Initializable {
     public void updateLanguage(ResourceBundle resourceBundle) {
         mainTitle.setText(resourceBundle.getString("title"));
         shoppingListButon.setText(resourceBundle.getString("shoppingList"));
+        languageFilterMenu.setText(resourceBundle.getString("languages"));
         addToShop.setText(resourceBundle.getString("shop"));
         refreshButton.setText(resourceBundle.getString("refresh"));
         cloneButton.setText(resourceBundle.getString("clone"));
