@@ -1,0 +1,90 @@
+@font-face {
+    src: url("fonts/Poppins/Poppins-ExtraBold.ttf");
+    font-family: "Poppins";
+}
+.root {
+    -fx-font-family: "Poppins";
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+}
+
+.button {
+    -fx-background-color: ivory;
+    -fx-border-radius: 10%;
+    -fx-font-family: "Poppins";
+    -fx-font-size: 11px;
+    -fx-text-fill: black;
+    -fx-font-weight: 600;
+    -fx-border-width: 1px;
+    -fx-border-color: grey;
+}
+.button:hover {
+    -fx-translate-y: -2px;
+    -fx-effect: dropshadow(gaussian, lightgrey, 10, 0, -2, 1);
+}
+
+.plus_button {
+    -fx-background-color: lightgreen;
+}
+.plus_button:hover {
+    -fx-effect: dropshadow(gaussian, green, 10, 0, -2, 1);
+}
+.minus_button {
+    -fx-background-color: lightpink;
+}
+.minus_button:hover {
+    -fx-effect: dropshadow(gaussian, lightgrey, 10, 0, -2, 1);
+}
+.recipe_list_pane {
+    -fx-background-color: ivory;
+}
+.ingredient_list_pane {
+    -fx-background-color: ivory;
+}
+.ingredient_list_pane .list-cell {
+    -fx-background-color: ivory;
+}
+.ingredient_list_pane .list-cell:hover {
+    -fx-background-color: lightgrey;
+}
+.prepstep_list_pane {
+    -fx-background-color: ivory;
+}
+.prepstep_list_pane .list-cell {
+    -fx-background-color: ivory;
+}
+
+.prepstep_list_pane .list-cell:hover {
+    -fx-background-color: lightgrey;
+}
+
+.recipe_list_pane .list-cell {
+    -fx-background-color: ivory;
+}
+
+.list-cell:focused {
+    -fx-text-fill: darkblue;
+}
+
+.recipe_list_pane .list-cell:hover {
+    -fx-background-color: lightgrey;
+}
+.recipe_list_pane .list-cell:focused {
+    -fx-text-fill: darkblue;
+    -fx-background-color: lightgrey;
+}
+
+.recipe_list_pane .text-field {
+    -fx-background-color: ivory;
+    -fx-text-fill: grey;
+    -fx-border-width: 1px;
+    -fx-border-color: lightgrey;
+
+}
+
+.recipe_list_pane .text-field:hover, .recipe_list_pane .text-field:focused {
+    -fx-translate-y: -2px;
+    -fx-translate-x: 1px;
+    -fx-effect: dropshadow(gaussian, orange, 10, 0, -2, 1);
+    -fx-background-color: lightgrey;
+}

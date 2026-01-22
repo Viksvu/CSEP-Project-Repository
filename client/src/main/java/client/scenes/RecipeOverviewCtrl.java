@@ -23,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.OverrunStyle;
+import javafx.scene.text.Font;
 
 
 import java.io.*;
@@ -197,6 +198,12 @@ public class RecipeOverviewCtrl implements Initializable {
         iv.setFitWidth(20);
         renameRecipeButton.setGraphic(iv);
         doubleClickToFavorite();
+        Font.loadFont(
+                getClass().getResourceAsStream("/client/" +
+                        "scenes/stylesheets/fonts/" +
+                        "Poppins/Poppins-Regular.ttf"),
+                12
+        );
     }
 
     /**
@@ -589,7 +596,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * Shows the scene of "add recipe"
      */
     public void addRecipe() {
-        mainCtrl.showAdd();
+        mainCtrl.showAdd(languageDropDown.getValue().getLocale());
     }
 
     /**

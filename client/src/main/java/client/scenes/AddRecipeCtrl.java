@@ -2,19 +2,18 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.RecipeLanguage;
 import commons.Recipes;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class AddRecipeCtrl implements Initializable {
@@ -34,6 +33,8 @@ public class AddRecipeCtrl implements Initializable {
     @FXML
     private Label addRecipeLabel;
 
+    @FXML
+    private ChoiceBox<RecipeLanguage> languageBox;
     /**
      * Constructor
      *
@@ -48,6 +49,7 @@ public class AddRecipeCtrl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        languageBox.getItems().addAll(RecipeLanguage.values());
     }
 
     /**
@@ -67,6 +69,30 @@ public class AddRecipeCtrl implements Initializable {
     public void cancel() {
         nameField.clear();
         mainCtrl.showOverview();
+    }
+
+    /**
+     * Sets the choice box to the current app language
+     * @param locale
+     */
+    public void setLanguage (Locale locale) {
+        switch (locale.getLanguage()) {
+            case "en":
+                languageBox.getSelectionModel().select(0);
+                break;
+            case "es":
+                languageBox.getSelectionModel().select(3);
+                break;
+            case "de":
+                languageBox.getSelectionModel().select(2);
+                break;
+            case "nl":
+                languageBox.getSelectionModel().select(1);
+                break;
+            default:
+                System.err.println(locale.getLanguage() + " has not " +
+                        "been implemented in the choicebox!");
+        }
     }
 
     /**
@@ -94,7 +120,10 @@ public class AddRecipeCtrl implements Initializable {
             return;
         }
         try {
-            server.addRecipe(new Recipes(recipeName));
+            Recipes ret = new Recipes(recipeName);
+            ret.setLanguage(languageBox.getSelectionModel().getSelectedItem());
+            server.addRecipe(ret);
+            System.out.println(languageBox.getSelectionModel().getSelectedItem());
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
