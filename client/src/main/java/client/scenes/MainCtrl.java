@@ -15,10 +15,7 @@
  */
 package client.scenes;
 
-import client.commonsClient.ClientConfig;
-import client.commonsClient.ConfigWriter;
-import client.commonsClient.IngredientInShoppingList;
-import client.commonsClient.ShoppingList;
+import client.commonsClient.*;
 import client.utils.WebSocketUtils;
 import com.google.inject.Inject;
 import commons.*;
@@ -93,10 +90,9 @@ public class MainCtrl {
     // to use after refactoring
     private FilteredList<Recipes> filteredRecipes;
     private SortedList<Recipes> sortedRecipes;
-    private ShoppingList shoppingList;
     private WebSocketUtils webSocketUtils;
 
-    private ClientConfig clientConfig;
+    private ConfigHolder config;
 
     /**
      * Injects the websocket utils
@@ -105,12 +101,11 @@ public class MainCtrl {
      * @param webSocketUtils
      */
     @Inject
-    public MainCtrl(WebSocketUtils webSocketUtils, ClientConfig clientConfig,
-                    ShoppingList shoppingList) {
+   public MainCtrl(WebSocketUtils webSocketUtils,
+                    ConfigHolder config) {
         this.webSocketUtils = webSocketUtils;
         this.webSocketUtils.connect(this::handleWebSocketMessage);
-        this.clientConfig = clientConfig;
-        this.shoppingList=shoppingList;
+        this.config = config;
     }
 
 
@@ -226,9 +221,9 @@ public class MainCtrl {
         this.addCtrl.updateLanguage(bundle);
         this.addPreparationStepCtrl.updateLanguage(bundle);
         this.addIngredientCtrl.updateLanguage(bundle);
-        ClientConfig newConfig = new ClientConfig(clientConfig
-                .getServerIp(), bundle.getLocale().toLanguageTag());
-        ConfigWriter.write(newConfig);
+        config.modify(config -> {
+            config.setLocale(bundle.getLocale().toLanguageTag());
+        });
     }
 
     /**
@@ -447,10 +442,6 @@ public class MainCtrl {
 
     public Scene getAddScene() {
         return add;
-    }
-
-    public Scene getShoppingListScene() {
-        return shoppingListScene;
     }
 
     /**

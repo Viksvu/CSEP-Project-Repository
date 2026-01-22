@@ -2,8 +2,7 @@ package client.scenes;
 
 import client.EditButton;
 import client.EditButtonOptions;
-import client.commonsClient.LanguageObject;
-import client.commonsClient.ShoppingList;
+import client.commonsClient.*;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.*;
@@ -43,11 +42,15 @@ public class RecipeOverviewCtrl implements Initializable {
     private  ShoppingList shoppingList;
     ObservableList<Recipes> recipeData;
     ObservableList<Recipes> data1;
+    private final ConfigHolder configHolder=new ConfigHolder();
     HashSet<Long> favorites;
+
+    HashSet<RecipeLanguage> langFilters;
     ObservableList<IngredientInRecipe> ingredientsData;
     ObservableList<PreparationStep> preparationStepsData;
     private static final File STARREDFILE =
             new File("starred_recipes.txt");
+
     // Button someButton;
     ArrayList<Button> ingredientButtons;
 
@@ -129,6 +132,21 @@ public class RecipeOverviewCtrl implements Initializable {
     private ComboBox<LanguageObject> languageDropDown;
 
     @FXML
+    private CheckMenuItem filterEnglish;
+
+    @FXML
+    private CheckMenuItem filterDutch;
+
+    @FXML
+    private CheckMenuItem filterGerman;
+
+    @FXML
+    private CheckMenuItem filterSpanish;
+
+    @FXML
+    private MenuButton languageFilterMenu;
+
+    @FXML
     private AnchorPane topAnchorPane;
     private boolean isCloning;
 
@@ -138,6 +156,7 @@ public class RecipeOverviewCtrl implements Initializable {
     private Predicate<Recipes> searchFilter=(Recipes r)->true;
     private Predicate<Recipes> favFilter=
             (Recipes r)->true;
+    private Predicate<Recipes> langFilter = (Recipes r)->true;
 
     private boolean isRenaming;
 
@@ -161,6 +180,7 @@ public class RecipeOverviewCtrl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         favorites=new HashSet<>();
+        langFilters=new HashSet<>();
         setLanguageDropDown(resourceBundle);
         searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
@@ -195,6 +215,8 @@ public class RecipeOverviewCtrl implements Initializable {
         while(scanner.hasNextLong()){
             favorites.add(scanner.nextLong());
         }
+        getLangs();
+
         addStarsToRecipeListView();
         ImageView iv = new ImageView(new Image(
                 getClass().getResourceAsStream("/pictures/img.png")));
@@ -213,6 +235,38 @@ public class RecipeOverviewCtrl implements Initializable {
 
 
 
+    /**
+     * Gets language filters from the config file
+     */
+    public void getLangs(){
+        ClientConfig config = configHolder.get();
+        langFilters.clear();
+        filterEnglish.setSelected(false);
+        filterSpanish.setSelected(false);
+        filterGerman.setSelected(false);
+        filterDutch.setSelected(false);
+        for (String code : config.getRecipeLanguageFilters()) {
+            switch (code) {
+                case "en" -> {
+                    filterEnglish.setSelected(true);
+                    langFilters.add(RecipeLanguage.ENGLISH);
+                }
+                case "de" -> {
+                    filterGerman.setSelected(true);
+                    langFilters.add(RecipeLanguage.GERMAN);
+                }
+                case "nl" -> {
+                    filterDutch.setSelected(true);
+                    langFilters.add(RecipeLanguage.DUTCH);
+                }
+                case "es" -> {
+                    filterSpanish.setSelected(true);
+                    langFilters.add(RecipeLanguage.SPANISH);
+                }
+            }
+        }
+        applyLang();
+    }
     /**
      * Method to be called in initialise, allows for recipes to be
      * favorited by double-clicking on them
@@ -234,6 +288,13 @@ public class RecipeOverviewCtrl implements Initializable {
         });
     }
 
+    /**
+     * Test class for now
+     * @return ne hash set
+     */
+    private Set<String> getSelectedLanguages() {
+        return new HashSet<>();
+    }
     /**
      * This method is responsible for rendering the Language Drop Down Menu
      */
@@ -291,6 +352,7 @@ public class RecipeOverviewCtrl implements Initializable {
     public void updateLanguage(ResourceBundle resourceBundle) {
         mainTitle.setText(resourceBundle.getString("title"));
         shoppingListButon.setText(resourceBundle.getString("shoppingList"));
+        languageFilterMenu.setText(resourceBundle.getString("languages"));
         addToShop.setText(resourceBundle.getString("shop"));
         refreshButton.setText(resourceBundle.getString("refresh"));
         cloneButton.setText(resourceBundle.getString("clone"));
@@ -355,6 +417,42 @@ public class RecipeOverviewCtrl implements Initializable {
         if(favSort.isSelected()) {
             favFilter=(Recipes a)->favorites.contains(a.getId());
         }else favFilter=(Recipes a)->true;
+
+        applyPredicates();
+    }
+
+    /**
+     * Check what is toggled
+     */
+    public void checkLangs(){
+        if (filterEnglish.isSelected()) langFilters.add(RecipeLanguage.ENGLISH);
+        if (filterDutch.isSelected())   langFilters.add(RecipeLanguage.DUTCH);
+        if (filterGerman.isSelected())  langFilters.add(RecipeLanguage.GERMAN);
+        if (filterSpanish.isSelected()) langFilters.add(RecipeLanguage.SPANISH);
+    }
+    /**
+     * Apply the language filter
+     */
+    public void applyLang() {
+        langFilters.clear();
+
+        checkLangs();
+
+        if (langFilters.isEmpty()) {
+            langFilter = r -> true;
+        } else {
+            langFilter = r -> langFilters.contains(r.getLanguage());
+        }
+
+        configHolder.modify(cfg -> {
+            Set<String> codes = new HashSet<>();
+            if (filterEnglish.isSelected()) codes.add("en");
+            if (filterDutch.isSelected())   codes.add("nl");
+            if (filterGerman.isSelected())  codes.add("de");
+            if (filterSpanish.isSelected()) codes.add("es");
+            cfg.setRecipeLanguageFilters(codes);
+        });
+
         applyPredicates();
     }
 
@@ -815,7 +913,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * Apply the predicates to the sorted list
      */
     public void applyPredicates(){
-        filteredRecipes.setPredicate(searchFilter.and(favFilter));
+        filteredRecipes.setPredicate(searchFilter.and(favFilter.and(langFilter)));
         recipeListView.refresh();
     }
     /**
