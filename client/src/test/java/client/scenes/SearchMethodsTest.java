@@ -16,6 +16,7 @@
 package client.scenes;
 
 import client.commonsClient.ClientConfig;
+import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
 import commons.*;
 import javafx.collections.FXCollections;
@@ -38,7 +39,7 @@ public class    SearchMethodsTest {
     @BeforeEach
     void setup() {
         ClientConfig clientConfig = new ClientConfig();
-        controller = new RecipeOverviewCtrl(new MainCtrl(),new ServerUtils(clientConfig));
+        controller = new RecipeOverviewCtrl(new MainCtrl(),new ServerUtils(clientConfig), new ShoppingList());
         r1 = new Recipes();
         r1.setName("Chicken Soup");
         r1.setPreparationSteps(List.of(
