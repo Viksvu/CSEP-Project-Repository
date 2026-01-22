@@ -2,9 +2,11 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
@@ -22,8 +24,18 @@
                         <Button fx:id="refreshButton" layoutX="657.0" layoutY="14.0" mnemonicParsing="false" onAction="#refresh" text="%refresh" AnchorPane.rightAnchor="24.6" />
 
                         <Label fx:id="mainTitle" layoutX="324.0" layoutY="18.0" minWidth="-Infinity" text="%title" AnchorPane.rightAnchor="389.6" />
-                  <ComboBox fx:id="languageDropDown" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="67.0" AnchorPane.leftAnchor="14.0" />
-                  <Button fx:id="downloadRecipeButton" layoutX="124.0" layoutY="14.0" mnemonicParsing="false" onAction="#downloadRecipe" text="%download" AnchorPane.leftAnchor="124.0" />
+                        <ComboBox fx:id="languageDropDown" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="67.0" AnchorPane.leftAnchor="14.0" />
+                        <Button fx:id="downloadRecipeButton" layoutX="124.0" layoutY="14.0" mnemonicParsing="false" onAction="#downloadRecipe" text="%download" AnchorPane.leftAnchor="124.0" />
+
+                            <!-- ADDED: Language filter dropdown (MenuButton + CheckMenuItems) -->
+                            <MenuButton fx:id="languageFilterMenu" layoutX="401.0" layoutY="14.0" text="%languages" AnchorPane.rightAnchor="238.2" AnchorPane.topAnchor="14.0">
+                                <items>
+                                    <CheckMenuItem fx:id="filterEnglish" onAction="#applyLang" text="English" />
+                                    <CheckMenuItem fx:id="filterDutch" onAction="#applyLang" text="Dutch" />
+                                    <CheckMenuItem fx:id="filterGerman" onAction="#applyLang" text="German" />
+                                    <CheckMenuItem fx:id="filterSpanish" onAction="#applyLang" text="Spanish" />
+                                </items>
+                            </MenuButton>
                     </children>
                 </AnchorPane>
 
@@ -37,18 +49,18 @@
                                         <ListView fx:id="recipeListView" editable="true" layoutY="94.4" onMouseClicked="#recipeClicked" prefHeight="330.0" prefWidth="218.0" styleClass="recipe_list_pane" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="94.0" />
                                         <TextField fx:id="searchField" layoutX="18.0" layoutY="19.0" prefHeight="38.0" prefWidth="126.0" />
                                         <Button layoutX="148.0" layoutY="19.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchInit" prefHeight="38.0" prefWidth="54.0" text="🔍" />
-                              <TextField fx:id="recipeNameTF" layoutX="25.0" layoutY="387.0" prefHeight="26.0" prefWidth="114.0" AnchorPane.bottomAnchor="89.79999999999998" />
-                              <Label fx:id="recipeNameLabel" layoutX="38.0" layoutY="356.0" text="%clone.newRecipeName" AnchorPane.bottomAnchor="129.6" />
-                              <Button fx:id="cloneRecipeButton" layoutX="166.0" layoutY="387.0" mnemonicParsing="false" onAction="#okRecipe" prefHeight="27.0" prefWidth="31.0" text="%clone.ok" AnchorPane.bottomAnchor="90.0">
-                                 <font>
-                                    <Font size="10.0" />
-                                 </font>
-                              </Button>
-                              <ToggleButton fx:id="favSort" layoutX="70.0" layoutY="62.0" mnemonicParsing="false" onAction="#applyFav" styleClass="button" text="%favourites" />
-                                          <Button layoutX="32.0" layoutY="447.0" mnemonicParsing="false" onAction="#addRecipe" prefHeight="30.0" prefWidth="27.0" styleClass="plus_button" text="+" AnchorPane.bottomAnchor="25.79999999999999" AnchorPane.leftAnchor="32.0" />
-                                          <Button layoutX="166.0" layoutY="447.0" mnemonicParsing="false" onAction="#removeRecipe" prefHeight="30.0" prefWidth="27.0" styleClass="minus_button" text="-" AnchorPane.bottomAnchor="25.79999999999999" AnchorPane.rightAnchor="25.200000000000006" />
-                              <Button fx:id="renameRecipeButton" layoutX="87.0" layoutY="464.0" mnemonicParsing="false" onAction="#renameRecipe" AnchorPane.bottomAnchor="13.599999999999987" />
-                              <Button fx:id="cloneButton" layoutX="82.0" layoutY="434.0" mnemonicParsing="false" onAction="#cloneRecipe" text="%clone" AnchorPane.bottomAnchor="43.599999999999966" />
+                                        <TextField fx:id="recipeNameTF" layoutX="25.0" layoutY="387.0" prefHeight="26.0" prefWidth="114.0" AnchorPane.bottomAnchor="89.79999999999998" />
+                                        <Label fx:id="recipeNameLabel" layoutX="38.0" layoutY="356.0" text="%clone.newRecipeName" AnchorPane.bottomAnchor="129.6" />
+                                        <Button fx:id="cloneRecipeButton" layoutX="166.0" layoutY="387.0" mnemonicParsing="false" onAction="#okRecipe" prefHeight="27.0" prefWidth="31.0" text="%clone.ok" AnchorPane.bottomAnchor="90.0">
+                                            <font>
+                                                <Font size="10.0" />
+                                            </font>
+                                        </Button>
+                                        <ToggleButton fx:id="favSort" layoutX="70.0" layoutY="62.0" mnemonicParsing="false" onAction="#applyFav" styleClass="button" text="%favourites" />
+                                        <Button layoutX="32.0" layoutY="447.0" mnemonicParsing="false" onAction="#addRecipe" prefHeight="30.0" prefWidth="27.0" styleClass="plus_button" text="+" AnchorPane.bottomAnchor="25.79999999999999" AnchorPane.leftAnchor="32.0" />
+                                        <Button layoutX="166.0" layoutY="447.0" mnemonicParsing="false" onAction="#removeRecipe" prefHeight="30.0" prefWidth="27.0" styleClass="minus_button" text="-" AnchorPane.bottomAnchor="25.79999999999999" AnchorPane.rightAnchor="25.200000000000006" />
+                                        <Button fx:id="renameRecipeButton" layoutX="87.0" layoutY="464.0" mnemonicParsing="false" onAction="#renameRecipe" AnchorPane.bottomAnchor="13.599999999999987" />
+                                        <Button fx:id="cloneButton" layoutX="82.0" layoutY="434.0" mnemonicParsing="false" onAction="#cloneRecipe" text="%clone" AnchorPane.bottomAnchor="43.599999999999966" />
                                     </children>
                                 </AnchorPane>
 
@@ -60,9 +72,9 @@
                                                 <AnchorPane fx:id="ingredientsPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="ingredient_list_pane">
                                                     <children>
                                                         <ListView fx:id="ingredientListView" layoutX="66.0" layoutY="14.0" prefHeight="173.6" prefWidth="414.4" styleClass="ingredient_list_pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                          <ToggleButton fx:id="star" layoutX="463.0" layoutY="83.0" mnemonicParsing="false" onAction="#starToggle" styleClass="button" text="☆" AnchorPane.rightAnchor="25.799999999999955" />
+                                                        <ToggleButton fx:id="star" layoutX="463.0" layoutY="83.0" mnemonicParsing="false" onAction="#starToggle" styleClass="button" text="☆" AnchorPane.rightAnchor="25.799999999999955" />
                                                         <Button fx:id="addIngredientButton" layoutX="463.0" layoutY="183.0" mnemonicParsing="false" onAction="#addIngredient" prefHeight="30.0" prefWidth="27.0" styleClass="plus_button" text="+" AnchorPane.bottomAnchor="34.6" AnchorPane.rightAnchor="26.599999999999955" />
-                                          <Button fx:id="addToShop" layoutX="451.0" layoutY="14.0" mnemonicParsing="false" onAction="#addToOverViewIngredients" text="%shop" AnchorPane.rightAnchor="13.799999999999955" AnchorPane.topAnchor="14.0" />
+                                                        <Button fx:id="addToShop" layoutX="451.0" layoutY="14.0" mnemonicParsing="false" onAction="#addToOverViewIngredients" text="%shop" AnchorPane.rightAnchor="13.799999999999955" AnchorPane.topAnchor="14.0" />
                                                     </children>
                                                 </AnchorPane>
 
@@ -76,6 +88,7 @@
 
                                             </items>
                                         </SplitPane>
+
                                     </children>
                                 </AnchorPane>
 
@@ -86,8 +99,8 @@
             </items>
         </SplitPane>
     </children>
-   <stylesheets>
-      <URL value="@client/scenes/stylesheets/RecipeOverviewStyle.css" />
-      <URL value="@stylesheets/RecipeOverviewStyle.css" />
-   </stylesheets>
+    <stylesheets>
+        <URL value="@client/scenes/stylesheets/RecipeOverviewStyle.css" />
+        <URL value="@stylesheets/RecipeOverviewStyle.css" />
+    </stylesheets>
 </AnchorPane>
