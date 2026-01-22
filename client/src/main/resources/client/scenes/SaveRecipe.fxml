@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
+<?import java.net.URL?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="164.0" prefWidth="312.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SaveRecipeCtrl">
    <children>
@@ -17,4 +17,8 @@
       <TextField fx:id="filenameField" layoutX="143.0" layoutY="39.0" />
       <Button layoutX="123.0" layoutY="104.0" mnemonicParsing="false" onAction="#save" text="Save" />
    </children>
+    <stylesheets>
+        <URL value="@client/scenes/stylesheets/common.css" />
+        <URL value="@stylesheets/common.css" />
+    </stylesheets>
 </AnchorPane>
