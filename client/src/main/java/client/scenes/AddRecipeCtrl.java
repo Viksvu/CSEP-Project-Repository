@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.RecipeLanguage;
 import commons.Recipes;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
@@ -33,7 +34,7 @@ public class AddRecipeCtrl implements Initializable {
     private Label addRecipeLabel;
 
     @FXML
-    private ChoiceBox<String> languageBox;
+    private ChoiceBox<RecipeLanguage> languageBox;
     /**
      * Constructor
      *
@@ -48,7 +49,7 @@ public class AddRecipeCtrl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        languageBox.getItems().addAll("English", "Español", "Deutsch", "Nederlands");
+        languageBox.getItems().addAll(RecipeLanguage.values());
     }
 
     /**
@@ -80,13 +81,13 @@ public class AddRecipeCtrl implements Initializable {
                 languageBox.getSelectionModel().select(0);
                 break;
             case "es":
-                languageBox.getSelectionModel().select(1);
+                languageBox.getSelectionModel().select(3);
                 break;
             case "de":
                 languageBox.getSelectionModel().select(2);
                 break;
             case "nl":
-                languageBox.getSelectionModel().select(3);
+                languageBox.getSelectionModel().select(1);
                 break;
             default:
                 System.err.println(locale.getLanguage() + " has not " +
@@ -119,7 +120,10 @@ public class AddRecipeCtrl implements Initializable {
             return;
         }
         try {
-            server.addRecipe(new Recipes(recipeName));
+            Recipes ret = new Recipes(recipeName);
+            ret.setLanguage(languageBox.getSelectionModel().getSelectedItem());
+            server.addRecipe(ret);
+            System.out.println(languageBox.getSelectionModel().getSelectedItem());
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
