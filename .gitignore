@@ -46,6 +46,7 @@ out/
 h2-database.trace.db
 server/h2-database.trace.db
 starred_recipes.txt
+commons/test.md
 
 ### Config File ###
 client/config.json
