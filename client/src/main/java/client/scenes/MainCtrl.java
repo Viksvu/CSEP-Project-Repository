@@ -213,6 +213,17 @@ public class MainCtrl {
     }
 
     /**
+     * Update the language
+     */
+    private void applyCurrentLanguage() {
+        Locale locale = Locale.forLanguageTag(config.get().getLocale());
+        ResourceBundle bundle =
+                ResourceBundle.getBundle("languageBundles.messages", locale);
+
+        updateLanguage(bundle);
+    }
+
+    /**
      * dynamically update scene objects to new language
      * @param bundle language bundle to change to
      */
@@ -226,6 +237,8 @@ public class MainCtrl {
         this.addCtrl.updateLanguage(bundle);
         this.addPreparationStepCtrl.updateLanguage(bundle);
         this.addIngredientCtrl.updateLanguage(bundle);
+        this.overviewListCtrl.updateLanguage(bundle);
+        this.editPreparationStepCtrl.updateLanguage(bundle);
         config.modify(config -> {
             config.setLocale(bundle.getLocale().toLanguageTag());
         });
@@ -237,6 +250,7 @@ public class MainCtrl {
     public void showOverview() {
         primaryStage.setTitle("Recipes: Overview");
         primaryStage.setScene(overview);
+        applyCurrentLanguage();
         overviewCtrl.refresh();
         overview.setOnKeyPressed(e -> overviewCtrl.keyPressed(e));
     }
@@ -247,6 +261,7 @@ public class MainCtrl {
     public void showAdd(Locale locale) {
         primaryStage.setTitle("Recipes: Adding Recipe");
         primaryStage.setScene(add);
+        applyCurrentLanguage();
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
         addCtrl.setLanguage(locale);
     }
@@ -258,6 +273,7 @@ public class MainCtrl {
         removeCtrl.setup();
         primaryStage.setTitle("Recipes: Removing Recipe");
         primaryStage.setScene(remove);
+        applyCurrentLanguage();
         remove.setOnKeyPressed(e -> removeCtrl.keyPressed(e));
     }
 
@@ -269,6 +285,7 @@ public class MainCtrl {
     public void showAddIngredient(Recipes recipe) {
         primaryStage.setTitle("Adding Ingredient to: " + recipe.toString());
         primaryStage.setScene(addIngredient);
+        applyCurrentLanguage();
         addIngredientCtrl.provideRecipe(recipe);
         addIngredientCtrl.previousSceneSetter(this.overview);
     }
@@ -280,6 +297,7 @@ public class MainCtrl {
         addIngredientCtrl.previousSceneSetter(primaryStage.getScene());
         primaryStage.setTitle("Adding ingredient");
         primaryStage.setScene(addIngredient);
+        applyCurrentLanguage();
     }
 
     /**
@@ -343,6 +361,7 @@ public class MainCtrl {
         if (recipe == null) return;
         primaryStage.setTitle("Adding preparation to: " + recipe.toString());
         primaryStage.setScene(addPreparationStep);
+        applyCurrentLanguage();
         addPreparationStepCtrl.provideRecipe(recipe);
     }
 
@@ -355,6 +374,7 @@ public class MainCtrl {
         if (recipe == null) return;
         primaryStage.setTitle("Editing preparation from: " + recipe.toString());
         primaryStage.setScene(editPreparationStep);
+        applyCurrentLanguage();
         editPreparationStepCtrl.provideRecipe(recipe);
         editPreparationStepCtrl.providePrepStep(preparationStep);
     }
@@ -401,6 +421,7 @@ public class MainCtrl {
     public void showShoppingList() {
         primaryStage.setTitle("Shopping list");
         primaryStage.setScene(shoppingListScene);
+        applyCurrentLanguage();
         shoppingListCtrl.refresh();
 
     }
@@ -412,6 +433,7 @@ public class MainCtrl {
     public void showAddRecipeIngredientsOverview() {
         primaryStage.setTitle("Add recipe ingredients");
         primaryStage.setScene(addRecipeIngredients);
+        applyCurrentLanguage();
         addRecipeIngredientsCtrl.setChoiceBox(overviewCtrl.getRecipeData());
     }
 
@@ -426,6 +448,7 @@ public class MainCtrl {
             primaryStage.setTitle("Adding from \"" + recipe.getName() + "\"" +
                     " recipe");
             primaryStage.setScene(overviewList);
+            applyCurrentLanguage();
             overviewListCtrl.clear();
 
             overviewListCtrl.addIngredients(recipe.getIngredients()
@@ -440,6 +463,7 @@ public class MainCtrl {
     public void showOverviewList() {
         overviewListCtrl.refresh();
         primaryStage.setScene(overviewList);
+        applyCurrentLanguage();
     }
 
     public Stage getPrimaryStage() {
@@ -463,6 +487,7 @@ public class MainCtrl {
         editIngredientCtrl.previousSceneSetter(primaryStage.getScene());
         editIngredientCtrl.setIngredient(ingredient);
         primaryStage.setScene(editIngredient);
+        applyCurrentLanguage();
     }
 
     /**
@@ -474,6 +499,7 @@ public class MainCtrl {
         editIngredientCtrl.previousSceneSetter(primaryStage.getScene());
         editIngredientCtrl.setIngredient(ingredient);
         primaryStage.setScene(editIngredient);
+        applyCurrentLanguage();
         primaryStage.setTitle("Editing ingredient from: " + recipe.toString());
         editIngredientCtrl.provideRecipe(recipe);
     }

@@ -228,6 +228,14 @@ public class RecipeOverviewCtrl implements Initializable {
                         "Poppins/Poppins-Regular.ttf"),
                 12
         );
+        ClientConfig cfg = configHolder.get();
+        Locale locale = Locale.forLanguageTag(cfg.getLocale());
+
+        ResourceBundle newBundle =
+                ResourceBundle.getBundle("languageBundles.messages", locale);
+
+        updateLanguage(newBundle);
+
     }
 
     /**
@@ -369,6 +377,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * @param resourceBundle the resource bundle corresponding to the new language.
      */
     public void updateLanguage(ResourceBundle resourceBundle) {
+        this.bundle = resourceBundle;
         mainTitle.setText(resourceBundle.getString("title"));
         shoppingListButon.setText(resourceBundle.getString("shoppingList"));
         languageFilterMenu.setText(resourceBundle.getString("languages"));
