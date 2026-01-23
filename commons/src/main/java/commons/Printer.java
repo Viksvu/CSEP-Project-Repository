@@ -13,7 +13,7 @@ public class Printer {
      * @param pathname to save to
      */
     @Deprecated
-    public static void print(Printable thing, String pathname) throws IOException {
+    public void print(Printable thing, String pathname) throws IOException {
         StringBuilder text = new StringBuilder();
         // This is the text that will finally be stored in a file
         List<Object> contents = thing.indexing();
@@ -63,7 +63,7 @@ public class Printer {
      * @param file to save to
      * @throws IOException if an output (save) exception is thrown
      */
-    public static void print(Printable thing, File file) throws IOException {
+    public void print(Printable thing, File file) throws IOException {
         StringBuilder text = new StringBuilder();
         // This is the text that will finally be stored in a file
         List<Object> contents = thing.indexing();

@@ -315,8 +315,9 @@ public class MainCtrl {
         File file = fileChooser.showSaveDialog(primaryStage);
 
         if (file != null) {
+            Printer printer=new Printer();
             try {
-                Printer.print(thing, file);
+                printer.print(thing, file);
             } catch (IOException e) {
                 e.printStackTrace();
             }

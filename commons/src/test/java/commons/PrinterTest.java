@@ -21,7 +21,8 @@ class PrinterTest {
             ingredientInRecipe.setQuantity(10);
             myRecipes.addIngredient(ingredientInRecipe);
             myRecipes.addPreparationStep(new PreparationStep("Melt the cheese"));
-            Printer.print(myRecipes, "test.md");
+            Printer printer=new Printer();
+            printer.print(myRecipes, new File("test.md"));
             Scanner sc = new Scanner(new File("test.md"));
             String text = "";
             while (sc.hasNextLine()) {
