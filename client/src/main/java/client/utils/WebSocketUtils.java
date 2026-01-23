@@ -1,6 +1,7 @@
 package client.utils;
 
 import client.commonsClient.ConfigHolder;
+import com.google.inject.Inject;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -16,6 +17,11 @@ public class WebSocketUtils extends TextWebSocketHandler {
 
     private final ConfigHolder config;
 
+    /**
+     * Constructor for new injectable websocket utils instance
+     * @param config injected
+     */
+    @Inject
     public WebSocketUtils(ConfigHolder config) {
         this.config = config;
     }
