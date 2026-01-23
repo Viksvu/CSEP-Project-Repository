@@ -60,7 +60,7 @@ public class RecipeOverviewCtrl implements Initializable {
     private Long highlightedRecipeId = null;
     private IngredientInRecipe highlightedIngredient = null;
     private PreparationStep highlightedStep = null;
-
+    private boolean webMessage=false;
     private static final PseudoClass HIGHLIGHT =
             PseudoClass.getPseudoClass("highlight");
 
@@ -589,7 +589,7 @@ public class RecipeOverviewCtrl implements Initializable {
             currentRecipe.setIngredients(ingredients);
         }
         if (ingredients == null) ingredients = Collections.emptyList();
-        if(ingredientsData!=null) {
+        if(ingredientsData!=null && webMessage) {
             if (ingredients.size() > ingredientsData.size()) {
                 highlightedIngredient = ingredients.getLast();
             } else if (ingredients.size() == ingredientsData.size()) {
@@ -619,7 +619,7 @@ public class RecipeOverviewCtrl implements Initializable {
             currentRecipe.setPreparationSteps(steps);
         }
         if (steps == null) steps = Collections.emptyList();
-        if(preparationStepsData!=null) {
+        if(preparationStepsData!=null && webMessage) {
         if(steps.size()>preparationStepsData.size()){
             highlightedStep=steps.getLast();
         }
@@ -1155,9 +1155,10 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void refreshIfCurrent(long id){
         if(lastSelectedRecipe!=null && lastSelectedRecipe.getId()==id){
+            webMessage=true;
             refreshIngredients(lastSelectedRecipe);
             refreshPreparationSteps(lastSelectedRecipe);
-
+            webMessage=false;
             clearHighlightLater();
         }
     }
