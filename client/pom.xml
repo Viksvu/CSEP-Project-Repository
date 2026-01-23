@@ -139,6 +139,7 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>client.Main</mainClass>
+<!--                    <commandlineArgs>-cfg different-config-path.json</commandlineArgs>-->
                 </configuration>
             </plugin>
 

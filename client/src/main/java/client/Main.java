@@ -19,12 +19,8 @@ import static com.google.inject.Guice.createInjector;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import client.commonsClient.ClientConfig;
 import client.commonsClient.ConfigHolder;
 import client.scenes.*;
 import client.utils.ServerUtils;
@@ -39,6 +35,7 @@ public class Main extends Application {
 
 	private static final Injector INJECTOR = createInjector(new MyModule());
 	private static final MyFXML FXML = new MyFXML(INJECTOR);
+    private static String configPath = "";
     private MainCtrl mainCtrl;
     private Stage primaryStage;
 
@@ -52,12 +49,15 @@ public class Main extends Application {
      */
 	public static void main(String[] args)
             throws URISyntaxException, IOException {
-		launch();
+        System.out.println("Starting Application ("+args.length+" args)");
+        readConfigPath(args);
+		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
         var config = INJECTOR.getInstance(ConfigHolder.class);
+        config.setConfigPath(configPath);
         config.load();
 
 		var serverUtils = INJECTOR.getInstance(ServerUtils.class);
@@ -134,6 +134,22 @@ public class Main extends Application {
                     primaryStage,
                     scenes
             );
+        }
+    }
+
+    /**
+     * Read and set the configuration path if it exists
+     * @param args program start arguments
+     */
+    private static void readConfigPath(String[] args) {
+        if (args.length != 0) {
+            Iterator<String> iterator = Arrays.stream(args).iterator();
+            while (iterator.hasNext()) {
+                String arg = iterator.next();
+                if (arg.equals("-cfg") && iterator.hasNext()) {
+                    configPath = iterator.next();
+                }
+            }
         }
     }
 }
