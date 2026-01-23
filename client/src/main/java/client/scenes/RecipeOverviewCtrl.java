@@ -155,28 +155,21 @@ public class RecipeOverviewCtrl implements Initializable {
      * @param mainCtrl main controller.
      */
     @Inject
-    public RecipeOverviewCtrl(MainCtrl mainCtrl, ServerUtils server, ConfigHolder configHolder) {
+    public RecipeOverviewCtrl(MainCtrl mainCtrl, ServerUtils server,
+                              ConfigHolder configHolder,
+                              ShoppingList shoppingList) {
         this.mainCtrl = mainCtrl;
-        //this.recipeObservableList = FXCollections.observableArrayList();
-        //splitPaneRefreshButton = new SplitPane();
         this.server = server;
         this.configHolder = configHolder;
         this.ingredientsData = FXCollections.observableArrayList();
         this.isCloning = false;
         this.isRenaming = false;
-        ingredientButtons = new ArrayList<>();
+        this.ingredientButtons = new ArrayList<>();
+        this.shoppingList=shoppingList;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //ObservableList<String> recipeObservableList = mainCtrl.getRecipes();
-        //ObservableList<Recipes> recipeList =
-        // FXCollections.observableArrayList(server.getRecipes());
-        //recipeObservableList.add("Test String 1");
-        // Adding anything to the recipeObservableList
-        // will also add to the ListView of Recipes
-        //recipeListView.setItems(recipeObservableList);
-        //recipeListView.setEditable(true);
         favorites=new HashSet<>();
         langFilters=new HashSet<>();
         this.bundle=resourceBundle;
@@ -1120,11 +1113,6 @@ public class RecipeOverviewCtrl implements Initializable {
 
     public ObservableList<Recipes> getRecipeData () {
         return recipeData;
-    }
-
-
-    public void setShoppingList (ShoppingList shoppingList){
-        this.shoppingList = shoppingList;
     }
 
 

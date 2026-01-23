@@ -90,7 +90,6 @@ public class MainCtrl {
     // to use after refactoring
     private FilteredList<Recipes> filteredRecipes;
     private SortedList<Recipes> sortedRecipes;
-    private ShoppingList shoppingList = new ShoppingList();
     private WebSocketUtils webSocketUtils;
 
     private ConfigHolder config;
@@ -102,7 +101,8 @@ public class MainCtrl {
      * @param webSocketUtils
      */
     @Inject
-    public MainCtrl(WebSocketUtils webSocketUtils, ConfigHolder config) {
+   public MainCtrl(WebSocketUtils webSocketUtils,
+                    ConfigHolder config) {
         this.webSocketUtils = webSocketUtils;
         this.webSocketUtils.connect(this::handleWebSocketMessage);
         this.config = config;
@@ -143,7 +143,6 @@ public class MainCtrl {
         this.overviewCtrl = (RecipeOverviewCtrl) overviewPair.getKey();
         this.overview = new Scene(overviewPair.getValue());
         this.overview.getRoot().setId("overview");
-        this.overviewCtrl.setShoppingList(this.shoppingList);
 
         Pair<?, Parent> addPair = sceneMap.get("addRecipe");
         this.addCtrl = (AddRecipeCtrl) addPair.getKey();
@@ -170,13 +169,11 @@ public class MainCtrl {
         this.shoppingListCtrl = (ShoppingListCtrl) shoppingListPair.getKey();
         this.shoppingListScene = new Scene(shoppingListPair.getValue());
         this.shoppingListScene.getRoot().setId("shoppingList");
-        this.shoppingListCtrl.setShoppingList(this.shoppingList);
 
         Pair<?, Parent> overviewListPair = sceneMap.get("overviewList");
         this.overviewListCtrl = (OverviewListCtrl) overviewListPair.getKey();
         this.overviewList = new Scene(overviewListPair.getValue());
         this.overviewList.getRoot().setId("overviewList");
-        this.overviewListCtrl.setShoppingList(this.shoppingList);
 
         Pair<?, Parent> addRecipeIngredientsPair =
                 sceneMap.get("addRecipeIngredients");
@@ -185,7 +182,6 @@ public class MainCtrl {
         this.addRecipeIngredients =
                 new Scene(addRecipeIngredientsPair.getValue());
         this.addRecipeIngredients.getRoot().setId("addRepIngrs");
-        this.addRecipeIngredientsCtrl.setShoppingList(this.shoppingList);
 
         Pair<?, Parent> addPreparationStepPair =
                 sceneMap.get("addPreparationStep");
@@ -209,7 +205,6 @@ public class MainCtrl {
                 new Scene(editPreparationStepPair.getValue());
 
         this.recipeObservableList = FXCollections.observableArrayList();
-        this.addIngredientCtrl.provideShoppingList(this.shoppingList);
     }
 
     /**
@@ -472,10 +467,6 @@ public class MainCtrl {
 
     public Scene getAddScene() {
         return add;
-    }
-
-    public Scene getShoppingListScene() {
-        return shoppingListScene;
     }
 
     /**
