@@ -38,7 +38,7 @@ public class RecipeOverviewCtrl implements Initializable {
     private  ShoppingList shoppingList;
     private ObservableList<Recipes> recipeData;
     private ObservableList<Recipes> data1;
-    private final ConfigHolder configHolder=new ConfigHolder();
+    private ConfigHolder configHolder;
     private HashSet<Long> favorites;
     private ResourceBundle bundle;
     private HashSet<RecipeLanguage> langFilters;
@@ -155,11 +155,12 @@ public class RecipeOverviewCtrl implements Initializable {
      * @param mainCtrl main controller.
      */
     @Inject
-    public RecipeOverviewCtrl(MainCtrl mainCtrl, ServerUtils server) {
+    public RecipeOverviewCtrl(MainCtrl mainCtrl, ServerUtils server, ConfigHolder configHolder) {
         this.mainCtrl = mainCtrl;
         //this.recipeObservableList = FXCollections.observableArrayList();
         //splitPaneRefreshButton = new SplitPane();
         this.server = server;
+        this.configHolder = configHolder;
         this.ingredientsData = FXCollections.observableArrayList();
         this.isCloning = false;
         this.isRenaming = false;
