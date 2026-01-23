@@ -1,6 +1,8 @@
 package client;
 
+import client.scenes.OverviewListCtrl;
 import client.scenes.RecipeOverviewCtrl;
+import client.scenes.ShoppingListCtrl;
 import client.utils.ServerUtils;
 import commons.IngredientInRecipe;
 import commons.PreparationStep;
@@ -16,6 +18,8 @@ public class EditButton<K> extends Button {
     final private Recipes recipe;
     private RecipeOverviewCtrl ctrl;
     private EditButtonOptions option;
+    private OverviewListCtrl overviewListCtrl;
+    private ShoppingListCtrl shoppingListCtrl;
 
     /**
      * Constructor for edit object button
@@ -39,13 +43,42 @@ public class EditButton<K> extends Button {
         super.setTranslateX(
                 9 * parent.getItems().get(index).toString().length()
         );
-        editIngredientInRecipe();
+        addButton();
+    }
+
+    /**
+     * Constructor for Shopping List Edit and Delete buttons
+     * @param object next to which button is placed
+     * @param s
+     * @param index
+     * @param parent
+     * @param server
+     * @param ctrl
+     * @param option
+     */
+    public EditButton(K object,
+                      String s, int index, ListView<K> parent,
+                      ServerUtils server, OverviewListCtrl ctrl,
+                      EditButtonOptions option) {
+        super(s);
+        this.object = object;
+        this.index = index;
+        this.parent = parent;
+        this.server = server;
+        this.recipe = null;
+        this.overviewListCtrl=ctrl;
+        this.option=option;
+        double containerHeight = parent.getLayoutBounds().getHeight();
+        super.setTranslateX(
+                9 * parent.getItems().get(index).toString().length()
+        );
+        addButton();
     }
 
     /**
      * Actually allows to edit by creating a new
      */
-    public void editIngredientInRecipe() {
+    public void addButton() {
         this.setOnAction(event -> {
             if (this.option.equals(EditButtonOptions.REMOVE_INGREDIENT)
                     && object instanceof IngredientInRecipe ingredient) {

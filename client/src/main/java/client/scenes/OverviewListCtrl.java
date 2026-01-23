@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.EditButton;
 import client.EditButtonOptions;
 import client.EditButtonShoppingList;
 import client.commonsClient.IngredientInShoppingList;
@@ -14,7 +15,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.OverrunStyle;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.layout.HBox;
@@ -175,34 +178,36 @@ public class OverviewListCtrl implements Initializable {
         overviewListPane.getChildren().clear();
         overviewListPane.getChildren().addAll(overviewListView);
         overviewListPane.getChildren().add(addIngredient);
-        if (!items.isEmpty()) {
-            int numIngredients = items.size();
-            for (int i = 0; i < numIngredients; i++) {
-                EditButtonShoppingList deleteButton =
-                        new EditButtonShoppingList(
-                                items.get(i),
-                                "delete",
-                                i,
-                                overviewListView,
-                                this, shoppingList,
-                                EditButtonOptions.REMOVE_INGREDIENT
-                        );
-                EditButtonShoppingList editButton =
-                        new EditButtonShoppingList(
-                                items.get(i),
-                                "edit",
-                                i,
-                                overviewListView,
-                                this, shoppingList,
-                                EditButtonOptions.EDIT_INGREDIENT
-                        );
-                HBox buttonBox = new HBox(8); // 8 px space
-                buttonBox.setPickOnBounds(false);
-                buttonBox.getChildren().addAll(deleteButton, editButton);
-                overviewListPane.getChildren().add(buttonBox);
+        overviewListView.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(IngredientInShoppingList item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    EditButton<IngredientInShoppingList> deleteButton =
+                            new EditButton<>(item,"delete",getIndex(),
+                                    overviewListView,server,
+                                    OverviewListCtrl.this,EditButtonOptions.REMOVE_INGREDIENT);
+                    EditButton<IngredientInShoppingList> editButton =
+                            new EditButton<>(
+                                    item,"edit",getIndex(),
+                                    overviewListView,server,
+                                    OverviewListCtrl.this,
+                                    EditButtonOptions.EDIT_INGREDIENT);
 
+                    HBox row=new HBox(8,deleteButton,editButton);
+                    row.setPickOnBounds(false);
+                    setText(item.toString());
+                    setGraphic(row);
 
+                    //   setContentDisplay(ContentDisplay.RIGHT);
+                    setGraphicTextGap(-80);
+                    setTextOverrun(OverrunStyle.ELLIPSIS);
+                }
             }
-        }
+
+        });
     }
 }
