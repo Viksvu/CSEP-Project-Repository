@@ -62,7 +62,7 @@ public class EditButton<K> extends Button {
      */
     public EditButton(K object,
                       String s, int index, ListView<K> parent,
-                      ServerUtils server, OverviewListCtrl ctrl,
+                      ServerUtils server, Initializable ctrl,
                       EditButtonOptions option, ShoppingList shoppingList) {
         super(s);
         this.object = object;
