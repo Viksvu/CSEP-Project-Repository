@@ -107,30 +107,38 @@ public class EditButton<K> extends Button {
                 ctrl.editPreparationStep(step);
                 ctrl.refresh();
             }
-            if (object instanceof IngredientInShoppingList ingredient
-            && shoppingOverviewListCtrl instanceof OverviewListCtrl overviewListCtrl) {
-                if (this.option == EditButtonOptions.REMOVE_INGREDIENT) {
-                    shoppingList.getBufferList().remove(ingredient);
-                    (overviewListCtrl).refresh();
-                }
-                else if(this.option == EditButtonOptions.EDIT_INGREDIENT){
-                    (overviewListCtrl).editIngredient(ingredient);
-                    (overviewListCtrl).refresh();
-                }
-            }
-            if (object instanceof IngredientInShoppingList ingredient
-            && shoppingOverviewListCtrl instanceof ShoppingListCtrl shoppingListCtrl) {
-                if (this.option == EditButtonOptions.REMOVE_INGREDIENT) {
-                    shoppingList.getShoppingList().remove(ingredient);
-                    shoppingListCtrl.refresh();
-                }
-                else if(this.option == EditButtonOptions.EDIT_INGREDIENT){
-                    shoppingListCtrl.editIngredient(ingredient);
-                    shoppingListCtrl.refresh();
-                }
-            }
+            handleForShoppingList();
 
         });
+    }
+
+    /**
+     * Handles edit and delete button functionality for shopping list
+     * and overview list ctrl
+     */
+    public void handleForShoppingList() {
+        if (object instanceof IngredientInShoppingList ingredient
+                && shoppingOverviewListCtrl instanceof OverviewListCtrl overviewListCtrl) {
+            if (this.option == EditButtonOptions.REMOVE_INGREDIENT) {
+                shoppingList.getBufferList().remove(ingredient);
+                (overviewListCtrl).refresh();
+            }
+            else if(this.option == EditButtonOptions.EDIT_INGREDIENT){
+                (overviewListCtrl).editIngredient(ingredient);
+                (overviewListCtrl).refresh();
+            }
+        }
+        if (object instanceof IngredientInShoppingList ingredient
+                && shoppingOverviewListCtrl instanceof ShoppingListCtrl shoppingListCtrl) {
+            if (this.option == EditButtonOptions.REMOVE_INGREDIENT) {
+                shoppingList.getShoppingList().remove(ingredient);
+                shoppingListCtrl.refresh();
+            }
+            else if(this.option == EditButtonOptions.EDIT_INGREDIENT){
+                shoppingListCtrl.editIngredient(ingredient);
+                shoppingListCtrl.refresh();
+            }
+        }
     }
 
     /**
