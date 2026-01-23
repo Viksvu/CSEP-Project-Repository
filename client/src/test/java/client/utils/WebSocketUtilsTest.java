@@ -1,5 +1,6 @@
 package client.utils;
 
+import client.commonsClient.ConfigHolder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +23,7 @@ class WebSocketUtilsTest {
 
     @BeforeEach
     void setUp() {
-        utils = new WebSocketUtils();
+        utils = new WebSocketUtils(new ConfigHolder());
         session = new TestWebSocketSession();
     }
 

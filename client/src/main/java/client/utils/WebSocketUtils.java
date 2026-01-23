@@ -1,5 +1,7 @@
 package client.utils;
 
+import client.commonsClient.ConfigHolder;
+import com.google.inject.Inject;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -13,6 +15,17 @@ public class WebSocketUtils extends TextWebSocketHandler {
     private volatile WebSocketSession session;
     private volatile Consumer<String> messageCollector;
 
+    private final ConfigHolder config;
+
+    /**
+     * Constructor for new injectable websocket utils instance
+     * @param config injected
+     */
+    @Inject
+    public WebSocketUtils(ConfigHolder config) {
+        this.config = config;
+    }
+
     /**
      * Connect to the WebSocket endpoint
      */
@@ -20,7 +33,7 @@ public class WebSocketUtils extends TextWebSocketHandler {
         this.messageCollector = messageCollector;
 
         StandardWebSocketClient client = new StandardWebSocketClient();
-        client.doHandshake(this, "ws://localhost:8080/ws");
+        client.doHandshake(this, config.get().getSocketIp());
     }
 
     /**
