@@ -1,10 +1,15 @@
 package client;
 
+import client.commonsClient.IngredientInShoppingList;
+import client.commonsClient.ShoppingList;
+import client.scenes.OverviewListCtrl;
 import client.scenes.RecipeOverviewCtrl;
+import client.scenes.ShoppingListCtrl;
 import client.utils.ServerUtils;
 import commons.IngredientInRecipe;
 import commons.PreparationStep;
 import commons.Recipes;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
@@ -14,8 +19,10 @@ public class EditButton<K> extends Button {
     final private ListView<K> parent;
     private ServerUtils server;
     final private Recipes recipe;
+    final private ShoppingList shoppingList;
     private RecipeOverviewCtrl ctrl;
     private EditButtonOptions option;
+    private Initializable shoppingOverviewListCtrl;
 
     /**
      * Constructor for edit object button
@@ -35,17 +42,48 @@ public class EditButton<K> extends Button {
         this.recipe = recipe;
         this.ctrl=ctrl;
         this.option=option;
+        this.shoppingList = null;
         double containerHeight = parent.getLayoutBounds().getHeight();
         super.setTranslateX(
                 9 * parent.getItems().get(index).toString().length()
         );
-        editIngredientInRecipe();
+        addButton();
+    }
+
+    /**
+     * Constructor for Shopping List Edit and Delete buttons
+     * @param object next to which button is placed
+     * @param s
+     * @param index
+     * @param parent
+     * @param server
+     * @param ctrl
+     * @param option
+     */
+    public EditButton(K object,
+                      String s, int index, ListView<K> parent,
+                      ServerUtils server, Initializable ctrl,
+                      EditButtonOptions option, ShoppingList shoppingList) {
+        super(s);
+        this.object = object;
+        this.index = index;
+        this.parent = parent;
+        this.server = server;
+        this.recipe = null;
+        this.shoppingOverviewListCtrl =ctrl;
+        this.option=option;
+        this.shoppingList=shoppingList;
+        double containerHeight = parent.getLayoutBounds().getHeight();
+        super.setTranslateX(
+                9 * parent.getItems().get(index).toString().length()
+        );
+        addButton();
     }
 
     /**
      * Actually allows to edit by creating a new
      */
-    public void editIngredientInRecipe() {
+    public void addButton() {
         this.setOnAction(event -> {
             if (this.option.equals(EditButtonOptions.REMOVE_INGREDIENT)
                     && object instanceof IngredientInRecipe ingredient) {
@@ -69,8 +107,38 @@ public class EditButton<K> extends Button {
                 ctrl.editPreparationStep(step);
                 ctrl.refresh();
             }
+            handleForShoppingList();
 
         });
+    }
+
+    /**
+     * Handles edit and delete button functionality for shopping list
+     * and overview list ctrl
+     */
+    public void handleForShoppingList() {
+        if (object instanceof IngredientInShoppingList ingredient
+                && shoppingOverviewListCtrl instanceof OverviewListCtrl overviewListCtrl) {
+            if (this.option == EditButtonOptions.REMOVE_INGREDIENT) {
+                shoppingList.getBufferList().remove(ingredient);
+                (overviewListCtrl).refresh();
+            }
+            else if(this.option == EditButtonOptions.EDIT_INGREDIENT){
+                (overviewListCtrl).editIngredient(ingredient);
+                (overviewListCtrl).refresh();
+            }
+        }
+        if (object instanceof IngredientInShoppingList ingredient
+                && shoppingOverviewListCtrl instanceof ShoppingListCtrl shoppingListCtrl) {
+            if (this.option == EditButtonOptions.REMOVE_INGREDIENT) {
+                shoppingList.getShoppingList().remove(ingredient);
+                shoppingListCtrl.refresh();
+            }
+            else if(this.option == EditButtonOptions.EDIT_INGREDIENT){
+                shoppingListCtrl.editIngredient(ingredient);
+                shoppingListCtrl.refresh();
+            }
+        }
     }
 
     /**

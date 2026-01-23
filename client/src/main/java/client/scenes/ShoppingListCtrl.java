@@ -1,7 +1,7 @@
 package client.scenes;
 
+import client.EditButton;
 import client.EditButtonOptions;
-import client.EditButtonShoppingList;
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
@@ -10,9 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -154,33 +152,38 @@ public class ShoppingListCtrl implements Initializable {
     public void addEditButtonToIngredient() {
         ingredientsPane.getChildren().clear();
         ingredientsPane.getChildren().addAll(shoppingListView);
-        if (!items.isEmpty()) {
-            int numIngredients = items.size();
-            for (int i = 0; i < numIngredients; i++) {
-                EditButtonShoppingList deleteButton =
-                        new EditButtonShoppingList(
-                                items.get(i),
-                                "delete",
-                                i,
-                                shoppingListView,
-                                this, shoppingList,
-                                EditButtonOptions.REMOVE_INGREDIENT
-                        );
-                EditButtonShoppingList editButton =
-                        new EditButtonShoppingList(
-                                items.get(i),
-                                "edit",
-                                i,
-                                shoppingListView,
-                                this, shoppingList,
-                                EditButtonOptions.EDIT_INGREDIENT
-                        );
-                HBox buttonBox = new HBox(8); // 8 px space
-                buttonBox.setPickOnBounds(false);
-                buttonBox.getChildren().addAll(deleteButton, editButton);
-                ingredientsPane.getChildren().add(buttonBox);
+        shoppingListView.setCellFactory(lv -> new ListCell<>(){
+            @Override
+            protected void updateItem(IngredientInShoppingList item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    EditButton<IngredientInShoppingList> deleteButton =
+                            new EditButton<>(item,"delete",getIndex(),
+                                    shoppingListView,server,
+                                    ShoppingListCtrl.this,EditButtonOptions.REMOVE_INGREDIENT,
+                                    shoppingList);
+                    EditButton<IngredientInShoppingList> editButton =
+                            new EditButton<>(
+                                    item,"edit",getIndex(),
+                                    shoppingListView,server,
+                                    ShoppingListCtrl.this,
+                                    EditButtonOptions.EDIT_INGREDIENT,
+                                    shoppingList);
+
+                    HBox row=new HBox(8,deleteButton,editButton);
+                    row.setPickOnBounds(false);
+                    setText(item.toString());
+                    setGraphic(row);
+
+                    //   setContentDisplay(ContentDisplay.RIGHT);
+                    setGraphicTextGap(-80);
+                    setTextOverrun(OverrunStyle.ELLIPSIS);
+                }
             }
-        }
+        });
     }
 
     /**
