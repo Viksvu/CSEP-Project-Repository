@@ -1,7 +1,6 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import commons.util.EqualsUtil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -158,7 +157,27 @@ public class Recipes implements Printable {
         }
         return recipes;
     }
+    /**
+     * Check if list a and b are equals
+     * This is persistance safe
+     * Cause persistence replaces lists with PersitentBag entities
+     * @param a list a to compare
+     * @param b list b to compare
+     * @return true if the elements in the lis are equal
+     * @param <A> Type of objects to compare
+     */
+    public <A> boolean equalsPersistentSafe(List<A> a, List<A> b) {
+        if (a == b) return true;
+        if (a == null || b == null) return false;
+        if (a.size() != b.size()) return false;
 
+        for (int i = 0; i < a.size(); i++) {
+            if (!Objects.equals(a.get(i), b.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
     /**
      * Sets "this" as the recipe on all ingredients of the recipe
      */
@@ -174,8 +193,8 @@ public class Recipes implements Printable {
         if (o == null || getClass() != o.getClass()) return false;
         Recipes recipes = (Recipes) o;
         return Objects.equals(id, recipes.getId())
-                && EqualsUtil.equalsPersistentSafe(ingredients, recipes.ingredients)
-                && EqualsUtil.equalsPersistentSafe(preparationSteps, recipes.preparationSteps)
+                && equalsPersistentSafe(ingredients, recipes.ingredients)
+                && equalsPersistentSafe(preparationSteps, recipes.preparationSteps)
                 && Objects.equals(name, recipes.name);
     }
 
