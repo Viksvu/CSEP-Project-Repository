@@ -354,7 +354,24 @@ public class RecipeOverviewCtrl implements Initializable {
             if (newLang == null) return;
 
             Locale locale = newLang.getLocale();
-
+            switch (newLang.getLocale().getLanguage()) {
+                case "en":
+                    topAnchorPane.setStyle("-fx-background-color: #E6EDF6;");
+                    searchField.setStyle("-fx-background-color: #E6EDF6;");
+                    break;
+                case "es":
+                    topAnchorPane.setStyle("-fx-background-color: #FFF1E8;");
+                    searchField.setStyle("-fx-background-color: #FFF1E8;");
+                    break;
+                case "nl":
+                    topAnchorPane.setStyle("-fx-background-color: #FBEAEC;");
+                    searchField.setStyle("-fx-background-color: #FBEAEC;");
+                    break;
+                case "de":
+                    topAnchorPane.setStyle("-fx-background-color: #FFF6D6;");
+                    searchField.setStyle("-fx-background-color: #FFF6D6;");
+                    break;
+            }
             configHolder.modify(cfg -> cfg.setLocale(locale.toLanguageTag()));
 
             ResourceBundle newBundle =

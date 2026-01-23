@@ -26,7 +26,7 @@ public class ShoppingListCtrl implements Initializable {
     private ShoppingList shoppingList;
     private ObservableList<IngredientInShoppingList> items
             = FXCollections.observableArrayList();
-
+    private ResourceBundle bundle;
     @FXML
     private ListView<IngredientInShoppingList> shoppingListView;
     @FXML
@@ -74,6 +74,7 @@ public class ShoppingListCtrl implements Initializable {
         iv.setFitHeight(20);
         iv.setFitWidth(20);
         downloadShoppingListButton.setGraphic(iv);
+        this.bundle = resourceBundle;
     }
     /**
      * Updates the UI elements to the new selected language.
@@ -85,6 +86,7 @@ public class ShoppingListCtrl implements Initializable {
         shoppingListAddRecipeButton.setText(resourceBundle.getString("shoppingList.addRecipe"));
         shoppingListBackButton.setText(resourceBundle.getString("shoppingList.back"));
         shoppingListClearButton.setText(resourceBundle.getString("shoppingList.clear"));
+        this.bundle = resourceBundle;
     }
 
     /**
@@ -117,8 +119,6 @@ public class ShoppingListCtrl implements Initializable {
      */
     public void addIngredient() {
         mainCtrl.showAddIngredient();
-        totalItemsLabel.setText(
-                "Total: " + shoppingList.getShoppingList().size() + " items");
     }
 
     /**
