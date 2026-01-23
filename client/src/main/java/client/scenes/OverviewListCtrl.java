@@ -44,6 +44,9 @@ public class OverviewListCtrl implements Initializable {
     private Button addIngredient;
 
     @FXML
+    private Button cancelButton;
+
+    @FXML
     private Text overviewListLabel;
 
     @FXML
@@ -74,6 +77,7 @@ public class OverviewListCtrl implements Initializable {
     public void updateLanguage(ResourceBundle resourceBundle) {
         overviewListLabel.setText(resourceBundle.getString("overviewList.label"));
         overviewListAddButton.setText(resourceBundle.getString("overviewList.add"));
+        cancelButton.setText(resourceBundle.getString("overviewList.cancel"));
     }
 
     /**
@@ -177,6 +181,7 @@ public class OverviewListCtrl implements Initializable {
         overviewListPane.getChildren().clear();
         overviewListPane.getChildren().addAll(overviewListView);
         overviewListPane.getChildren().add(addIngredient);
+        //overviewListPane.getChildren().add(cancelButton);
         overviewListView.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(IngredientInShoppingList item, boolean empty) {
