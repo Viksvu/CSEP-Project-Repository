@@ -189,13 +189,15 @@ public class OverviewListCtrl implements Initializable {
                     EditButton<IngredientInShoppingList> deleteButton =
                             new EditButton<>(item,"delete",getIndex(),
                                     overviewListView,server,
-                                    OverviewListCtrl.this,EditButtonOptions.REMOVE_INGREDIENT);
+                                    OverviewListCtrl.this,EditButtonOptions.REMOVE_INGREDIENT,
+                                    shoppingList);
                     EditButton<IngredientInShoppingList> editButton =
                             new EditButton<>(
                                     item,"edit",getIndex(),
                                     overviewListView,server,
                                     OverviewListCtrl.this,
-                                    EditButtonOptions.EDIT_INGREDIENT);
+                                    EditButtonOptions.EDIT_INGREDIENT,
+                                    shoppingList);
 
                     HBox row=new HBox(8,deleteButton,editButton);
                     row.setPickOnBounds(false);
