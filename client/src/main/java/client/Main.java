@@ -67,8 +67,7 @@ public class Main extends Application {
 			System.err.println(msg);
 			return;
 		}
-		Locale locale = Locale.forLanguageTag(INJECTOR
-                .getInstance(ClientConfig.class).getLocale());
+		Locale locale = Locale.forLanguageTag(config.get().getLocale());
 		ResourceBundle bundle = ResourceBundle
 				.getBundle("languageBundles.messages", locale);
         this.primaryStage = primaryStage;
