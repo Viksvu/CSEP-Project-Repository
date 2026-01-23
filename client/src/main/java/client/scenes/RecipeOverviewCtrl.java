@@ -392,12 +392,33 @@ public class RecipeOverviewCtrl implements Initializable {
     }
 
     /**
+     * Restores lsat selected recipe
+     */
+    public void restoreSelect(Long previouslySelectedId){
+        for(int i=0;i<recipeListView.getItems().size();i++){
+            Recipes r=recipeData.get(i);
+            if(Objects.equals(r.getId(), previouslySelectedId)){
+                recipeListView.getSelectionModel().select(r);
+                lastSelectedRecipe=r;
+                break;
+            }
+        }
+    }
+    /**
      * Refreshes the split panes and the content in the ListViews.
      */
     public void refresh() {
+        Long previouslySelectedId=null;
+        Recipes selected=recipeListView.getSelectionModel().getSelectedItem();
+        if (selected != null) previouslySelectedId = selected.getId();
+        else if (lastSelectedRecipe != null) previouslySelectedId = lastSelectedRecipe.getId();
+
         splitPaneRefreshButton.setDividerPosition(0, 0.10090361445783134);
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
         refreshRecipes();
+
+        restoreSelect(previouslySelectedId);
+
         selectFirstRecipeIfNoneSelected();
         if (getSelectedRecipe() != null) {
             lastSelectedRecipe = getSelectedRecipe();
