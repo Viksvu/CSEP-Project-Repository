@@ -30,3 +30,29 @@ TODO: In readme: put all extensions that you did
 * This application provides the basic English Dutch languages, but also is available in German and Spanish.
 * To further improve user experience, we have added to the application the additional feature, that the UI very subtly responds to this change in language choice by also slightly changing the certain UI elements' colours. This change is not drastic, as to not distract from the current task, yet subtle enough to register as a smoothing change.
 * We believe that we have gone above the requirements listed in the product backlog to make this a smooth and inclusive user experience, and would thus like to get full points for this feature. 
+
+### Search Bar (Full-Text, Multi-Term, and Relevance Sorting)
+* The recipe overview supports **full-text search** without opening a new window: the list view is filtered directly.
+* The search checks multiple parts of each recipe:
+  * Recipe name
+  * Ingredient names
+  * Preparation step descriptions
+* Multi-term queries are supported (split on whitespace) and treated as an **AND** search:
+  * Example: `"t1 t2 t3"` matches recipes containing `t1` AND `t2` AND `t3` across any of the supported fields.
+* The search integrates cleanly with other filtering (e.g., favorites-only filtering still works while searching).
+* Bonus: **Relevance-based sorting while searching**
+  * When a search query is active, results are **sorted by match quality**, prioritizing:
+    1. Matches in recipe name (especially if the name starts with the query)
+    2. Matches in ingredient names
+    3. Matches in preparation steps
+  * When the search query is empty, recipes are sorted alphabetically by name.
+* Users can cancel a search quickly by pressing **ESC**, which clears the search field and restores the full list.
+* The recipe overview includes a toggle button that allows users to switch between:
+  * **All Recipes** – the complete recipe list.
+  * **Favorites** – only recipes that the user has starred.
+* When the toggle is enabled, the recipe list is filtered dynamically to show **only favorited recipes**, without opening a new view or reloading the scene.
+* The button label updates according to its state (e.g. “All Recipes” ↔ “Favourites”), providing clear visual feedback.
+* This filter integrates seamlessly with:
+  * The search bar (searching within favorites only).
+  * Language-based recipe filtering.
+* This functionality fulfills the requirement of providing a **special overview of favorite recipes**, while still allowing users to easily return to the full recipe list.
