@@ -8,10 +8,11 @@
 * First start the server with the following maven command
 * ```mvn -pl server -am spring-boot:run```
 ### 3. Start the client
-* Then start the client with the following java options
+* Then start the client with the following java VM options
 * ```--module-path=C:\path\to\your\downloaded\javafx-sdk-25.0.1\lib --add-modules=javafx.controls,javafx.fxml,javafx.web```
 * And the following maven command
 * ```mvn -pl client -am javafx:run```
+* With option -cfg you can specify the configuration file to be used (For example -cfg new-config-file-path.json). Default: config.json.
 
 ## Basic feature overview
 TODO: Have an overview about how you implement the basic requirements

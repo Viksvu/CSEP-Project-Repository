@@ -13,6 +13,7 @@ public class IngredientInShoppingList {
     private int quantity;
     private Recipes recipe;
     private Unit unit;
+    private boolean checked;
 
     /**
      * A constructor for IISL, this just constructs an ingredient directly
@@ -45,6 +46,18 @@ public class IngredientInShoppingList {
      */
     public IngredientInShoppingList() {
 
+    }
+
+    /**
+     * Checks if the item in the listview
+     * is checked
+     * @return
+     */
+    public boolean isChecked() {
+        return checked;
+    }
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     public Unit getUnit() {

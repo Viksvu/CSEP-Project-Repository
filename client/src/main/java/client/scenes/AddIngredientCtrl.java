@@ -63,10 +63,12 @@ public class AddIngredientCtrl implements Initializable {
      * @param server
      */
     @Inject
-    public AddIngredientCtrl(MainCtrl mainCtrl, ServerUtils server) {
+    public AddIngredientCtrl(MainCtrl mainCtrl, ServerUtils server,
+                             ShoppingList shoppingList) {
         this.mainCtrl = mainCtrl;
         this.server = server;
         this.recipe = null;
+        this.shoppingList=shoppingList;
     }
 
     /**
@@ -169,15 +171,6 @@ public class AddIngredientCtrl implements Initializable {
         this.recipe = recipe;
     }
 
-    /**
-     * Used by mainCtrl to "tell" AddIngredientCtrl
-     * which shopping list the ingredient is being added to.
-     *
-     * @param shoppingList the shopping list.
-     */
-    public void provideShoppingList(ShoppingList shoppingList) {
-        this.shoppingList = shoppingList;
-    }
 
 
     /**

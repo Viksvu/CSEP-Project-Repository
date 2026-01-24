@@ -40,9 +40,11 @@ public class AddRecipeIngredientsCtrl implements Initializable {
      * @param server server
      */
     @Inject
-    public AddRecipeIngredientsCtrl(MainCtrl mainCtrl, ServerUtils server) {
+    public AddRecipeIngredientsCtrl(MainCtrl mainCtrl, ServerUtils server,
+                                    ShoppingList shoppingList) {
         this.mainCtrl = mainCtrl;
         this.server = server;
+        this.shoppingList=shoppingList;
     }
 
     @Override
@@ -73,14 +75,6 @@ public class AddRecipeIngredientsCtrl implements Initializable {
     public void setChoiceBox(ObservableList<Recipes> data) {
         this.data=data;
         choiceBox.setItems(this.data);
-    }
-
-    /**
-     * shopping list setter
-     * @param shoppingList the shopping list.
-     */
-    public void setShoppingList(ShoppingList shoppingList) {
-        this.shoppingList = shoppingList;
     }
 
     /**

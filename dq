@@ -1,0 +1,2018 @@
+[33mcommit e572555c7a3c0eebbac164fc53bbb4b994430629[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mautomatedChangeExtraFeatures[m[33m)[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 22 18:50:18 2026 +0100
+
+    Adding a cell highlight for recipe content, that makes a cell yellow when it has been changed (by same client or someone else)
+
+[33mcommit 8524b26b48528aca5f25cf731366657004a421b9[m[33m ([m[1;31morigin/shoppingListExtraFeatures[m[33m, [m[1;32mshoppingListExtraFeatures[m[33m)[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 22 15:57:47 2026 +0100
+
+    Also fixing the DI for the shopping list controller classes, deleting setters
+
+[33mcommit 461834f012ff2cdb8131dd0a20121c03aca05060[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 22 15:56:41 2026 +0100
+
+    Adding shopping list DI for non directly related to the shopping list classes
+
+[33mcommit eddc15d8ad0f7f3135a3d4df1c1285a6a6e2d5c7[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 22 15:54:46 2026 +0100
+
+    Binding shopping list as a singleton and changing the initialization of it on main ctrl
+
+[33mcommit 2f21f2453640fdf1133e238409cae048c1bbf7d7[m
+Merge: 1d2e559 7c9b4eb
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 22 15:17:56 2026 +0100
+
+    Merge branch 'main' into shoppingListExtraFeatures
+
+[33mcommit 1d2e5593afefb7483abe22a3d87ba7faaa8f531c[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 22 15:15:03 2026 +0100
+
+    Adding list cell behavior, which allows to "check-off" shopping list ingredients
+
+[33mcommit 7c9b4eba4d7fe1066d8f7ec54fc66e14149a9dd9[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Merge: 34abcb7 56e907f
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Thu Jan 22 13:25:06 2026 +0100
+
+    Merge branch 'languageToRecipe' into 'main'
+    
+    Language to recipe
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!79
+
+[33mcommit 56e907f6b3b68109e2c19a7893862c1b5fb21146[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Thu Jan 22 12:54:59 2026 +0100
+
+    Add Recipe Ctrl updated to allow recipe selection
+
+[33mcommit 7ffbdca914a2760083578d1f55fb79a4465e3bba[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Thu Jan 22 12:53:25 2026 +0100
+
+    Modified commons classes to complete language recipe implementation
+
+[33mcommit 37573b91137240659ebbe258d3b922aa1bf68911[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Thu Jan 22 12:41:41 2026 +0100
+
+    Implemented UI for selecting language
+    
+    # Conflicts:
+    #       client/src/main/resources/client/scenes/AddIngredient.fxml
+
+[33mcommit 329661cbec65d2b4a3f4c8856018dea8f4f72121[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Thu Jan 22 11:35:18 2026 +0100
+
+    Made an Enum for recipe-languages
+
+[33mcommit 34abcb7cfb7ab6c237a4f05f714a23e1cba37a08[m
+Merge: 3541493 398adb7
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Thu Jan 22 13:09:38 2026 +0100
+
+    Merge branch 'uiImprovement' into 'main'
+    
+    Ui Improvement
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!78
+
+[33mcommit 398adb71f40a4ae7ae5ebfac25111c05f4de9941[m[33m ([m[1;31morigin/uiImprovement[m[33m)[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Thu Jan 22 09:28:44 2026 +0100
+
+    Added CSS to the addpreparationstep scene
+
+[33mcommit 3541493877c02cf150d811cf69ec88f6a43754c4[m
+Merge: a08ceda 6ead6de
+Author: Tushit Jain <t.jain-3@student.tudelft.nl>
+Date:   Wed Jan 21 22:17:33 2026 +0100
+
+    Merge branch 'creatingClientConfig' into 'main'
+    
+    Creating Client-Config
+    
+    Closes #37
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!77
+
+[33mcommit 6ead6de67b155fe53e70d585c650cf8a90a30bdb[m
+Merge: aa05599 a08ceda
+Author: Tushit Jain <t.jain-3@student.tudelft.nl>
+Date:   Wed Jan 21 21:42:11 2026 +0100
+
+    Merge branch 'main' into 'creatingClientConfig'
+    
+    # Conflicts:
+    #   client/src/main/java/client/scenes/MainCtrl.java
+
+[33mcommit aa0559943dbb2d8507fff717b73c1bf696c1a81e[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Wed Jan 21 21:29:15 2026 +0100
+
+    added persistance to ip and language
+
+[33mcommit 4ab6169b8766d29beae40136200b08920059b6a2[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Wed Jan 21 21:10:17 2026 +0100
+
+    refactored SearchMethodsTest and added functionality to language drop down
+
+[33mcommit 001552ba47075e943bbff5c5022bb96b707d32cc[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Wed Jan 21 21:02:34 2026 +0100
+
+    validating test.md again
+
+[33mcommit 7b2661b7e6722987925e3a8266733dab4b7bb360[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Wed Jan 21 20:48:53 2026 +0100
+
+    validating test.md
+
+[33mcommit 414f807a85fb0107e237a6123f57c14ce7373503[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Wed Jan 21 20:38:24 2026 +0100
+
+    binded ClientConfig to ConfigLoader.load()
+
+[33mcommit 4c610d647ad8cff27082438b9ce264932a50f44b[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Wed Jan 21 19:03:41 2026 +0100
+
+    Adding blueprint for the Config files for the Client
+
+[33mcommit 5695139e7b53ac91a6e69458e2f3da3a4d77c8bd[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 21 14:29:56 2026 +0100
+
+    Extended css to addIngredient
+
+[33mcommit 8efd57fd01dd1ad23fc877b987ca7c77b628e021[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 21 14:16:33 2026 +0100
+
+    Made a common.css file that could work as a common stylesheet for all fxml files
+
+[33mcommit e8a4888a67115ff1dc9ff24b56c19a79796e6753[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 21 13:59:30 2026 +0100
+
+    Changed the colors of the overview scene to a more formal scene
+
+[33mcommit a86e507873c47ac0455174f245df405803d9c7f3[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 21 11:24:37 2026 +0100
+
+    Fixed issue of glitching buttons during hover state
+
+[33mcommit 849af884be406b9ab8acff4cb391d365830fa999[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 21 10:38:02 2026 +0100
+
+    Added effects to buttons and text fields
+
+[33mcommit fe944ff0592afcaab1ed7c60465d3c1d9d4e152c[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 21 10:37:38 2026 +0100
+
+    Added more colors to the scene
+
+[33mcommit 890eb6390023f79d36c60dedc8da3bbb87992138[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 21 10:12:37 2026 +0100
+
+    Added basic CSS to the project
+
+[33mcommit a08cedaa2a71712936d8ea7ebec986bdf5c7870f[m
+Merge: 0d9ed2b a5b4877
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 21 08:20:03 2026 +0100
+
+    Merge branch 'userChosenPath' into 'main'
+    
+    User experience enhancement part 1
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!73
+
+[33mcommit a5b4877946a0e5b186d4dfdd252a4bbd382518ed[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Tue Jan 20 20:53:58 2026 +0100
+
+    Added basic dynamic paging to recipe overview scene
+    
+    # Conflicts:
+    #       client/src/main/resources/client/scenes/RecipeOverview.fxml
+
+[33mcommit e01a2299a13afdcd3f24caeb78f38e7bf5f77b6a[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Tue Jan 20 14:38:59 2026 +0100
+
+    Added escape button functionality to clone and rename recipe
+
+[33mcommit ccc5918afe6bd106063d07215eb84914becd2bc4[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Sat Jan 17 20:39:04 2026 +0100
+
+    Modified showSaveRecipe() to allow user to select the path
+
+[33mcommit e67a3c31587148ba9fcdf7115babcd870bba8766[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Sat Jan 17 20:38:32 2026 +0100
+
+    Final changes to Printer.print()
+
+[33mcommit 6ba3b7c2197b34b53aab620d5db14bb09e47c29f[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Sat Jan 17 20:24:19 2026 +0100
+
+    Deprecated old Printer.print() method which took a string to input the file name and overloaded Printer.print() to take file object as input
+
+[33mcommit 0d9ed2b6fa8fade0d14aa4ccaa9f269c24d6bdbe[m
+Merge: f746172 4ca726f
+Author: Boyan Georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Wed Jan 21 00:23:43 2026 +0100
+
+    Merge branch 'MinorBugFix' into 'main'
+    
+    Fixed minor bug with double clicking
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!75
+
+[33mcommit 4ca726fb7f032c929029ff656fdf7de060c5bf2b[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Wed Jan 21 00:17:50 2026 +0100
+
+    Fixed minor bug with double clicking
+
+[33mcommit f7461729ebd6ace5c25e2cbae200f985ba198153[m
+Merge: 1d9c0db ac91ae3
+Author: Boyan Georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Wed Jan 21 00:10:27 2026 +0100
+
+    Merge branch 'improvingOverview' into 'main'
+    
+    Fixed bug with edit recipes and allowed for users to favorite recipes by double clicking them
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!74
+
+[33mcommit ac91ae368f9998579aa792f61157a237f0e0d4d8[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Wed Jan 21 00:01:31 2026 +0100
+
+    Fixed bug with edit recipes and allowed for users to favorite recipes by double clicking them
+
+[33mcommit 1d9c0db7fe95bafa36dab847492ae1679a0a1f1b[m[33m ([m[1;31morigin/48-creating-button-to-add-ingredients-to-db[m[33m)[m
+Merge: 7a926e4 1a1a590
+Author: Boyan Georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Tue Jan 20 18:30:49 2026 +0100
+
+    Merge branch 'updateUILanguage' into 'main'
+    
+    Dynamically updated UI elements to new language choice
+    
+    Closes #47
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!71
+
+[33mcommit 7a926e49b792c6819491be591e0d0fbe91c6f859[m
+Merge: ccdace5 14f9207
+Author: Boyan Georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Tue Jan 20 18:27:30 2026 +0100
+
+    Merge branch 'fullAutoPropagationImplementation' into 'main'
+    
+    Fully implemented auto propogation message handling and updating
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!72
+
+[33mcommit 14f9207b3ab1eda9fc955f25c3ec818a513bb0df[m[33m ([m[1;31morigin/fullAutoPropagationImplementation[m[33m, [m[1;32mfullAutoPropagationImplementation[m[33m)[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 20 15:55:37 2026 +0100
+
+    Adding proper recipe rename update to each class where propagated
+
+[33mcommit 288b75bbce74f326feaaa0ba06e995d5056dcbff[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 20 15:55:00 2026 +0100
+
+    Changing  recipe rename message handling
+
+[33mcommit f857fb35efeca772ec5b87abc1f741502dd3ed64[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 20 15:53:26 2026 +0100
+
+    Adding rename propagation
+
+[33mcommit 5042924048e8efe854a8be38d06abd6eba41b346[m
+Merge: 97a7198 ccdace5
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 20 15:30:43 2026 +0100
+
+    Merge branch 'main' into fullAutoPropagationImplementation
+
+[33mcommit 97a7198210b65cb63b20b1679fea5c31f6db44ab[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 20 15:25:05 2026 +0100
+
+    Adding client side websocket test
+
+[33mcommit f19a69e90eabb846d42310810985450e204f0926[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 20 14:55:55 2026 +0100
+
+    Adding service test for ingredients and socket service classes
+
+[33mcommit ac53eeb16c1ea59e65de097b70ef974e3f3515f2[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 20 14:22:32 2026 +0100
+
+    Adding server socket endpoint for recipes test
+
+[33mcommit 1a1a590e87883b11cf47584fbb2662def75f2db2[m[33m ([m[1;31morigin/updateUILanguage[m[33m)[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Mon Jan 19 21:47:46 2026 +0100
+
+    Added updateLanguage method to every controller to update their respective ui elements to the newly selected language.
+
+[33mcommit f1e5f4218c11696f780290a5064d875cee6a17d3[m
+Merge: ffa20df ccdace5
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Mon Jan 19 21:26:33 2026 +0100
+
+    rebased main into feature branch
+
+[33mcommit ffa20df24e161ce35ab865e2a08226253c3c2a10[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Mon Jan 19 21:21:11 2026 +0100
+
+    created updateLanguage in MainCtrl
+
+[33mcommit ccdace5108eb2a7952458cd39760275797e86ea8[m
+Merge: 940fbbc ed57443
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Mon Jan 19 13:02:51 2026 +0100
+
+    Merge branch 'fixRenameRecipe' into 'main'
+    
+    Modified ServerUtils for renameRecipe() to use commons.request package
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!70
+
+[33mcommit ed57443557dafa409fea6e7807910454d678e88a[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Mon Jan 19 09:11:20 2026 +0100
+
+    Modified ServerUtils for renameRecipe() to use commons.request package
+
+[33mcommit 940fbbc1213d4886e4dbcdda7e917b9e44689fc6[m
+Merge: e10450b 7c3e952
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Mon Jan 19 08:56:54 2026 +0100
+
+    Merge branch 'autoPropagateMessages' into 'main'
+    
+    Automated Change Synchronization via WebSockets
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!69
+
+[33mcommit 8cda62697c2f293f24d0399b6333b02d7a44348f[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Mon Jan 19 05:56:22 2026 +0100
+
+    Fixing favorite recipe removal popup for propagation based deletion
+
+[33mcommit 0bf4cbb68ce3b268b00d3d89acb13dc614bc0148[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Mon Jan 19 05:31:12 2026 +0100
+
+    Adding notifications for informing clients about propagation
+
+[33mcommit 9810d5ad7b45ac67ef8799689509fbbd87b0b80a[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Mon Jan 19 05:27:32 2026 +0100
+
+    Adding recipe propagating in delete recipe, shopping list scenes
+
+[33mcommit 7c3e9523d40b911bd23855ae908eec0949a794e5[m[33m ([m[1;31morigin/autoPropagateMessages[m[33m, [m[1;32mautoPropagateMessages[m[33m)[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Mon Jan 19 03:28:42 2026 +0100
+
+    Proper message distribution to controllers and methods for singular recipe refreshes
+
+[33mcommit 4852028bd6be3aa399c938d960e6ab0a5e7eda3f[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Mon Jan 19 03:22:59 2026 +0100
+
+    adding a RECIPE_ADDED message method, that updates scene viewlists
+
+[33mcommit f9e92e1e86c1ab6a7154d4d7bf9dbe38bf81893a[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Mon Jan 19 00:47:35 2026 +0100
+
+    Making lastselectedRecipe accurate for refreshals
+
+[33mcommit dc91aa5c83ea34657156be64b6e6fe0b109d751a[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Sat Jan 17 03:55:20 2026 +0100
+
+    adding method calls based on websocket message for correct refreshes
+
+[33mcommit 090ba728fd8c6f8096b71b647ef3949f7e232e46[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Sat Jan 17 02:00:02 2026 +0100
+
+    Added a simple websocket message handler method in the mainctrl
+
+[33mcommit 821fbaeec880514441bc8ee24c871315ccdde61f[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Sat Jan 17 01:43:46 2026 +0100
+
+    Adding server side message sending to client when update
+
+[33mcommit 6f80b6f07813480b44630ed42a0bc29f3d98a72d[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Sat Jan 17 01:05:57 2026 +0100
+
+    Making the util and handler into one class to avoid to much dependencies for low scale project
+
+[33mcommit 5174e3a758e42716d714a08be6dd683e86a03f54[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Sat Jan 17 00:22:50 2026 +0100
+
+    Fixing dependencies, DI and how websocket is started
+
+[33mcommit e10450b7cb4661f3f47338f01b135f9bcf6b29a4[m
+Merge: 5748c4a 17fa3c3
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 16 23:14:29 2026 +0100
+
+    Merge branch 'webSocketSpringRefactor' into 'main'
+    
+    Refactoring from jakarta managed web Socket to Spring
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!68
+
+[33mcommit 17fa3c368baa50026112494fd7b74e8b608c047a[m[33m ([m[1;31morigin/webSocketSpringRefactor[m[33m, [m[1;31morigin/autoPropagationMessages[m[33m, [m[1;32mwebSocketSpringRefactor[m[33m)[m
+Merge: 88526bb 5748c4a
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 16 23:03:17 2026 +0100
+
+    Merge branch 'main' into autoPropagationMessages
+
+[33mcommit 88526bb702e7a0a2c53c8532d12d884bd1c91a83[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 16 23:01:03 2026 +0100
+
+    last refactor before pushing, deleting old jakarta method calls
+
+[33mcommit cfae890eabd45721c2a7e05ec479555814aa7035[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 16 23:00:32 2026 +0100
+
+    Fixing checkstyle in client and server classes
+
+[33mcommit 1e95dfd996b3de60aa5b0ab5cae4412be20cbe45[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 16 22:43:54 2026 +0100
+
+    Refactoring client endpoint so it uses spring websocket and its method calls + message handler and dependencies
+
+[33mcommit 5748c4a9c93f6f2f5586b88cae545bce449b85b5[m
+Merge: a37b16b a6de8c4
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 22:42:13 2026 +0100
+
+    Merge branch 'downloadShoppingList' into 'main'
+    
+    Download shopping list
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!67
+
+[33mcommit a37b16b93f3bc3f7cecc60ee02fb02a28260e358[m
+Merge: 94b9717 5ecc274
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 16 22:39:51 2026 +0100
+
+    Merge branch 'Scale-button' into 'main'
+    
+    user scale input button
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!66
+
+[33mcommit a6de8c4dcb7243783e1e458319d561523da325f6[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 22:29:02 2026 +0100
+
+    Developed the UI for download Shopping List also including png for it
+
+[33mcommit e59d53cefd58f14134cb8386362010e1e2742f7f[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 16 22:26:20 2026 +0100
+
+    git changing refactor files so they work for spring managed web socket
+
+[33mcommit 0fad2254cc23b21a6bf71be6047fb11a201ad4ff[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 16 22:25:47 2026 +0100
+
+    Adding recipe handler for socket messages to subscribers
+
+[33mcommit 77da88e533823b66e4f415eff6351925ae71d88d[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 16 22:25:08 2026 +0100
+
+    adding service for recipe socket autowiring
+
+[33mcommit 2877ea8cfeffee8f75e1c19efc0658ddfd74e9ae[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 16 22:22:26 2026 +0100
+
+    Deleting Jakarta managed WebSocket as it is against Tech assement requirements, need to use spring webSocket
+
+[33mcommit 87fadfb9eb1c7030822e900c32b0190bbb0e068d[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 16 22:08:00 2026 +0100
+
+    Added all the contents of webSocketConfig to config file to not be redundant
+
+[33mcommit 5ecc274d977d08ff00e6b7df4af951207ba50246[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 16 22:03:29 2026 +0100
+
+    user scale input and a test
+
+[33mcommit 387cff86e23ddac9cf5869f340f8c5f7592c0d68[m
+Merge: b73b6ec f885a5a
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 21:44:21 2026 +0100
+
+    Merge branch 'main' into downloadShoppingList
+
+[33mcommit 94b9717ec0d0e6cb87235441307f77b01618ccd9[m
+Merge: f885a5a fcacff6
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 16 21:39:41 2026 +0100
+
+    Merge branch 'nutrition-frontend' into 'main'
+    
+    Nutrition frontend
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!63
+
+[33mcommit f885a5a3d704aa1166fc7b50575b2777d12a38cb[m
+Merge: 65c3d13 b8473fd
+Author: Boyan Georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Fri Jan 16 21:38:03 2026 +0100
+
+    Merge branch '40-testing-server-controllers' into 'main'
+    
+    Resolve "Testing server controllers"
+    
+    Closes #40
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!64
+
+[33mcommit 65c3d13a0f8b94b48c6be496e2854f1a0ba78c1a[m
+Merge: 0bcb3af 4e6f1f3
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 21:34:20 2026 +0100
+
+    Merge branch 'renameRecipe' into 'main'
+    
+    Merge renameRecipe into main
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!65
+
+[33mcommit 4e6f1f37088c04fcff0d417986bb051f3c416d91[m
+Merge: 907bf65 0bcb3af
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 20:52:16 2026 +0100
+
+    Merge branch 'main' into renameRecipe
+
+[33mcommit 907bf653cb3f1ee8a322800fba05e93887b1af3d[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 20:51:00 2026 +0100
+
+    Linked the pencil icon with the rename recipe button
+
+[33mcommit 21911f3a0d311a3f298ec18eecb0cf895922d35d[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 20:42:37 2026 +0100
+
+    Refactored okClone to okRecipe since it is the same function used for rename recipe
+
+[33mcommit be64852c6251424c714c8c8f5d1b4faacdc8a83f[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 20:38:41 2026 +0100
+
+    Updated UI for rename recipe
+
+[33mcommit a6c0ccf0ec412257f7140ad5de6bbf7163d7e699[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 20:29:49 2026 +0100
+
+    Refactored common uses of cloneRecipe and renameRecipe to just recipe
+
+[33mcommit 5dc4d2b368ad19b1bc98aeeb9d84e66a8431054a[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 20:19:24 2026 +0100
+
+    Extended clone recipe logic to work for rename recipe
+
+[33mcommit a6d7695148a2e5bd65e574f5f8e487eddccf4096[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 20:02:12 2026 +0100
+
+    Added refresh in ServerUtils
+
+[33mcommit 0bcb3af62c8ec7f4c320df5859ad2fba7a9f25aa[m
+Author: Agata Stępińska <a.m.stepinska@student.tudelft.nl>
+Date:   Fri Jan 16 17:32:46 2026 +0100
+
+    Uploading feedback, week 8
+
+[33mcommit b8473fde98b8eec07663a085d345ebbf5adb7546[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Fri Jan 16 13:54:19 2026 +0100
+
+    Added a few more tests
+
+[33mcommit 16cecf88cc2f0109674b2dff27ad18f9cffb42b8[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Fri Jan 16 13:42:00 2026 +0100
+
+    Removing some unused imports
+
+[33mcommit 8cde695eae9c2ab1d6040c30e7b8b0fc696e1c21[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Fri Jan 16 13:39:31 2026 +0100
+
+    Replaced old tests with new mock tests for ingredientintrecipecontroller
+
+[33mcommit fcacff6a077183dee06fb834f45aea4b3863ee03[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 16 12:33:47 2026 +0100
+
+    Missing javadoc and missing macro
+
+[33mcommit 63fc80fc77c266db0df6e6e108c79964fb8ca18b[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Fri Jan 16 12:28:07 2026 +0100
+
+    Added tests for ingredient controller
+
+[33mcommit bd9b4d3c34a026528af881fd97dc9601765fe82b[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 16 12:16:11 2026 +0100
+
+    User input scaler
+
+[33mcommit 6709effa48ebc5abe201bd7ac30fbcb158cdfe49[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 16 12:03:52 2026 +0100
+
+    Calculator for the macros
+
+[33mcommit 25a25937baa315eaff749e21a114c7604b7c095b[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 16 11:59:32 2026 +0100
+
+    Calculator for Recipe
+
+[33mcommit 62961c329c41671eba8d0502ec2c413afa07c5ed[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 16 11:55:30 2026 +0100
+
+    Scaler for recipe
+
+[33mcommit 42ab9254d7d59a0205885dcde584aeffa4a6dd91[m
+Merge: a5c4d11 b424703
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 11:28:35 2026 +0100
+
+    Merge branch 'enhanceServerUtils' into 'main'
+    
+    Redo ServerUtils
+    
+    Closes #43
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!62
+
+[33mcommit a5c4d11ca9f5288777a93f204a4a58735d1fe73c[m
+Merge: 1cb168c fad6122
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 16 11:23:06 2026 +0100
+
+    Merge branch 'JSONSpringBootControllerImplementation' into 'main'
+    
+    Using Spring Boot JSON Parser for Backend Controllers
+    
+    Closes #42
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!61
+
+[33mcommit 98b098dd53ad5e2fa2f7a934a688eeaec396cedf[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Thu Jan 15 19:57:52 2026 +0100
+
+    Added edit icon button picture
+
+[33mcommit b73b6ecac98020d35a16a55de1c301ec43751c18[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 10:30:02 2026 +0100
+
+    Deprecated old print methods
+
+[33mcommit 1297e9d26d0760856b8812de3668aafd0a7125e0[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 16 09:20:53 2026 +0100
+
+    Implemented Printable interface with ShoppingList.java
+
+[33mcommit b42470313b4a9885536c0928b80488ffb48b0db4[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 02:29:04 2026 +0100
+
+    Modify ServerUtils to work with new request mapper
+
+[33mcommit 386c765c9c4f243208f7dfae8f9def5ac2eb0960[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 02:26:18 2026 +0100
+
+    Make add/delete recipe with with the new request mapper
+
+[33mcommit 80bc94db0372dd27aabe58670e9c0292c629a341[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 02:24:25 2026 +0100
+
+    Make IngredientController work with the Request Mapper of ServerUtils
+
+[33mcommit b31aa8dcd7176139920a12a219aa6c1bb166e2fb[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 01:57:38 2026 +0100
+
+    Javadoc
+
+[33mcommit 16da5aedf70d52e296503e583b2b8935dccbbe0d[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 01:53:44 2026 +0100
+
+    Making methods for generalizing post/get requests
+
+[33mcommit fad61220bd602f01517818015d2c91bf2ebf3150[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 00:58:45 2026 +0100
+
+    Fixed incorrect javadoc comments in new request classes, <3 Checkstyle..
+
+[33mcommit ac394494b49bb9a3bda365e09bfc77c5cff6b6a2[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 00:54:42 2026 +0100
+
+    Add request attribute descriptions
+
+[33mcommit 5979b24df7b3b14033a39d95b88fc4e4a8b5a62c[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 00:45:36 2026 +0100
+
+    Change IngredientInRecipeController to use custom objects instead of multiple string/int parameters
+
+[33mcommit b6c3bab78bed0fea0b01ae1e3e5f37c71a050b61[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 00:17:47 2026 +0100
+
+    Used wrong class by accident, fixing
+
+[33mcommit 814cba15e283d371f502ba151a312ab76b80d592[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 00:10:17 2026 +0100
+
+    Modify serverutils to use new request objects
+
+[33mcommit 6f6107428beb52dd3cd9fd5c5b6d98f021a4dcec[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 00:09:49 2026 +0100
+
+    Reverting PreparationStepController/list back to requestparam cause its a get request
+
+[33mcommit 6b652de27e9fec09c1e9129aa7d18aa877c96526[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 16 00:09:25 2026 +0100
+
+    Reverting PreparationStepController/list back to requestparam cause its a get request
+
+[33mcommit 764ed73140c27334979c031071f5a6d81563e7d4[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Thu Jan 15 23:59:15 2026 +0100
+
+    Change PreparationStepController to use custom objects instead of multiple primitive types + also testing new functions
+
+[33mcommit e272593fcc21458037dfe52481ac1ebb962c9332[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Thu Jan 15 23:38:38 2026 +0100
+
+    Fix issues in tests caused by new RecipeController parameter objects
+
+[33mcommit 2060bddb2b93dcd2f5d5ccf7458212d176aa2d79[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Thu Jan 15 23:38:19 2026 +0100
+
+    Modify ServerUtils for new RecipeController
+
+[33mcommit b4dbe12a69270c4715c24dfa7c0b350b2d0fa866[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Thu Jan 15 23:37:55 2026 +0100
+
+    Change primitive fields in RecipeController to custom Object field for Spring JSON handling
+
+[33mcommit bb9fc7f1bd0e7a6830bbf6b816ebff7e72d8c847[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Thu Jan 15 23:23:38 2026 +0100
+
+    refatored MainCtrl initialse method
+
+[33mcommit f21616332e87b7978c781e422972669181ad70ab[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Thu Jan 15 23:09:21 2026 +0100
+
+    refactoring client.Main
+
+[33mcommit 1cb168c4d4b96a391ad3cf6749c9d12d38eac2c6[m
+Merge: 0a64b39 ea4e72a
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Thu Jan 15 23:08:49 2026 +0100
+
+    Merge branch 'agenda' into 'main'
+    
+    agenda week 8
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!60
+
+[33mcommit ea4e72a3dc1e8732aca9c8baa81c276d15195b1c[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Thu Jan 15 20:29:27 2026 +0100
+
+    agenda week 8
+
+[33mcommit 0a64b39b461af6da5fb9ec50f57b7045e6396bbd[m
+Merge: e76e4a7 148311a
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Thu Jan 15 20:17:28 2026 +0100
+
+    Merge branch 'downloadRecipe' into 'main'
+    
+    Download Recipe completed
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!54
+
+[33mcommit 148311a5252b952ae7fd246ee883236ea70e86af[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 14 09:44:02 2026 +0100
+
+    Fixed issue caused by merge conflicts from main
+
+[33mcommit f3c6e29e8c598615fdf6b9c6ce885a370dbdcab1[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 14 09:39:26 2026 +0100
+
+    Added bundle to FXML.load
+
+[33mcommit fe4f4d6bac93b51f071213ac44a9cbb91eff310d[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Tue Jan 13 20:32:47 2026 +0100
+
+    Added enter button funcionality to search bar
+
+[33mcommit 44ae8a4ebc89d1573669a4059dcf5e1dd7f9ff8e[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Tue Jan 13 20:21:56 2026 +0100
+
+    Hitting enter when on save scene now calls save() method
+
+[33mcommit 6313bd7d1786aa7fecefbd9cf3a9462495f42d7f[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Tue Jan 13 17:28:54 2026 +0100
+
+    Added the download button and download scene
+
+[33mcommit 48e694072078723ba566439a726bb9fc29010930[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Mon Jan 12 17:19:32 2026 +0100
+
+    Added print-button to RecipeOverview
+    
+    # Conflicts:
+    #       client/src/main/java/client/scenes/RecipeOverviewCtrl.java
+    #       client/src/main/resources/client/scenes/RecipeOverview.fxml
+
+[33mcommit e76e4a70f1086bdf82bab8de693e9ec2b87a7ec3[m
+Merge: 6c6a511 f6a4502
+Author: Tushit Jain <t.jain-3@student.tudelft.nl>
+Date:   Thu Jan 15 18:09:21 2026 +0100
+
+    Merge branch 'finishingOtherLanguages' into 'main'
+    
+    Adding language tags for German, Dutch and Spanish
+    
+    Closes #36
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!59
+
+[33mcommit 6c6a511dd4e6a814d58e3544c0b374ff34e76327[m
+Merge: 7d0ee37 90773df
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 15 17:18:35 2026 +0100
+
+    Merge branch 'useSpringBootStringValidation' into 'main'
+    
+    Implementing Spring Boot backend input validation
+    
+    Closes #41
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!55
+
+[33mcommit f6a4502d0d63679f1c413165be412c70e3f973dc[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Thu Jan 15 15:13:22 2026 +0100
+
+    adding language tags for German, Dutch and Spanish
+
+[33mcommit 7d0ee376c87b63b4585f5144787a6a01c559063e[m
+Merge: 51e8858 dd693c2
+Author: Boyan Georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Thu Jan 15 14:37:56 2026 +0100
+
+    Merge branch 'AddingImport' into 'main'
+    
+    Added a missing import
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!58
+
+[33mcommit dd693c23837b56a2f00744a416af55ca0636213c[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Thu Jan 15 14:33:45 2026 +0100
+
+    Added a missing import
+
+[33mcommit 51e8858fe82e2ca53ff4ec82dc059e1c3b3f80e2[m
+Merge: a931131 0dc9175
+Author: Boyan Georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Thu Jan 15 14:26:41 2026 +0100
+
+    Merge branch 'fixingButtonsAndFavs' into 'main'
+    
+    Fixed teh delete and edit buttons and added error pop up to refresh
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!57
+
+[33mcommit a9311312ad2e155b4c8f6d874357aa75ee37eb9e[m
+Merge: 11a374f c2d922d
+Author: Tushit Jain <t.jain-3@student.tudelft.nl>
+Date:   Thu Jan 15 12:34:08 2026 +0100
+
+    Merge branch 'languageDropDown' into 'main'
+    
+    added a ComboBox element to the Recipe Overview and dybnamically added flag icons to it.
+    
+    Closes #32
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!56
+
+[33mcommit 0dc9175f4d7d2771413043ade4294fe360a8cf69[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Thu Jan 15 12:01:15 2026 +0100
+
+    Deleting unused iports
+
+[33mcommit 0a1c5d70e601934b5a30f33742ed35e57fc023de[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Thu Jan 15 00:01:23 2026 +0100
+
+    Fixing bugs with placement
+
+[33mcommit ac8ceac147b7f2de727621904d9837e39710d98d[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Wed Jan 14 20:56:05 2026 +0100
+
+    Fixed button visuals
+
+[33mcommit f6d9b5e3b10a1dfa9b0f9de0fa13c54d8819dce6[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Wed Jan 14 14:09:15 2026 +0100
+
+    Added pop-up for favorite recipe removal to be called on in refresh
+
+[33mcommit d6947d9196821250c1a9aa7c50c1596bade13d41[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Mon Jan 12 23:12:03 2026 +0100
+
+    Removed the alerts
+
+[33mcommit 96b5c9dcc7e305bdb4eed7bf83d65d5c4108f285[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Mon Jan 12 22:36:26 2026 +0100
+
+    Added checks for clone
+
+[33mcommit 12591b44b992b103f428a6a74f41d08136855108[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Mon Jan 12 22:20:40 2026 +0100
+
+    Changed so that recipes refresh every time
+
+[33mcommit 11a374fa96eb40878f678b5957645710755a4fb6[m
+Merge: ed1c0b9 42bfc7c
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Wed Jan 14 23:42:33 2026 +0100
+
+    Merge branch 'webSocketImplementation' into 'main'
+    
+    Initial WebSocket-based Change Synchronization
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!53
+
+[33mcommit c2d922d39e248e1a3c87c43985300ea5cb7be84e[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Wed Jan 14 23:13:59 2026 +0100
+
+    added a ComboBox element to the Recipe Overview and dybnamically added flag icons to it.
+
+[33mcommit 90773dfda6767783712e6d759f966ceac99c0eb8[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Wed Jan 14 22:59:14 2026 +0100
+
+    Cleanup some unused classes
+
+[33mcommit b1e5228752a73dfd950f8d3075ae9cc78b26c80e[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Wed Jan 14 22:55:08 2026 +0100
+
+    Use spring boot validation for RecipeController instead of manual java validation
+
+[33mcommit 6b45118b82d38881e0fc8c1f2da07e5c0899fd99[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Wed Jan 14 22:51:50 2026 +0100
+
+    Use spring boot validation for PreparationStepController instead of manual java validation
+
+[33mcommit 82b82a8c0ec3dc4eadadbabfdee2edb8441eb94e[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Wed Jan 14 22:45:31 2026 +0100
+
+    Use spring boot validation for IngredientController instead of manual java validation
+
+[33mcommit 42bfc7c0ceec53ff8541585b2bbbc32beeb28c77[m[33m ([m[1;31morigin/webSocketImplementation[m[33m, [m[1;32mwebSocketImplementation[m[33m)[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 13 22:18:38 2026 +0100
+
+    Reverting to old test and adding a no arg constructor in main control for them
+
+[33mcommit 440cee2110abdfb6323f3e9e04a5492130242db5[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 13 21:41:27 2026 +0100
+
+    Fixed failling test controller
+
+[33mcommit 478587450b7cc61ade84393632b1d9d29d0847e5[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 13 21:17:23 2026 +0100
+
+    Fixing server side dependencies and adding config for web socket recognition
+
+[33mcommit c9daacae349dff6c21d38cff000b45d883249c80[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 13 20:37:44 2026 +0100
+
+    Fixing checkstyle and dependency issues
+
+[33mcommit 11174a4be766696935eb907627b99e38c54eaae1[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 13 19:38:17 2026 +0100
+
+    Adding logic for refresh selected recipe content when ingredient edited or added
+
+[33mcommit b4ebca781028cf98c713784f6e886e415c1559bc[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 13 18:28:31 2026 +0100
+
+    Adding distribution logic for all possible web socket messages
+
+[33mcommit ac3ce0a209644ba51854dcb575728000bbd8a1c4[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 13 17:59:27 2026 +0100
+
+    Adding logic for the client side endPoint message parsing
+
+[33mcommit 0e9969b71134838bd22a7fc445adc8163dee1b59[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 13 16:27:43 2026 +0100
+
+    adding a web socket util injection to mainCtrl
+
+[33mcommit 123a8cfd9baf8a9015420d4b4f16cc9d4cbb9f18[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 13 15:29:26 2026 +0100
+
+    Adding both endpoints in client and server for websocket
+
+[33mcommit fd5dc7b62b626c84453c6954fe25ac5369e6de2b[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 13 14:00:04 2026 +0100
+
+    Adding a web socket utils class and its dependencies
+
+[33mcommit ed1c0b98121ff7c77aa4cea5dd89b1addfebc264[m[33m ([m[1;31morigin/38-automated-change-synchronization-via-websockets[m[33m)[m
+Merge: 871d375 4dee387
+Author: Boyan Georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Mon Jan 12 23:16:52 2026 +0100
+
+    Merge branch 'fixFavorites' into 'main'
+    
+    Fixfavorites
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!50
+
+[33mcommit 4dee3873252591cfcb6da42a4f775c53a8798047[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Mon Jan 12 23:12:03 2026 +0100
+
+    Removed the alerts
+
+[33mcommit a3ecbad2ec9d2596c2fb719b4421947118d5815a[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Mon Jan 12 22:36:26 2026 +0100
+
+    Added checks for clone
+
+[33mcommit 871d3759bfc7f1d665bb28698a38216232b6f6c0[m[33m ([m[1;31morigin/fixingButtonsNextToEntries[m[33m)[m
+Merge: 799ff58 733c35e
+Author: Tushit Jain <t.jain-3@student.tudelft.nl>
+Date:   Mon Jan 12 22:35:38 2026 +0100
+
+    Merge branch 'ui-language-tags' into 'main'
+    
+    Added Ui language tags + rebase
+    
+    Closes #23
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!49
+
+[33mcommit aaa5330240f75632e0d5d6d26b7e205a296251e5[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Mon Jan 12 22:20:40 2026 +0100
+
+    Changed so that recipes refresh every time
+
+[33mcommit 733c35e21de14e6ca2752e8ea2b0d82af7c6c430[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Mon Jan 12 18:47:39 2026 +0100
+
+    added language tags for removeRecipe
+
+[33mcommit 6ddce2b500763bf77ec61397a498a6425bfe8fbb[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Mon Jan 12 18:38:49 2026 +0100
+
+    added language tags for shoppingList
+
+[33mcommit cf8d75f26cdfb9fb0fa15827dc77902b5a0e084e[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Mon Jan 12 18:22:50 2026 +0100
+
+    rebased from main and added language tags for edit ingredients window
+
+[33mcommit d6cef068f816770606c6b47d00890009b32b7c43[m
+Merge: 28e1410 799ff58
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Mon Jan 12 18:16:03 2026 +0100
+
+    Merge branch 'main' into ui-language-tags
+    
+    # Conflicts:
+    #       client/src/main/java/client/Main.java
+    #       client/src/main/java/client/scenes/OverviewListCtrl.java
+    #       client/src/main/java/client/scenes/RecipeOverviewCtrl.java
+    #       client/src/main/resources/client/scenes/EditIngredient.fxml
+
+[33mcommit 799ff58fd00804385699ad335986370b247ff58d[m
+Merge: c98b6e3 f4aa5ba
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Mon Jan 12 17:15:15 2026 +0100
+
+    Merge branch 'preparationStepControllerTests' into 'main'
+    
+    PreparationStepControllerTests
+    
+    Closes #33
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!48
+
+[33mcommit f4aa5ba2a6452a12056dbea427ae030471ffaa71[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Mon Jan 12 16:00:01 2026 +0100
+
+    Deprecating functions/classes and deleting TempRecipeService
+
+[33mcommit 3f73f07bdb8a3fb4f3c353ebb5c8dd28dff79625[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Mon Jan 12 15:50:19 2026 +0100
+
+    Add check for preparation step edit and delete controller
+
+[33mcommit 69d0f84e9648ce2e329c7d0ce49dc379ff122994[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Mon Jan 12 15:49:42 2026 +0100
+
+    Remove @AutoWired
+
+[33mcommit 9cadca53080ac842c2b3664d29686578e3747fa2[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Mon Jan 12 15:47:55 2026 +0100
+
+    Fix checkstyle + do check for invalid edit index
+
+[33mcommit 18e1163ea487d046f0bf5def38df923fff1e91d4[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Mon Jan 12 15:42:05 2026 +0100
+
+    Check against null recipes, remove unused checks
+
+[33mcommit 7ef2f6436d4a73d3ac4ed2f7ba5aeecfc7b92ca9[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Mon Jan 12 12:59:07 2026 +0100
+
+    Adding tests for prepartionstepcontroller (list/add)
+
+[33mcommit 1c962fbe0860f3ba869fc6c555f06f4bc06df454[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Mon Jan 12 12:58:28 2026 +0100
+
+    Add get recipebyid function that returns null instead of throwing an error
+
+[33mcommit b886c223248493511bc218ea2587c2fa5d77d6bb[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Mon Jan 12 12:57:49 2026 +0100
+
+    Fix check for non-existing recipes
+
+[33mcommit c98b6e3f9c2c40d5748be8e5b95ef3d611f0c134[m
+Merge: ec6508f 6c51569
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Sat Jan 10 22:22:53 2026 +0100
+
+    Merge branch 'scaling' into 'main'
+    
+    Scaling
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!47
+
+[33mcommit 6c515696830cdf1ea1e4d3feb9eeeb943ef99e50[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 9 22:41:45 2026 +0100
+
+    Fixed a small test problem
+
+[33mcommit c30e7fa2db21e4541a4da09b64d73af08271c2e0[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 9 22:38:21 2026 +0100
+
+    scales for recipe and fixed test
+
+[33mcommit ec6508fd327fe36844f000dfaaabedf2132268b0[m
+Merge: 94f1b26 0c83431
+Author: Boyan Georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Fri Jan 9 22:15:38 2026 +0100
+
+    Merge branch 'VisualSignifiersFavs' into 'main'
+    
+    Visual signifiers next to favorited recipes
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!46
+
+[33mcommit 94f1b26052787102b0807f2d7f8090c6f69d12a1[m
+Merge: 080cee4 93c390e
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 9 22:10:40 2026 +0100
+
+    Merge branch 'printToFile' into 'main'
+    
+    Merging printToFile into main
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!45
+
+[33mcommit 0c83431af45771b0b30b6b30ab8c67ac60c3203a[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Fri Jan 9 21:54:08 2026 +0100
+
+    Now a star label is shown in the overview next to starred recipes
+
+[33mcommit 6e4f291ba3219130bbc416724bd01805d3b6f7d0[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 9 22:02:47 2026 +0100
+
+    scales the ingredients in a recipe
+
+[33mcommit 93c390e982388b63075873c9b8de5db2d963de72[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 9 21:47:46 2026 +0100
+
+    Fixing failing test causing pipeline fail
+
+[33mcommit 9428454500a7f3ec93d2b27e802d6b595396ab1d[m
+Merge: 9185400 bec836f
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 9 21:44:11 2026 +0100
+
+    Merge branch 'main' into printToFile
+
+[33mcommit 080cee4446e028c32a87f4aff642d755cac3728e[m
+Merge: bec836f ff629f4
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 9 21:43:08 2026 +0100
+
+    Merge branch 'changingReadme' into 'main'
+    
+    Changing global readMe file
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!44
+
+[33mcommit 9185400577a3ddacbc7493d30215f6c30a442913[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 9 21:39:57 2026 +0100
+
+    Solving issue of merge after a previous revert
+
+[33mcommit ff629f4c3ecd84816647f901029e8a8fe3108f8a[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 9 21:38:11 2026 +0100
+
+    Add link
+
+[33mcommit f5e3bcb2b15d5aa9fca1e2431b94fb27508cc46b[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 9 21:33:49 2026 +0100
+
+    Changing global readMe
+
+[33mcommit f5333379295d86347790aaf517388ef788885b7d[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 9 21:27:29 2026 +0100
+
+    Fixing merging issue
+
+[33mcommit 464e3a860f70f3b8ed64e4eaaff7fd01e1bff553[m[33m ([m[1;31morigin/nutrition-total[m[33m)[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 9 21:27:04 2026 +0100
+
+    Calculate the total per recipe
+
+[33mcommit bec836ff66ba9b09e875af78afcabd5887c31dcc[m
+Merge: 7353dfe efe9911
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 9 20:52:03 2026 +0100
+
+    Merge branch 'revert-7353dfe6' into 'main'
+    
+    Revert "Merge branch 'saveToFileBackend' into 'main'"
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!43
+
+[33mcommit efe99117527d3bbb469de0bb3cd7e8a4298f15aa[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 9 20:48:04 2026 +0100
+
+    Revert "Merge branch 'saveToFileBackend' into 'main'"
+    
+    This reverts merge request !42
+
+[33mcommit 7353dfe63fca52daa5f0fff6fdf7843d954e9d35[m
+Merge: a5d2256 37b1a54
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 9 20:42:30 2026 +0100
+
+    Merge branch 'saveToFileBackend' into 'main'
+    
+    Merging backend of print recipe
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!42
+
+[33mcommit a5d22566d1c778a2e18f7682ec4f03a047a742a0[m
+Merge: 12fce65 5158c06
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 9 20:21:10 2026 +0100
+
+    Merge branch 'nutrition-values-scaling' into 'main'
+    
+    Values scaling
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!41
+
+[33mcommit 5158c0624c09956daeb8ff01389a345332cd7815[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 9 18:02:44 2026 +0100
+
+    small changes so 1000 gram is now 1kg
+
+[33mcommit 5cc8ac6d897e7ea4526dcf536facb7e2164680de[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 9 17:32:30 2026 +0100
+
+    small changes so 1000 gram is now 1kg
+
+[33mcommit 12fce656e5d263a5f1fd645e3fd25ec79b71ab97[m
+Author: Agata Stępińska <a.m.stepinska@student.tudelft.nl>
+Date:   Fri Jan 9 16:51:36 2026 +0100
+
+    Uploading corrected feedback for week 7
+
+[33mcommit f955a9f0fbbf084dd170cca693848c6b58170789[m
+Author: Agata Stępińska <a.m.stepinska@student.tudelft.nl>
+Date:   Fri Jan 9 16:50:28 2026 +0100
+
+    Delete meeting-07-team-10.md
+
+[33mcommit 002c811491ca936693224bbc58a3470a48dd14dd[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 9 16:40:10 2026 +0100
+
+    Small change 1000 gram is now 1kg
+
+[33mcommit 062c9dcd2c3fcba2b1065998c9aee76e03695915[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 9 16:35:05 2026 +0100
+
+    Rename minutes week 4 to format
+
+[33mcommit 4935d83093e3afdb5889e49676b6463b9173fc26[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 9 16:31:11 2026 +0100
+
+    Add minutes week 7
+
+[33mcommit 1237cb6b7e0914443b00a0ed87c564bbba564939[m
+Author: Agata Stępińska <a.m.stepinska@student.tudelft.nl>
+Date:   Fri Jan 9 16:22:32 2026 +0100
+
+    Uploading feedback week 7
+
+[33mcommit 0599401854bff62fbd284fc2321fc5a15cde723f[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Fri Jan 9 15:34:10 2026 +0100
+
+    Changing week 9 to week 7
+
+[33mcommit 0a4df9038e3db7c381141e67e24b5d9b820631cb[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Fri Jan 9 15:30:47 2026 +0100
+
+    Small change 1000 gram is now 1kg
+
+[33mcommit 37b1a54532b58fe587fc8ffab3234f2d2e524a55[m[33m ([m[1;31morigin/saveToFileBackend[m[33m)[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Fri Jan 9 13:08:06 2026 +0100
+
+    Fixed checkstyle violation causing pipeline fail
+
+[33mcommit 83b8adbf42e1364468a95eff4cada1dcfc987560[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Fri Jan 9 03:33:21 2026 +0100
+
+    Fixed stuff with the gitignore again
+
+[33mcommit 10a41fd0c41e33cfb4ee43c414f400474e106eb4[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Fri Jan 9 00:43:39 2026 +0100
+
+    Stop tracking starred_recipes.txt
+
+[33mcommit 63922c8a1a979606cb75625ad5797950048a63e2[m
+Merge: 107ccb0 c4fa324
+Author: Boyan Georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Thu Jan 8 21:38:23 2026 +0100
+
+    Merge branch '34-implementing-favorite-recipes' into 'main'
+    
+    Implementing favorites details
+    
+    Closes #34
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!39
+
+[33mcommit 107ccb0e74ac0c56da1159c4e55cc793f611a0b5[m
+Merge: 0eb346a 755fecb
+Author: Boyan Georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Thu Jan 8 21:29:32 2026 +0100
+
+    Merge branch 'prepStepEditButtons' into 'main'
+    
+    Adding edit buttons to a prep step
+    
+    Closes #35
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!38
+
+[33mcommit c4fa324af3f24a481d9743f4e2cda2df6ae0774d[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Thu Jan 8 21:03:25 2026 +0100
+
+    Implementg favorites details
+
+[33mcommit 755fecb1c205083e9f3ddfd848925d6b833dcd83[m[33m ([m[1;31morigin/prepStepEditButtons[m[33m, [m[1;32mprepStepEditButtons[m[33m)[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 8 20:38:31 2026 +0100
+
+    adding  a unit test for the edit preparation step endpoint
+
+[33mcommit bbd25cc3e0a4314ba6d5aff1aa37cd1e38af7414[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 8 20:20:06 2026 +0100
+
+    fixing checkstyle violations
+
+[33mcommit ee972bb85be3d0da23cac748563786eaece6aad5[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 8 20:16:51 2026 +0100
+
+    adding index bound checking for prep step identification
+
+[33mcommit 146531704bebaecbe77ce935406f77d7869bacd6[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 8 20:15:36 2026 +0100
+
+    fixing preparation step refresh, so no server errors occur
+
+[33mcommit 10ea38050324d57009e1677dc69da8a9ac0b1e9d[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 8 19:58:32 2026 +0100
+
+    adding a weak identification with list index as UUID is breaking persistance logic
+
+[33mcommit ff00061e6a7435633037e8f0829727ae262a611f[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 8 19:02:01 2026 +0100
+
+    adding server side endpoint to manange the change/edit of a prep-step
+
+[33mcommit e9e8c8cdd819a47b726e0998f8cac0e30706d364[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 8 18:56:28 2026 +0100
+
+    Adding the full implementation of fron-end prep-step editing
+
+[33mcommit 0210f833977eb81a03bad4fe13aa7bf3418c7b66[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 8 18:31:11 2026 +0100
+
+    Adding a preparation step editing controller
+
+[33mcommit 0eb346a2cb72aa1fb11f774969fba41dfab08954[m
+Merge: 9b785bc 2dd2d08
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Thu Jan 8 18:13:12 2026 +0100
+
+    Merge branch 'test-recipe-controller' into 'main'
+    
+    Adding JUnit Tests For RecipeController
+    
+    Closes #31
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!37
+
+[33mcommit 28e1410654447c1163deab5629ca7107de38f369[m[33m ([m[1;31morigin/ui-language-tags[m[33m)[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Thu Jan 8 18:10:10 2026 +0100
+
+    Adding language tags to OverviewList
+
+[33mcommit 2dd2d089541ceeff7adf65e42f191e928db533ea[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Thu Jan 8 18:05:57 2026 +0100
+
+    Fix conflict in tests
+
+[33mcommit 3bfa11e9d6a2f6a4034831d27b15847c1ce16b43[m
+Merge: aebf6de 9b785bc
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Thu Jan 8 18:03:51 2026 +0100
+
+    Merge branch 'main' of gitlab.ewi.tudelft.nl:cse1105/2025-2026/teams/csep-team-10 into test-recipe-controller
+
+[33mcommit 9b785bcb6efb3adcc52c9eea4ff18e172a5878d7[m
+Merge: d342bdd 3985cfb
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Jan 8 18:02:46 2026 +0100
+
+    Merge branch 'editButtonRefactoring' into 'main'
+    
+    Refactoring edit button
+    
+    Closes #26
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!36
+
+[33mcommit eee2d56c5d394420684924eb1295816c56fb9b70[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Thu Jan 8 18:01:34 2026 +0100
+
+    Adding language tags to EditIngredient
+
+[33mcommit e877e67a16f2b8ba9499eea6308b2389c64c85cb[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Thu Jan 8 17:36:18 2026 +0100
+
+    Adding language tags to AddRecipeIngredientsOverview
+
+[33mcommit 999e28905b958f980c36a7b60449e56fdabf50a3[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Thu Jan 8 17:24:13 2026 +0100
+
+    Adding language tags to AddRecipeCtrl
+
+[33mcommit 7440fcfdf0508e0d69744a3007cfa463e16f10e9[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Thu Jan 8 17:13:50 2026 +0100
+
+    Added labels for addPrepStepCtrl
+
+[33mcommit 74ac69ff747fa2b6c064580681eb1d94c76a8726[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Thu Jan 8 17:04:58 2026 +0100
+
+    adding labels for AddIngredient controller
+
+[33mcommit abeec50d42301ef91d7a18c512c3ed66bcb894ec[m
+Author: Tushit Jain <T.Jain-3@student.tudelft.nl>
+Date:   Thu Jan 8 16:34:20 2026 +0100
+
+    adding language property files for 4 languages and adding tags to OverviewCntrl
+
+[33mcommit d342bdd3a0ee7386ba00c424ce2189fd10249231[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 7 20:32:52 2026 +0100
+
+    Adding agenda for week 7
+
+[33mcommit aebf6de6f648898e689957bf00494a541ab4bb88[m[33m ([m[1;31morigin/test-recipe-controller[m[33m)[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Wed Jan 7 15:12:59 2026 +0100
+
+    Add tests for Recipe Controller
+
+[33mcommit 90bdc0767775a31a5c18770cab7164911e7dbd9e[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Wed Jan 7 15:12:37 2026 +0100
+
+    Add RecipeNotFoundException
+
+[33mcommit 9a0c8adadc0f098913431a511cbba181306fecf5[m
+Author: Yanick Rietveld <y.r.rietveld@student.tudelft.nl>
+Date:   Wed Jan 7 15:12:15 2026 +0100
+
+    Removed unnecessarry tests (Spring Boot already checks)
+
+[33mcommit 19be59a38ca0dadd26a75ac47e09a31833217444[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 7 14:25:10 2026 +0100
+
+    Implemented the indexing method in Recipes class
+
+[33mcommit b16ecfd9a698c65b46693392f117af23cf3484d8[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 7 12:04:58 2026 +0100
+
+    Completed the print method including save to file and created test for it
+
+[33mcommit 64b97d39f2ea7cd9673999aaf3a95f00bc1c4a21[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 7 08:43:05 2026 +0100
+
+    Completed the implementation of Printer.print(thing) method
+
+[33mcommit 4d4897730d9302e1b7b849e3c9a012249d4f7f8e[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 7 08:14:17 2026 +0100
+
+    Created class Printer with Print method that will download a file based on the Printable Object
+
+[33mcommit a3a85287c97ed8d1200310e5f7b6d47b46dfd3f8[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 7 08:13:27 2026 +0100
+
+    Created the Printable Interface
+
+[33mcommit ea70bdacda808b9aecfdbadfa0689247ee14b6b4[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Jan 7 08:11:10 2026 +0100
+
+    Created enum ReadmeOptions
+
+[33mcommit 3985cfbc83f6ffc892d625a3edc53d7cbb2ce0dc[m[33m ([m[1;31morigin/editButtonRefactoring[m[33m, [m[1;32meditButtonRefactoring[m[33m)[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 22:26:05 2026 +0100
+
+    adding color changes in overviews for buttons
+
+[33mcommit a42f992698f97317b48245bfb648fce0cae710d4[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 22:20:11 2026 +0100
+
+    fixing checkstyle violation- unused import
+
+[33mcommit 6a3dd10544760299772f79a42a396d2350a4c21e[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 22:17:10 2026 +0100
+
+    added a test for the edit post endpoint
+
+[33mcommit 07b34137566de72b898f89d6382cf17e14573152[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 22:14:33 2026 +0100
+
+    Added a post endpoint for editing an ingredient in a recipe
+
+[33mcommit e8c64eb8df28ce6435b949d0b870c2ef15cba025[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 20:50:11 2026 +0100
+
+    Adding edit ingredient button to shopping list, fixing functionallity
+
+[33mcommit 87910021d200b8dcc312a48cba6323842de3f84b[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 20:43:53 2026 +0100
+
+    Fixed formating for recipe overview edit buttons
+
+[33mcommit cd0ccb11fde7019bf2cc29f31f813423c4f18f49[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 20:39:39 2026 +0100
+
+    Made all the controller, parent pairs pased to mainCtrl be all in a hashmap
+
+[33mcommit 40f5b119a8e06ce354019a51e1a0dc60a55a719f[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 20:06:53 2026 +0100
+
+    Fixing edit button spacing
+
+[33mcommit 53059c4c716041d8204efc5abf8d753d8c149c3a[m[33m ([m[1;31morigin/34-implementing-favorite-recipes[m[33m)[m
+Merge: 8d68f70 0844ea7
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 18:09:22 2026 +0100
+
+    Merge branch 'editButtonImplementation' into 'main'
+    
+    Edit button implementation
+    
+    Closes #26
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!35
+
+[33mcommit 0844ea7d0c7eeacc6bd6cb5dcb7d20c969b83b94[m[33m ([m[1;31morigin/editButtonImplementation[m[33m, [m[1;31morigin/edit-button-implementation[m[33m, [m[1;32meditButtonImplementation[m[33m, [m[1;32medit-button-implementation[m[33m)[m
+Merge: 62c44bf 8d68f70
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 16:46:08 2026 +0100
+
+    Merge branch 'main' into edit-button-implementation
+
+[33mcommit 8d68f70d65c3411996f4e132b2a29997bcf88dcd[m
+Merge: 64292bf 1cfb8f5
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 16:43:53 2026 +0100
+
+    Merge branch 'cloneRecipe' into 'main'
+    
+    Cloning recipes implemented
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!33
+
+[33mcommit 62c44bfacdc5ab85a80ffec73f70ab8fb6823ffd[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 16:11:06 2026 +0100
+
+    TODO comment
+
+[33mcommit 7435d5957ade34e0c71aa6a8d9a96516cbbbe608[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Jan 6 16:03:48 2026 +0100
+
+    Fixing recipe name display  in shopping list
+
+[33mcommit 1cfb8f58cae8342855150e69f7a45d81bf4d1fd4[m[33m ([m[1;31morigin/cloneRecipe[m[33m)[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Mon Jan 5 18:33:42 2026 +0100
+
+    Added a Server test for testing the API controller clone endpoint
+
+[33mcommit b2f16f145aba9c178d7f4dc2878311aa45881d2c[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Mon Jan 5 18:05:21 2026 +0100
+
+    Added commons tests for the new method CloneRecipe in Recipes class
+
+[33mcommit 3c47064fb1240aa471623eceb445d967385714c4[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Mon Jan 5 17:58:18 2026 +0100
+
+    Created a clone button and text field in RecipeOverviewCtrl. Updated ServerUtils to use the newly created API endpoint
+
+[33mcommit 18f5b71e53d6e732df90eb21c4b7eae2a6f5d2c2[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Mon Jan 5 17:07:26 2026 +0100
+
+    Created a clone method in Ingredients, IngredientsInRecipe, Recipes and PreparationStep classes. Also added a clone API endpoint in the recipe-controller
+
+[33mcommit 64292bf92f2aa91814841662e9e152ef4dfe7753[m
+Merge: e8b15ce 964cdfa
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Sun Jan 4 13:53:53 2026 +0100
+
+    Merge branch 'fixing-server-issue' into 'main'
+    
+    Fixing ingredient storing to stop recursive persistance
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!32
+
+[33mcommit 1ca016f211fc8d114830df645275f5b4bb75442f[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 2 20:13:52 2026 +0100
+
+    fixing last selected recipe logic for overview
+
+[33mcommit 7ea974442593c47033c01b2bc2627fbf9a324843[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 2 19:24:03 2026 +0100
+
+    Fixed fxml layout
+
+[33mcommit 648049adde005ba217779e37f612e87b9fc3c2ab[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 2 12:15:33 2026 +0100
+
+    fixing the addition of an ingredient in the overlay
+
+[33mcommit 0e42d4ed018f5ba3b5b43e663197d2d06b1283e1[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 2 11:54:27 2026 +0100
+
+    Made old values show up in the fields before editing
+
+[33mcommit d750b1b2260b98a5eadb9a8fc902bb1c382bb1fb[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 2 11:36:38 2026 +0100
+
+    edit ingredient control class implementation
+
+[33mcommit 964cdfaebc7202433ce81328a0a40fdc7824bad1[m[33m ([m[1;31morigin/fixing-server-issue[m[33m, [m[1;32mfixing-server-issue[m[33m)[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Jan 2 10:55:23 2026 +0100
+
+    fixing the recusive storing of ingredient
+
+[33mcommit e8b15ce8f1b6d19728040324293a07d348779bd9[m
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Dec 24 13:57:58 2025 +0100
+
+    Revert "Merge branch 'fixing-server-issue' into 'main'"
+    
+    This reverts merge request !31
+
+[33mcommit 5d367211f0392392dcb356bdd6c035fa2192d140[m
+Merge: 88b1813 73f4994
+Author: Kedar Joshi <k.n.joshi@student.tudelft.nl>
+Date:   Wed Dec 24 13:56:22 2025 +0100
+
+    Merge branch 'fixing-server-issue' into 'main'
+    
+    Fixing ingredient storing to stop recursive persistance
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!31
+
+[33mcommit 73f4994854ee255e6b400e0933f9cc2c51ff8fa0[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Tue Dec 23 10:17:48 2025 +0100
+
+    Fixing ingredient storing to stop recursive persistance
+
+[33mcommit 88b1813e69e2f6cd6c6e4b0f70cba6c3f657fc68[m
+Merge: ab31d3c de52b4c
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Sat Dec 20 01:55:40 2025 +0100
+
+    Merge branch 'Implement-overview-for-shopping-list' into 'main'
+    
+    Implement overview for shopping list
+    
+    Closes #25
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!30
+
+[33mcommit de52b4cd898d63a81bfd2cd5a669874bd3818987[m[33m ([m[1;31morigin/Implement-overview-for-shopping-list[m[33m)[m
+Merge: 412b936 ab31d3c
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Dec 19 17:48:33 2025 +0100
+
+    Merge branch 'main' into Implement-overview-for-shopping-list
+
+[33mcommit 412b936f5e3f99aa0ea3dcb0537eab07edfe3b5b[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Dec 19 17:07:01 2025 +0100
+
+    Fixing recipe overview fxml
+
+[33mcommit 5afd634c0c8a6732b0d8f03763577e1e254c8b10[m
+Merge: 90260e0 79f5165
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Dec 19 16:46:56 2025 +0100
+
+    Fixing mr conflict with main
+
+[33mcommit ab31d3c77c15253e91445e0110dfc45a0bd4bef4[m
+Merge: 23b00af b04cda5
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Fri Dec 19 15:48:35 2025 +0100
+
+    Merge branch 'nutrition-values' into 'main'
+    
+    Implemented fat, carbs and protien
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!29
+
+[33mcommit b04cda54a62cc76ff86758c1e360a452f3ad4391[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Thu Dec 18 22:09:51 2025 +0100
+
+    Implemented fat, carbs and protien
+
+[33mcommit 2f2fece605944a541ddc22591b99ad0b5c35be83[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Thu Dec 18 22:04:49 2025 +0100
+
+    Implemented fat, carbs and protien
+
+[33mcommit 7f5c2d701bdfdf2537265d0565246a6b4ed8facc[m
+Merge: 074ef67 23b00af
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Thu Dec 18 21:56:01 2025 +0100
+
+    Merge branch 'main' into 'nutrition-values'
+    
+    # Conflicts:
+    #   client/src/main/java/client/scenes/AddIngredientCtrl.java
+
+[33mcommit 074ef67c584ca657fa0b157702c669e5dbfecf19[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Thu Dec 18 21:54:09 2025 +0100
+
+    Implemented fat, carbs and protien
+
+[33mcommit d988b4132df536e09aff14f67db37a31fccdee1a[m
+Author: Marc de Wilt <m.a.wilt@student.tudelft.nl>
+Date:   Thu Dec 18 21:43:04 2025 +0100
+
+    Implemented fat, carbs and protien
+
+[33mcommit 23b00af73b05c435bab6717f28c47a72a6cd1631[m
+Merge: 79f5165 002db3d
+Author: Boyan Georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Thu Dec 18 21:18:13 2025 +0100
+
+    Merge branch '21-backend-for-ingredients-nutrition-value-and-checking-inputs-2' into 'main'
+    
+    Resolve "Backend for ingredients nutrition value and checking inputs"
+    
+    Closes #21
+    
+    See merge request cse1105/2025-2026/teams/csep-team-10!28
+
+[33mcommit 002db3de4316213183daf56a9b18ca2acb2d1334[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Thu Dec 18 19:02:55 2025 +0100
+
+    Fixed bugs with removal of recipes and bugs with search bar
+
+[33mcommit 79f5165d709399829c3bde90c3f1ed3a131a1174[m
+Author: Matas Stankevičius <m.stankevicius@student.tudelft.nl>
+Date:   Thu Dec 18 17:46:13 2025 +0100
+
+    Adding week 6 minutes
+
+[33mcommit 1d7716706030cab94c4576617eee9daf28a00ecf[m[33m ([m[1;31morigin/21-backend-for-ingredients-nutrition-value-and-checking-inputs-2[m[33m)[m
+Author: boyan georgiev <b.i.georgiev@student.tudelft.nl>
+Date:   Thu Dec 18 17:17:38 2025 +0100
+
+    Added some input checks when adding recipes and ingredients
+
+[33mcommit 1d15f43262ed96b6bc313bec302130c45b226eaf[m
+Author: Agata Stępińska <a.m.stepinska@student.tudelft.nl>
+Date:   Thu Dec 18 16:36:52 2025 +0100
+
+    Uploading feedback week 6

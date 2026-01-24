@@ -28,7 +28,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -90,7 +93,6 @@ public class MainCtrl {
     // to use after refactoring
     private FilteredList<Recipes> filteredRecipes;
     private SortedList<Recipes> sortedRecipes;
-    private ShoppingList shoppingList = new ShoppingList();
     private WebSocketUtils webSocketUtils;
 
     private ConfigHolder config;
@@ -102,7 +104,8 @@ public class MainCtrl {
      * @param webSocketUtils
      */
     @Inject
-    public MainCtrl(WebSocketUtils webSocketUtils, ConfigHolder config) {
+   public MainCtrl(WebSocketUtils webSocketUtils,
+                    ConfigHolder config) {
         this.webSocketUtils = webSocketUtils;
         this.webSocketUtils.connect(this::handleWebSocketMessage);
         this.config = config;
@@ -143,7 +146,6 @@ public class MainCtrl {
         this.overviewCtrl = (RecipeOverviewCtrl) overviewPair.getKey();
         this.overview = new Scene(overviewPair.getValue());
         this.overview.getRoot().setId("overview");
-        this.overviewCtrl.setShoppingList(this.shoppingList);
 
         Pair<?, Parent> addPair = sceneMap.get("addRecipe");
         this.addCtrl = (AddRecipeCtrl) addPair.getKey();
@@ -170,13 +172,11 @@ public class MainCtrl {
         this.shoppingListCtrl = (ShoppingListCtrl) shoppingListPair.getKey();
         this.shoppingListScene = new Scene(shoppingListPair.getValue());
         this.shoppingListScene.getRoot().setId("shoppingList");
-        this.shoppingListCtrl.setShoppingList(this.shoppingList);
 
         Pair<?, Parent> overviewListPair = sceneMap.get("overviewList");
         this.overviewListCtrl = (OverviewListCtrl) overviewListPair.getKey();
         this.overviewList = new Scene(overviewListPair.getValue());
         this.overviewList.getRoot().setId("overviewList");
-        this.overviewListCtrl.setShoppingList(this.shoppingList);
 
         Pair<?, Parent> addRecipeIngredientsPair =
                 sceneMap.get("addRecipeIngredients");
@@ -185,7 +185,6 @@ public class MainCtrl {
         this.addRecipeIngredients =
                 new Scene(addRecipeIngredientsPair.getValue());
         this.addRecipeIngredients.getRoot().setId("addRepIngrs");
-        this.addRecipeIngredientsCtrl.setShoppingList(this.shoppingList);
 
         Pair<?, Parent> addPreparationStepPair =
                 sceneMap.get("addPreparationStep");
@@ -209,7 +208,17 @@ public class MainCtrl {
                 new Scene(editPreparationStepPair.getValue());
 
         this.recipeObservableList = FXCollections.observableArrayList();
-        this.addIngredientCtrl.provideShoppingList(this.shoppingList);
+    }
+
+    /**
+     * Update the language
+     */
+    private void applyCurrentLanguage() {
+        Locale locale = Locale.forLanguageTag(config.get().getLocale());
+        ResourceBundle bundle =
+                ResourceBundle.getBundle("languageBundles.messages", locale);
+
+        updateLanguage(bundle);
     }
 
     /**
@@ -226,6 +235,8 @@ public class MainCtrl {
         this.addCtrl.updateLanguage(bundle);
         this.addPreparationStepCtrl.updateLanguage(bundle);
         this.addIngredientCtrl.updateLanguage(bundle);
+        this.overviewListCtrl.updateLanguage(bundle);
+        this.editPreparationStepCtrl.updateLanguage(bundle);
         config.modify(config -> {
             config.setLocale(bundle.getLocale().toLanguageTag());
         });
@@ -237,6 +248,7 @@ public class MainCtrl {
     public void showOverview() {
         primaryStage.setTitle("Recipes: Overview");
         primaryStage.setScene(overview);
+        applyCurrentLanguage();
         overviewCtrl.refresh();
         overview.setOnKeyPressed(e -> overviewCtrl.keyPressed(e));
     }
@@ -247,6 +259,7 @@ public class MainCtrl {
     public void showAdd(Locale locale) {
         primaryStage.setTitle("Recipes: Adding Recipe");
         primaryStage.setScene(add);
+        applyCurrentLanguage();
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
         addCtrl.setLanguage(locale);
     }
@@ -258,6 +271,7 @@ public class MainCtrl {
         removeCtrl.setup();
         primaryStage.setTitle("Recipes: Removing Recipe");
         primaryStage.setScene(remove);
+        applyCurrentLanguage();
         remove.setOnKeyPressed(e -> removeCtrl.keyPressed(e));
     }
 
@@ -269,6 +283,7 @@ public class MainCtrl {
     public void showAddIngredient(Recipes recipe) {
         primaryStage.setTitle("Adding Ingredient to: " + recipe.toString());
         primaryStage.setScene(addIngredient);
+        applyCurrentLanguage();
         addIngredientCtrl.provideRecipe(recipe);
         addIngredientCtrl.previousSceneSetter(this.overview);
     }
@@ -280,6 +295,7 @@ public class MainCtrl {
         addIngredientCtrl.previousSceneSetter(primaryStage.getScene());
         primaryStage.setTitle("Adding ingredient");
         primaryStage.setScene(addIngredient);
+        applyCurrentLanguage();
     }
 
     /**
@@ -343,6 +359,7 @@ public class MainCtrl {
         if (recipe == null) return;
         primaryStage.setTitle("Adding preparation to: " + recipe.toString());
         primaryStage.setScene(addPreparationStep);
+        applyCurrentLanguage();
         addPreparationStepCtrl.provideRecipe(recipe);
     }
 
@@ -355,6 +372,7 @@ public class MainCtrl {
         if (recipe == null) return;
         primaryStage.setTitle("Editing preparation from: " + recipe.toString());
         primaryStage.setScene(editPreparationStep);
+        applyCurrentLanguage();
         editPreparationStepCtrl.provideRecipe(recipe);
         editPreparationStepCtrl.providePrepStep(preparationStep);
     }
@@ -401,6 +419,7 @@ public class MainCtrl {
     public void showShoppingList() {
         primaryStage.setTitle("Shopping list");
         primaryStage.setScene(shoppingListScene);
+        applyCurrentLanguage();
         shoppingListCtrl.refresh();
 
     }
@@ -412,6 +431,7 @@ public class MainCtrl {
     public void showAddRecipeIngredientsOverview() {
         primaryStage.setTitle("Add recipe ingredients");
         primaryStage.setScene(addRecipeIngredients);
+        applyCurrentLanguage();
         addRecipeIngredientsCtrl.setChoiceBox(overviewCtrl.getRecipeData());
     }
 
@@ -426,6 +446,7 @@ public class MainCtrl {
             primaryStage.setTitle("Adding from \"" + recipe.getName() + "\"" +
                     " recipe");
             primaryStage.setScene(overviewList);
+            applyCurrentLanguage();
             overviewListCtrl.clear();
 
             overviewListCtrl.addIngredients(recipe.getIngredients()
@@ -440,6 +461,7 @@ public class MainCtrl {
     public void showOverviewList() {
         overviewListCtrl.refresh();
         primaryStage.setScene(overviewList);
+        applyCurrentLanguage();
     }
 
     public Stage getPrimaryStage() {
@@ -448,10 +470,6 @@ public class MainCtrl {
 
     public Scene getAddScene() {
         return add;
-    }
-
-    public Scene getShoppingListScene() {
-        return shoppingListScene;
     }
 
     /**
@@ -463,6 +481,7 @@ public class MainCtrl {
         editIngredientCtrl.previousSceneSetter(primaryStage.getScene());
         editIngredientCtrl.setIngredient(ingredient);
         primaryStage.setScene(editIngredient);
+        applyCurrentLanguage();
     }
 
     /**
@@ -474,6 +493,7 @@ public class MainCtrl {
         editIngredientCtrl.previousSceneSetter(primaryStage.getScene());
         editIngredientCtrl.setIngredient(ingredient);
         primaryStage.setScene(editIngredient);
+        applyCurrentLanguage();
         primaryStage.setTitle("Editing ingredient from: " + recipe.toString());
         editIngredientCtrl.provideRecipe(recipe);
     }
@@ -485,7 +505,6 @@ public class MainCtrl {
      */
     private void handleWebSocketMessage(String message) {
         long id = Long.parseLong(message.split(":")[1]);
-
         if (message.startsWith("RECIPE_UPDATED")) {
             if (primaryStage.getScene()
                     .getRoot().getId()!=null && primaryStage.getScene()
@@ -496,6 +515,27 @@ public class MainCtrl {
             deleteRecipeFromListViews(id);
         } else if (message.startsWith("RECIPE_ADDED")) {
             addRecipeToListViews(id);
+        } else if (message.startsWith("SERVER_SHUTTING_DOWN")){
+            Platform.runLater(() -> {
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Server shutdown");
+                Label label = new Label(
+                        "⚠ Server is shutting down.\n\nThe application will now close."
+                );
+                label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+
+                StackPane root = new StackPane(label);
+                root.setStyle("-fx-background-color: #b00020; -fx-padding: 40px;");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setOnCloseRequest(event -> {
+                    event.consume();
+                    Platform.exit();
+                    System.exit(0);
+                });
+                stage.show();
+            });
         }
     }
 
@@ -585,7 +625,7 @@ public class MainCtrl {
      * @param id the id of the recipe to subscribe
      */
     public void sendToWSEndpoint(long id) {
-        webSocketUtils.send("VIEW_RECIPE:" + id);
+       webSocketUtils.send("VIEW_RECIPE:" + id);
     }
 
 

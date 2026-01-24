@@ -9,9 +9,19 @@ import java.nio.file.Files;
 public class ConfigHolder {
 
     private final ObjectMapper mapper = new ObjectMapper();
-    private final File configFile = new File("config.json");
 
     private ClientConfig clientConfig;
+    private String configPath = "config.json";
+
+    /**
+     * Set the configuration path used by the config holder
+     * @param configPath the configuration path to be used
+     */
+    public void setConfigPath(String configPath) {
+        if (configPath == null || configPath.isBlank()) return;
+        System.out.println("Set config path from "+this.configPath+ " to "+configPath);
+        this.configPath = configPath;
+    }
 
     /**
      * Modify configuration
@@ -27,6 +37,7 @@ public class ConfigHolder {
      * Save configuration to file
      */
     public void save() {
+        File configFile = new File(this.configPath);
         try {
             mapper.writeValue(configFile, clientConfig);
         } catch (IOException _) {
@@ -49,8 +60,8 @@ public class ConfigHolder {
      * Load config from file
      */
     public void load() {
+        File configFile = new File(this.configPath);
         try {
-            File configFile = new File("config.json");
             if (!configFile.exists()) {
                 ClientConfig newConfig = new ClientConfig();
 

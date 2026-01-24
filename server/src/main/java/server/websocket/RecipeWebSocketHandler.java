@@ -85,6 +85,25 @@ public class RecipeWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
+    /**
+     * Notify that server is shutting down
+     */
+    public void notifyServerShutdown() {
+        TextMessage msg = new TextMessage("SERVER_SHUTTING_DOWN:0");
+
+        for (WebSocketSession session : sessions) {
+            if (session.isOpen()) {
+                try {
+                    session.sendMessage(msg);
+                } catch (Exception e) {
+                    System.out.println("WebSocket shutdown notification failed");
+                }
+            }
+        }
+    }
+
+
+
 
 
     /**

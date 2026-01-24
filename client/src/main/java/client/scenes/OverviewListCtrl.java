@@ -44,6 +44,9 @@ public class OverviewListCtrl implements Initializable {
     private Button addIngredient;
 
     @FXML
+    private Button cancelButton;
+
+    @FXML
     private Text overviewListLabel;
 
     @FXML
@@ -56,9 +59,11 @@ public class OverviewListCtrl implements Initializable {
      * @param server   the server.
      */
     @Inject
-    public OverviewListCtrl(MainCtrl mainCtrl, ServerUtils server) {
+    public OverviewListCtrl(MainCtrl mainCtrl, ServerUtils server,
+                            ShoppingList shoppingList) {
         this.mainCtrl = mainCtrl;
         this.server = server;
+        this.shoppingList=shoppingList;
     }
 
     @Override
@@ -74,6 +79,7 @@ public class OverviewListCtrl implements Initializable {
     public void updateLanguage(ResourceBundle resourceBundle) {
         overviewListLabel.setText(resourceBundle.getString("overviewList.label"));
         overviewListAddButton.setText(resourceBundle.getString("overviewList.add"));
+        cancelButton.setText(resourceBundle.getString("overviewList.cancel"));
     }
 
     /**
@@ -144,15 +150,6 @@ public class OverviewListCtrl implements Initializable {
     }
 
     /**
-     * Setter for the shopping list
-     *
-     * @param shoppingList the shopping list
-     */
-    public void setShoppingList(ShoppingList shoppingList) {
-        this.shoppingList = shoppingList;
-    }
-
-    /**
      * Edit the selected ingredient
      *
      * @param ingredient the selected ingredient
@@ -177,6 +174,7 @@ public class OverviewListCtrl implements Initializable {
         overviewListPane.getChildren().clear();
         overviewListPane.getChildren().addAll(overviewListView);
         overviewListPane.getChildren().add(addIngredient);
+        //overviewListPane.getChildren().add(cancelButton);
         overviewListView.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(IngredientInShoppingList item, boolean empty) {
