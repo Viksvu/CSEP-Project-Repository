@@ -28,7 +28,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -502,7 +505,6 @@ public class MainCtrl {
      */
     private void handleWebSocketMessage(String message) {
         long id = Long.parseLong(message.split(":")[1]);
-
         if (message.startsWith("RECIPE_UPDATED")) {
             if (primaryStage.getScene()
                     .getRoot().getId()!=null && primaryStage.getScene()
@@ -513,6 +515,27 @@ public class MainCtrl {
             deleteRecipeFromListViews(id);
         } else if (message.startsWith("RECIPE_ADDED")) {
             addRecipeToListViews(id);
+        } else if (message.startsWith("SERVER_SHUTTING_DOWN")){
+            Platform.runLater(() -> {
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Server shutdown");
+                Label label = new Label(
+                        "⚠ Server is shutting down.\n\nThe application will now close."
+                );
+                label.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+
+                StackPane root = new StackPane(label);
+                root.setStyle("-fx-background-color: #b00020; -fx-padding: 40px;");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setOnCloseRequest(event -> {
+                    event.consume();
+                    Platform.exit();
+                    System.exit(0);
+                });
+                stage.show();
+            });
         }
     }
 
@@ -602,7 +625,7 @@ public class MainCtrl {
      * @param id the id of the recipe to subscribe
      */
     public void sendToWSEndpoint(long id) {
-        webSocketUtils.send("VIEW_RECIPE:" + id);
+       webSocketUtils.send("VIEW_RECIPE:" + id);
     }
 
 

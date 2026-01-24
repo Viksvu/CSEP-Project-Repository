@@ -6,6 +6,8 @@ import client.commonsClient.*;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -23,6 +25,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.text.Font;
+import javafx.css.PseudoClass;
+import javafx.util.Duration;
 
 
 import java.io.*;
@@ -54,6 +58,14 @@ public class RecipeOverviewCtrl implements Initializable {
     private static final int NO_MATCH = 0;
     private static final int PARTIAL_MATCH = 1;
     private static final int STARTS_WITH_MATCH = 2;
+    private Long highlightedRecipeId = null;
+    private IngredientInRecipe highlightedIngredient = null;
+    private PreparationStep highlightedStep = null;
+    private boolean webMessage=false;
+    private static final PseudoClass HIGHLIGHT =
+            PseudoClass.getPseudoClass("highlight");
+
+
 
     @FXML
     public TextField searchField;
@@ -231,6 +243,9 @@ public class RecipeOverviewCtrl implements Initializable {
         updateLanguage(newBundle);
 
     }
+
+
+
 
     /**
      * Selects the first recipe if nothing is selected
@@ -431,6 +446,7 @@ public class RecipeOverviewCtrl implements Initializable {
         if (isCloning) {
             recipeNameTF.setText(lastSelectedRecipe.getName() + " copy");
         }
+        clearHighlightLater();
         recipeListView.refresh();
     }
     /**
@@ -636,6 +652,19 @@ public class RecipeOverviewCtrl implements Initializable {
             currentRecipe.setIngredients(ingredients);
         }
         if (ingredients == null) ingredients = Collections.emptyList();
+        if(ingredientsData!=null && webMessage) {
+            if (ingredients.size() > ingredientsData.size()) {
+                highlightedIngredient = ingredients.getLast();
+            } else if (ingredients.size() == ingredientsData.size()) {
+                for (int i = 0; i < ingredients.size(); i++) {
+                    if (!ingredients.get(i).equals(ingredientsData.get(i))) {
+                        highlightedIngredient = ingredients.get(i);
+                        break;
+                    }
+                }
+            }
+        }
+
         ingredientsData = FXCollections.observableArrayList(ingredients);
         ingredientListView.setItems(ingredientsData);
 
@@ -653,6 +682,20 @@ public class RecipeOverviewCtrl implements Initializable {
             currentRecipe.setPreparationSteps(steps);
         }
         if (steps == null) steps = Collections.emptyList();
+        if(preparationStepsData!=null && webMessage) {
+        if(steps.size()>preparationStepsData.size()){
+            highlightedStep=steps.getLast();
+        }
+
+        else if (steps.size() == preparationStepsData.size()) {
+                for (int i = 0; i < steps.size(); i++) {
+                    if (!steps.get(i).equals(preparationStepsData.get(i))) {
+                        highlightedStep = steps.get(i);
+                        break;
+                    }
+                }
+            }
+        }
         preparationStepsData = FXCollections.observableArrayList(steps);
         preparationsListView.setItems(preparationStepsData);
         addDeleteButtonToPreparationStep();
@@ -666,32 +709,43 @@ public class RecipeOverviewCtrl implements Initializable {
             @Override
             protected void updateItem(IngredientInRecipe ingredient, boolean empty){
                 super.updateItem(ingredient, empty);
+
                 if (empty || ingredient == null) {
                     setText(null);
                     setGraphic(null);
-                } else {
-                    EditButton<IngredientInRecipe> deleteButton =
-                            new EditButton<>(ingredient,"delete",getIndex(),
-                                    ingredientListView,server,lastSelectedRecipe,
-                                    RecipeOverviewCtrl.this,EditButtonOptions.REMOVE_INGREDIENT);
-                    EditButton<IngredientInRecipe> editButton =
-                            new EditButton<>(
-                                    ingredient,"edit",getIndex(),ingredientListView,
-                                    server,lastSelectedRecipe,RecipeOverviewCtrl.this,
-                                    EditButtonOptions.EDIT_INGREDIENT);
-
-                    HBox row=new HBox(8,deleteButton,editButton);
-                    row.setPickOnBounds(false);
-                    setText(ingredient.toString());
-                    setGraphic(row);
-
-                 //   setContentDisplay(ContentDisplay.RIGHT);
-                    setGraphicTextGap(-80);
-                    setTextOverrun(OverrunStyle.ELLIPSIS);
+                    setStyle("");
+                    return;
                 }
+
+                EditButton<IngredientInRecipe> deleteButton =
+                        new EditButton<>(ingredient,"delete",getIndex(),
+                                ingredientListView,server,lastSelectedRecipe,
+                                RecipeOverviewCtrl.this,EditButtonOptions.REMOVE_INGREDIENT);
+
+                EditButton<IngredientInRecipe> editButton =
+                        new EditButton<>(
+                                ingredient,"edit",getIndex(),ingredientListView,
+                                server,lastSelectedRecipe,RecipeOverviewCtrl.this,
+                                EditButtonOptions.EDIT_INGREDIENT);
+
+                HBox row = new HBox(8, deleteButton, editButton);
+                row.setPickOnBounds(false);
+
+                setText(ingredient.toString());
+                setGraphic(row);
+
+                if (ingredient.equals(highlightedIngredient)) {
+                    setStyle("-fx-background-color: #fff3cd;");
+                } else {
+                    setStyle("");
+                }
+
+                setGraphicTextGap(-80);
+                setTextOverrun(OverrunStyle.ELLIPSIS);
             }
         });
     }
+
 
 
     /**
@@ -707,42 +761,52 @@ public class RecipeOverviewCtrl implements Initializable {
                 if (empty || step == null) {
                     setText(null);
                     setGraphic(null);
-                } else {
-                    EditButton<PreparationStep> deleteButton =
-                            new EditButton<>(
-                                    step,
-                                    "delete",
-                                    getIndex(),
-                                    preparationsListView,
-                                    server,
-                                    lastSelectedRecipe,
-                                    RecipeOverviewCtrl.this,
-                                    EditButtonOptions.REMOVE_STEP
-                            );
-
-                    EditButton<PreparationStep> editButton =
-                            new EditButton<>(
-                                    step,
-                                    "edit",
-                                    getIndex(),
-                                    preparationsListView,
-                                    server,
-                                    lastSelectedRecipe,
-                                    RecipeOverviewCtrl.this,
-                                    EditButtonOptions.EDIT_STEP
-                            );
-
-                    HBox row = new HBox(8, deleteButton, editButton);
-                    row.setPickOnBounds(false);
-
-                    setText(step.getDescription());
-                    setGraphic(row);
-                    setGraphicTextGap(-100);
-                    setTextOverrun(OverrunStyle.ELLIPSIS);
+                    setStyle("");
+                    return;
                 }
+
+                EditButton<PreparationStep> deleteButton =
+                        new EditButton<>(
+                                step,
+                                "delete",
+                                getIndex(),
+                                preparationsListView,
+                                server,
+                                lastSelectedRecipe,
+                                RecipeOverviewCtrl.this,
+                                EditButtonOptions.REMOVE_STEP
+                        );
+
+                EditButton<PreparationStep> editButton =
+                        new EditButton<>(
+                                step,
+                                "edit",
+                                getIndex(),
+                                preparationsListView,
+                                server,
+                                lastSelectedRecipe,
+                                RecipeOverviewCtrl.this,
+                                EditButtonOptions.EDIT_STEP
+                        );
+
+                HBox row = new HBox(8, deleteButton, editButton);
+                row.setPickOnBounds(false);
+
+                setText(step.getDescription());
+                setGraphic(row);
+
+                if (step.equals(highlightedStep)) {
+                    setStyle("-fx-background-color: #fff3cd;");
+                } else {
+                    setStyle("");
+                }
+
+                setGraphicTextGap(-100);
+                setTextOverrun(OverrunStyle.ELLIPSIS);
             }
         });
     }
+
 
 
     /**
@@ -1154,8 +1218,11 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void refreshIfCurrent(long id){
         if(lastSelectedRecipe!=null && lastSelectedRecipe.getId()==id){
+            webMessage=true;
             refreshIngredients(lastSelectedRecipe);
             refreshPreparationSteps(lastSelectedRecipe);
+            webMessage=false;
+            clearHighlightLater();
         }
     }
 
@@ -1176,6 +1243,7 @@ public class RecipeOverviewCtrl implements Initializable {
             }
         }
         recipeData.add(recipeNew);
+
     }
 
 
@@ -1197,6 +1265,22 @@ public class RecipeOverviewCtrl implements Initializable {
         recipeListView.refresh();
 
     }
+
+    /**
+     * high lights cell
+     */
+    private void clearHighlightLater() {
+        Timeline t = new Timeline(
+                new KeyFrame(Duration.seconds(2), e -> {
+                    highlightedIngredient = null;
+                    highlightedStep = null;
+                    ingredientListView.refresh();
+                    preparationsListView.refresh();
+                })
+        );
+        t.play();
+    }
+
 
     /**
      * Downloads the lastSelectedRecipe
