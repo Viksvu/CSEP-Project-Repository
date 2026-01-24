@@ -24,11 +24,10 @@ public class ShoppingListCtrl implements Initializable {
 
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
-    private final ShoppingList shoppingList;
-
-    private final ObservableList<IngredientInShoppingList> items =
-            FXCollections.observableArrayList();
-
+    private ShoppingList shoppingList;
+    private ObservableList<IngredientInShoppingList> items
+            = FXCollections.observableArrayList();
+    private ResourceBundle bundle;
     @FXML
     private ListView<IngredientInShoppingList> shoppingListView;
 
@@ -150,6 +149,7 @@ public class ShoppingListCtrl implements Initializable {
         iv.setFitWidth(20);
         iv.setFitHeight(20);
         downloadShoppingListButton.setGraphic(iv);
+        this.bundle = resourceBundle;
     }
 
     /**
@@ -162,6 +162,7 @@ public class ShoppingListCtrl implements Initializable {
         shoppingListAddRecipeButton.setText(resourceBundle.getString("shoppingList.addRecipe"));
         shoppingListBackButton.setText(resourceBundle.getString("shoppingList.back"));
         shoppingListClearButton.setText(resourceBundle.getString("shoppingList.clear"));
+        this.bundle = resourceBundle;
     }
 
     /**
