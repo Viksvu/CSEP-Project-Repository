@@ -1,7 +1,7 @@
 package client.scenes;
 
+import client.EditButton;
 import client.EditButtonOptions;
-import client.EditButtonShoppingList;
 import client.commonsClient.IngredientInShoppingList;
 import client.commonsClient.ShoppingList;
 import client.utils.ServerUtils;
@@ -10,14 +10,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.ListCell;
 
 import java.net.URL;
 import java.util.Comparator;
@@ -27,12 +24,14 @@ public class ShoppingListCtrl implements Initializable {
 
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
-    private ShoppingList shoppingList;
-    private ObservableList<IngredientInShoppingList> items
-            = FXCollections.observableArrayList();
+    private final ShoppingList shoppingList;
+
+    private final ObservableList<IngredientInShoppingList> items =
+            FXCollections.observableArrayList();
 
     @FXML
     private ListView<IngredientInShoppingList> shoppingListView;
+
     @FXML
     private Label totalItemsLabel;
 
@@ -58,18 +57,18 @@ public class ShoppingListCtrl implements Initializable {
     private Button downloadShoppingListButton;
 
     /**
-     * Constructor
-     *
-     * @param mainCtrl the controllers of all the panes store
-     *                 the main controller as an object
-     * @param server   communication to server.
+     * A constructor for the controller
+     * @param mainCtrl
+     * @param server
+     * @param shoppingList
      */
     @Inject
-    public ShoppingListCtrl(MainCtrl mainCtrl, ServerUtils server,
+    public ShoppingListCtrl(MainCtrl mainCtrl,
+                            ServerUtils server,
                             ShoppingList shoppingList) {
         this.mainCtrl = mainCtrl;
         this.server = server;
-        this.shoppingList=shoppingList;
+        this.shoppingList = shoppingList;
     }
 
     @Override
@@ -79,46 +78,65 @@ public class ShoppingListCtrl implements Initializable {
                 "Your shopping list is empty\nAdd ingredients to get started"
         );
         emptyLabel.setStyle("""
-                    -fx-text-fill: gray;
-                    -fx-font-size: 14px;
-                    -fx-alignment: center;
+                -fx-text-fill: gray;
+                -fx-font-size: 14px;
+                -fx-alignment: center;
                 """);
-
         shoppingListView.setPlaceholder(emptyLabel);
-
-        shoppingListView.setCellFactory(lv -> new ListCell<IngredientInShoppingList>() {
+        shoppingListView.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(IngredientInShoppingList item, boolean empty) {
                 super.updateItem(item, empty);
-
                 if (empty || item == null) {
                     setText(null);
+                    setGraphic(null);
                     setStyle("");
-                } else {
-                    setText(item.toString()); // or item.getName()
-                    updateStyle(item);
+                    return;
                 }
+                EditButton<IngredientInShoppingList> deleteButton =
+                        new EditButton<>(
+                                item,
+                                "delete",
+                                getIndex(),
+                                shoppingListView,
+                                server,
+                                ShoppingListCtrl.this,
+                                EditButtonOptions.REMOVE_INGREDIENT,
+                                shoppingList
+                        );
+                EditButton<IngredientInShoppingList> editButton =
+                        new EditButton<>(
+                                item,
+                                "edit",
+                                getIndex(),
+                                shoppingListView,
+                                server,
+                                ShoppingListCtrl.this,
+                                EditButtonOptions.EDIT_INGREDIENT,
+                                shoppingList
+                        );
+                deleteButton.setDisable(item.isChecked());
+                editButton.setDisable(item.isChecked());
+                HBox row = new HBox(8, deleteButton, editButton);
+                row.setPickOnBounds(false);
+                setText(item.toString());
+                setGraphic(row);
+                setGraphicTextGap(-80);
+                setTextOverrun(OverrunStyle.ELLIPSIS);
+                updateStyle(item);
             }
-
             {
                 setOnMouseClicked(event -> {
                     if (!isEmpty()) {
                         IngredientInShoppingList item = getItem();
-
-                        // toggle checked state
                         item.setChecked(!item.isChecked());
-
-                        // move checked items to the bottom
-                        FXCollections.sort(items,
-                                Comparator.comparing(IngredientInShoppingList::isChecked));
-
+                        FXCollections.sort(items, Comparator.
+                                comparing(IngredientInShoppingList::isChecked)
+                        );
                         updateStyle(item);
-                        addEditButtonToIngredient();
                     }
                 });
-
             }
-
             private void updateStyle(IngredientInShoppingList item) {
                 if (item.isChecked()) {
                     setStyle("-fx-strikethrough: true; -fx-text-fill: gray;");
@@ -127,18 +145,16 @@ public class ShoppingListCtrl implements Initializable {
                 }
             }
         });
-        ImageView iv = new ImageView(new Image(
-                getClass().getResourceAsStream("/pictures/save.png")));
-        iv.setFitHeight(20);
+        ImageView iv = new ImageView(
+                new Image(getClass().getResourceAsStream("/pictures/save.png")));
         iv.setFitWidth(20);
+        iv.setFitHeight(20);
         downloadShoppingListButton.setGraphic(iv);
-
     }
 
     /**
-     * Updates the UI elements to the new selected language.
-     *
-     * @param resourceBundle the resource bundle corresponding to the new language.
+     * Updates the language
+     * @param resourceBundle
      */
     public void updateLanguage(ResourceBundle resourceBundle) {
         shoppingListLabel.setText(resourceBundle.getString("shoppingList.label"));
@@ -149,97 +165,54 @@ public class ShoppingListCtrl implements Initializable {
     }
 
     /**
-     * Clicking cancel should clear whatever the user entered in
-     * the text field and then show the overview
+     * Goes back to overview
      */
     public void goBack() {
         mainCtrl.showOverview();
     }
 
     /**
-     * refreshes the list view
+     * Refreshes the page
      */
     public void refresh() {
         items.setAll(shoppingList.getShoppingList());
-        addEditButtonToIngredient();
         totalItemsLabel.setText(
-                "Total: " + shoppingList.getShoppingList().size() + " items");
+                "Total: " + items.size() + " items"
+        );
     }
 
     /**
-     * Edit the selected ingredient
-     *
-     * @param ingredient the selected ingredient
+     * Edits an ingredient
+     * @param ingredient
      */
     public void editIngredient(IngredientInShoppingList ingredient) {
         mainCtrl.showEditIngredient(ingredient);
     }
 
     /**
-     * adds an ingredient from input.
+     * Adds an ingredient
      */
     public void addIngredient() {
         mainCtrl.showAddIngredient();
     }
 
     /**
-     * Adds selected recipe ingredients.
+     * Adds a recipe
      */
     public void addRecipe() {
         mainCtrl.showAddRecipeIngredientsOverview();
     }
 
     /**
-     * Clears the full list
+     * clears the list
      */
     public void clearList() {
         shoppingList.resetShoppingList();
-        shoppingListView.getItems().clear();
-        ingredientsPane.getChildren().clear();
+        items.clear();
         refresh();
-
     }
-
     /**
-     * Adds an edit button next to the name of the ingredient
-     */
-    public void addEditButtonToIngredient() {
-        ingredientsPane.getChildren().clear();
-        ingredientsPane.getChildren().addAll(shoppingListView);
-        if (!items.isEmpty()) {
-            int numIngredients = items.size();
-            for (int i = 0; i < numIngredients; i++) {
-                EditButtonShoppingList deleteButton =
-                        new EditButtonShoppingList(
-                                items.get(i),
-                                "delete",
-                                i,
-                                shoppingListView,
-                                this, shoppingList,
-                                EditButtonOptions.REMOVE_INGREDIENT
-                        );
-                EditButtonShoppingList editButton =
-                        new EditButtonShoppingList(
-                                items.get(i),
-                                "edit",
-                                i,
-                                shoppingListView,
-                                this, shoppingList,
-                                EditButtonOptions.EDIT_INGREDIENT
-                        );
-                deleteButton.setDisable(items.get(i).isChecked());
-                editButton.setDisable(items.get(i).isChecked());
-                HBox buttonBox = new HBox(8); // 8 px space
-                buttonBox.setPickOnBounds(false);
-                buttonBox.getChildren().addAll(deleteButton, editButton);
-                ingredientsPane.getChildren().add(buttonBox);
-            }
-        }
-    }
-
-    /**
-     * Shows the saveRecipe scene. (Even if it is called saveRecipe, it
-     * is used for both, saveRecipe and saveShoppingList)
+     * Downloads the shopping list
      */
     public void downloadShoppingList() {
         mainCtrl.showSaveRecipe(this.shoppingList, this);

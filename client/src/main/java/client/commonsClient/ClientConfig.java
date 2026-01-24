@@ -11,6 +11,7 @@ public class ClientConfig {
     private Set<String> recipeLanguageFilters;
 
     private String serverIp = "http://127.0.0.1:8080/";
+    private String socketIp = "ws://localhost:8080/ws";
     private String locale = "en";
 
     /**
@@ -64,10 +65,34 @@ public class ClientConfig {
         this.locale = locale;
     }
 
+    /**
+     * Get the current address for the websocket
+     * @return the current address for the websocket
+     */
+    public String getSocketIp() {
+        return socketIp;
+    }
+
+    /**
+     * Set the current address for the websocket
+     * @param socketIp the new address for the websocket
+     */
+    public void setSocketIp(String socketIp) {
+        this.socketIp = socketIp;
+    }
+
+    /**
+     * Get the current recipe language filters
+     * @return Set of recipe language filters
+     */
     public Set<String> getRecipeLanguageFilters() {
         return recipeLanguageFilters;
     }
 
+    /**
+     * Set the recipe language recipe filters
+     * @param recipeLanguageFilters set the new set of language recipe filters
+     */
     public void setRecipeLanguageFilters(Set<String> recipeLanguageFilters) {
         this.recipeLanguageFilters = recipeLanguageFilters;
     }

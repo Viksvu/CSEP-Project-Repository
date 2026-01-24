@@ -24,12 +24,12 @@
 
                         <Button fx:id="refreshButton" layoutX="657.0" layoutY="14.0" mnemonicParsing="false" onAction="#refresh" text="%refresh" AnchorPane.rightAnchor="24.6" />
 
-                        <Label fx:id="mainTitle" layoutX="324.0" layoutY="18.0" minWidth="-Infinity" text="%title" AnchorPane.rightAnchor="389.6" />
+                        <Label fx:id="mainTitle" layoutX="283.0" layoutY="18.0" minWidth="-Infinity" text="%title" AnchorPane.rightAnchor="428.2" />
                         <ComboBox fx:id="languageDropDown" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="67.0" AnchorPane.leftAnchor="14.0" />
                         <Button fx:id="downloadRecipeButton" layoutX="124.0" layoutY="14.0" mnemonicParsing="false" onAction="#downloadRecipe" text="%download" AnchorPane.leftAnchor="124.0" />
 
                             <!-- ADDED: Language filter dropdown (MenuButton + CheckMenuItems) -->
-                            <MenuButton fx:id="languageFilterMenu" layoutX="401.0" layoutY="14.0" text="%languages" AnchorPane.rightAnchor="238.2" AnchorPane.topAnchor="14.0">
+                            <MenuButton fx:id="languageFilterMenu" layoutX="364.0" layoutY="14.0" text="%languages" AnchorPane.rightAnchor="275.2" AnchorPane.topAnchor="14.0">
                                 <items>
                                     <CheckMenuItem fx:id="filterEnglish" onAction="#applyLang" text="English" />
                                     <CheckMenuItem fx:id="filterDutch" onAction="#applyLang" text="Dutch" />
@@ -57,7 +57,7 @@
                                                 <Font size="10.0" />
                                             </font>
                                         </Button>
-                                        <ToggleButton fx:id="favSort" layoutX="70.0" layoutY="62.0" mnemonicParsing="false" onAction="#applyFav" styleClass="button" text="%favourites" />
+                                        <ToggleButton fx:id="favSort" layoutX="70.0" layoutY="62.0" mnemonicParsing="false" onAction="#applyFav" styleClass="button" text="%allRecipes" />
                                         <Button layoutX="32.0" layoutY="447.0" mnemonicParsing="false" onAction="#addRecipe" prefHeight="30.0" prefWidth="27.0" styleClass="plus_button" text="+" AnchorPane.bottomAnchor="25.79999999999999" AnchorPane.leftAnchor="32.0" />
                                         <Button layoutX="166.0" layoutY="447.0" mnemonicParsing="false" onAction="#removeRecipe" prefHeight="30.0" prefWidth="27.0" styleClass="minus_button" text="-" AnchorPane.bottomAnchor="25.79999999999999" AnchorPane.rightAnchor="25.200000000000006" />
                                         <Button fx:id="renameRecipeButton" layoutX="87.0" layoutY="464.0" mnemonicParsing="false" onAction="#renameRecipe" AnchorPane.bottomAnchor="13.599999999999987" />

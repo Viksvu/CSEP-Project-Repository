@@ -40,19 +40,20 @@ public class RecipeOverviewCtrl implements Initializable {
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
     private  ShoppingList shoppingList;
-    ObservableList<Recipes> recipeData;
-    ObservableList<Recipes> data1;
-    private final ConfigHolder configHolder=new ConfigHolder();
-    HashSet<Long> favorites;
-
-    HashSet<RecipeLanguage> langFilters;
-    ObservableList<IngredientInRecipe> ingredientsData;
-    ObservableList<PreparationStep> preparationStepsData;
+    private ObservableList<Recipes> recipeData;
+    private ObservableList<Recipes> data1;
+    private ConfigHolder configHolder;
+    private HashSet<Long> favorites;
+    private ResourceBundle bundle;
+    private HashSet<RecipeLanguage> langFilters;
+    private ObservableList<IngredientInRecipe> ingredientsData;
+    protected ObservableList<PreparationStep> preparationStepsData;
     private static final File STARREDFILE =
             new File("starred_recipes.txt");
 
     // Button someButton;
-    ArrayList<Button> ingredientButtons;
+    public ArrayList<Button> ingredientButtons;
+
 
     private static final int NO_MATCH = 0;
     private static final int PARTIAL_MATCH = 1;
@@ -167,13 +168,15 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     @Inject
     public RecipeOverviewCtrl(MainCtrl mainCtrl, ServerUtils server,
+                              ConfigHolder configHolder,
                               ShoppingList shoppingList) {
         this.mainCtrl = mainCtrl;
         this.server = server;
+        this.configHolder = configHolder;
         this.ingredientsData = FXCollections.observableArrayList();
         this.isCloning = false;
         this.isRenaming = false;
-        ingredientButtons = new ArrayList<>();
+        this.ingredientButtons = new ArrayList<>();
         this.shoppingList=shoppingList;
     }
 
@@ -181,6 +184,7 @@ public class RecipeOverviewCtrl implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         favorites=new HashSet<>();
         langFilters=new HashSet<>();
+        this.bundle=resourceBundle;
         setLanguageDropDown(resourceBundle);
         searchField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
@@ -230,11 +234,34 @@ public class RecipeOverviewCtrl implements Initializable {
                         "Poppins/Poppins-Regular.ttf"),
                 12
         );
+        ClientConfig cfg = configHolder.get();
+        Locale locale = Locale.forLanguageTag(cfg.getLocale());
+
+        ResourceBundle newBundle =
+                ResourceBundle.getBundle("languageBundles.messages", locale);
+
+        updateLanguage(newBundle);
+
     }
 
 
 
 
+    /**
+     * Selects the first recipe if nothing is selected
+     */
+    private void selectFirstRecipeIfNoneSelected() {
+        ObservableList<Recipes> items = recipeListView.getItems();
+        if (items == null || items.isEmpty()) {
+            lastSelectedRecipe = null;
+            return;
+        }
+        if (recipeListView.getSelectionModel().getSelectedItem() == null) {
+            recipeListView.getSelectionModel().select(0);
+        }
+
+        lastSelectedRecipe = recipeListView.getSelectionModel().getSelectedItem();
+    }
     /**
      * Gets language filters from the config file
      */
@@ -330,19 +357,28 @@ public class RecipeOverviewCtrl implements Initializable {
             }
         });
         languageDropDown.setButtonCell(languageDropDown.getCellFactory().call(null));
+        String cfgLocale = configHolder.get().getLocale();
+        Locale localeFromConfig = Locale.forLanguageTag(cfgLocale);
+
         for (LanguageObject languageObject : languageDropDown.getItems()) {
-            if (languageObject.getLocale().equals(resourceBundle.getLocale())) {
+            if (languageObject.getLocale().equals(localeFromConfig)) {
                 languageDropDown.getSelectionModel().select(languageObject);
+                break;
             }
         }
+
         languageDropDown.valueProperty().addListener((obs, oldLang, newLang) -> {
-            if (newLang != null) {
-                Locale locale = newLang.getLocale();
-                ResourceBundle bundle = ResourceBundle
-                        .getBundle("languageBundles.messages", locale);
-                mainCtrl.updateLanguage(bundle);
-            }
+            if (newLang == null) return;
+
+            Locale locale = newLang.getLocale();
+
+            configHolder.modify(cfg -> cfg.setLocale(locale.toLanguageTag()));
+
+            ResourceBundle newBundle =
+                    ResourceBundle.getBundle("languageBundles.messages", locale);
+            mainCtrl.updateLanguage(newBundle);
         });
+
     }
 
     /**
@@ -350,6 +386,7 @@ public class RecipeOverviewCtrl implements Initializable {
      * @param resourceBundle the resource bundle corresponding to the new language.
      */
     public void updateLanguage(ResourceBundle resourceBundle) {
+        this.bundle = resourceBundle;
         mainTitle.setText(resourceBundle.getString("title"));
         shoppingListButon.setText(resourceBundle.getString("shoppingList"));
         languageFilterMenu.setText(resourceBundle.getString("languages"));
@@ -358,17 +395,39 @@ public class RecipeOverviewCtrl implements Initializable {
         cloneButton.setText(resourceBundle.getString("clone"));
         cloneRecipeButton.setText(resourceBundle.getString("clone.ok"));
         recipeNameLabel.setText(resourceBundle.getString("clone.newRecipeName"));
-        favSort.setText(resourceBundle.getString("favourites"));
+        favSort.setText(resourceBundle.getString("allRecipes"));
         downloadRecipeButton.setText(resourceBundle.getString("download"));
     }
 
     /**
+     * Restores lsat selected recipe
+     */
+    public void restoreSelect(Long previouslySelectedId){
+        for(int i=0;i<recipeListView.getItems().size();i++){
+            Recipes r=recipeData.get(i);
+            if(Objects.equals(r.getId(), previouslySelectedId)){
+                recipeListView.getSelectionModel().select(r);
+                lastSelectedRecipe=r;
+                break;
+            }
+        }
+    }
+    /**
      * Refreshes the split panes and the content in the ListViews.
      */
     public void refresh() {
+        Long previouslySelectedId=null;
+        Recipes selected=recipeListView.getSelectionModel().getSelectedItem();
+        if (selected != null) previouslySelectedId = selected.getId();
+        else if (lastSelectedRecipe != null) previouslySelectedId = lastSelectedRecipe.getId();
+
         splitPaneRefreshButton.setDividerPosition(0, 0.10090361445783134);
         splitNameDetails.setDividerPosition(0, 0.29797979797979796);
         refreshRecipes();
+
+        restoreSelect(previouslySelectedId);
+
+        selectFirstRecipeIfNoneSelected();
         if (getSelectedRecipe() != null) {
             lastSelectedRecipe = getSelectedRecipe();
             mainCtrl.sendToWSEndpoint(lastSelectedRecipe.getId());
@@ -415,8 +474,12 @@ public class RecipeOverviewCtrl implements Initializable {
      */
     public void applyFav(){
         if(favSort.isSelected()) {
+            favSort.setText(bundle.getString("favourites"));
             favFilter=(Recipes a)->favorites.contains(a.getId());
-        }else favFilter=(Recipes a)->true;
+        }else{
+            favSort.setText(bundle.getString("allRecipes"));
+            favFilter=(Recipes a)->true;
+        }
 
         applyPredicates();
     }

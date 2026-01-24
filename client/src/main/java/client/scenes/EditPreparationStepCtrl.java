@@ -6,6 +6,7 @@ import commons.PreparationStep;
 import commons.Recipes;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -19,11 +20,18 @@ public class EditPreparationStepCtrl implements Initializable {
     private final ServerUtils server;
     private Recipes recipe;
     private PreparationStep preparationStep;
+    private ResourceBundle bundle;
     @FXML
     private TextField nameField;
 
     @FXML
     private Label errorLabel;
+
+    @FXML
+    private Button canc;
+
+    @FXML
+    private Label prep;
 
     /**
      * Constructor
@@ -48,8 +56,20 @@ public class EditPreparationStepCtrl implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorLabel.setText("");
         errorLabel.setVisible(false);
+        this.bundle=resourceBundle;
     }
 
+    /**
+     * updates teh scene language
+     * @param resourceBundle the resource bundle
+     */
+    public void updateLanguage(ResourceBundle resourceBundle) {
+        this.bundle = resourceBundle;
+        canc.setText(resourceBundle.getString("editStep.Cancel"));
+        prep.setText(resourceBundle.getString("editStep.PreparationStep"));
+        // Example if you have prompt text:
+        // nameField.setPromptText(resourceBundle.getString("prepStep.edit.prompt"));
+    }
     /**
      * Cancel just clears the fields and
      * shows back the overview field

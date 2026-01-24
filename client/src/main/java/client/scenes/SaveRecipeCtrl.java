@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -81,8 +82,9 @@ public class SaveRecipeCtrl implements Initializable {
      */
     public void save() {
         mainCtrl.showOverview();
+        Printer printer=new Printer();
         try {
-            Printer.print(thing, filenameField.getText());
+            printer.print(thing, new File(filenameField.getText()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

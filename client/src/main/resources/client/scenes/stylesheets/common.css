@@ -89,3 +89,15 @@
 .list-view, .pane {
     -fx-background-color: ivory;
 }
+
+.list-view .list-cell {
+    -fx-background-color: ivory;
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: lightgrey;
+}
+.list-view .list-cell:focused {
+    -fx-text-fill: darkblue;
+    -fx-background-color: lightgrey;
+}

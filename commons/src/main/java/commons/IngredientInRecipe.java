@@ -1,7 +1,6 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import commons.util.ValuesScaling;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -121,14 +120,8 @@ public class IngredientInRecipe {
     //Need to decide if only ingredient name should be shown or also quantity
     @Override
     public String toString() {
-        double scaleFactor = ValuesScaling.getScaleFactor();
-        String scaledAmount = ValuesScaling.getScaledAmount(this, scaleFactor);
-        if (getQuantity() == 1) {
         return getIngredient().getName()
-                + " (" + scaledAmount + ")";
-    }
-        return getIngredient().getName()
-                + " (" + scaledAmount + ")";
+                + " (" + getQuantity()+" "+ getUnit().toString() + ")";
     }
 
 

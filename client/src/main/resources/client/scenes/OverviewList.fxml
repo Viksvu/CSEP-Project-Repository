@@ -19,8 +19,11 @@
             <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <items>
                   <Text fx:id="overviewListLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="%overviewList.label" />
-                  <Pane prefHeight="29.0" prefWidth="456.0" />
-                <Button mnemonicParsing="false" onAction="#goBack" text="Cancel" />
+                  <Pane prefHeight="29.0" prefWidth="456.0">
+                     <children>
+                      <Button fx:id="cancelButton" layoutX="325.0" layoutY="1.0" mnemonicParsing="false" onAction="#goBack" text="%overviewList.cancel" />
+                     </children>
+                  </Pane>
               </items>
             </ToolBar>
          </top>
