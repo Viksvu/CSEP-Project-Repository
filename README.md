@@ -15,7 +15,16 @@
 * With option -cfg you can specify the configuration file to be used (For example -cfg new-config-file-path.json). Default: config.json.
 
 ## Basic feature overview
-TODO: Have an overview about how you implement the basic requirements
+### Simple instructions for all basic features:
+* After the client loads, the left side is for all the recipes. 
+* The green plus can be used to add recipe and the red minus can be used to delete recipe. 
+* To add ingredients to a recipe, first select the recipe on the left and then in the **top** right section, click on the green plus button. 
+* To add preparation steps, repeat the same thing but on the **bottom** right of the application. 
+* To edit/delete ingredients or preparation steps just click on the button next to the respective ingredient or preparation step.
+* To clone a recipe, first click on a recipe and then simply click on the clone button. You will then be asked for the name of the new recipe.
+* Similarily, to edit a recipe, first click on the recipe and then click on the pencil icon between the add recipe and remove recipe buttons.
+* To download a recipe, choose the recipe and then click on download in the top menu. You will then be prompted to choose the location of the file where you want to save it.
+* Our application implements websocket. The refresh button in the top right only serves the purpose of a backup in case there are any issues with the automated change synchronization.
 
 ## Project extensions done
 TODO: In readme: put all extensions that you did
