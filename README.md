@@ -27,9 +27,6 @@
 * Our application implements websocket. The refresh button in the top right only serves the purpose of a backup in case there are any issues with the automated change synchronization.
 
 ## Project extensions done
-TODO: In readme: put all extensions that you did
-
-## Things done extra (outside basic requirements and extensions)
 ### Live Language Switch
 * To switch the language of the entire UI, the user can navigate to the top left of the application, where they will find a drop-down menu with the available languages presented by their respective flags.
 * The users last choice is saved by the application, such that if they re-open the application after shutting it down, the UI will be loaded in the language according to their last choice.
@@ -65,3 +62,85 @@ TODO: In readme: put all extensions that you did
   * The search bar (searching within favorites only).
   * Language-based recipe filtering.
 * This functionality fulfills the requirement of providing a **special overview of favorite recipes**, while still allowing users to easily return to the full recipe list.
+
+
+### Automated Change Synchronization (WebSockets)
+* The application implements **automated, real-time synchronization** of changes across all connected clients using **WebSockets**.
+* Clients subscribe to server-side update channels instead of polling, ensuring efficient and modern change propagation.
+* Manual refreshing is no longer required for normal operation; the refresh button exists only as a fallback.
+
+* **Recipe title updates**
+  * When a recipe title is changed by one user, all other clients immediately see the updated title without refreshing.
+* **Recipe addition and deletion**
+  * Adding or removing a recipe is propagated instantly to all connected clients.
+  * The recipe list updates dynamically in real time.
+* **Recipe content changes**
+  * Changes to ingredients or preparation steps are automatically pushed to all clients currently viewing the same recipe.
+  * Users do not need to manually reload or reselect the recipe.
+
+* The client uses **WebSockets** to subscribe to relevant update topics.
+* The server **pushes only relevant change events**, instead of broadcasting the full application state.
+* Different WebSocket channels are used to:
+  * Subscribe to changes in the **recipe list (titles, additions, deletions)**.
+  * Subscribe to changes for **individual recipes**, reducing unnecessary data transfer.
+* The client **does not poll** for updates; all changes are event-driven.
+* Advanced conflict resolution is intentionally out of scope, as recommended in the project description.
+
+#### Automated Change Synchronization – Extra Features
+* Updated or newly added ingredients and preparation steps are **visually highlighted for a few seconds** when changes are propagated, helping users quickly identify what has changed.
+* The application displays **notifications** to inform users when:
+  * A recipe has been deleted by another user.
+  * The currently viewed recipe has been modified elsewhere.
+* If a user has **favorited a recipe** that is deleted by another user, a **popup notification** is shown to clearly communicate the action.
+
+* Automated change propagation is applied consistently across multiple list-based views throughout the application, not only in the main recipe overview.
+* In the **Delete Recipe** scene, dropdown lists of available recipes are updated in real time when recipes are added, removed or renamed.
+* In the **Shopping List – Add Recipe** scene, recipe selection dropdowns automatically reflect recipe additions, deletions and rename.
+* These updates are handled via WebSockets and require no manual refresh, ensuring a consistent and up-to-date user interface across all scenes.
+
+* When the **server is shut down**, the server endpoint sends a shutdown notification to all connected clients.
+* Upon receiving this message, the client displays a **warning window** informing the user that the server is unavailable.
+* This warning window **blocks further interaction with the application**,  and closing the window, means shutting off the application.
+
+* We believe that the consistent use of real-time synchronization, combined with enhanced visual feedback, notifications, and robust shutdown handling across multiple views, exceeds the basic requirements of this feature and thus justifies full points for it.
+
+
+### Shopping List (User Story 4.5)
+* The application provides a **local shopping list feature**, allowing users to plan their grocery shopping.
+* The shopping list is **not stored on the server** and exists only on the client side, as required.
+
+* Users can **add and remove ingredients directly** on the shopping list, enabling the inclusion of unrelated items (e.g. cereal, drinks).
+* The shopping list is presented as a **flat, ordered list of ingredients**, optimized for easy use while shopping.
+* Users can **reset the shopping list** at any time to start over.
+
+* Users can add the ingredients of a recipe to the shopping list.
+* Before adding, an **editable overview** of all ingredients is shown.
+* Within this overview, users can:
+  * **Adjust ingredient amounts** to fine-tune recipes to their preferences.
+  * **Add or remove arbitrary ingredients** to customize the list.
+* After confirmation, all items from the overview are added to the shopping list in one action.
+
+* If the same ingredient is added through multiple recipes, it appears **multiple times** in the shopping list.
+* Each entry includes the **name of the source recipe**.
+* Simple string propagation is used; later changes to recipe names are **not reflected** in the shopping list.
+
+* Users can **download a printable version of the shopping list** for use in the supermarket.
+* The shopping list printing functionality reuses the **same implementation as recipe printing**, ensuring consistency and reliability.
+* The exported format is suitable for printing.
+
+#### Shopping list - Extra features:
+* Users can **add a new recipe directly from the Shopping List view** for increased convenience.
+  * This add recipe scene is also automatically changed based on recipe deletions and additions (See Automated Change Synchronization – Extra Features)
+* Ingredients in the shopping list can be **marked off** by the user while shopping.
+  * Marked items become **translucent** to visually indicate completion.
+  * Completed items are **moved to the bottom of the list**, keeping remaining items clearly visible.
+* These features enhance usability during real shopping scenarios and go beyond the basic functional requirements of the shopping list user story.
+
+
+
+
+
+
+
+
+
