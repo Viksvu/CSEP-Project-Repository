@@ -32,9 +32,6 @@ public class ShoppingListCtrl implements Initializable {
     private ListView<IngredientInShoppingList> shoppingListView;
 
     @FXML
-    private Label totalItemsLabel;
-
-    @FXML
     private Label shoppingListLabel;
 
     @FXML
@@ -73,15 +70,6 @@ public class ShoppingListCtrl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         shoppingListView.setItems(items);
-        Label emptyLabel = new Label(
-                "Your shopping list is empty\nAdd ingredients to get started"
-        );
-        emptyLabel.setStyle("""
-                -fx-text-fill: gray;
-                -fx-font-size: 14px;
-                -fx-alignment: center;
-                """);
-        shoppingListView.setPlaceholder(emptyLabel);
         shoppingListView.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(IngredientInShoppingList item, boolean empty) {
@@ -177,9 +165,7 @@ public class ShoppingListCtrl implements Initializable {
      */
     public void refresh() {
         items.setAll(shoppingList.getShoppingList());
-        totalItemsLabel.setText(
-                "Total: " + items.size() + " items"
-        );
+
     }
 
     /**
