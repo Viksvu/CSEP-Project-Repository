@@ -3,6 +3,9 @@
 This project was developed as part of the CSEP course in the Computer Science and Engineering bachelor’s programme at TU Delft. This repository is a copy of the original project repository. The original version is available at: https://gitlab.ewi.tudelft.nl/cse1105/2025-2026/teams/csep-team-10/-/tree/7a8c5f14233342c6ef4a6384cdbf54e9d3002c11/
 
 
+My contributions focused on extending a Java-based client–server application built with JavaFX, Spring Boot, Maven, REST APIs, WebSockets, and a persistence layer. I mainly worked on real-time synchronization between clients, shopping-list functionality, live interface updates, user notifications, server shutdown handling, REST endpoints, and persistent data management.
+
+
 ## How to run the project
 ### 1. Setup environment
 * Setup intellij with maven installed
