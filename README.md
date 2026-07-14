@@ -5,6 +5,8 @@ This project was developed as part of the CSEP course in the Computer Science an
 
 My contributions focused on extending a Java-based client–server application built with JavaFX, Spring Boot, Maven, REST APIs, WebSockets, and a persistence layer. I mainly worked on real-time synchronization between clients, shopping-list functionality, live interface updates, user notifications, server shutdown handling, REST endpoints, and persistent data management.
 
+Project evaluation: 9.5 / 10.0 
+
 
 ## How to run the project
 ### 1. Setup environment
